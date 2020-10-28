@@ -1,0 +1,51 @@
+OggettiSpesa:
+  type: object
+  properties:
+    aliquoteIva:
+      type: object
+      $ref: '#/definitions/AliquoteIva'
+    codice:
+      type: string
+    cpv:
+      type: object
+      $ref: '#/definitions/Cpv'
+    dataCancellazione:
+      type: string
+      format: date-time
+    dataCreazione:
+      type: string
+      format: date-time
+    dataModifica:
+      type: string
+      format: date-time
+    dataValiditaFine:
+      type: string
+      format: date-time
+    dataValiditaInizio:
+      type: string
+      format: date-time
+    descrizione:
+      type: string
+    id:
+      type: string
+      format: uuid
+    inventariabile:
+      type: integer
+    listinoFornitores:
+      type: array
+      items:  
+        $ref: '#/definitions/ListinoFornitore'
+    optlock:
+      type: string
+      format: uuid
+    prezzoUnitario:
+      type: number
+    unitaMisura:
+      type: object
+      $ref: '#/definitions/UnitaMisura'
+    utenteCancellazione:
+      type: string
+    utenteCreazione:
+      type: string
+    utenteModifica:
+      type: string

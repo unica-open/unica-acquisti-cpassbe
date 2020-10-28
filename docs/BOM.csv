@@ -1,0 +1,54 @@
+name*,version*,license*,vendor/community,end-of-support,dependencies,language
+activation,1.1.1,CDDL 1.0,,,,java
+apache-mime4j,0.6,Apache 2.0,,,,java
+cache-api,1.0.0,Apache 2.0,,,,java
+commons-codec,1.11,Apache 2.0,,,,java
+commons-io,2.5,Apache 2.0,,,,java
+commons-lang,2.6,Apache 2.0,,,,java
+commons-lang3,3.9,Apache 2.0,,,,java
+commons-text,1.8,Apache 2.0,,,,java
+gson,2.8.1,Apache 2.0,,,,java
+gson-fire,1.8.0,MIT,,,,java
+guava,25.0-jre,Apache 2.0,,,,java
+httpclient,4.5.4,Apache 2.0,,,,java
+httpcore,4.4.5,Apache 2.0,,,,java
+httpmime,4.5.12,Apache 2.0,,,,java
+jackson-annotations,2.9.9,Apache 2.0,,,,java
+jackson-core,2.9.9,Apache 2.0,,,,java
+jackson-coreutils,1.0,LGPL 3.0,,,,java
+jackson-databind,2.9.9,Apache 2.0,,,,java
+jackson-jaxrs-base,2.9.9,Apache 2.0,,,,java
+jackson-jaxrs-json-provider,2.9.9,Apache 2.0,,,,java
+jackson-module-jaxb-annotations,2.9.9,Apache 2.0,,,,java
+javaee-api,8.0.1,"CDDL 1.0,GPL 2.0",,,,java
+javaee-web-api,8.0.1,"CDDL 1.0,GPL 2.0",,,,java
+javax.activation-api,1.2.0,"CDDL 1.0,GPL 2.0",,,,java
+javax.annotation-api,1.3.2,"CDDL 1.0,GPL 2.0",,,,java
+javax.jws-api,1.1,"CDDL 1.0,GPL 2.0,GPL 1.0",,,,java
+javax.mail,1.6.2,"CDDL 1.0,GPL 2.0",,,,java
+javax.xml.soap-api,1.4.0,"CDDL 1.0,GPL 2.0",,,,java
+jaxb-api,2.3.1,"CDDL 1.1,GPL 2.0",,,,java
+jaxws-api,2.3.1,"CDDL 1.0,GPL 2.0",,,,java
+jboss-annotations-api_1.3_spec,1.0.1.Final,"CDDL 1.1,GPL 2.0",,,,java
+jboss-jaxb-api_2.3_spec,1.0.1.Final,"CDDL 1.0,GPL 2.0,GPL 1.0",,,,java
+jboss-jaxrs-api_2.1_spec,1.0.2.Final,"CDDL 1.0,GPL 2.0",,,,java
+jboss-logging,3.4.0.Final,Apache 2.0,,,,java
+jcip-annotations,1.0,Public,,,,java
+joda-time,2.3,Apache 2.0,,,,java
+json-patch,1.3,LGPL 3.0,,,,java
+log4j-api,2.13.3,Apache 2.0,,,,java
+log4j-to-slf4j,2.13.3,Apache 2.0,,,,java
+logging-interceptor,2.7.5,Apache 2.0,,,,java
+mapstruct,1.3.1.Final,Apache 2.0,,,,java
+okhttp,2.7.5,Apache 2.0,,,,java
+okio,1.6.0,Apache 2.0,,,,java
+reactive-streams,1.0.2,CC0,,,,java
+resteasy-client,3.7.0.Final,Apache 2.0,,,,java
+resteasy-jackson2-provider,3.7.0.Final,Apache 2.0,,,,java
+resteasy-jaxb-provider,3.7.0.Final,Apache 2.0,,,,java
+resteasy-jaxrs,3.7.0.Final,Apache 2.0,,,,java
+resteasy-multipart-provider,3.7.0.Final,Apache 2.0,,,,java
+slf4j-api,1.7.22.jbossorg-1,MIT,,,,java
+swagger-annotations,1.5.18,Apache 2.0,,,,java
+threetenbp,1.3.5,BSD 3-clause,,,,java
+validation-api,2.0.1.Final,Apache 2.0,,,,java

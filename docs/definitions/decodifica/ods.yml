@@ -1,0 +1,28 @@
+Ods:
+  type: object
+  properties:
+    id:
+      type: integer
+    inventariabile:
+      type: boolean
+    codice:
+      type: string
+    descrizione:
+      type: string
+    dataValiditaFine:
+      type: string
+      format: date-time
+    dataValiditaInizio:
+      type: string
+      format: date-time
+    prezzoUnitario:
+      type: number
+    aliquoteIva:
+      type: object
+      $ref: '#/definitions/AliquoteIva'
+    cpv:
+      type: object
+      $ref: '#/definitions/Cpv'
+    unitaMisura:
+      type: object
+      $ref: '#/definitions/unitaMisura'

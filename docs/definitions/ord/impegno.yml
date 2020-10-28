@@ -1,0 +1,59 @@
+Impegno:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    annoEsercizio:
+      type: integer
+    anno:
+      type: integer
+    numero:
+      type: integer
+    descrizione:
+      type: string
+    stato:
+      type: string
+    importoAttuale:
+      type: number
+    importoIniziale:
+      type: number
+    liquidatoAnnoPrecedente:
+      type: number
+    numeroCapitolo:
+      type: integer
+    numeroArticolo:
+      type: integer
+    descrizioneCapitolo:
+      type: string
+    annoProvvedimento:
+      type: integer
+    numeroProvvedimento:
+      type: integer
+    settoreProvvedimento:
+      type: string
+    disponibile:
+      type: integer
+    pdcCodice:
+      type: string
+    pdcDescrizione:
+      type: string
+    importo:
+      type: integer
+    importoRipartito:
+      type: integer
+    importoSospeso:
+      type: integer
+    ente:
+      type: object
+      $ref: '#/definitions/Ente'
+    fornitore:
+      type: object
+      $ref: '#/definitions/Fornitore'
+    subimpegni:
+      type: array
+      items:
+        $ref: '#/definitions/Subimpegno'
+    optlock:
+      type: string
+      format: uuid

@@ -1,0 +1,19 @@
+/decodifica/priorita:
+  get:
+    operationId: getPriorita
+    description: Restituisce le priorità registrate su sistema.
+    produces:
+      - application/json
+    tags:
+      - decodifica
+    responses:
+      '200':
+        description: Priorità registrate su sistema.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Priorita'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'

@@ -1,0 +1,25 @@
+/common/ricerca/elaborazione-programma:
+  post:
+    operationId: postRicercaElaborazioneProgramma
+    description: Ricerca elaborazioni su sistema locale
+    produces:
+      - application/json
+    tags:
+      - common
+    parameters:
+      - in: body
+        name: elaborazione
+        required: true
+        schema:
+          $ref: '#/definitions/Elaborazione'
+    responses:
+      '200':
+        description: Elaborazioni registrate su sistema.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Elaborazione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'

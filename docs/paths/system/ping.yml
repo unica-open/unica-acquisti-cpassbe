@@ -1,0 +1,18 @@
+/system/ping:
+  get:
+    operationId: ping
+    summary: Servizio di PING del backend
+    description: Restituisce una stringa per confermare la disponibilità del backend.
+    produces:
+      - application/json
+    tags:
+      - system
+    responses:
+      '200':
+        description: Stringa di conferma funzionamento.
+        schema:
+          type: string
+      default:
+        description: Unexpected error
+        schema:
+          type: string

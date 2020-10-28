@@ -1,0 +1,37 @@
+/stampa/{nome-stampa}/{format-file}:
+  post:
+    operationId: stampa
+    description: Restituisce la stampa .
+    produces:
+      - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+      - application/pdf
+    tags:
+      - stampa
+    parameters:
+      - in: path
+        name: nome-stampa
+        required: true
+        type: string
+        description: nome della stampa.
+      - in: path
+        name: format-file
+        required: false
+        type: string
+        enum: [default, xlsx, pdf]
+        description: Il formato del file.
+      - in: body
+        name: param
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+    responses:
+      '200':
+        description: La stampa.
+        schema:
+          type: file
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'

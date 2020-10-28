@@ -1,0 +1,20 @@
+/system/comunicazione:
+  get:
+    operationId: getComunicazioni
+    summary: Ottiene le comunicazioni del sistema
+    description: Restituisce un elenco delle comunicazioni valide da fornire all'utente
+    produces:
+      - application/json
+    tags:
+      - system
+    responses:
+      '200':
+        description: Comunicazioni valide su sistema.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Comunicazione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'

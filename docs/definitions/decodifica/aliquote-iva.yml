@@ -1,0 +1,17 @@
+AliquoteIva:
+  type: object
+  properties:
+    id:
+      type: integer
+    codice:
+      type: string
+    descrizione:
+      type: string
+    percentuale:
+      type: number
+    dataValiditaInizio:
+      type: string
+      format: date-time
+    dataValiditaFine:
+      type: string
+      format: date-time

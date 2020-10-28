@@ -1,0 +1,11 @@
+InterventiDaCopia:
+  type: object
+  properties:
+    interventi:
+      type: array
+      items:
+        $ref: '#/definitions/Intervento'
+    interventoCopiaTipo:
+      type: string
+    interventoImportoCopiaTipo:
+      type: string

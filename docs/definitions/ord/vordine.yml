@@ -1,0 +1,24 @@
+VOrdine:
+  type: object
+  properties:
+    id:
+      type: integer
+      format: int64
+    numeroCapitolo:
+      type: integer
+    numeroArticolo:
+      type: integer
+    impegnoAnnoEsercizio:
+      type: integer
+    impegnoAnno:
+      type: integer
+    impegnoNumero:
+      type: integer
+    subimpegnoAnno:
+      type: integer
+    subimpegnoNumero:
+      type: integer
+    importoImpegno:
+      type: number
+    subimpegnoImporto:
+      type: number

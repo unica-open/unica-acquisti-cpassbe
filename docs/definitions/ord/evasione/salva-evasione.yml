@@ -1,0 +1,10 @@
+SalvaEvasione:
+  type: object
+  properties:
+    listEvasione:
+      type: array
+      items:  
+        $ref: '#/definitions/RigaEvasione'
+    testataEvasione:
+      type: object
+      $ref: '#/definitions/TestataEvasione'

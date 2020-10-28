@@ -1,0 +1,23 @@
+/impegno/ricerca/impegno-chiave-logica:
+  post:
+    operationId: postRicercaImpegnoByChiaveLogica
+    description: Ricerca impegno su sistema.
+    produces:
+      - application/json
+    tags:
+      - impegno
+    parameters:
+      - in: body
+        name: impegno
+        required: true
+        schema:
+          $ref: '#/definitions/Impegno'
+    responses:
+      '200':
+        description: Impegno registrato su sistema.
+        schema:
+          $ref: '#/definitions/Impegno'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'

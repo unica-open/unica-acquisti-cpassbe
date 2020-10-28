@@ -1,0 +1,77 @@
+/elaborazione/by-entity/{id}:
+  get:
+    operationId: getElaborazioniByEntity
+    description: ottiene una lista di elaborazioni per id entità.
+    produces:
+      - application/json
+    tags:
+      - elaborazione
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        description: L'id dell'entity.
+    responses:
+      '200':
+        description: Lista di elaborazioni registrate a sistema.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Elaborazione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/elaborazione/:
+  post:
+    operationId: postElaborazione
+    description: Inserisce una elaborazione sul sistema.
+    produces:
+      - application/json
+    tags:
+      - elaborazione
+    parameters:
+      - in: body
+        name: elaborazione
+        required: true
+        schema:
+          $ref: '#/definitions/Elaborazione'
+    responses:
+      '200':
+        description: Elaborazione registrato.
+        schema:
+          $ref: '#/definitions/Elaborazione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/elaborazione/{id}:
+  put:
+    operationId: putElaborazioneById
+    description: Aggiorna l'Elaborazione per id.
+    produces:
+      - application/json
+    tags:
+      - utente
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id dell'utente.
+      - in: body
+        name: utente
+        required: true
+        schema:
+          $ref: '#/definitions/Utente'
+    responses:
+      '200':
+        description: L'utente aggiornato.
+        schema:
+          $ref: '#/definitions/Utente'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'

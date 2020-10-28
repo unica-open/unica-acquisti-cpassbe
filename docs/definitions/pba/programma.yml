@@ -1,0 +1,59 @@
+Programma:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    anno:
+      type: integer
+    versione:
+      type: integer
+    ente:
+      type: object
+      $ref: '#/definitions/Ente'
+    stato:
+      type: object
+      $ref: '#/definitions/Stato'
+    utenteReferente:
+      type: object
+      $ref: '#/definitions/Utente'
+    descrizione:
+      type: string
+    numeroProvvedimento:
+      type: integer
+    descrizioneProvvedimento:
+      type: string
+    dataProvvedimento:
+      type: string
+      format: date-time
+    dataPubblicazione:
+      type: string
+      format: date-time
+    url:
+      type: string
+    codiceMit:
+      type: string
+    idRicevutoMit:
+      type: integer
+      format: int64
+    dataApprovazione:
+      type: string
+      format: date-time  
+    dataCreazione:
+      type: string
+      format: date-time
+    utenteCreazione:
+      type: string
+    dataModifica:
+      type: string
+      format: date-time
+    utenteModifica:
+      type: string
+    dataCancellazione:
+      type: string
+      format: date-time
+    utenteCancellazione:
+      type: string
+    optlock:
+      type: string
+      format: uuid

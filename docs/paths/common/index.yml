@@ -1,0 +1,9 @@
+$include: ./ufficio.yml
+$include: ./settore-tree.yml
+$include: ./settore.yml
+$include: ./fornitore.yml
+$include: ./documento-spesa.yml
+$include: ./preferenze.yml
+$include: ./metadati-funzione.yml
+$include: ./elaborazione.yml
+$include: ./ordinamento.yml

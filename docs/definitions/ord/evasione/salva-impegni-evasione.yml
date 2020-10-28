@@ -1,0 +1,15 @@
+SalvaImpegniEvasione:
+  type: object
+  properties:
+    ignoreWarnings:
+      type: boolean
+    impegnoEvasiones:
+      type: array
+      items:  
+        $ref: '#/definitions/ImpegnoEvasione'
+    rigaEvasione:
+      type: object
+      $ref: '#/definitions/RigaEvasione'
+    testataEvasione:
+      type: object
+      $ref: '#/definitions/TestataEvasione'

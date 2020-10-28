@@ -1,0 +1,41 @@
+Fornitore:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    codice:
+      type: string
+    naturaGiuridica:
+      type: string
+    ragioneSociale:
+      type: string
+    cognome:
+      type: string
+    nome:
+      type: string
+    codiceFiscale:
+      type: string
+    codiceFiscaleEstero:
+      type: string
+    partitaIva:
+      type: string
+    indirizzo:
+      type: string
+    numeroCivico:
+      type: string
+    cap:
+      type: string
+    comune:
+      type: string
+    provincia:
+      type: string
+    stato:
+      type: string
+    listinoFornitores:
+      type: array
+      items:
+        $ref: '#/definitions/ListinoFornitore'
+    selected:
+      type: boolean
+      

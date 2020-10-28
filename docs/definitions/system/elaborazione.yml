@@ -1,0 +1,28 @@
+Elaborazione:
+  type: object
+  properties:
+    id:
+      type: integer
+    entitaId:
+      type: string
+    tipo:
+      type: string
+    utente:
+      type: string
+    stato:
+      type: string
+    data:
+      type: string
+      format: date-time
+    esito:
+      type: string
+    idEsterno:
+      type: string
+    listaMessaggi:
+      type: array
+      items:
+        $ref: '#/definitions/ElaborazioneMessaggio'
+    listaParametri:
+      type: array
+      items:
+        $ref: '#/definitions/ElaborazioneParametro'

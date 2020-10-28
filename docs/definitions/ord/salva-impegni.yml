@@ -1,0 +1,15 @@
+SalvaImpegni:
+  type: object
+  properties:
+    testataOrdine:
+      type: object
+      $ref: '#/definitions/TestataOrdine'
+    rigaOrdine:
+      type: object
+      $ref: '#/definitions/RigaOrdine'
+    listImpegno:
+      type: array
+      items:
+        $ref: '#/definitions/Impegno'
+    ignoreWarnings:
+      type: boolean

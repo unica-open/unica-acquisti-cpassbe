@@ -1,0 +1,42 @@
+SubimpegnoOrdine:
+  type: object
+  properties:
+    dataCancellazione:
+      type: string
+      format: date-time
+    dataCreazione:
+      type: string
+      format: date-time
+    dataModifica:
+      type: string
+      format: date-time
+    id:
+      type: string
+      format: uuid
+    impegnoAnno:
+      type: integer
+    impegnoAnnoEsercizio:
+      type: integer
+    impegnoNumero:
+      type: integer
+    impegnoOrdine:
+      type: object
+      $ref: '#/definitions/ImpegnoOrdine'
+    optlock:
+      type: string
+      format: uuid
+    subimpegno:
+      type: object
+      $ref: '#/definitions/Subimpegno'
+    subimpegnoAnno:
+      type: integer
+    subimpegnoImporto:
+      type: number
+    subimpegnoNumero:
+      type: integer
+    utenteCancellazione:
+      type: string
+    utenteCreazione:
+      type: string
+    utenteModifica:
+      type: string

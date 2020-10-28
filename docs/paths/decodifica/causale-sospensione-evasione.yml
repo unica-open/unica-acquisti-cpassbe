@@ -1,0 +1,19 @@
+/decodifica/causale-sospensione-evasione-valide:
+  get:
+    operationId: getAllCausaleSospensioneEvasioneValide
+    description: Restituisce le Causali Sospensione Evasione registrate su sistema.
+    produces:
+      - application/json
+    tags:
+      - decodifica
+    responses:
+      '200':
+        description: causali sospensione evasione registrati su sistema.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/CausaleSospensioneEvasione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'

@@ -1,0 +1,33 @@
+DocumentoSpesa:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    annoProtocollo:
+      type: number
+    numeroProtocollo:
+      type: string
+    registroProtocollo:
+      type: string
+    annoDocumento:
+      type: number
+    numeroDocumento:
+      type: string
+    tipoDocumento:
+      type: string
+    codiceFornitore:
+      type: string
+    codiceStato:
+      type: string
+    descrizioneStato:
+      type: string
+    totaleDocumento:
+      type: number
+    totaleLiquidabileDocumento:
+      type: number
+    numeriOrdine:
+      type: array
+      items:
+        type: string
+

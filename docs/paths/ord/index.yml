@@ -1,0 +1,831 @@
+/ord/testata-ordine:
+  post:
+    operationId: postTestataOrdine
+    description: Inserisce una testata ordine su sistema.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - in: body
+        name: testataOrdine
+        required: true
+        schema:
+          $ref: '#/definitions/TestataOrdine'
+    responses:
+      '200':
+        description: testata ordine registrato.
+        schema:
+          $ref: '#/definitions/TestataOrdine'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/testata-ordine/{id}:
+  get:
+    operationId: getTestataOrdineById
+    description: Restituisce la testataOrdine per id.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della testataOrdine.
+    responses:
+      '200':
+        description: La testataOrdine registrata su sistema per dato id.
+        schema:
+          $ref: '#/definitions/TestataOrdine'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+  put:
+    operationId: putTestataOrdineById
+    description: Aggiorna la testataOrdine per id.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della testataOrdine.
+      - in: body
+        name: testataOrdine
+        required: true
+        schema:
+          $ref: '#/definitions/TestataOrdine'
+    responses:
+      '200':
+        description: La testataOrdine aggiornata.
+        schema:
+          $ref: '#/definitions/TestataOrdine'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+  delete:
+    operationId: deleteTestataOrdineById
+    description: Cancella l'ordine per id.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della testata ordine.
+    responses:
+      '200':
+        description: Lo status dell'operazione.
+        schema:
+          type: string
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/testata-ordine/annulla:
+  post:
+    operationId: postAnnullaTestataOrdine
+    description: Annulla una testata ordine presente su sistema.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - in: body
+        name: testataOrdine
+        required: true
+        schema:
+          $ref: '#/definitions/TestataOrdine'
+      - in: query
+        name: bypassControlli
+        type: boolean
+        required: false
+        description: Permette di bypassare i controlli su un ordine da annullare.
+    responses:
+      '200':
+        description: testata ordine annullata.
+        schema:
+          $ref: '#/definitions/TestataOrdine'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/testata-ordine/controlla/{id}:
+  put:
+    operationId: putOrdineControllaById
+    description: Controlla ordine.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della testataOrdine.
+      - in: body
+        name: testataOrdine
+        required: true
+        schema:
+          $ref: '#/definitions/TestataOrdine'
+    responses:
+      '200':
+        description: testata ordine.
+        schema:
+          $ref: '#/definitions/TestataOrdine'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/testata-ordine/conferma/{id}:
+  put:
+    operationId: putOrdineConfermaById
+    description: Conferma ordine.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della testataOrdine.
+      - in: body
+        name: testataOrdine
+        required: true
+        schema:
+          $ref: '#/definitions/TestataOrdine'
+    responses:
+      '200':
+        description: testata ordine.
+        schema:
+          $ref: '#/definitions/TestataOrdine'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/testata-ordine/autorizza/{id}:
+  put:
+    operationId: putOrdineAutorizzaById
+    description: Autorizza ordine.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della testataOrdine.
+      - in: body
+        name: testataOrdine
+        required: true
+        schema:
+          $ref: '#/definitions/TestataOrdine'
+    responses:
+      '200':
+        description: testata ordine.
+        schema:
+          $ref: '#/definitions/TestataOrdine'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/testata-ordine/invia-nso/{id}:
+  put:
+    operationId: putOrdineInviaNSO
+    description: Invia ordine NSO.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della testataOrdine.
+      - in: body
+        name: testataOrdine
+        required: true
+        schema:
+          $ref: '#/definitions/TestataOrdine'
+    responses:
+      '200':
+        description: testata ordine.
+        schema:
+          $ref: '#/definitions/TestataOrdine'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/testata-ordine/verifiche-fattibilita-chiudi/{id}:
+  put:
+    operationId: putOrdineVerificheFattibilitaChiudiById
+    description: Verifiche fattibilita chiudi ordine.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della testataOrdine.
+    responses:
+      '200':
+        description: testata ordine.
+        schema:
+          $ref: '#/definitions/TestataOrdine'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/testata-ordine/chiudi/{id}:
+  put:
+    operationId: putOrdineChiudiById
+    description: Chiudi ordine.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della testataOrdine.
+    responses:
+      '200':
+        description: testata ordine.
+        schema:
+          $ref: '#/definitions/TestataOrdine'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/testata-ordine/ricerca/{anno}/{numero}/{idEnte}:
+  get:
+    operationId: getRicercaTestataOrdineByAnnoENum
+    description: Restituisce la testataOrdine per anno e numero e ente.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - in: path
+        name: anno
+        required: true
+        type: integer
+        description: L'anno della testata ordine.
+      - in: path
+        name: numero
+        required: true
+        type: integer
+        description: Il numero della testataOrdine.
+      - in: path
+        name: idEnte
+        required: true
+        type: string
+        format: uuid
+        description: L'id dell'ente associato all'utente.
+    responses:
+      '200':
+        description: La testataOrdine registrata su sistema per dati anno e numero.
+        schema:
+          $ref: '#/definitions/TestataOrdine'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/testata-ordine/ricerca/destinatari-per-copia/{idOrdine}:
+  get:
+    operationId: getRicercaDestinatariPerCopia
+    description: Restituisce i destinatari legati a un ordine con almeno una riga.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - in: path
+        name: idOrdine
+        required: true
+        type: string
+        format: uuid
+        description: L'id della testata ordine.
+    responses:
+      '200':
+        description: I destinatari con almeno una riga registrati a sistema legati a data testata orgine.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Destinatario'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/testata-ordine/ricerca/righe-destinatario/{id}:
+  get:
+    operationId: getRicercaRigheByDestinatario
+    description: Restituisce le righe legate a un destinatario.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id del destinatario.
+    responses:
+      '200':
+        description: Le righe legate registrate a sistema per dato id destinatario.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/RigaOrdine'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/testata-ordine/ricerca/impegni-riga/{id}:
+  get:
+    operationId: getRicercaImpegniByRiga
+    description: Restituisce gli impegni legati a una riga.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della riga.
+    responses:
+      '200':
+        description: Gli impegni legati registrati a sistema per dato id riga.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Impegno'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/testata-ordine/ricerca/provvedimento:
+  post:
+    operationId: postRicercaProvvedimento
+    description: Ricerca provvedimenti su sistema.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - $ref: '#/parameters/offsetParam'
+      - $ref: '#/parameters/limitParam'
+      - $ref: '#/parameters/sortParam'
+      - $ref: '#/parameters/directionParam'
+      - in: body
+        name: provvedimento
+        required: true
+        schema:
+          $ref: '#/definitions/Provvedimento'
+    responses:
+      '200':
+        description: Provvedimenti registrati su sistema.
+        schema:
+          $ref: '#/definitions/PagedResponseProvvedimento'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/testata-ordine/ricerca/impegno:
+  post:
+    operationId: postRicercaImpegno
+    description: Ricerca impegni su sistema.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - $ref: '#/parameters/offsetParam'
+      - $ref: '#/parameters/limitParam'
+      - $ref: '#/parameters/sortParam'
+      - $ref: '#/parameters/directionParam'
+      - in: body
+        name: filtroImpegni
+        required: true
+        schema:
+          $ref: '#/definitions/FiltroImpegni'
+    responses:
+      '200':
+        description: Impegni registrati su sistema.
+        schema:
+          $ref: '#/definitions/PagedResponseImpegno'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/testata-ordine/destinatario:
+  post:
+    operationId: postOrdineDestinatario
+    description: Inserisce il destinatario di una testata ordine su sistema.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - in: body
+        name: destinatario
+        required: true
+        schema:
+          $ref: '#/definitions/Destinatario'
+    responses:
+      '200':
+        description: testata ordine registrato.
+        schema:
+          $ref: '#/definitions/Destinatario'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+  put:
+    operationId: putOrdineDestinatario
+    description: Inserisce il destinatario di una testata ordine su sistema.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - in: body
+        name: destinatario
+        required: true
+        schema:
+          $ref: '#/definitions/Destinatario'
+    responses:
+      '200':
+        description: testata ordine registrato.
+        schema:
+          $ref: '#/definitions/Destinatario'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/testata-ordine/destinatario/{id}:
+  delete:
+    operationId: deleteDestinatario
+    description: Elimina il destinatario di una testata ordine presente a sistema.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della riga.
+    responses:
+      '200':
+        description: riga ordine eliminata.
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/testata-ordine/riga-ordine:
+  post:
+    operationId: postRigaOrdine
+    description: Inserisce la riga ordine di una testata ordine su sistema.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - in: query
+        name: bypassControlloIva
+        type: boolean
+        required: false
+        description: Permette di bypassare il controllo sull'iva quando l'utente autorizza l'operazione.
+      - in: body
+        name: rigaOrdine
+        required: true
+        schema:
+          $ref: '#/definitions/RigaOrdine'
+    responses:
+      '200':
+        description: testata ordine registrato.
+        schema:
+          $ref: '#/definitions/RigaOrdine'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+  put:
+    operationId: putRigaOrdine
+    description: Inserisce la riga ordine di una testata ordine su sistema.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - in: query
+        name: bypassControlloIva
+        type: boolean
+        required: false
+        description: Permette di bypassare il controllo sull'iva quando l'utente autorizza l'operazione.
+      - in: body
+        name: rigaOrdine
+        required: true
+        schema:
+          $ref: '#/definitions/RigaOrdine'
+    responses:
+      '200':
+        description: testata ordine registrato.
+        schema:
+          $ref: '#/definitions/RigaOrdine'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/testata-ordine/riga-ordine/copia/{idFrom}/{idTo}:
+  post:
+    operationId: postCopiaRighe
+    description: Inserisce la riga ordine di una testata ordine su sistema.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - in: path
+        name: idFrom
+        required: true
+        type: string
+        format: uuid
+        description: L'id del destinatario da cui copiare le righe.
+      - in: path
+        name: idTo
+        required: true
+        type: string
+        format: uuid
+        description: L'id del destinatario a cui assegnare le righe copiate.
+    responses:
+      '200':
+        description: testata ordine registrato.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/RigaOrdine'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/testata-ordine/riga-ordine/{id}:
+  delete:
+    operationId: deleteRigaOrdine
+    description: Elimina la riga di una testata ordine presente a sistema.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della riga.
+    responses:
+      '200':
+        description: riga ordine eliminata.
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/testata-ordine/impegni/{riga-ordine-id}:
+  delete:
+    operationId: deleteImpegniByRiga
+    description: Elimina gli impegni di una riga presente a sistema.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - in: path
+        name: riga-ordine-id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della riga.
+    responses:
+      '200':
+        description: impegni eliminati.
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/testata-ordine/impegni:
+  post:
+    operationId: postImpegni
+    description: Inserisce gli impegni del dettaglio su sistema.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - in: body
+        name: salvaImpegni
+        required: true
+        schema:
+          $ref: '#/definitions/SalvaImpegni'
+    responses:
+      '200':
+        description: impegni registrati.
+        schema:
+          $ref: '#/definitions/RigaOrdine'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/testata-ordine/riepilogo-impegni/{id}:
+  get:
+    operationId: getRiepilogoImpegniByOrdineId
+    description: Restituisce impegni della testata Ordine per id.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della testataOrdine.
+    responses:
+      '200':
+        description: La testataOrdine registrata su sistema per dato id.
+        schema:
+          $ref: '#/definitions/RiepilogoImpegni'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'  
+/ord/testata-ordine/ricerca:
+  post:
+    operationId: getRicercaOrdini
+    description: Restituisce gli ordini registrati su sistema.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - $ref: '#/parameters/offsetParam'
+      - $ref: '#/parameters/limitParam'
+      - $ref: '#/parameters/sortParam'
+      - $ref: '#/parameters/directionParam'
+      - in: body
+        name: ricercaOrdini
+        required: true
+        schema:
+          $ref: '#/definitions/RicercaOrdini'
+    responses:
+      '200':
+        description: Ordini registrati su sistema.
+        schema:
+          $ref: '#/definitions/PagedResponseOrdine'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/testata-ordine/evasione-testata/{idEvasione}:
+  get:
+    operationId: getTestateOrdineByEvasioneId
+    description: Restituisce le testate Ordine per id evasione.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - in: path
+        name: idEvasione
+        required: true
+        type: string
+        format: uuid
+        description: L'id della testata evasione.
+    responses:
+      '200':
+        description: La testataOrdine registrata su sistema per dato id testata evasione.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/TestataOrdine'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/testata-ordine/evasione-destinatario/{idDestinatarioEvasione}:
+  get:
+    operationId: getTestateOrdineByDestinatarioEvasioneId
+    description: Restituisce le testate Ordine per id Destinatario evasione.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - in: path
+        name: idDestinatarioEvasione
+        required: true
+        type: string
+        format: uuid
+        description: L'id del Destinatario evasione.
+    responses:
+      '200':
+        description: La testataOrdine registrata su sistema per dato id destinatario evasione.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/TestataOrdine'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/testata-ordine/evasione-riga/{idRigaEvasione}:
+  get:
+    operationId: getTestateOrdineByRigaEvasioneId
+    description: Restituisce le testate Ordine per id riga evasione.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - in: path
+        name: idRigaEvasione
+        required: true
+        type: string
+        format: uuid
+        description: L'id della riga evasione.
+    responses:
+      '200':
+        description: La testataOrdine registrata su sistema per dato id riga evasione.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/TestataOrdine'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/testata-ordine/ricerca/righe-da-evadere:
+  post:
+    operationId: getRicercaRigheDaEvadere
+    description: Restituisce le righe ordine da evadere.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - in: body
+        name: ricercaRigheDaEvadere
+        required: true
+        schema:
+          $ref: '#/definitions/RicercaRigheDaEvadere'
+    responses:
+      '200':
+        description: Le righe da evadere.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/RigaOrdine'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'

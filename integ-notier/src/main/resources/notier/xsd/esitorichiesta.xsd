@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="xs3p.xsl"?>
+<xs:schema xmlns="http://notier.intercenter.rer.it/services/1.0/esito/response" targetNamespace="http://notier.intercenter.rer.it/services/1.0/esito/response"
+	version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="EsitoRichiesta">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Versione" type="TokenNVMax10Type" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="Esito" type="EsitoType" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="Documento" type="DocumentoType" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="ListaDocumenti" type="ListaDocumentiType" minOccurs="0" maxOccurs="1"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="ListaDocumentiType">
+		<xs:sequence>
+			<xs:element name="TotaleDocumentiScaricabili" type="xs:integer" minOccurs="1" maxOccurs="1" />
+			<xs:element name="NumeroDocumenti" type="xs:integer" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="Documenti" type="DocumentiType" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="DataInizio" type="xs:dateTime" minOccurs="1" maxOccurs="1" />
+			<xs:element name="DataFine" type="xs:dateTime" minOccurs="1" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DocumentiType">
+		<xs:sequence>
+			<xs:element name="Documento" type="DocumentoType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EsitoType">
+		<xs:sequence>
+			<xs:element name="CodiceEsito" type="CodiceEsitoType" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="CodiceErrore" type="CodiceErrore" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="DescrizioneErrore" type="TokenNVMax4096Type" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DocumentoType">
+		<xs:sequence>
+		    <xs:element name="Destinatario" type="TokenNVMax50Type" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="Urn" type="TokenNVMax1024Type" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="DataRicezioneNotier" type="xs:dateTime" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="UrnCollegato" type="TokenNVMax1024Type" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="StatoGiacenza" type="StatoGiacenzaType" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="StatoConservazione" type="StatoConservazioneType" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="Chiave" type="ChiaveDocumentoType" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="Rappresentazione" type="RappresentazioneType" minOccurs="1"
+				maxOccurs="1" />
+				
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ChiaveDocumentoType">
+		<xs:sequence>
+			<xs:element name="Mittente" type="TokenNVMax50Type" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="TipoMittente" type="TipoMittenteType" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="Anno" type="IntMax4DgtType" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="Numero" type="TokenNVMax70Type" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="TipoDocumento" type="TipoDocumentoType" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RappresentazioneType">
+		<xs:sequence>
+			<xs:element name="Formato" type="FormatoType" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="Versione" type="TokenNVMax50Type" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="UrnCollegatiType">
+		<xs:sequence>
+			<xs:element name="Urn" type="TokenNVMax1024Type" minOccurs="1"  maxOccurs="unbounded" />			
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="CodiceEsitoType">
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="OK"/>
+			<xs:enumeration value="KO"/>
+			<xs:enumeration value="WARN"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CodiceErrore">
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="ERR-000-GENERICO"/>
+			<xs:enumeration value="ERR-INVIODOC-000-RICHIESTA-NON-VALIDA"/>
+			<xs:enumeration value="ERR-INVIODOC-001-XML-NON-VALIDO"/>
+			<xs:enumeration value="ERR-INVIODOC-002-NON-AUTORIZZATO"/>
+			<xs:enumeration value="ERR-INVIODOC-003-ORG-NON-VALIDA"/>
+			<xs:enumeration value="ERR-INVIODOC-004-TIPODOC-NON-VALIDO"/>
+			<xs:enumeration value="ERR-INVIODOC-005-FORMATO-RAPPR-NON-VALIDO"/>
+			<xs:enumeration value="ERR-INVIODOC-006-VERSIONE-RAPPR-NON-VALIDA"/>
+			<xs:enumeration value="ERR-INVIODOC-007-DOC-NON-VALIDO-XSD"/>
+			<xs:enumeration value="ERR-INVIODOC-008-DOC-NON-VALIDO-SCHEMATRON"/>
+			<xs:enumeration value="ERR-INVIODOC-009-DOC-DUPLICATO"/>
+			<xs:enumeration value="ERR-INVIODOC-010-DIMENSIONI-ECCESSIVE"/>
+            <xs:enumeration value="ERR-RECDOC-000-RICHIESTA-NON-VALIDA"/>
+            <xs:enumeration value="ERR-RECDOC-001-NON-AUTORIZZATO"/>
+            <xs:enumeration value="ERR-RECDOC-002-NON-TROVATO"/>
+			<xs:enumeration value="ERR-CONSDOC-000-RICHIESTA-NON-VALIDA"/>
+			<xs:enumeration value="ERR-CONSDOC-001-XML-NON-VALIDO"/>
+            <xs:enumeration value="ERR-CONSDOC-002-NON-AUTORIZZATO"/>
+            <xs:enumeration value="ERR-CONSDOC-003-NON-TROVATO"/>
+            <xs:enumeration value="ERR-CONSDOC-004-NON-APPLICABILE"/>
+            <xs:enumeration value="ERR-BLOCCOCONS-001-NON-AUTORIZZATO" />
+            <xs:enumeration value="ERR-BLOCCOCONS-002-NON-TROVATO" />
+            <xs:enumeration value="ERR-BLOCCOCONS-003-NON-APPLICABILE" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="StatoGiacenzaType">
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="DA_RECAPITARE"/>			
+			<xs:enumeration value="IN_LAVORAZIONE"/>
+			<xs:enumeration value="RECAPITATO"/>
+		</xs:restriction>
+	</xs:simpleType>
+		<xs:simpleType name="StatoConservazioneType">
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="DA_NON_INVIARE"/>
+			<xs:enumeration value="IN_ATTESA_DATI_FISCALI"/>
+			<xs:enumeration value="DA_INVIARE"/>
+			<xs:enumeration value="INVIATO_OK"/>
+			<xs:enumeration value="INVIATO_KO"/>
+			<xs:enumeration value="DA_ANNULLARE"/>
+			<xs:enumeration value="ANNULLATO"/>
+			<xs:enumeration value="NON_ANNULLABILE"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TokenNVMax254Type">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="254"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TokenNVMax70Type">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="70"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TokenNVMax50Type">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="50"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TokenNVMax10Type">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="10"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="FormatoType">
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="UBL"/>
+			<xs:enumeration value="SDI"/>
+			<xs:enumeration value="PARER"/>
+			<xs:enumeration value="UBL_EU"/>
+			<xs:enumeration value="BIS_3"/>
+			<xs:enumeration value="NSO"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TokenNVMax1024Type">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="1024"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TokenNVMax4096Type">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="4096"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TipoDocumentoType">
+		<xs:restriction base="xs:NMTOKEN">
+			<!-- DOCUMENTI UBL -->
+			<xs:enumeration value="FATTURA"/>
+			<xs:enumeration value="NOTA_DI_CREDITO"/>
+			<xs:enumeration value="DOCUMENTO_DI_TRASPORTO"/>
+			<xs:enumeration value="ORDINE"/>
+			<!-- RICEVUTE PEPPOL -->
+			<xs:enumeration value="NOTIFICA_MDN"/>
+			<!-- RICEVUTE SDI -->
+			<xs:enumeration value="NOTIFICA_DI_SCARTO"/>
+			<xs:enumeration value="RICEVUTA_DI_CONSEGNA"/>
+			<xs:enumeration value="NOTIFICA_DI_MANCATA_CONSEGNA"/>
+			<xs:enumeration value="NOTIFICA_DI_ESITO_COMMITTENTE"/>
+			<xs:enumeration value="NOTIFICA_DI_ESITO_CEDENTE"/>
+			<xs:enumeration value="NOTIFICA_SCARTO_ESITO_COMMITTENTE"/>
+			<xs:enumeration value="NOTIFICA_DI_DECORRENZA_TERMINI"/>
+			<xs:enumeration value="ATTESTAZIONE_DI_FILE_NON_RECAPITABILE"/>
+			<xs:enumeration value="NOTIFICA_METADATI_FILE_FATTURA"/>
+			<!-- RICEVUTE PARER -->
+			<xs:enumeration value="ESITO_CONSERVAZIONE"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IntMax4DgtType">
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="9999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TipoMittenteType">
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="NOTIER"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
+
+
+
+
+
+
+
+
+
+
+
+
+

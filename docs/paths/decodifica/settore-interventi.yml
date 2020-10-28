@@ -1,0 +1,19 @@
+/decodifica/settore-interventi:
+  get:
+    operationId: getSettoreInterventi
+    description: Restituisce i settori interventi registrati su sistema.
+    produces:
+      - application/json
+    tags:
+      - decodifica
+    responses:
+      '200':
+        description: Settori interventi registrati su sistema.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/SettoreInterventi'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'

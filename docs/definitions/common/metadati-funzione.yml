@@ -1,0 +1,15 @@
+MetadatiFunzione:
+  type: object
+  properties:
+    funzione:
+      type: string
+    modulo:
+      type: string
+    chiaveColonna:
+      type: string
+    descrizioneColonna:
+      type: string
+    ordinamento:
+      type: integer
+    ascendente:
+      type: boolean

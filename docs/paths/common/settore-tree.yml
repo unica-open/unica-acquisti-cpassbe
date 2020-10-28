@@ -1,0 +1,81 @@
+/common/settore/{id-ente}:
+  get:
+    operationId: getSettoreTreeByEnte
+    description: Restituisce l'alberatura Settore per ente.
+    produces:
+      - application/json
+    tags:
+      - common
+    parameters:
+      - in: path
+        name: id-ente
+        required: true
+        type: string
+        format: uuid
+        description: id ente.
+    responses:
+      '200':
+        description: Alberatura Settore per ente.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Settore'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'         
+/common/settore/{id-settore}/parente/{id-settore-parent}:
+  get:
+    operationId: isMySectorParent
+    description: Restituisce se un settore è parente di un'altro.
+    produces:
+      - application/json
+    tags:
+      - common
+    parameters:
+      - in: path
+        name: id-settore
+        required: true
+        type: string
+        format: uuid
+        description: id settore.
+      - in: path
+        name: id-settore-parent
+        required: true
+        type: string
+        format: uuid
+        description: id settore parent.
+    responses:
+      '200':
+        description: Alberatura Settore per ente.
+        type: boolean
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/common/settore-padre/{id-settore}:
+  get:
+    operationId: getMySectorFamily
+    description: Restituisce sla lista dei settori parenti
+    produces:
+      - application/json
+    tags:
+      - common
+    parameters:
+      - in: path
+        name: id-settore
+        required: true
+        type: string
+        format: uuid
+        description: id settore.
+    responses:
+      '200':
+        description: Alberatura Settore da settore.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Settore'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'

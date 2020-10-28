@@ -1,0 +1,17 @@
+ListinoFornitore:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    codiceOds:
+      type: string
+    descrizione:
+      type: string
+    oggettiSpesa:
+      type: object
+      $ref: '#/definitions/Ods'
+    fornitore:
+      type: object
+      $ref: '#/definitions/Fornitore'
+      

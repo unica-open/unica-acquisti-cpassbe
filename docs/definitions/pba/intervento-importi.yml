@@ -1,0 +1,40 @@
+InterventoImporti:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    importoAnnoPrimo:
+      type: number
+    importoAnnoSecondo:
+      type: number
+    importoAnniSuccessivi:
+      type: number
+    motivazione:
+      type: string
+    richiesta_motivazione:
+      type: boolean
+    risorsa:
+      type: object
+      $ref: '#/definitions/Risorsa'
+    intervento:
+      type: object
+      $ref: '#/definitions/Intervento'
+    dataCreazione:
+      type: string
+      format: date-time
+    utenteCreazione:
+      type: string
+    dataModifica:
+      type: string
+      format: date-time
+    utenteModifica:
+      type: string
+    dataCancellazione:
+      type: string
+      format: date-time
+    utenteCancellazione:
+      type: string
+    optlock:
+      type: string
+      format: uuid

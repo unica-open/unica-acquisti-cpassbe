@@ -1,0 +1,46 @@
+Settore:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    codice:
+      type: string
+    descrizione:
+      type: string
+    indirizzo:
+      type: string
+    numCivico:
+      type: string
+    email:
+      type: string
+    contatto:
+      type: string
+    localita:
+      type: string
+    provincia:
+      type: string
+    cap:
+      type: string
+    telefono:
+      type: string
+    ente:
+      type: object
+      $ref: '#/definitions/Ente'
+    tipoSettore:
+      type: object
+      $ref: '#/definitions/TipoSettore'
+    utenteSettoreDefault:
+      type: boolean
+    rup:
+      type: object
+      $ref: '#/definitions/Utente'
+    idPadre:
+      type: string
+      format: uuid
+    livello:
+      type: integer
+    listSettore:
+      type: array
+      items:
+        $ref: '#/definitions/Settore'

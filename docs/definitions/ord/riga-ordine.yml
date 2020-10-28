@@ -1,0 +1,57 @@
+RigaOrdine:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    consegnaParziale:
+      type: integer
+    importoNetto:
+      type: number
+    importoIva:
+      type: number
+    importoSconto:
+      type: number
+    importoSconto2:
+      type: number
+    importoTotale:
+      type: number
+    importoDaEvadere:
+      type: number
+    percentualeSconto:
+      type: number
+    percentualeSconto2:
+      type: number
+    prezzoUnitario:
+      type: number
+    progressivo:
+      type: integer
+    quantita:
+      type: number
+    impegniOrdine:
+      type: array
+      items:
+        $ref: '#/definitions/Impegno'
+    aliquoteIva:
+      type: object
+      $ref: '#/definitions/AliquoteIva'
+    ods:
+      type: object
+      $ref: '#/definitions/Ods'
+    statoElOrdine:
+      type: object
+      $ref: '#/definitions/StatoElOrdine'
+    unitaMisura:
+      type: object
+      $ref: '#/definitions/UnitaMisura'
+    destinatario:
+      type: object
+      $ref: '#/definitions/Destinatario'
+    listinoFornitore:
+      type: object
+      $ref: '#/definitions/ListinoFornitore'
+    optlock:
+      type: string
+      format: uuid
+    note:
+      type: string     

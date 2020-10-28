@@ -1,0 +1,14 @@
+Provvedimento:
+  type: object
+  properties:
+    anno:
+      type: integer
+    numero:
+      type: integer
+    settore:
+      type: string
+    descrizione:
+      type: string
+    selected:
+      type: boolean
+      

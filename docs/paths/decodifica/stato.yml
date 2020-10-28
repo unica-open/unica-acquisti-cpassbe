@@ -1,0 +1,25 @@
+/decodifica/stato/{tipo}:
+  get:
+    operationId: getStatoByTipo
+    description: Restituisce gli Stato registrati su sistema.
+    produces:
+      - application/json
+    tags:
+      - decodifica
+    parameters:
+      - in: path
+        name: tipo
+        required: true
+        type: string
+        description: codice tipo.
+    responses:
+      '200':
+        description: Stato registrati su sistema.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Stato'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'

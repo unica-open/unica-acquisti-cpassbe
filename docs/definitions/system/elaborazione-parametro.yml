@@ -1,0 +1,13 @@
+ElaborazioneParametro:
+  type: object
+  properties:
+    chiave:
+      type: string
+    elaborazione:
+      type: object
+      $ref: '#/definitions/Elaborazione'
+    id:
+      type: string
+      format: uuid
+    valore:
+      type: string

@@ -1,0 +1,13 @@
+RicompresoTipo:
+  type: object
+  properties:
+    id:
+      type: integer
+    codice:
+      type: string
+    descrizione:
+      type: string
+    cuiObbligatorio:
+      type: boolean
+    conteggioImporti:
+      type: boolean

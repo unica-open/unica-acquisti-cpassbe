@@ -1,0 +1,98 @@
+TestataEvasione:
+  type: object
+  properties:
+    dataAutorizzazione:
+      type: string
+      format: date-time
+    dataCancellazione:
+      type: string
+      format: date-time
+    dataConferma:
+      type: string
+      format: date-time
+    dataConsegna:
+      type: string
+      format: date-time
+    dataCreazione:
+      type: string
+      format: date-time
+    dataInserimento:
+      type: string
+      format: date-time
+    dataInvioContabilita:
+      type: string
+      format: date-time
+    dataModifica:
+      type: string
+      format: date-time
+    dataRipartizione:
+      type: string
+      format: date-time
+    descrizione:
+      type: string
+    destinatarioEvasiones:
+      type: array
+      items:  
+        $ref: '#/definitions/DestinatarioEvasione'
+    documentoConsegna:
+      type: string
+    documentoDataConsegna:
+      type: string
+      format: date-time
+    documentoTrasporto:
+      type: object
+      $ref: '#/definitions/DocumentoTrasporto'
+    evasioneAnno:
+      type: integer
+    evasioneNumero:
+      type: integer
+    fatturaAnno:
+      type: integer
+    fatturaCodice:
+      type: string
+    fatturaNumero:
+      type: string
+    fatturaProtocolloAnno:
+      type: integer
+    fatturaProtocolloNumero:
+      type: integer
+    fatturaTipo:
+      type: string
+    fatturaTotale:
+      type: number
+    fatturaTotaleLiquidabile:
+      type: number
+    fornitore:
+      type: object
+      $ref: '#/definitions/Fornitore'
+    id:
+      type: string
+      format: uuid
+    note:
+      type: string
+    optlock:
+      type: string
+      format: uuid
+    settore:
+      type: object
+      $ref: '#/definitions/Settore'
+    stato:
+      type: object
+      $ref: '#/definitions/Stato'
+    tipoEvasione:
+      type: object
+      $ref: '#/definitions/TipoEvasione'
+    totaleConIva:
+      type: number
+    ufficio:
+      type: object
+      $ref: '#/definitions/Ufficio'
+    utenteCancellazione:
+      type: string
+    utenteCompilatore:
+      type: object
+      $ref: '#/definitions/Utente'
+    utenteCreazione:
+      type: string
+    utenteModifica:
+      type: string

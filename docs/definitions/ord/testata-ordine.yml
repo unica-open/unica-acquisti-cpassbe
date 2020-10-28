@@ -1,0 +1,84 @@
+TestataOrdine:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    settore:
+      type: object
+      $ref: '#/definitions/Settore'
+    ufficio:
+      type: object
+      $ref: '#/definitions/Ufficio'
+    anno:
+      type: integer
+    numero:
+      type: integer
+    utenteCompilatore:
+      type: object
+      $ref: '#/definitions/Utente'
+    stato:
+      type: object
+      $ref: '#/definitions/Stato'
+    dataEmissione:
+      type: string
+      format: date-time
+    dataConferma:
+      type: string
+      format: date-time
+    dataAutorizzazione:
+      type: string
+      format: date-time
+    dataScadenza:
+      type: string
+      format: date-time
+    statoNso:
+      type: object
+      $ref: '#/definitions/StatoNso'
+    descrizione:
+      type: string
+    note:
+      type: string
+    tipoOrdine:
+      type: object
+      $ref: '#/definitions/TipoOrdine'
+    lottoAnno:
+      type: integer
+    lottoNumero:
+      type: integer
+    fornitore:
+      type: object
+      $ref: '#/definitions/Fornitore'
+    provvedimento:
+      type: object
+      $ref: '#/definitions/Provvedimento'
+    tipoProcedura:
+      type: object
+      $ref: '#/definitions/TipoProcedura'
+    numeroProcedura:
+      type: string
+    consegnaRiferimento:
+      type: string
+    consegnaDataDa:
+      type: string
+      format: date-time
+    consegnaDataA:
+      type: string
+      format: date-time
+    consegnaIndirizzo:
+      type: string
+    consegnaCap:
+      type: string
+    consegnaLocalita:
+      type: string
+    listImpegno:
+      type: array
+      items:
+        $ref: '#/definitions/Impegno'
+    listDestinatario:
+      type: array
+      items:
+        $ref: '#/definitions/Destinatario'
+    optlock:
+      type: string
+      format: uuid

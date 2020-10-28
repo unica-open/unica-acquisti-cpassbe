@@ -1,0 +1,673 @@
+/pba/intervento:
+  post:
+    operationId: postIntervento
+    description: Inserisce un intervento su sistema.
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - in: body
+        name: intervento
+        required: true
+        schema:
+          $ref: '#/definitions/Intervento'
+    responses:
+      '200':
+        description: L'intervento registrato.
+        schema:
+          $ref: '#/definitions/Intervento'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/intervento/ricerca/settore/{id-settore}:
+  post:
+    operationId: getRicercaInterventi
+    description: Restituisce gli interventi registrati su sistema.
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - $ref: '#/parameters/offsetParam'
+      - $ref: '#/parameters/limitParam'
+      - $ref: '#/parameters/sortParam'
+      - $ref: '#/parameters/directionParam'
+      - in: body
+        name: intervento
+        required: true
+        schema:
+          $ref: '#/definitions/Intervento'
+      - in: path
+        name: id-settore
+        required: true
+        type: string
+        format: uuid
+        description: L'id del settore dell'utente.
+    responses:
+      '200':
+        description: Interventi registrati su sistema.
+        schema:
+          $ref: '#/definitions/PagedResponseIntervento'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/intervento/ricerca-per-copia/programma-old-id/{id-programma-old}/programma-new-id/{id-programma-new}:
+  get:
+    operationId: getRicercaInterventiXCopia
+    description: Restituisce gli interventi registrati su sistema.
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - $ref: '#/parameters/offsetParam'
+      - $ref: '#/parameters/limitParam'
+      - $ref: '#/parameters/sortParam'
+      - $ref: '#/parameters/directionParam'
+      - in: path
+        name: id-programma-old
+        required: true
+        type: string
+        format: uuid
+        description: id programma partenza.
+      - in: path
+        name: id-programma-new
+        required: true
+        type: string
+        format: uuid
+        description: id programma destinazione.
+    responses:
+      '200':
+        description: Interventi registrati su sistema.
+        schema:
+          $ref: '#/definitions/PagedResponseIntervento'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/intervento/{id}:
+  get:
+    operationId: getInterventoById
+    description: Restituisce l'intervento per id.
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id dell'intervento.
+    responses:
+      '200':
+        description: L'intervento registrato su sistema per dato id.
+        schema:
+          $ref: '#/definitions/Intervento'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+  put:
+    operationId: putInterventoById
+    description: Aggiorna l'intervento per id.
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id dell'intervento.
+      - in: body
+        name: intervento
+        required: true
+        schema:
+          $ref: '#/definitions/Intervento'
+    responses:
+      '200':
+        description: L'intervento aggiornato.
+        schema:
+          $ref: '#/definitions/Intervento'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+  delete:
+    operationId: deleteInterventoById
+    description: Cancella l'intervento per id.
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id dell'intervento.
+    responses:
+      '200':
+        description: Lo status dell'operazione.
+        schema:
+          type: string
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'     
+/pba/intervento/cui/{cui}/programma/{id-programma}/settore/{id-settore}:
+  get:
+    operationId: getInterventoByCui
+    description: Restituisce l'intervento per cui.
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - in: path
+        name: cui
+        required: true
+        type: string
+        description: Il cui dell'intervento.
+      - in: path
+        name: id-programma
+        required: true
+        type: string
+        format: uuid
+        description: L'uuid del programma.
+      - in: path
+        name: id-settore
+        required: true
+        type: string
+        format: uuid
+        description: L'id del settore dell'utente.
+    responses:
+      '200':
+        description: L'intervento registrato su sistema per dato cui.
+        schema:
+          $ref: '#/definitions/Intervento'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/intervento/{id}/intervento-importi:
+  get:
+    produces:
+      - application/json
+    tags:
+      - intervento
+    operationId: getInterventoImportiByIntervento
+    description: Restituisce gli importi per id intervento.
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id dell'intervento.
+      - in: query
+        name: offset
+        type: integer
+        required: false
+        default: 0
+        minimum: 0
+        description: Il numero di record da ignorare prima di iniziare a raccogliere i risultati.
+      - in: query
+        name: limit
+        type: integer
+        required: false
+        default: 20
+        minimum: 1
+        maximum: 100
+        description: Il numero di record da restituire.
+    responses:
+      '200':
+        description: Gli importi collegati all'intervento.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/InterventoImporti'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/intervento/stampa/allegato-scheda-b/{id-programma}/{formatFile}:
+  get:
+    operationId: stampaAllegatoIntervento
+    description: Restituisce la stampa dell'allegato degli interventi per dato programma.
+    produces:
+      - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+      - application/pdf
+    tags:
+      - intervento
+    parameters:
+      - in: path
+        name: id-programma
+        required: true
+        type: string
+        format: uuid
+        description: L'uuid del programma.
+      - in: path
+        name: formatFile
+        required: true
+        type: string
+        enum: [xlsx, pdf]
+        description: Il formato del file.
+      - in: body
+        name: intervento
+        required: true
+        schema:
+          $ref: '#/definitions/Intervento'
+    responses:
+      '200':
+        description: La stampa.
+        schema:
+          type: file
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/intervento/stato/approvato/{id}:
+  put:
+    operationId: putInterventoStatoApprovatoById
+    description: Aggiorna lo stato intervento per id.
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id dell'intervento di cui cambio lo stato.
+      - in: body
+        name: intervento
+        required: true
+        schema:
+          $ref: '#/definitions/Intervento'
+    responses:
+      '200':
+        description: stato intervento aggiornato.
+        schema:
+          $ref: '#/definitions/Intervento'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/intervento/stato/approvato:
+  put:
+    operationId: putInterventiStatoApprovato
+    description: Aggiorna gli stati x lista interventi.
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - in: body
+        name: interventi
+        required: true
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Intervento'
+    responses:
+      '200':
+        description: stato interventi aggiornato.
+        schema:
+          $ref: '#/definitions/Intervento'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/intervento/stato/annullato/{id}/settore/{id-settore}:
+  put:
+    operationId: putInterventoStatoAnnullatoById
+    description: Aggiorna lo stato intervento per id.
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id dell'intervento di cui cambio lo stato.
+      - in: path
+        name: id-settore
+        required: true
+        type: string
+        format: uuid
+        description: L'id del settore dell'utente.    
+      - in: body
+        name: intervento
+        required: true
+        schema:
+          $ref: '#/definitions/Intervento'
+    responses:
+      '200':
+        description: stato intervento aggiornato.
+        schema:
+          $ref: '#/definitions/Intervento'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/intervento/stato/annullato/settore/{id-settore}:
+  put:
+    operationId: putInterventiStatoAnnullato
+    description: Aggiorna gli stati x lista interventi.
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - in: path
+        name: id-settore
+        required: true
+        type: string
+        format: uuid
+        description: L'id del settore dell'utente.  
+      - in: body
+        name: interventi
+        required: true
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Intervento'
+    responses:
+      '200':
+        description: stato interventi annullato.
+        schema:
+          $ref: '#/definitions/Intervento'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/intervento/copia-lista-int/programma/{id-programma}:
+  post:
+    operationId: postInterventiDaCopia
+    description: inserisce interventi copia
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - in: body
+        name: interventiDaCopia
+        required: true
+        schema:
+          $ref: '#/definitions/InterventiDaCopia'
+      - in: path
+        name: id-programma
+        required: true
+        type: string
+        format: uuid
+        description: L'id del programma.
+    responses:
+      '200':
+        description: L'intervento aggiornato.
+        schema:
+          $ref: '#/definitions/Intervento'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/intervento/upload/csv:
+  post:
+    operationId: postUploadCsv
+    description: inserisce interventi da file
+    consumes:
+      - multipart/form-data
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - in: formData
+        name: idEnte
+        type: string
+      - in: formData
+        name: annoProgramma
+        type: string
+      - in: formData
+        name: versioneProgramma
+        type: string
+      - in: formData
+        name: utenteReferenteCf
+        type: string
+      - in: formData
+        name: attachment
+        type: file
+      - in: formData
+        name: attachment2
+        type: file
+    responses:
+      '200':
+        description: interventi del programma aggiornati.
+        schema:
+          $ref: '#/definitions/WebInterventoFileHolder'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'       
+/pba/intervento/cpvs/intervento/{id}:
+  get:
+    operationId: getCpvsByInterventoId
+    description: Restituisce una lista di cpv legati all intervento.
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id dell intervento.
+    responses:
+      '200':
+        description: cpv legati all intervento.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Cpv'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/intervento/storico/rups/intervento/{id}:
+  get:
+    operationId: getStoricoRupsByInterventoId
+    description: Restituisce una lista di rup storicizzati legati all intervento.
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id dell intervento.
+    responses:
+      '200':
+        description: rup legati all intervento.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/StoricoInterventoRup'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'    
+/pba/intervento/ultimo-stato-info/{id}:
+  get:
+    operationId: getUltimoStatoInfoByInterventoId
+    description: Restituisce l'ultimo stato storicizzato legato all intervento.
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id dell intervento.
+    responses:
+      '200':
+        description: stati legati all intervento.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/StatoInterventoInfo'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'            
+/pba/intervento/voltura/{id-rup}:
+  put:
+    operationId: putInterventoVoltura
+    description: archivia e salva il nuovo rup.
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - in: path
+        name: id-rup
+        required: true
+        type: string
+        format: uuid
+        description: L'id del rup utente.  
+      - in: body
+        name: interventi
+        required: true
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Intervento'
+    responses:
+      '200':
+        description: nuovo rup interventi.
+        schema:
+          $ref: '#/definitions/Intervento'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/intervento/stato/visto:
+  put:
+    operationId: putInterventiStatoVisto
+    description: Aggiorna gli stati x lista interventi.
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - in: body
+        name: interventi
+        required: true
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Intervento'
+    responses:
+      '200':
+        description: stato interventi visto.
+        schema:
+          $ref: '#/definitions/Intervento'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/intervento/stato/bozza-da-rifiuto:
+  put:
+    operationId: putInterventiStatoBozzaDaRifiuto
+    description: Riporta l'acquisto in stato BOZZA, aggiornando i dati del rifiuto.
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - in: body
+        name: interventi
+        required: true
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Intervento'
+    responses:
+      '200':
+        description: stato interventi visto.
+        schema:
+          $ref: '#/definitions/Intervento'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/intervento/stato/visto-e-validato:
+  put:
+    operationId: putInterventiStatoVistoEValidato
+    description: Cambia lo stato in Validato valorizzando anche i campi relativi al Visto.
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - in: body
+        name: interventi
+        required: true
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Intervento'
+    responses:
+      '200':
+        description: stato interventi visto.
+        schema:
+          $ref: '#/definitions/Intervento'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/intervento/prendi-in-carico:
+  put:
+    operationId: putInterventoPrendiInCarico
+    description: archivia e salva l'utente loggato come nuovo rup.
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - in: body
+        name: interventi
+        required: true
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Intervento'
+    responses:
+      '200':
+        description: nuovo rup interventi.
+        schema:
+          $ref: '#/definitions/Intervento'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'

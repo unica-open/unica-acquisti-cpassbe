@@ -1,0 +1,2 @@
+$include: ./intervento/index.yml
+$include: ./programma/index.yml

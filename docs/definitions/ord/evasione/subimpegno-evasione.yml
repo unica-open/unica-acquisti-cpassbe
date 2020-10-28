@@ -1,0 +1,45 @@
+SubimpegnoEvasione:
+  type: object
+  properties:
+    documentoTrasporto:
+      type: object
+      $ref: '#/definitions/DocumentoTrasporto'
+    id:
+      type: string
+      format: uuid
+    impegnoAnno:
+      type: integer
+    impegnoAnnoEsercizio:
+      type: integer
+    impegnoEvasione:
+      type: object
+      $ref: '#/definitions/ImpegnoEvasione'
+    impegnoNumero:
+      type: integer
+    importoLiquidato:
+      type: number
+    importoRipartito:
+      type: number
+    importoSospeso:
+      type: number
+    subimpegno:
+      type: object
+      $ref: '#/definitions/Subimpegno'
+    subimpegnoAnno:
+      type: integer
+    subimpegnoNumero:
+      type: integer
+    subimpegnoOrdine:
+      type: object
+      $ref: '#/definitions/SubimpegnoOrdine'
+    totaleRipartibile:
+      type: number
+    dataSospensione:
+      type: string
+      format: date-time
+    optlock:
+      type: string
+      format: uuid
+    causaleSospensioneEvasione:
+      type: object
+      $ref: '#/definitions/CausaleSospensioneEvasione'

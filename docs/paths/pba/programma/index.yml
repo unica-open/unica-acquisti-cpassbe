@@ -1,0 +1,399 @@
+/pba/programma:
+  post:
+    operationId: postProgramma
+    description: Inserisce un programma su sistema.
+    produces:
+      - application/json
+    tags:
+      - programma
+    parameters:
+      - in: body
+        name: programma
+        required: true
+        schema:
+          $ref: '#/definitions/Programma'
+    responses:
+      '200':
+        description: programma registrato.
+        schema:
+          $ref: '#/definitions/Programma'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/programma/copia/{soloControlli}:
+  post:
+    operationId: postProgrammaCopia
+    description: Copia un programma su sistema.
+    produces:
+      - application/json
+    tags:
+      - programma
+    parameters:
+      - in: path
+        name: soloControlli
+        required: true
+        type: boolean
+        description: Se il servizio deve effettuare i soli controlli precedenti la copia.
+      - in: body
+        name: programma
+        required: true
+        schema:
+          $ref: '#/definitions/Programma'
+    responses:
+      '200':
+        description: programma registrato.
+        schema:
+          $ref: '#/definitions/Programma'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/programma/{id}:
+  get:
+    operationId: getProgrammaById
+    description: Restituisce il programma per id.
+    produces:
+      - application/json
+    tags:
+      - programma
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id dell'programma.
+    responses:
+      '200':
+        description: il programma registrato su sistema per dato id.
+        schema:
+          $ref: '#/definitions/Programma'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+  put:
+    operationId: putProgrammaById
+    description: Aggiorna il programma per id.
+    produces:
+      - application/json
+    tags:
+      - programma
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: id del programma.
+      - in: body
+        name: programma
+        required: true
+        schema:
+          $ref: '#/definitions/Programma'
+    responses:
+      '200':
+        description: programma aggiornato.
+        schema:
+          $ref: '#/definitions/Programma'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+  delete:
+    operationId: deleteProgrammaById
+    description: Cancella l'programma per id.
+    produces:
+      - application/json
+    tags:
+      - programma
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id dell'programma.
+    responses:
+      '200':
+        description: Lo status dell'operazione.
+        schema:
+          type: string
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/programma/stato/confermato/{id}/{ignoreWarning}:
+  put:
+    operationId: putProgrammaStatoConfermatoById
+    description: Aggiorna lo stato programma per id.
+    produces:
+      - application/json
+    tags:
+      - programma
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id dell'programma di cui cambio lo stato.
+      - in: path
+        name: ignoreWarning
+        required: true
+        type: boolean
+        description: Per ignorare i warning in fase di controllo.
+      - in: body
+        name: programma
+        required: true
+        schema:
+          $ref: '#/definitions/Programma'
+    responses:
+      '200':
+        description: stato programma aggiornato.
+        schema:
+          $ref: '#/definitions/Programma'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/programma/stato/riporta-in-bozza/{id}:
+  put:
+    operationId: putProgrammaStatoRiportaInBozzaById
+    description: Aggiorna lo stato programma per id.
+    produces:
+      - application/json
+    tags:
+      - programma
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id dell'programma di cui cambio lo stato.
+      - in: body
+        name: programma
+        required: true
+        schema:
+          $ref: '#/definitions/Programma'
+    responses:
+      '200':
+        description: stato programma aggiornato.
+        schema:
+          $ref: '#/definitions/Programma'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/programma/stato/annullato/{id}:
+  put:
+    operationId: putProgrammaStatoAnnullatoById
+    description: Aggiorna lo stato programma per id.
+    produces:
+      - application/json
+    tags:
+      - programma
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id dell'programma di cui cambio lo stato.
+      - in: body
+        name: programma
+        required: true
+        schema:
+          $ref: '#/definitions/Programma'
+    responses:
+      '200':
+        description: stato programma aggiornato.
+        schema:
+          $ref: '#/definitions/Programma'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/programma/settore/{id-settore}/validi/{validi}:
+  get:
+    produces:
+      - application/json
+    tags:
+      - programma
+    operationId: getProgrammiBySettore
+    description: Restituisce i programmi di un determinato settore.
+    parameters:
+      - in: path
+        name: id-settore
+        required: true
+        type: string
+        format: uuid
+        description: L'id del settore dell'utente.
+      - in: path
+        name: validi
+        required: true
+        type: boolean
+        description: L'id del settore dell'utente.
+    responses:
+      '200':
+        description: I programmi collegati al settore dell'utente.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Programma'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/programma/settore/{id-settore}/stato/{stato-code}:
+  get:
+    produces:
+      - application/json
+    tags:
+      - programma
+    operationId: getProgrammiBySettoreAndStato
+    description: Restituisce i programmi di un determinato settore.
+    parameters:
+      - in: path
+        name: id-settore
+        required: true
+        type: string
+        format: uuid
+        description: L'id del settore dell'utente.
+      - in: path
+        name: stato-code
+        required: true
+        type: string
+        description: codice dello stato
+    responses:
+      '200':
+        description: I programmi collegati al settore dell'utente.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Programma'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/programma/settore/{id-settore}/anno/{anno}/versione/{versione}:
+  get:
+    produces:
+      - application/json
+    tags:
+      - programma
+    operationId: getProgrammiBySettoreAnnoVersione
+    description: Restituisce il programma di un determinato settore per quell'anno non annullato
+    parameters:
+      - in: path
+        name: id-settore
+        type: string
+        format: uuid
+        required: true
+        description: L'id del settore dell'utente.
+      - in: path
+        name: anno
+        type: integer
+        required: true
+        description: anno del programma.
+      - in: path
+        name: versione
+        type: integer
+        required: false
+        description: versione del programma.
+    responses:
+      '200':
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Programma'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/programma/settore/{id-settore}/stato/{stato-code}/recenti:
+  get:
+    produces:
+      - application/json
+    tags:
+      - programma
+    operationId: getUltimiProgrammiBySettoreAndStato
+    description: Restituisce gli ultimi programmi di un determinato settore.
+    parameters:
+      - in: path
+        name: id-settore
+        required: true
+        type: string
+        format: uuid
+        description: L'id del settore dell'utente.
+      - in: path
+        name: stato-code
+        required: true
+        type: string
+        description: codice dello stato
+    responses:
+      '200':
+        description: I programmi collegati al settore dell'utente.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Programma'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/programma/trasmissione-mit:
+  get:
+    produces:
+      - application/json
+    tags:
+      - programma
+    operationId: getProgrammiTrasmissioneMIT
+    description: Gets the Programmi che si possono trasmettere al ministero
+    parameters:
+    responses:
+      '200':
+        description: I programmi che si possono trasmettere al ministero
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Programma'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/programma/trasmetti/{id-programma}/{id-utente}/{modalita-invio}:
+  put:
+    operationId: putTrasmettiProgrammaById
+    description: Per trasmettere un programma al ministero
+    produces:
+      - application/json
+    tags:
+      - programma
+    parameters:
+      - in: path
+        name: id-programma
+        required: true
+        type: string
+        format: uuid
+        description: L'id del programma.
+      - in: path
+        name: id-utente
+        required: true
+        type: string
+        format: uuid
+        description: L'id dell'utente.
+      - in: path
+        name: modalita-invio
+        required: true
+        type: string
+        description: Modalita invio al ministero.
+    responses:
+      '200':
+        description: Programma trasmesso.
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'

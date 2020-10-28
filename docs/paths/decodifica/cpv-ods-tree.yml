@@ -1,0 +1,19 @@
+/decodifica/cpv-ods-tree:
+  get:
+    operationId: getCpvOdsTree
+    description: Restituisce i CPV legati a ODS registrati su sistema.
+    produces:
+      - application/json
+    tags:
+      - decodifica
+    responses:
+      '200':
+        description: CPV legati a ODS registrati su sistema.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Cpv'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'

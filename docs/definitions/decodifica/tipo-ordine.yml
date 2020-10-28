@@ -1,0 +1,11 @@
+TipoOrdine:
+  type: object
+  properties:
+    id:
+      type: integer
+    tipologiaDocumentoCodice:
+      type: string
+    tipologiaDocumentoDescrizione:
+      type: string
+    flagTrasmNso:
+      type: boolean

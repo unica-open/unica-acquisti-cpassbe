@@ -1,0 +1,11 @@
+StatoElOrdine:
+  type: object
+  properties:
+    id:
+      type: integer
+    codice:
+      type: string
+    descrizione:
+      type: string
+    tipo:
+      type: string

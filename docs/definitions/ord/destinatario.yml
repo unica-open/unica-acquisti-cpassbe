@@ -1,0 +1,42 @@
+Destinatario:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    progressivo:
+      type: integer
+    cap:
+      type: string
+    contatto:
+      type: string
+    dataInvioNso:
+      type: string
+      format: date-time
+    email:
+      type: string
+    indirizzo:
+      type: string
+    localita:
+      type: string
+    numCivico:
+      type: string
+    provincia:
+      type: string
+    statoNso:
+      type: object
+      $ref: '#/definitions/StatoNso'
+    telefono:
+      type: string
+    statoElOrdine:
+      type: object
+      $ref: '#/definitions/StatoElOrdine'
+    testataOrdine:
+      type: object
+      $ref: '#/definitions/TestataOrdine'
+    settore:
+      type: object
+      $ref: '#/definitions/Settore'
+    optlock:
+      type: string
+      format: uuid

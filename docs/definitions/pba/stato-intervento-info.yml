@@ -1,0 +1,13 @@
+StatoInterventoInfo:
+  type: object
+  properties:
+    dataInserimento:
+      type: string
+      format: date-time
+    stato:
+      type: string
+    utenteNome:
+      type: string
+    utenteCognome:
+      type: string
+

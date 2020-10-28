@@ -1,0 +1,9 @@
+FiltroImpegni:
+  type: object
+  properties:
+    subimpegno:
+      type: object
+      $ref: '#/definitions/Subimpegno'
+    testataOrdine:
+      type: object
+      $ref: '#/definitions/TestataOrdine'

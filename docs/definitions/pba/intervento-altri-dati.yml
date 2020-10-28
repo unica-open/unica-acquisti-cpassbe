@@ -1,0 +1,51 @@
+InterventoAltriDati:
+  type: object
+  properties:
+    codiceInterno:
+      type: string
+    cpvMatRic:
+      type: object
+      $ref: '#/definitions/Cpv'
+    cpvVerdi:
+      type: object
+      $ref: '#/definitions/Cpv'
+    id:
+      type: string
+      format: uuid
+    importoIvaMatRic:
+      type: number
+    importoIvaVerdi:
+      type: number
+    importoNettoIvaMatRic:
+      type: number
+    importoNettoIvaVerdi:
+      type: number
+    importoTotMatRic:
+      type: number
+    importoTotVerdi:
+      type: number
+    intervento:
+      type: object
+      $ref: '#/definitions/Intervento'
+    ivaAnniSuccessivi:
+      type: number
+    ivaPrimoAnno:
+      type: number
+    ivaSecondoAnno:
+      type: number
+    normativaRiferimento:
+      type: string
+    note:
+      type: string
+    oggettoMatRic:
+      type: string
+    oggettoverdi:
+      type: string
+    speseSostenute:
+      type: number
+    tipoAcquistoMatRic:
+      type: object
+      $ref: '#/definitions/TipoAcquisto'
+    tipoAcquistoVerdi:
+      type: object
+      $ref: '#/definitions/TipoAcquisto'

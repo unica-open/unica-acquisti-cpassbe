@@ -1,0 +1,23 @@
+/common/preferenze/save:
+  post:
+    operationId: postSavePreferenze
+    description: Test di parsing mappa.
+    produces:
+      - application/json
+    tags:
+      - common
+    parameters:
+      - in: body
+        name: preferenze
+        required: true
+        schema: 
+          type: object
+          additionalProperties: true
+    responses:
+      '200':
+        description: Settori registrati su sistema.
+        type: string
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'

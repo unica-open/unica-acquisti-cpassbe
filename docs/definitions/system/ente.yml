@@ -1,0 +1,46 @@
+Ente:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    denominazione:
+      type: string
+    codiceFiscale:
+      type: string
+    codiceIpaAmministrazione:
+      type: string
+    dipartimento:
+      type: string
+    ufficio:
+      type: string
+    regione:
+      type: string
+    provincia:
+      type: string
+    indirizzo:
+      type: string
+    telefono:
+      type: string
+    email:
+      type: string
+    emailPEC:
+      type: string
+    dataCreazione:
+      type: string
+      format: date-time
+    utenteCreazione:
+      type: string
+    dataModifica:
+      type: string
+      format: date-time
+    utenteModifica:
+      type: string
+    dataCancellazione:
+      type: string
+      format: date-time
+    utenteCancellazione:
+      type: string
+    optlock:
+      type: string
+      format: uuid

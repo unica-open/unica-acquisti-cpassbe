@@ -1,0 +1,26 @@
+/common/ufficio/{id-settore}:
+  get:
+    operationId: getUfficiBySettore
+    description: Restituisce gli Uffici del settore registrati su sistema.
+    produces:
+      - application/json
+    tags:
+      - common
+    parameters:
+      - in: path
+        name: id-settore
+        required: true
+        type: string
+        format: uuid
+        description: id settore.
+    responses:
+      '200':
+        description: Ufficio registrati su sistema.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Ufficio'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'

@@ -1,0 +1,11 @@
+AcquistoVariato:
+  type: object
+  properties:
+    id:
+      type: integer
+    codice:
+      type: string
+    descrizione:
+      type: string
+    descrizioneEstesa:
+      type: string

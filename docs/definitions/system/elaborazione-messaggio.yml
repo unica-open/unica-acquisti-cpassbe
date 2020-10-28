@@ -1,0 +1,14 @@
+ElaborazioneMessaggio:
+  type: object
+  properties:
+    id:
+      type: integer
+    tipo:
+      type: string
+    code:
+      type: string
+    descrizione:
+      type: string
+    elaborazione:
+      type: object
+      $ref: '#/definitions/Elaborazione'

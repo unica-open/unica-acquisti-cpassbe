@@ -1,0 +1,16 @@
+RiepilogoImpegni:
+  type: object
+  properties:
+    totaleOrdineNoIVA:
+      type: number
+    totaleOrdineConIVA:
+      type: number	
+    totaleImpegnato:
+      type: number	
+    totaliCoerenti:
+      type: boolean	
+    impegniOrdine:
+      type: array
+      items:
+        $ref: '#/definitions/VOrdine'
+	    

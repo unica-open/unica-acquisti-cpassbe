@@ -1,0 +1,9 @@
+DocumentoTrasportoRiga:
+  type: object
+  properties:
+    documentoTrasporto:
+      type: object
+      $ref: '#/definitions/DocumentoTrasporto'
+    id:
+      type: string
+      format: uuid

@@ -1,0 +1,19 @@
+/decodifica/acquisto-variato:
+  get:
+    operationId: getAcquistiVariati
+    description: Restituisce gli Acquisti Variati registrati su sistema.
+    produces:
+      - application/json
+    tags:
+      - decodifica
+    responses:
+      '200':
+        description: Acquisti Variati registrati su sistema.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/AcquistoVariato'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'

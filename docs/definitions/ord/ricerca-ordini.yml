@@ -1,0 +1,32 @@
+RicercaOrdini:
+  type: object
+  properties:
+    annoOrdineDa:
+      type: integer
+    numeroOrdineDa:
+      type: integer
+    annoOrdineA:
+      type: integer
+    numeroOrdineA:
+      type: integer
+    dataEmissioneDa:
+      type: string
+      format: date-time
+    dataEmissioneA:
+      type: string
+      format: date-time
+    testataOrdine:
+      type: object
+      $ref: '#/definitions/TestataOrdine'
+    destinatario:
+      type: object
+      $ref: '#/definitions/Destinatario'
+    impegno:
+      type: object
+      $ref: '#/definitions/Impegno'
+    subimpegno:
+      type: object
+      $ref: '#/definitions/Subimpegno'
+    rigaOrdine:
+      type: object
+      $ref: '#/definitions/RigaOrdine'

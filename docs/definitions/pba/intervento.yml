@@ -1,0 +1,125 @@
+Intervento:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    cui:
+      type: string
+    annoAvvio:
+      type: integer
+    cup:
+      type: string
+    lottoFunzionale:
+      type: boolean
+    esenteCup:
+      type: boolean      
+    durataMesi:
+      type: integer
+    nuovoAffidamento:
+      type: boolean
+    interventoCopiaTipo:
+      type: string
+    interventoImportiCopiaTipo:
+      type: string
+    flagCuiNonGenerato:
+      type: boolean
+    motivazioneNonRiproposto:
+      type: string
+    descrizioneAcquisto:
+      type: string
+    ausa:
+      type: object
+      $ref: '#/definitions/Ausa'
+    utenteRup:
+      type: object
+      $ref: '#/definitions/Utente'
+    ricompresoCui:
+      type: string
+    interventoCopia:
+      type: object
+      $ref: '#/definitions/Intervento'
+    settoreInterventi:
+      type: object
+      $ref: '#/definitions/SettoreInterventi'
+    settore:
+      type: object
+      $ref: '#/definitions/Settore'
+    cpv:
+      type: object
+      $ref: '#/definitions/Cpv'
+    programma:
+      type: object
+      $ref: '#/definitions/Programma'
+    nuts:
+      type: object
+      $ref: '#/definitions/Nuts'
+    priorita:
+      type: object
+      $ref: '#/definitions/Priorita'
+    modalitaAffidamento:
+      type: object
+      $ref: '#/definitions/ModalitaAffidamento'
+    stato:
+      type: object
+      $ref: '#/definitions/Stato'
+    acquistoVariato:
+      type: object
+      $ref: '#/definitions/AcquistoVariato'
+    ricompresoTipo:
+      type: object
+      $ref: '#/definitions/RicompresoTipo'
+    listInterventoImporti:
+      type: array
+      items:
+        $ref: '#/definitions/InterventoImporti'
+    listCpv:
+      type: array
+      items:
+        $ref: '#/definitions/Cpv'
+    listInterventoAltriDati:
+      type: array
+      items:
+        $ref: '#/definitions/InterventoAltriDati'
+    listMetadatiFunzione:
+      type: array
+      items:
+        $ref: '#/definitions/MetadatiFunzione'
+    risorsaIdCapitalePrivato:
+      type: integer
+    dataCreazione:
+      type: string
+      format: date-time
+    utenteCreazione:
+      type: string
+    dataModifica:
+      type: string
+      format: date-time
+    utenteModifica:
+      type: string
+    dataCancellazione:
+      type: string
+      format: date-time
+    utenteCancellazione:
+      type: string
+    optlock:
+      type: string
+      format: uuid
+    dataVisto:
+      type: string
+      format: date-time
+    dataValidazione:
+      type: string
+      format: date-time
+    dataRifiuto:
+      type: string
+      format: date-time
+    utenteVisto:
+      type: object
+      $ref: '#/definitions/Utente'
+    utenteValidazione:
+      type: object
+      $ref: '#/definitions/Utente'
+    utenteRifiuto:
+      type: object
+      $ref: '#/definitions/Utente'

@@ -1,0 +1,604 @@
+/ord/evasione/ordine/{anno}/{numero}:
+  get:
+    operationId: getRigheOrdineDaEvadereByOrdineAnnoNumero
+    description: Restituisce le righe ordine
+    produces:
+      - application/json
+    tags:
+      - evasione
+    parameters:
+      - in: path
+        name: anno
+        required: true
+        type: integer
+        description: Anno ordine.
+      - in: path
+        name: numero
+        required: true
+        type: integer
+        description: Numero ordine.
+    responses:
+      '200':
+        description: La testataEvasione registrata su sistema per dato id.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/RigaOrdine'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/evasione:
+  post:
+    operationId: postTestataEvasione
+    description: Inserisce una testata evasione su sistema.
+    produces:
+      - application/json
+    tags:
+      - evasione
+    parameters:
+      - in: body
+        name: salvaEvasione
+        required: true
+        schema:
+          $ref: '#/definitions/SalvaEvasione'
+    responses:
+      '200':
+        description: testata evasione registrata.
+        schema:
+          $ref: '#/definitions/TestataEvasione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/evasione/{id}:
+  get:
+    operationId: getTestataEvasioneById
+    description: Restituisce la testataEvasione per id.
+    produces:
+      - application/json
+    tags:
+      - evasione
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della testataEvasione.
+    responses:
+      '200':
+        description: La testataEvasione registrata su sistema per dato id.
+        schema:
+          $ref: '#/definitions/TestataEvasione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+  put:
+    operationId: putTestataEvasioneById
+    description: Aggiorna la testataEvasione per id.
+    produces:
+      - application/json
+    tags:
+      - evasione
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della testataEvasione.
+      - in: body
+        name: testataEvasione
+        required: true
+        schema:
+          $ref: '#/definitions/TestataEvasione'
+    responses:
+      '200':
+        description: La testataEvasione aggiornata.
+        schema:
+          $ref: '#/definitions/TestataEvasione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/evasione/aggiorna-riepilogo-fattura/{id}:
+  put:
+    operationId: putTestataEvasionePerRiepilogoFattura
+    description: Aggiorna la testataEvasione per i campi legati al Riepilogo Fattura in base all'id della testata evasione.
+    produces:
+      - application/json
+    tags:
+      - evasione
+    parameters:
+      - in: query
+        name: bypass
+        required: false
+        type: boolean
+        description: Attiva il bypass del controllo sulla tolleranza se l'utente ha accettato di proseguire con l'operazione nonostante il warning.
+      - in: query
+        name: bypassFornitoreControl
+        required: false
+        type: boolean
+        description: Attiva il bypass del controllo congruenza fornitori se l'utente ha accettato di proseguire con l'operazione nonostante il warning.
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della testataEvasione.
+      - in: body
+        name: testataEvasione
+        required: true
+        schema:
+          $ref: '#/definitions/TestataEvasione'
+    responses:
+      '200':
+        description: La testataEvasione aggiornata.
+        schema:
+          $ref: '#/definitions/TestataEvasione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/evasione/ricerca/righe-destinatario-evasione/{id}:
+  get:
+    operationId: getRicercaRigheByDestinatario
+    description: Restituisce le righe legate a un destinatario.
+    produces:
+      - application/json
+    tags:
+      - evasione
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id del destinatario.
+    responses:
+      '200':
+        description: Le righe legate registrate a sistema per dato id destinatario.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/RigaEvasione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/evasione/ricerca/impegni-riga-evasione/{id}:
+  get:
+    operationId: getRicercaImpegniByRigaEvasione
+    description: Restituisce gli impegni legati a una riga evasione.
+    produces:
+      - application/json
+    tags:
+      - evasione
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della riga evasione.
+    responses:
+      '200':
+        description: Gli impegni legati registrati a sistema per dato id riga evasione.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/ImpegnoEvasione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/evasione/riepilogo-fattura/{id}:
+  get:
+    operationId: getRiepilogoFatturaByIdEvasione
+    description: Restituisce gli impegni legati a una testata evasione.
+    produces:
+      - application/json
+    tags:
+      - evasione
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della testata evasione.
+    responses:
+      '200':
+        description: Gli impegni registrati a sistema per dato id testata evasione.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/RiepilogoFatturaEvasione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/evasione/destinatario:
+  put:
+    operationId: putEvasioneDestinatario
+    description: Inserisce il destinatario di una testata evasione su sistema.
+    produces:
+      - application/json
+    tags:
+      - evasione
+    parameters:
+      - in: body
+        name: destinatarioEvasione
+        required: true
+        schema:
+          $ref: '#/definitions/DestinatarioEvasione'
+    responses:
+      '200':
+        description: destivatario evasione registrato.
+        schema:
+          $ref: '#/definitions/DestinatarioEvasione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/evasione/ricerca/{anno}/{numero}/{idEnte}:
+  get:
+    operationId: getRicercaTestataEvasioneByAnnoENum
+    description: Restituisce la testataEvasione per anno e numero e ente.
+    produces:
+      - application/json
+    tags:
+      - evasione
+    parameters:
+      - in: path
+        name: anno
+        required: true
+        type: integer
+        description: L'anno della testata evasione.
+      - in: path
+        name: numero
+        required: true
+        type: integer
+        description: Il numero della testata evasione.
+      - in: path
+        name: idEnte
+        required: true
+        type: string
+        format: uuid
+        description: L'id dell'ente associato all'utente.
+    responses:
+      '200':
+        description: La testataEvasione registrata su sistema per dati anno e numero.
+        schema:
+          $ref: '#/definitions/TestataEvasione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/evasione/esposizione-impegni/{id}/{bDistribuzioneTotaleRigaSugliImpegni}:
+  get:
+    operationId: getEsposizioneImpegniByRigaOrdine
+    description: Restituisce gli impegni legati a una riga evasione
+    produces:
+      - application/json
+    tags:
+      - evasione
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della riga evasione.
+      - in: path
+        name: bDistribuzioneTotaleRigaSugliImpegni
+        required: false
+        type: boolean
+        description: Per calcolare la Distribuzione Totale Riga Sugli Impegni.
+    responses:
+      '200':
+        description: Gli impegni registrati a sistema per dato id riga evasione
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/ImpegnoEvasione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/evasione/impegni-evasione:
+  post:
+    operationId: postImpegniEvasione
+    description: Inserisce gli impegni evasione su sistema.
+    produces:
+      - application/json
+    tags:
+      - evasione
+    parameters:
+      - in: body
+        name: salvaImpegniEvasione
+        required: true
+        schema:
+          $ref: '#/definitions/SalvaImpegniEvasione'
+    responses:
+      '200':
+        description: impegni evasione registrati.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/ImpegnoEvasione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+  put:
+    operationId: putImpegniEvasione
+    description: Aggiorna gli impegni evasione su sistema.
+    produces:
+      - application/json
+    tags:
+      - evasione
+    parameters:
+      - in: body
+        name: salvaImpegniEvasione
+        required: true
+        schema:
+          $ref: '#/definitions/SalvaImpegniEvasione'
+    responses:
+      '200':
+        description: impegni evasione registrati.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/ImpegnoEvasione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/evasione/ricerca:
+  post:
+    operationId: getRicercaEvasioni
+    description: Restituisce le evasioni registrate su sistema.
+    produces:
+      - application/json
+    tags:
+      - evasione
+    parameters:
+      - $ref: '#/parameters/offsetParam'
+      - $ref: '#/parameters/limitParam'
+      - $ref: '#/parameters/sortParam'
+      - $ref: '#/parameters/directionParam'
+      - in: body
+        name: ricercaEvasioni
+        required: true
+        schema:
+          $ref: '#/definitions/RicercaEvasioni'
+    responses:
+      '200':
+        description: Evasioni registrate su sistema.
+        schema:
+          $ref: '#/definitions/PagedResponseEvasione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/evasione/destinatario-evasione/{id}:
+  delete:
+    operationId: deleteDestinatarioEvasione
+    description: Elimina il destinatario evasione di una testata evasione presente a sistema.
+    produces:
+      - application/json
+    tags:
+      - evasione
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id del destinatario evasione.
+    responses:
+      '200':
+        description: riga evasione eliminata.
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/evasione/riga-evasione/{id}:
+  delete:
+    operationId: deleteRigaEvasione
+    description: Elimina la riga evasione presente a sistema.
+    produces:
+      - application/json
+    tags:
+      - evasione
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della riga evasione.
+    responses:
+      '200':
+        description: riga evasione eliminata.
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/evasione/impegni-evasione/{riga-evasione-id}:
+  delete:
+    operationId: deleteImpegniEvasioneByRiga
+    description: Elimina gli impegni evasione di una riga evasione presente a sistema.
+    produces:
+      - application/json
+    tags:
+      - evasione
+    parameters:
+      - in: path
+        name: riga-evasione-id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della riga evasione.
+    responses:
+      '200':
+        description: impegni evasione eliminati.
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/evasione/evasione/{testata-evasione-id}:
+  delete:
+    operationId: deleteEvasione
+    description: Elimina l'evasione presente a sistema.
+    produces:
+      - application/json
+    tags:
+      - evasione
+    parameters:
+      - in: path
+        name: testata-evasione-id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della testata evasione.
+    responses:
+      '200':
+        description: evasione eliminata.
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/evasione/verifiche-preliminari-annulla/{id}:
+  put:
+    operationId: putEvasioneVerifichePreliminariAnnullaById
+    description: Verifiche Preliminari Annulla evasione.
+    produces:
+      - application/json
+    tags:
+      - evasione
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della testataEvasione.
+    responses:
+      '200':
+        description: testata evasione.
+        schema:
+          $ref: '#/definitions/TestataEvasione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/evasione/annulla/{id}:
+  put:
+    operationId: putEvasioneAnnullaById
+    description: Annulla evasione.
+    produces:
+      - application/json
+    tags:
+      - evasione
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della testataEvasione.
+    responses:
+      '200':
+        description: testata evasione.
+        schema:
+          $ref: '#/definitions/TestataEvasione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/evasione/controlla/{id}:
+  put:
+    operationId: putEvasioneControllaById
+    description: Controlla evasione.
+    produces:
+      - application/json
+    tags:
+      - evasione
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della testataEvasione.
+      - in: body
+        name: controllaEvasione
+        required: true
+        schema:
+          $ref: '#/definitions/ControllaEvasione'
+    responses:
+      '200':
+        description: testata evasione.
+        schema:
+          $ref: '#/definitions/TestataEvasione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/evasione/autorizza/{id}:
+  put:
+    operationId: putEvasioneAutorizzaById
+    description: Autorizza evasione.
+    produces:
+      - application/json
+    tags:
+      - evasione
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della testataEvasione.
+      - in: body
+        name: testataEvasione
+        required: true
+        schema:
+          $ref: '#/definitions/TestataEvasione'
+    responses:
+      '200':
+        description: testata evasione.
+        schema:
+          $ref: '#/definitions/TestataEvasione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/evasione/invia-contabilita/{id}:
+  put:
+    operationId: putEvasioneInviaContabilitaById
+    description: Invia Contabilita evasione.
+    produces:
+      - application/json
+    tags:
+      - evasione
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della testataEvasione.
+    responses:
+      '200':
+        description: testata evasione.
+        schema:
+          $ref: '#/definitions/TestataEvasione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'

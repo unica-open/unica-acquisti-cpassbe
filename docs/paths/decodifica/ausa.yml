@@ -1,0 +1,19 @@
+/decodifica/ausa:
+  get:
+    operationId: getAusas
+    description: Restituisce le AUSA registrate su sistema.
+    produces:
+      - application/json
+    tags:
+      - decodifica
+    responses:
+      '200':
+        description: AUSA registrate su sistema.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Ausa'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'

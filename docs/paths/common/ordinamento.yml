@@ -1,0 +1,41 @@
+/common/ordinamento/{modulo}/funzione/{funzione}/tipo/{tipo}:
+  post:
+    operationId: getOrdinamentoByModuloFunzioneTipo
+    description: estrai ordinamento
+    produces:
+      - application/json
+    tags:
+      - common
+    parameters:
+      - in: path
+        name: modulo
+        required: true
+        type: string
+        description: modulo.
+      - in: path
+        name: funzione
+        required: true
+        type: string
+        description: funzione.
+      - in: path
+        name: tipo
+        required: true
+        type: string
+        enum: [JPQL, SQL]
+        description: tipo.
+      - in: body
+        name: listMetadatiFunzione
+        required: true
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/MetadatiFunzione'
+    responses:
+      '200':
+        description: estrazione ordinamento.
+        schema:
+          type: string
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'

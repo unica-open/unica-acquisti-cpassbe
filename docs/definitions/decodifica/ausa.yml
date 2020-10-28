@@ -1,0 +1,11 @@
+Ausa:
+  type: object
+  properties:
+    id:
+      type: integer
+    codice:
+      type: string
+    descrizione:
+      type: string
+    codiceFiscale:
+      type: string

@@ -1,0 +1,18 @@
+StoricoInterventoRup:
+  type: object
+  properties:
+    dataStoricizzazione:
+      type: string
+      format: date-time
+    id:
+      type: string
+      format: uuid
+    intervento:
+      type: object
+      $ref: '#/definitions/Intervento'
+    utente:
+      type: object
+      $ref: '#/definitions/Utente'
+    utenteRup:
+      type: object
+      $ref: '#/definitions/Utente'

@@ -1,0 +1,15 @@
+WebInterventoFileHolder:
+  type: object
+  properties:
+    idEnte:
+      type: string
+    annoProgramma:
+      type: string
+    versioneProgramma:
+      type: string
+    utenteReferenteCf:
+      type: string
+    attachment:
+      type: file
+    attachment2:
+      type: file

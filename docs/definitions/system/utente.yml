@@ -1,0 +1,36 @@
+Utente:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    nome:
+      type: string
+    cognome:
+      type: string
+    codiceFiscale:
+      type: string
+    telefono:
+      type: string
+    email:
+      type: string
+    rup:
+      type: boolean
+    dataCreazione:
+      type: string
+      format: date-time
+    utenteCreazione:
+      type: string
+    dataModifica:
+      type: string
+      format: date-time
+    utenteModifica:
+      type: string
+    dataCancellazione:
+      type: string
+      format: date-time
+    utenteCancellazione:
+      type: string
+    optlock:
+      type: string
+      format: uuid

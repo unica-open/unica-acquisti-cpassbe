@@ -1,0 +1,19 @@
+/decodifica/unita-misura:
+  get:
+    operationId: getUnitaMisura
+    description: Restituisce le Unita Misura registrate su sistema.
+    produces:
+      - application/json
+    tags:
+      - decodifica
+    responses:
+      '200':
+        description: aliquote Iva registrati su sistema.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/UnitaMisura'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'

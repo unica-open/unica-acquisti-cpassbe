@@ -1,0 +1,50 @@
+RicercaEvasioni:
+  type: object
+  properties:
+    annoEvasioneDa:
+      type: integer
+    numeroEvasioneDa:
+      type: integer
+    annoEvasioneA:
+      type: integer
+    numeroEvasioneA:
+      type: integer
+    dataInserimentoDa:
+      type: string
+      format: date-time
+    dataInserimentoA:
+      type: string
+      format: date-time
+    annoOrdineDa:
+      type: integer
+    numeroOrdineDa:
+      type: integer
+    annoOrdineA:
+      type: integer
+    numeroOrdineA:
+      type: integer
+    dataEmissioneDa:
+      type: string
+      format: date-time
+    dataEmissioneA:
+      type: string
+      format: date-time
+    annoProvvedimento:
+      type: integer
+    numeroProvvedimento:
+      type: integer
+    testataEvasione:
+      type: object
+      $ref: '#/definitions/TestataEvasione'
+    destinatarioEvasione:
+      type: object
+      $ref: '#/definitions/DestinatarioEvasione'
+    impegno:
+      type: object
+      $ref: '#/definitions/Impegno'
+    subimpegno:
+      type: object
+      $ref: '#/definitions/Subimpegno'
+    oggettiSpesa:
+      type: object
+      $ref: '#/definitions/OggettiSpesa'

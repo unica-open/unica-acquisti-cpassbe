@@ -1,0 +1,353 @@
+/utente:
+  get:
+    operationId: getUtenti
+    description: Restituisce gli utenti .
+    produces:
+      - application/json
+    tags:
+      - utente
+    parameters:
+      - in: query
+        name: offset
+        type: integer
+        required: false
+        default: 0
+        minimum: 0
+        description: Il numero di record da ignorare prima di iniziare a raccogliere i risultati.
+      - in: query
+        name: limit
+        type: integer
+        required: false
+        default: 20
+        minimum: 1
+        maximum: 100
+        description: Il numero di record da restituire.
+    responses:
+      '200':
+        description: utenti registrati su sistema.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Utente'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+  post:
+    operationId: postUtente
+    description: Inserisce un utente su sistema.
+    produces:
+      - application/json
+    tags:
+      - utente
+    parameters:
+      - in: body
+        name: utente
+        required: true
+        schema:
+          $ref: '#/definitions/Utente'
+    responses:
+      '200':
+        description: L'utente registrato.
+        schema:
+          $ref: '#/definitions/Utente'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/utente/{id}:
+  get:
+    operationId: getUtenteById
+    description: Restituisce l'utente per id.
+    produces:
+      - application/json
+    tags:
+      - utente
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id dell'utente.
+    responses:
+      '200':
+        description: L'utente registrato su sistema per dato id.
+        schema:
+          $ref: '#/definitions/Utente'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+  put:
+    operationId: putUtenteById
+    description: Aggiorna l'utente per id.
+    produces:
+      - application/json
+    tags:
+      - utente
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id dell'utente.
+      - in: body
+        name: utente
+        required: true
+        schema:
+          $ref: '#/definitions/Utente'
+    responses:
+      '200':
+        description: L'utente aggiornato.
+        schema:
+          $ref: '#/definitions/Utente'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+  delete:
+    operationId: deleteUtenteById
+    description: Cancella l'utente per id.
+    produces:
+      - application/json
+    tags:
+      - utente
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id dell'utente.
+    responses:
+      '200':
+        description: Lo status dell'operazione.
+        schema:
+          type: string
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/utente/self:
+  get:
+    operationId: getUtenteSelf
+    description: Restituisce l'utente che effettua la chiamata.
+    produces:
+      - application/json
+    tags:
+      - utente
+    responses:
+      '200':
+        description: L'utente registrato su sistema.
+        schema:
+          $ref: '#/definitions/Utente'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/utente/settore:
+  get:
+    produces:
+      - application/json
+    tags:
+      - utente
+    operationId: getSettoriByUtente
+    description: Restituisce i settori di un determinato utente.
+    responses:
+      '200':
+        description: I settori collegati all'utente.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Settore'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/utente/settore/{id-settore}/modulo:
+  get:
+    produces:
+      - application/json
+    tags:
+      - utente
+    operationId: getModuliBySettore
+    description: Restituisce i moduli di un determinato settore.
+    parameters:
+      - in: path
+        name: id-settore
+        required: true
+        type: string
+        format: uuid
+        description: L'id del settore dell'utente.
+    responses:
+      '200':
+        description: I moduli collegati al settore dell'utente.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Modulo'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/utente/settore/{id-settore}/modulo/{id-modulo}/permesso:
+  get:
+    produces:
+      - application/json
+    tags:
+      - utente
+    operationId: getPermessiBySettoreAndModulo
+    description: Restituisce le i permessi di un determinato utente, settore e modulo.
+    parameters:
+      - in: path
+        name: id-settore
+        required: true
+        type: string
+        format: uuid
+        description: L'id del settore.
+      - in: path
+        name: id-modulo
+        required: true
+        type: integer
+        description: L'id del modulo.
+    responses:
+      '200':
+        description: I permessi collegati a utente, settore e modulo.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Permesso'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/utente/settore/{id-settore}/ruolo/{ruolo-codice}:
+  get:
+    produces:
+      - application/json
+    tags:
+      - utente
+    operationId: getUtenteBySettoreRuolo
+    description: Restituisce gli utenti di un determinato settore.
+    parameters:
+      - in: path
+        name: id-settore
+        required: true
+        type: string
+        format: uuid
+        description: L'id del settore dell'utente.
+      - in: path
+        name: ruolo-codice
+        required: true
+        type: string
+        description: codice del ruolo.
+    responses:
+      '200':
+        description: Gli utenti collegati al settore per il dato ruolo.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Utente'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/utente/ruoli/settore/{id-settore}:
+  get:
+    produces:
+      - application/json
+    tags:
+      - utente
+    operationId: getRuoliBySettore
+    description: Restituisce i ruoli di un utente per un determinato settore.
+    parameters:
+      - in: path
+        name: id-settore
+        required: true
+        type: string
+        format: uuid
+        description: L'id del settore dell'utente.
+    responses:
+      '200':
+        description: I ruoli dell'utente collegati al settore.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Ruolo'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/utente/rups/settore/{id-settore}:
+  get:
+    operationId: getRupsBySettoreId
+    description: Restituisce una lista di utenti rup legati al settore.
+    produces:
+      - application/json
+    tags:
+      - utente
+    parameters:
+      - in: path
+        name: id-settore
+        required: true
+        type: string
+        format: uuid
+        description: L'id del settore.
+    responses:
+      '200':
+        description: Gli utenti RUP legati al settore.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Utente'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/utente/settore-rup/{id-rup}:
+  get:
+    operationId: getSettoriByRupId
+    description: Restituisce una lista di settori legati al RUP.
+    produces:
+      - application/json
+    tags:
+      - utente
+    parameters:
+      - in: path
+        name: id-rup
+        required: true
+        type: string
+        format: uuid
+        description: L'id del rup.
+    responses:
+      '200':
+        description: I settori legati al RUP.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Settore'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/utente/settori/ruoli/permessi:
+  get:
+    produces:
+      - application/json
+    tags:
+      - utente
+    operationId: getSettoriRuoliPermessiByUtente
+    description: Restituisce i ruoli settori e permessi dell' utente connesso.
+    responses:
+      '200':
+        description: ruoli settori e permessi dell' utente connesso.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/SettoreRuoliPermessi'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'

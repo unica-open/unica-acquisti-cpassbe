@@ -1,0 +1,21 @@
+ParametroStampa:
+  type: object
+  properties:
+    id:
+      type: integer
+  modulo:
+      type: string
+  nomeStampa:
+      type: string
+  fileNameTemplate:
+      type: string
+  parametro:
+      type: string
+  parametroTipo:
+      type: string
+  ordinamento:
+      type: string
+  note:
+      type: string
+  procedureUtilizzate:
+      type: string

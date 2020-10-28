@@ -1,0 +1,27 @@
+/decodifica/ricerca/oggetti-spesa:
+  post:
+    operationId: getRicercaOggettiSpesa
+    description: Restituisce gli oggetti di spesa presenti a sistema.
+    produces:
+      - application/json
+    tags:
+      - decodifica
+    parameters:
+      - $ref: '#/parameters/offsetParam'
+      - $ref: '#/parameters/limitParam'
+      - $ref: '#/parameters/sortParam'
+      - $ref: '#/parameters/directionParam'
+      - in: body
+        name: oggettiSpesa
+        required: true
+        schema:
+          $ref: '#/definitions/Ods'
+    responses:
+      '200':
+        description: Ods registrati su sistema.
+        schema:
+          $ref: '#/definitions/PagedResponseOds'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'

@@ -1,0 +1,15 @@
+Comunicazione:
+  type: object
+  properties:
+    id:
+      type: integer
+    testo:
+      type: string
+    dataInizio:
+      type: string
+      format: date-time
+    dataFine:
+      type: string
+      format: date-time
+    tipo:
+      type: string

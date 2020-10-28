@@ -1,0 +1,30 @@
+/common/metadati/{modulo}/{funzione}:
+  get:
+    operationId: getMetadatiByModuoloFunzione
+    description: Restituisce i metadati della specifica funzione
+    produces:
+      - application/json
+    tags:
+      - common
+    parameters:
+      - in: path
+        name: modulo
+        required: true
+        type: string
+        description: modulo.
+      - in: path
+        name: funzione
+        required: true
+        type: string
+        description: funzione.        
+    responses:
+      '200':
+        description: metadati della specifica funzione.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/MetadatiFunzione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'

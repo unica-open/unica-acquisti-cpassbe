@@ -1,0 +1,7 @@
+ControllaEvasione:
+  type: object
+  properties:
+    listIgnoreWarning:
+      type: array
+      items:  
+        type: string

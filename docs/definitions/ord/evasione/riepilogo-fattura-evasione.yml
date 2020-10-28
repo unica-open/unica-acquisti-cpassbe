@@ -1,0 +1,31 @@
+RiepilogoFatturaEvasione:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    impegnoAnno:
+      type: integer
+    impegnoAnnoEsercizio:
+      type: integer
+    impegnoNumero:
+      type: integer
+    ripartito:
+      type: number
+    sospeso:
+      type: number
+    subimpegnoAnno:
+      type: integer
+    subimpegnoNumero:
+      type: integer
+    testataEvasioneId:
+      type: string
+      format: uuid
+    dataSospensione:
+      type: string
+      format: date-time
+    causaleSospensioneCodice:
+      type: string
+    causaleSospensioneDescrizione:
+      type: string
+      

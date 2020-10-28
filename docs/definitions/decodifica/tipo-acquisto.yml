@@ -1,0 +1,12 @@
+TipoAcquisto:
+  type: object
+  properties:
+    codice:
+      type: string
+    descrizione:
+      type: string
+    flgdefault:
+      type: boolean
+    id:
+      type: string
+      format: uuid

@@ -1,0 +1,14 @@
+SettoreRuoliPermessi:
+  type: object
+  properties:
+    settore:
+      type: object
+      $ref: '#/definitions/Settore'
+    listPermessi:
+      type: array
+      items:
+        $ref: '#/definitions/Permesso'
+    listRuoli:
+      type: array
+      items:
+        $ref: '#/definitions/Ruolo'

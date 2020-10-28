@@ -1,0 +1,19 @@
+/decodifica/cpv-tree:
+  get:
+    operationId: getCpvTree
+    description: Restituisce i CPV registrati su sistema.
+    produces:
+      - application/json
+    tags:
+      - decodifica
+    responses:
+      '200':
+        description: CPV registrate su sistema.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Cpv'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'

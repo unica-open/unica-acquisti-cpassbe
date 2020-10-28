@@ -1,0 +1,32 @@
+Cpv:
+  type: object
+  properties:
+    id:
+      type: integer
+    idPadre:
+      type: integer
+    livello:
+      type: integer
+    codice:
+      type: string
+    descrizione:
+      type: string
+    codicePadre:
+      type: string
+    tipologia:
+      type: string
+    divisione:
+      type: string
+    gruppo:
+      type: string
+    classe:
+      type: string
+    categoria:
+      type: string
+    settoreInterventi:
+      type: object
+      $ref: '#/definitions/SettoreInterventi'
+    listCpv:
+      type: array
+      items:
+        $ref: '#/definitions/Cpv'

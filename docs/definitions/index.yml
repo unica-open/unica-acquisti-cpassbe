@@ -1,0 +1,92 @@
+definitions:
+
+  $include: ./system/api-error.yml
+  $include: ./system/comunicazione.yml
+  $include: ./system/elaborazione.yml
+  $include: ./system/elaborazione-messaggio.yml
+  $include: ./system/elaborazione-parametro.yml
+  $include: ./system/ente.yml
+  $include: ./system/modulo.yml
+  $include: ./system/parametro-stampa.yml
+  $include: ./system/permesso.yml
+  $include: ./system/ruolo.yml
+  $include: ./system/settore.yml
+  $include: ./system/settore-ruoli-permessi.yml
+  $include: ./system/settore-indirizzo.yml
+  $include: ./system/utente.yml
+
+  $include: ./decodifica/acquisto-variato.yml
+  $include: ./decodifica/ausa.yml
+  $include: ./decodifica/cpv.yml
+  $include: ./decodifica/modalita-affidamento.yml
+  $include: ./decodifica/nuts.yml
+  $include: ./decodifica/ods.yml
+  $include: ./decodifica/paged-response-ods.yml
+  $include: ./decodifica/priorita.yml
+  $include: ./decodifica/ricompreso-tipo.yml
+  $include: ./decodifica/risorsa.yml
+  $include: ./decodifica/settore-interventi.yml
+  $include: ./decodifica/stato.yml
+  $include: ./decodifica/tipo-settore.yml
+  $include: ./decodifica/aliquote-iva.yml
+  $include: ./decodifica/unita-misura.yml
+  $include: ./decodifica/tipo-acquisto.yml
+  $include: ./decodifica/tipo-ordine.yml
+  $include: ./decodifica/tipo-procedura.yml
+  $include: ./decodifica/stato-el-ordine.yml
+  $include: ./decodifica/stato-nso.yml
+  $include: ./decodifica/oggetti-spesa.yml
+  
+  $include: ./pba/interventi-da-copia.yml
+  $include: ./pba/intervento.yml
+  $include: ./pba/intervento-importi.yml
+  $include: ./pba/paged-response-intervento.yml
+  $include: ./pba/programma.yml
+  $include: ./pba/web-intervento-file-holder.yml
+  $include: ./pba/intervento-altri-dati.yml
+  $include: ./pba/storico-intervento-rup.yml
+  $include: ./pba/stato-intervento-info.yml
+
+  $include: ./ord/destinatario.yml
+  $include: ./ord/provvedimento.yml
+  $include: ./ord/riga-ordine.yml
+  $include: ./ord/impegno.yml
+  $include: ./ord/paged-response-fornitore.yml
+  $include: ./ord/paged-response-provvedimento.yml
+  $include: ./ord/paged-response-impegno.yml
+  $include: ./ord/paged-response-settore.yml
+  $include: ./ord/paged-response-ordine.yml
+  $include: ./ord/subimpegno.yml
+  $include: ./ord/testata-ordine.yml
+  $include: ./ord/filtro-impegni.yml
+  $include: ./ord/salva-impegni.yml
+  $include: ./ord/vordine.yml
+  $include: ./ord/riepilogo-impegni.yml
+  $include: ./ord/ricerca-ordini.yml
+  $include: ./ord/paged-response-ordine.yml
+  $include: ./ord/impegno-ordine.yml
+  $include: ./ord/subimpegno-ordine.yml
+  $include: ./ord/ricerca-righe-da-evadere.yml
+
+  $include: ./ord/evasione/testata-evasione.yml
+  $include: ./ord/evasione/causale-sospensione-evasione.yml
+  $include: ./ord/evasione/documento-trasporto.yml
+  $include: ./ord/evasione/documento-trasporto-riga.yml
+  $include: ./ord/evasione/tipo-evasione.yml
+  $include: ./ord/evasione/destinatario-evasione.yml
+  $include: ./ord/evasione/riga-evasione.yml
+  $include: ./ord/evasione/impegno-evasione.yml
+  $include: ./ord/evasione/riepilogo-fattura-evasione.yml
+  $include: ./ord/evasione/subimpegno-evasione.yml
+  $include: ./ord/evasione/salva-evasione.yml
+  $include: ./ord/evasione/salva-impegni-evasione.yml
+  $include: ./ord/evasione/paged-response-evasione.yml
+  $include: ./ord/evasione/ricerca-evasioni.yml
+  $include: ./ord/evasione/controlla-evasione.yml
+    
+  $include: ./common/documento-spesa.yml
+  $include: ./common/listino-fornitore.yml
+  $include: ./common/fornitore.yml
+  $include: ./common/ufficio.yml
+  $include: ./common/metadati-funzione.yml
+  

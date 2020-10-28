@@ -1,0 +1,18 @@
+TipoEvasione:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    tipoEvasioneCodice:
+      type: string
+    tipoEvasioneDescrizione:
+      type: string
+    tipoEvasioneId:
+      type: integer
+    utenteCancellazione:
+      type: string
+    utenteCreazione:
+      type: string
+    utenteModifica:
+      type: string
