@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -11,6 +11,7 @@
 package it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.pba;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 import it.csi.cpass.cpassbe.ejb.business.be.dao.BaseAuditedEntityDao;
@@ -26,6 +27,7 @@ public interface CpassTPbaInterventoImportiDao extends BaseAuditedEntityDao<UUID
 	 * Finds the page relative to the given params
 	 * @param interventoImportiImportoAnnoPrimo the intervento importi importo anno primo
 	 * @param interventoImportiImportoAnnoSecondo the intervento importi importo anno secondo
+	 * @param interventoImportiImportoAnnoTerzo the intervento importi importo anno terzo
 	 * @param interventoImportiImportoAnniSuccessivi the intervento importi importo anni successivi
 	 * @param interventoId the intervento id
 	 * @param risorseId the risorse id
@@ -36,10 +38,17 @@ public interface CpassTPbaInterventoImportiDao extends BaseAuditedEntityDao<UUID
 	Page<CpassTPbaInterventoImporti> findPaginated(
 			BigDecimal interventoImportiImportoAnnoPrimo,
 			BigDecimal interventoImportiImportoAnnoSecondo,
+			BigDecimal interventoImportiImportoAnnoTerzo,
 			BigDecimal interventoImportiImportoAnniSuccessivi,
 			UUID interventoId,
 			Integer risorseId,
 			int page,
 			int size);
+
+	BigDecimal getImportoTotByInterventoId(UUID id);
+
+	void deleteByIdIntervento(UUID id);
+
+	List<CpassTPbaInterventoImporti> getInterventiImportiByInterventoId(UUID interventoId);
 
 }

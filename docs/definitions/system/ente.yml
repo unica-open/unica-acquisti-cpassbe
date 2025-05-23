@@ -26,6 +26,10 @@ Ente:
       type: string
     emailPEC:
       type: string
+    pathLogo:
+      type: string
+    link:
+      type: string
     dataCreazione:
       type: string
       format: date-time

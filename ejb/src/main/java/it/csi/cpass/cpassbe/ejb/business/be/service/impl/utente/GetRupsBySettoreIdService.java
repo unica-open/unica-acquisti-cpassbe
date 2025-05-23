@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -12,7 +12,6 @@ package it.csi.cpass.cpassbe.ejb.business.be.service.impl.utente;
 
 import java.util.List;
 
-import it.csi.cpass.cpassbe.ejb.business.be.dad.SettoreDad;
 import it.csi.cpass.cpassbe.ejb.business.be.dad.UtenteDad;
 import it.csi.cpass.cpassbe.ejb.business.be.service.impl.base.BaseService;
 import it.csi.cpass.cpassbe.ejb.business.be.service.request.utente.GetRupsBySettoreIdRequest;
@@ -25,7 +24,7 @@ import it.csi.cpass.cpassbe.lib.dto.Utente;
  */
 public class GetRupsBySettoreIdService extends BaseService<GetRupsBySettoreIdRequest, GetRupsBySettoreIdResponse> {
 
-    private UtenteDad utenteDad;
+	private final UtenteDad utenteDad;
 	public GetRupsBySettoreIdService(ConfigurationHelper configurationHelper, UtenteDad utenteDad) {
 		super(configurationHelper);
 		this.utenteDad = utenteDad;
@@ -38,7 +37,7 @@ public class GetRupsBySettoreIdService extends BaseService<GetRupsBySettoreIdReq
 
 	@Override
 	protected void execute() {
-		List<Utente> rups = utenteDad.getRupsBySettoreId(request.getId());
+		final List<Utente> rups = utenteDad.getRupsBySettoreId(request.getId());
 		response.setUtenteRup(rups);
 	}
 

@@ -5,8 +5,16 @@ paths:
   $include: ./pba/index.yml
   $include: ./utente/index.yml
   $include: ./elaborazione/index.yml
-  $include: ./ente/index.yml
   $include: ./ord/index.yml
   $include: ./ord/evasione/index.yml
+  $include: ./ord/mepa/index.yml
+  $include: ./ord/rda/index.yml
+  $include: ./ord/consultazioni/index.yml
+  $include: ./ord/documentale/index.yml
   $include: ./common/index.yml
   $include: ./impegno/index.yml
+  $include: ./rms/index.yml
+  $include: ./bo/index.yml
+  $include: ./magazzino/index.yml
+  $include: ./settore/index.yml
+  

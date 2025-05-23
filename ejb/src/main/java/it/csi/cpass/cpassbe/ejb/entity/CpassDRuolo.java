@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -68,6 +68,8 @@ public class CpassDRuolo implements Serializable, BaseEntity<Integer> {
 	@OneToMany(mappedBy="cpassDRuolo")
 	private List<CpassRRuoloUtenteSettore> cpassRRuoloUtenteSettores;
 
+	@Column(name="selezionabile_da_procedura")
+	private String selezionabileDaProcedura;
 	/**
 	 * Gets the ruolo id.
 	 *
@@ -246,6 +248,21 @@ public class CpassDRuolo implements Serializable, BaseEntity<Integer> {
 		cpassRRuoloUtenteSettore.setCpassDRuolo(null);
 
 		return cpassRRuoloUtenteSettore;
+	}
+
+
+	/**
+	 * @return the selezionabileDaProcedura
+	 */
+	public String getSelezionabileDaProcedura() {
+		return selezionabileDaProcedura;
+	}
+
+	/**
+	 * @param selezionabileDaProcedura the selezionabileDaProcedura to set
+	 */
+	public void setSelezionabileDaProcedura(String selezionabileDaProcedura) {
+		this.selezionabileDaProcedura = selezionabileDaProcedura;
 	}
 
 	@Override

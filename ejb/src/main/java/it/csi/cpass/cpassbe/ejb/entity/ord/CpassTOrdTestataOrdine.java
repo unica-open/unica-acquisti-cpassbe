@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -25,16 +25,19 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import it.csi.cpass.cpassbe.ejb.entity.CpassDMotiviEsclusioneCig;
 import it.csi.cpass.cpassbe.ejb.entity.CpassDStato;
 import it.csi.cpass.cpassbe.ejb.entity.CpassTSettore;
 import it.csi.cpass.cpassbe.ejb.entity.CpassTUfficio;
 import it.csi.cpass.cpassbe.ejb.entity.CpassTUtente;
 import it.csi.cpass.cpassbe.ejb.entity.base.BaseAuditedEntity;
+import it.csi.cpass.cpassbe.ejb.entity.ord.mepa.CpassTScaricoMepaTestata;
+import it.csi.cpass.cpassbe.ejb.entity.pba.CpassDPbaSettoreInterventi;
 import it.csi.cpass.cpassbe.lib.util.uuid.UuidUtils;
 
 /**
  * The persistent class for the cpass_t_ord_testata_ordine database table.
- * 
+ *
  */
 @Entity
 @Table(name = "cpass_t_ord_testata_ordine")
@@ -78,9 +81,12 @@ public class CpassTOrdTestataOrdine extends BaseAuditedEntity<UUID> implements S
 
 	@Column(name = "data_scadenza")
 	private Date dataScadenza;
-	
+
 	@Column(name = "data_annullamento")
 	private Date dataAnnullamento;
+
+	@Column(name = "data_invio_firma")
+	private Date dataInvioFirma;
 
 	@Column(name = "descrizione_acquisto")
 	private String descrizioneAcquisto;
@@ -105,6 +111,12 @@ public class CpassTOrdTestataOrdine extends BaseAuditedEntity<UUID> implements S
 	@Column(name = "provvedimento_numero")
 	private String provvedimentoNumero;
 
+	@Column(name = "provvedimento_tipo")
+	private String provvedimentoTipo;
+
+	@Column(name = "provvedimento_settore")
+	private String provvedimentoSettore;
+
 	@Column(name = "totale_con_iva")
 	private BigDecimal totaleConIva;
 
@@ -113,6 +125,13 @@ public class CpassTOrdTestataOrdine extends BaseAuditedEntity<UUID> implements S
 
 	@Column(name = "numero_procedura")
 	private String numeroProcedura;
+
+	@Column(name = "provvedimento_descrizione")
+	private String provvedimentoDescrizione;
+
+	@Column(name = "cig")
+	private String cig;
+
 
 	// bi-directional many-to-one association to CpassTUtente
 	@ManyToOne
@@ -152,13 +171,76 @@ public class CpassTOrdTestataOrdine extends BaseAuditedEntity<UUID> implements S
 	@ManyToOne
 	@JoinColumn(name = "fornitore_id")
 	private CpassTFornitore cpassTFornitore;
-	
+
+	/** The cpass D settore interventi. */
+	//bi-directional many-to-one association to CpassDPbaSettoreInterventi
+	@ManyToOne
+	@JoinColumn(name="settore_interventi_id")
+	private CpassDPbaSettoreInterventi cpassDPbaSettoreInterventi;
+
 	// bi-directional many-to-one association to CpassDOrdStatoNso
 	@ManyToOne
 	@JoinColumn(name = "stato_nso_id")
 	private CpassDOrdStatoNso cpassDOrdStatoNso;
 
+	@ManyToOne
+	@JoinColumn(name = "scarico_mepa_testata_id")
+	private CpassTScaricoMepaTestata cpassTScaricoMepaTestata;
+
+	//bi-directional many-to-one association to CpassDMotiviEsclusioneCig
+	@ManyToOne
+	@JoinColumn(name="motivi_esclusione_id")
+	private CpassDMotiviEsclusioneCig cpassDMotiviEsclusioneCig;
+
+	//bi-directional many-to-one association to CpassTOrdProtocolloOrdine
+	@OneToMany(mappedBy="cpassTOrdTestataOrdine")
+	private List<CpassTOrdProtocolloOrdine> cpassTOrdProtocolloOrdines;
+
+	//bi-directional many-to-one association to CpassROrdRdaOrdine
+	@OneToMany(mappedBy="cpassTOrdTestataOrdine")
+	private List<CpassROrdRdaOrdine> cpassROrdRdaOrdines;
+
+	//bi-directional many-to-one association to CpassTOrdDocumentiOrdine
+	@OneToMany(mappedBy="cpassTOrdTestataOrdine")
+	private List<CpassTOrdDocumentiOrdine> cpassTOrdDocumentiOrdines;
+
+
 	public CpassTOrdTestataOrdine() {
+	}
+
+
+	public List<CpassTOrdProtocolloOrdine> getCpassTOrdProtocolloOrdines() {
+		return cpassTOrdProtocolloOrdines;
+	}
+
+
+	public void setCpassTOrdProtocolloOrdines(List<CpassTOrdProtocolloOrdine> cpassTOrdProtocolloOrdines) {
+		this.cpassTOrdProtocolloOrdines = cpassTOrdProtocolloOrdines;
+	}
+
+
+	public List<CpassROrdRdaOrdine> getCpassROrdRdaOrdines() {
+		return cpassROrdRdaOrdines;
+	}
+
+
+	public void setCpassROrdRdaOrdines(List<CpassROrdRdaOrdine> cpassROrdRdaOrdines) {
+		this.cpassROrdRdaOrdines = cpassROrdRdaOrdines;
+	}
+
+
+	public CpassROrdRdaOrdine addCpassROrdRdaOrdine(CpassROrdRdaOrdine cpassROrdRdaOrdine) {
+		getCpassROrdRdaOrdines().add(cpassROrdRdaOrdine);
+		cpassROrdRdaOrdine.setCpassTOrdTestataOrdine(this);
+
+		return cpassROrdRdaOrdine;
+	}
+
+	public CpassROrdRdaOrdine removeCpassROrdRdaOrdine(CpassROrdRdaOrdine cpassROrdRdaOrdine) {
+		getCpassROrdRdaOrdines().remove(cpassROrdRdaOrdine);
+		cpassROrdRdaOrdine.setCpassTOrdTestataOrdine(null);
+
+		return cpassROrdRdaOrdine;
 	}
 
 	public UUID getTestataOrdineId() {
@@ -248,7 +330,7 @@ public class CpassTOrdTestataOrdine extends BaseAuditedEntity<UUID> implements S
 	public void setDataScadenza(Date dataScadenza) {
 		this.dataScadenza = dataScadenza;
 	}
-	
+
 	public Date getDataAnnullamento() {
 		return dataAnnullamento;
 	}
@@ -256,6 +338,16 @@ public class CpassTOrdTestataOrdine extends BaseAuditedEntity<UUID> implements S
 	public void setDataAnnullamento(Date dataAnnullamento) {
 		this.dataAnnullamento = dataAnnullamento;
 	}
+
+	public Date getDataInvioFirma() {
+		return dataInvioFirma;
+	}
+
+
+	public void setDataInvioFirma(Date dataInvioFirma) {
+		this.dataInvioFirma = dataInvioFirma;
+	}
+
 
 	public String getDescrizioneAcquisto() {
 		return this.descrizioneAcquisto;
@@ -335,6 +427,31 @@ public class CpassTOrdTestataOrdine extends BaseAuditedEntity<UUID> implements S
 		this.provvedimentoNumero = provvedimentoNumero;
 	}
 
+	public String getProvvedimentoTipo() {
+		return provvedimentoTipo;
+	}
+
+	public void setProvvedimentoTipo(String provvedimentoTipo) {
+		this.provvedimentoTipo = provvedimentoTipo;
+	}
+
+
+	public String getProvvedimentoSettore() {
+		return provvedimentoSettore;
+	}
+
+	public void setProvvedimentoSettore(String provvedimentoSettore) {
+		this.provvedimentoSettore = provvedimentoSettore;
+	}
+
+	public String getProvvedimentoDescrizione() {
+		return provvedimentoDescrizione;
+	}
+
+	public void setProvvedimentoDescrizione(String provvedimentoDescrizione) {
+		this.provvedimentoDescrizione = provvedimentoDescrizione;
+	}
+
 	public BigDecimal getTotaleConIva() {
 		return this.totaleConIva;
 	}
@@ -357,6 +474,22 @@ public class CpassTOrdTestataOrdine extends BaseAuditedEntity<UUID> implements S
 
 	public void setCpassTUtente(CpassTUtente cpassTUtente) {
 		this.cpassTUtente = cpassTUtente;
+	}
+
+
+
+	/**
+	 * @return the cpassDPbaSettoreInterventi
+	 */
+	public CpassDPbaSettoreInterventi getCpassDPbaSettoreInterventi() {
+		return cpassDPbaSettoreInterventi;
+	}
+
+	/**
+	 * @param cpassDPbaSettoreInterventi the cpassDPbaSettoreInterventi to set
+	 */
+	public void setCpassDPbaSettoreInterventi(CpassDPbaSettoreInterventi cpassDPbaSettoreInterventi) {
+		this.cpassDPbaSettoreInterventi = cpassDPbaSettoreInterventi;
 	}
 
 	public List<CpassTOrdDestinatarioOrdine> getCpassTOrdDestinatarios() {
@@ -444,7 +577,7 @@ public class CpassTOrdTestataOrdine extends BaseAuditedEntity<UUID> implements S
 	public void setNumeroProcedura(String numeroProcedura) {
 		this.numeroProcedura = numeroProcedura;
 	}
-	
+
 	/**
 	 * @return the cpassDOrdStatoNso
 	 */
@@ -459,9 +592,59 @@ public class CpassTOrdTestataOrdine extends BaseAuditedEntity<UUID> implements S
 		this.cpassDOrdStatoNso = cpassDOrdStatoNso;
 	}
 
+	public CpassTScaricoMepaTestata getCpassTScaricoMepaTestata() {
+		return cpassTScaricoMepaTestata;
+	}
+
+	public void setCpassTScaricoMepaTestata(CpassTScaricoMepaTestata cpassTScaricoMepaTestata) {
+		this.cpassTScaricoMepaTestata = cpassTScaricoMepaTestata;
+	}
+
+
+	/**
+	 * @return the cpassDMotiviEsclusioneCig
+	 */
+	public CpassDMotiviEsclusioneCig getCpassDMotiviEsclusioneCig() {
+		return cpassDMotiviEsclusioneCig;
+	}
+
+	/**
+	 * @param cpassDMotiviEsclusioneCig the cpassDMotiviEsclusioneCig to set
+	 */
+	public void setCpassDMotiviEsclusioneCig(CpassDMotiviEsclusioneCig cpassDMotiviEsclusioneCig) {
+		this.cpassDMotiviEsclusioneCig = cpassDMotiviEsclusioneCig;
+	}
+
+	public String getCig() {
+		return this.cig;
+	}
+
+	public void setCig(String cig) {
+		this.cig = cig;
+	}
+
+
+	/**
+	 * @return the cpassTOrdDocumentiOrdines
+	 */
+	public List<CpassTOrdDocumentiOrdine> getCpassTOrdDocumentiOrdines() {
+		return cpassTOrdDocumentiOrdines;
+	}
+
+
+	/**
+	 * @param cpassTOrdDocumentiOrdines the cpassTOrdDocumentiOrdines to set
+	 */
+	public void setCpassTOrdDocumentiOrdines(List<CpassTOrdDocumentiOrdine> cpassTOrdDocumentiOrdines) {
+		this.cpassTOrdDocumentiOrdines = cpassTOrdDocumentiOrdines;
+	}
+
+
 	@Override
 	public void initId() {
 		this.testataOrdineId = UuidUtils.generateUUIDv5FromNamespaceAndString(NAMESPACE, ordineAnno + "|" + ordineNumero + "|" + cpassTSettore.getId());
 	}
+
+
 
 }

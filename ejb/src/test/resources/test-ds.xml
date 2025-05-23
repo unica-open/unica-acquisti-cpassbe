@@ -25,7 +25,7 @@
     </pool>
     <security>
       <user-name>cpass</user-name>
-      <password>cpass</password>
+      <password></password>
     </security>
     <validation>
       <check-valid-connection-sql>SELECT 1</check-valid-connection-sql>

@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -31,8 +31,10 @@ public class DocumentoSpesa extends BaseDto<UUID> implements Serializable {
     protected String codiceStato;
     protected String descrizioneStato;
     protected BigDecimal totaleDocumento;
-    protected BigDecimal totaleLiquidabileDocumento;
+	protected BigDecimal totaleLiquidabileDocumento;
     protected List<String> numeriOrdine;
+    protected String codiceExt;
+    protected String registroRepertorio;
     /**
 	 * @return the annoProtocollo
 	 */
@@ -178,4 +180,30 @@ public class DocumentoSpesa extends BaseDto<UUID> implements Serializable {
 	public void setNumeriOrdine(List<String> numeriOrdine) {
 		this.numeriOrdine = numeriOrdine;
 	}
+	/**
+	 * @return the codiceExt
+	 */
+	public String getCodiceExt() {
+		return codiceExt;
+	}
+	/**
+	 * @param codiceExt the codiceExt to set
+	 */
+	public void setCodiceExt(String codiceExt) {
+		this.codiceExt = codiceExt;
+	}
+
+    /**
+	 * @return the registroRepertorio
+	 */
+	public String getRegistroRepertorio() {
+		return registroRepertorio;
+	}
+	/**
+	 * @param registroRepertorio the registroRepertorio to set
+	 */
+	public void setRegistroRepertorio(String registroRepertorio) {
+		this.registroRepertorio = registroRepertorio;
+	}
+
 }

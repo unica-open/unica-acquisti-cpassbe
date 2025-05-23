@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -55,6 +55,14 @@ public class CpassDPbaAcquistoVariato implements Serializable, BaseEntity<Intege
 	/** The acquisto variato descrizione. */
 	@Column(name="acquisto_variato_descrizione_estesa")
 	private String acquistoVariatoDescrizioneEstesa;
+
+	@Column(name="controlli")
+	private String controlli;
+
+	/** The acquisto variato descrizione. */
+	@Column(name="acquisti_non_riproposti")
+	private Boolean acquistiNonRiproposti;
+
 
 	/** The cpass T interventos. */
 	//bi-directional many-to-one association to CpassTPbaIntervento
@@ -116,7 +124,7 @@ public class CpassDPbaAcquistoVariato implements Serializable, BaseEntity<Intege
 		this.acquistoVariatoDescrizione = acquistoVariatoDescrizione;
 	}
 
-	
+
 	/**
 	 * @return the acquistoVariatoDescrizioneEstesa
 	 */
@@ -174,7 +182,36 @@ public class CpassDPbaAcquistoVariato implements Serializable, BaseEntity<Intege
 		return cpassTPbaIntervento;
 	}
 
-	
+
+	/**
+	 * @return the acquistiNonRiproposti
+	 */
+	public Boolean getAcquistiNonRiproposti() {
+		return acquistiNonRiproposti;
+	}
+
+	/**
+	 * @param acquistiNonRiproposti the acquistiNonRiproposti to set
+	 */
+	public void setAcquistiNonRiproposti(Boolean acquistiNonRiproposti) {
+		this.acquistiNonRiproposti = acquistiNonRiproposti;
+	}
+
+
+	/**
+	 * @return the controlli
+	 */
+	public String getControlli() {
+		return controlli;
+	}
+
+	/**
+	 * @param controlli the controlli to set
+	 */
+	public void setControlli(String controlli) {
+		this.controlli = controlli;
+	}
+
 	@Override
 	public Integer getId() {
 		return acquistoVariatoId;

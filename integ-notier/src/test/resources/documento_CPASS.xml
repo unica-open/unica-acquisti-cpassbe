@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  ========================LICENSE_START=================================
+  CPASS BackEnd - INTEGRATION submodule - NotiER
+  %%
+  Copyright (C) 2019 - 2021 CSI Piemonte
+  %%
+  SPDX-FileCopyrightText: Copyright 2019 - 2021 | CSI Piemonte
+  SPDX-License-Identifier: EUPL-1.2
+  =========================LICENSE_END==================================
+  -->
+
+<ns4:Order xmlns="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:ns2="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2" xmlns:ns3="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:ns4="urn:oasis:names:specification:ubl:schema:xsd:Order-2">
+    <CustomizationID>urn:fdc:peppol.eu:poacc:trns:order:3:restrictive:urn:www.agid.gov.it:trns:ordine:3.1</CustomizationID>
+    <ProfileID>urn:fdc:peppol.eu:poacc:bis:order_only:3</ProfileID>
+    <ID>2020_5_1_1</ID>
+    <IssueDate>2020-06-01</IssueDate>
+    <OrderTypeCode listID="UNCL1001">220</OrderTypeCode>
+    <DocumentCurrencyCode listID="ISO4217">EUR</DocumentCurrencyCode>
+    <ns3:ValidityPeriod>
+        <EndDate>2020-12-31</EndDate>
+    </ns3:ValidityPeriod>
+    <ns3:OriginatorDocumentReference>
+		<ID>728768758F</ID>
+	</ns3:OriginatorDocumentReference>
+	<ns3:AdditionalDocumentReference>
+        <ID>2017/188</ID>
+        <DocumentType>DELIBERA</DocumentType>
+    </ns3:AdditionalDocumentReference>
+    <ns3:Contract>
+        <ID>2020/158</ID>
+    </ns3:Contract>
+    <ns3:BuyerCustomerParty>
+        <ns3:Party>
+            <EndpointID schemeID="0201">7K3KWF</EndpointID>
+            <ns3:PartyName>
+                <Name>A1111C - Patrimonio immobiliare, beni mobili, economato e cassa economale</Name>
+            </ns3:PartyName>
+            <ns3:PostalAddress>
+                <StreetName>Via Viotti, 8</StreetName>
+                <CityName>Torino</CityName>
+                <PostalZone>10121</PostalZone>
+                <CountrySubentity>TO</CountrySubentity>
+                <ns3:Country>
+                    <IdentificationCode>IT</IdentificationCode>
+                </ns3:Country>
+            </ns3:PostalAddress>
+            <ns3:PartyTaxScheme>
+                <CompanyID>IT80087670016</CompanyID>
+                <ns3:TaxScheme>
+                    <ID>VAT</ID>
+                </ns3:TaxScheme>
+            </ns3:PartyTaxScheme>
+            <ns3:PartyLegalEntity>
+                <RegistrationName>REGIONE PIEMONTE</RegistrationName>
+            </ns3:PartyLegalEntity>
+        </ns3:Party>
+    </ns3:BuyerCustomerParty>
+    <ns3:SellerSupplierParty>
+        <ns3:Party>
+            <EndpointID schemeID="9907">12076920011</EndpointID>
+            <ns3:PartyIdentification>
+                <ID>IT12076920011</ID>
+            </ns3:PartyIdentification>
+            <ns3:PartyName>
+                <Name>MOLTECO PRINTING S.R.L.</Name>
+            </ns3:PartyName>
+            <ns3:PostalAddress>
+                <StreetName>Via G. REISS ROMOLI 148</StreetName>
+                <CityName>TORINO</CityName>
+                <PostalZone>10148</PostalZone>
+                <CountrySubentity>TO</CountrySubentity>
+                <ns3:Country>
+                    <IdentificationCode>IT</IdentificationCode>
+                </ns3:Country>
+            </ns3:PostalAddress>
+            <ns3:PartyLegalEntity>
+                <RegistrationName>MOLTECO PRINTING S.R.L.</RegistrationName>
+                <CompanyID>12076920011</CompanyID>
+            </ns3:PartyLegalEntity>
+        </ns3:Party>
+    </ns3:SellerSupplierParty>
+    <ns3:Delivery>
+        <ns3:DeliveryLocation>
+            <ID>1</ID>
+            <ns3:Address>
+                <StreetName>P.zza Castello, 65</StreetName>
+                <CityName>Torino</CityName>
+                <PostalZone>10124</PostalZone>
+                <CountrySubentity>TO</CountrySubentity>
+                <ns3:Country>
+                    <IdentificationCode>IT</IdentificationCode>
+                </ns3:Country>
+            </ns3:Address>
+        </ns3:DeliveryLocation>
+        <ns3:DeliveryParty>
+            <ns3:PartyName>
+                <Name>A1111C - Patrimonio immobiliare, beni mobili, economato e cassa economale</Name>
+            </ns3:PartyName>
+        </ns3:DeliveryParty>
+    </ns3:Delivery>
+    <ns3:TaxTotal>
+        <TaxAmount currencyID="EUR">0.12</TaxAmount>
+    </ns3:TaxTotal>
+    <ns3:AnticipatedMonetaryTotal>
+        <LineExtensionAmount currencyID="EUR">0.57</LineExtensionAmount>
+        <TaxExclusiveAmount currencyID="EUR">0.57</TaxExclusiveAmount>
+        <TaxInclusiveAmount currencyID="EUR">0.69</TaxInclusiveAmount>
+        <PayableAmount currencyID="EUR">0.69</PayableAmount>
+    </ns3:AnticipatedMonetaryTotal>
+    <ns3:OrderLine>
+        <ns3:LineItem>
+            <ID>1</ID>
+            <Quantity unitCode="RM" unitCodeListID="UNECERec20">1</Quantity>
+            <LineExtensionAmount currencyID="EUR">0.57</LineExtensionAmount>
+			<ns3:Price>
+                <PriceAmount currencyID="EUR">0.57</PriceAmount>
+             </ns3:Price>
+            <ns3:Item>
+                <Name>CARTA A4</Name>
+                <ns3:BuyersItemIdentification>
+                    <ID>AC050A4</ID>
+                </ns3:BuyersItemIdentification>
+                <ns3:SellersItemIdentification>
+                    <ID>AP4</ID>
+                </ns3:SellersItemIdentification>
+                <ns3:CommodityClassification>
+                    <ItemClassificationCode listID="STI" listVersionID="UNCL7143">19.0501</ItemClassificationCode>
+                </ns3:CommodityClassification>
+                <ns3:ClassifiedTaxCategory>
+                    <ID>S</ID>
+                    <Percent>22</Percent>
+                    <ns3:TaxScheme>
+                        <ID>VAT</ID>
+                    </ns3:TaxScheme>
+                </ns3:ClassifiedTaxCategory>
+            </ns3:Item>
+        </ns3:LineItem>
+    </ns3:OrderLine>
+</ns4:Order>

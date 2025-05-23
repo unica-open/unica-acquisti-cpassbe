@@ -1,0 +1,16 @@
+SmistamentoManualeRms:
+  type: object
+  properties:
+    listaRigheRms:
+      type: array
+      items:  
+        $ref: '#/definitions/RigaRms'
+    magazzino:
+      type: object
+      $ref: '#/definitions/Magazzino'
+    settore:
+      type: object
+      $ref: '#/definitions/Settore'
+    sezione:
+      type: object
+      $ref: '#/definitions/Sezione'

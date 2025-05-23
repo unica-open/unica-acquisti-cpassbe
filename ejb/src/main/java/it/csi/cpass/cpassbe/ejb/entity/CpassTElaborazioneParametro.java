@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -43,11 +43,11 @@ public class CpassTElaborazioneParametro implements Serializable, BaseEntity<Int
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CPASS_T_ELABORAZIONE_ELABORAZIONEPARAMETROID_GENERATOR")
 	@Column(name="elaborazione_parametro_id")
 	private Integer elaborazioneParametroId;
-	
+
 	@Column(name="elaborazione_parametro_chiave")
 	private String elaborazioneParametroChiave;
-	
-	@Column(name="elaborazione_parametro_valore") 
+
+	@Column(name="elaborazione_parametro_valore")
 	private String elaborazioneParametroValore;
 
 	//bi-directional many-to-one association to CpassTElaborazione

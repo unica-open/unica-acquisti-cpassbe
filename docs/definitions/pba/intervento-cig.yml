@@ -1,0 +1,13 @@
+InterventoCig:
+  type: object
+  properties:
+    cig:
+      type: string
+    id:
+      type: string
+      format: uuid
+    intervento:
+      type: object
+      $ref: '#/definitions/Intervento'
+    interventoCigId:
+      type: integer

@@ -21,7 +21,7 @@
         description: Errore generico.
         schema:
           $ref: '#/definitions/ApiError'
-/pba/intervento/ricerca/settore/{id-settore}:
+/pba/intervento/ricerca:
   post:
     operationId: getRicercaInterventi
     description: Restituisce gli interventi registrati su sistema.
@@ -39,12 +39,6 @@
         required: true
         schema:
           $ref: '#/definitions/Intervento'
-      - in: path
-        name: id-settore
-        required: true
-        type: string
-        format: uuid
-        description: L'id del settore dell'utente.
     responses:
       '200':
         description: Interventi registrati su sistema.
@@ -88,6 +82,33 @@
         description: Errore generico.
         schema:
           $ref: '#/definitions/ApiError'
+/pba/intervento/post-ricerca-per-copia:
+  post:
+    operationId: postRicercaInterventiXCopia
+    description: Restituisce gli interventi registrati su sistema.
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - $ref: '#/parameters/offsetParam'
+      - $ref: '#/parameters/limitParam'
+      - $ref: '#/parameters/sortParam'
+      - $ref: '#/parameters/directionParam'
+      - in: body
+        name: ricercaInterventiPerCopia
+        required: true
+        schema:
+          $ref: '#/definitions/RicercaInterventiPerCopia'
+    responses:
+      '200':
+        description: Interventi registrati su sistema.
+        schema:
+          $ref: '#/definitions/PagedResponseIntervento'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
 /pba/intervento/{id}:
   get:
     operationId: getInterventoById
@@ -111,7 +132,7 @@
       default:
         description: Errore generico.
         schema:
-          $ref: '#/definitions/ApiError'
+          $ref: '#/definitions/ApiError'        
   put:
     operationId: putInterventoById
     description: Aggiorna l'intervento per id.
@@ -162,8 +183,58 @@
       default:
         description: Errore generico.
         schema:
-          $ref: '#/definitions/ApiError'     
-/pba/intervento/cui/{cui}/programma/{id-programma}/settore/{id-settore}:
+          $ref: '#/definitions/ApiError'
+/pba/intervento/physically/{id}:
+  delete:            
+    operationId: deleteInterventoPhysicallyById
+    description: Cancella l'intervento per id.
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id dell'intervento.
+    responses:
+      '200':
+        description: Lo status dell'operazione.
+        schema:
+          type: string
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'                     
+/pba/intervento/cui-futuro/{id}:
+  get:
+    operationId: getInterventoInProgrammaFuturoById
+    description: Restituisce la lista interventi su bienni futuri.
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id dell'intervento.
+    responses:
+      '200':
+        description: interventi registrati su sistema per dato id.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Intervento'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'  
+/pba/intervento/cui/{cui}/programma/{id-programma}:
   get:
     operationId: getInterventoByCui
     description: Restituisce l'intervento per cui.
@@ -183,17 +254,36 @@
         type: string
         format: uuid
         description: L'uuid del programma.
-      - in: path
-        name: id-settore
-        required: true
-        type: string
-        format: uuid
-        description: L'id del settore dell'utente.
     responses:
       '200':
         description: L'intervento registrato su sistema per dato cui.
         schema:
           $ref: '#/definitions/Intervento'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/intervento/lista/cui/{cui}:
+  get:
+    operationId: getInterventiByCui
+    description: Restituisce gli interventi per il cui selezionato.
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - in: path
+        name: cui
+        required: true
+        type: string
+        description: Il cui dell'intervento.
+    responses:
+      '200':
+        description: L'intervento registrato su sistema per dato cui.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Intervento'
       default:
         description: Errore generico.
         schema:
@@ -424,6 +514,42 @@
         description: Errore generico.
         schema:
           $ref: '#/definitions/ApiError'
+/pba/intervento/copia-lista-int-v2/programma/{id-programma}:
+  post:
+    operationId: postInterventiDaCopiaV2
+    description: inserisce interventi copia
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - in: body
+        name: listCopiaInterventoWrapper
+        required: true
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/CopiaInterventoWrapper'
+      - in: path
+        name: id-programma
+        required: true
+        type: string
+        format: uuid
+        description: L'id del programma.
+      - in: query
+        name: stato
+        type: string
+        required: false
+        description: eventuale stato dell'intervento.
+    responses:
+      '200':
+        description: L'intervento aggiornato.
+        schema:
+          $ref: '#/definitions/Intervento'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
 /pba/intervento/upload/csv:
   post:
     operationId: postUploadCsv
@@ -443,6 +569,9 @@
         type: string
       - in: formData
         name: versioneProgramma
+        type: string
+      - in: formData
+        name: separatore
         type: string
       - in: formData
         name: utenteReferenteCf
@@ -540,7 +669,7 @@
         description: Errore generico.
         schema:
           $ref: '#/definitions/ApiError'            
-/pba/intervento/voltura/{id-rup}:
+/pba/intervento/voltura/{id-settore}/{id-rup}:
   put:
     operationId: putInterventoVoltura
     description: archivia e salva il nuovo rup.
@@ -549,6 +678,12 @@
     tags:
       - intervento
     parameters:
+      - in: path
+        name: id-settore
+        required: true
+        type: string
+        format: uuid
+        description: L'id del settore.  
       - in: path
         name: id-rup
         required: true
@@ -671,3 +806,298 @@
         description: Errore generico.
         schema:
           $ref: '#/definitions/ApiError'
+/pba/intervento/lista-stati/{id}:
+  get:
+    operationId: getStatiInterventoByInterventoId
+    description: Restituisce gli stati storicizzati legati all intervento.
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id dell intervento.
+    responses:
+      '200':
+        description: stati legati all intervento.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/StatiIntervento'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/intervento/stato/visto-ragioneria:
+  put:
+    operationId: putInterventiStatoVistoRagioneria
+    description: Aggiorna gli stati rifiuto x lista interventi.
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - in: body
+        name: interventi
+        required: true
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Intervento'
+    responses:
+      '200':
+        description: stato interventi visto.
+        schema:
+          $ref: '#/definitions/Intervento'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/intervento/stato/rifiuto-visto-ragioneria:
+  put:
+    operationId: putInterventiStatoRifiutoVistoRagioneria
+    description: Riporta l'acquisto in stato BOZZA, aggiornando i dati del rifiuto ragioneria.
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:    
+      - in: body
+        name: interventi
+        required: true
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Intervento'
+    responses:
+      '200':
+        description: stato interventi visto.
+        schema:
+          $ref: '#/definitions/Intervento'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/intervento/interventi-capofila/programma/{id-programma}:
+  post:
+    operationId: getInterventiCapofila
+    description: lista dei capofila del settore in esame
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - in: path
+        name: id-programma
+        required: true
+        type: string
+        format: uuid
+        description: L'uuid del programma.    
+      - in: body
+        name: intervento
+        required: true
+        schema:
+          $ref: '#/definitions/Intervento'
+    responses:
+      '200':
+        description: lista settori capofila.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Intervento'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/intervento/interventi-capofila-associati/{id-int-capofila}:
+  get:
+    operationId: getInterventibyCapofilaId
+    description: lista interventi a fronte di capofila
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - in: path
+        name: id-int-capofila
+        required: true
+        type: string
+        format: uuid
+        description: L'id del capofila.  
+    responses:
+      '200':
+        description: lista interventi associati al capofila.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Intervento'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/intervento/ricerca-per-copia/controllo-capofila:
+  post:
+    operationId: postControlloCapofilaXCopiaInterventi
+    description: c.
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - in: body
+        name: interventi
+        required: true
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Intervento'
+    responses:
+      '200':
+        description: true se capofila compatibile
+        schema:
+          type: boolean
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/intervento/controllo/stato/cancellazione:
+  post:
+    operationId: postControlloCancellazioneIntervento
+    description: controllo cancellazione
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - in: body
+        name: interventi
+        required: true
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Intervento'
+    responses:
+      '200':
+        description: true cancellabile
+        schema:
+          type: boolean
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/intervento/lista-cig/{id-intervento}:
+  get:
+    operationId: getCigByInterventoId
+    description: Restituisce i cig del dato intervento.
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - in: path
+        name: id-intervento
+        required: true
+        type: string
+        format: uuid
+        description: L'uuid dell intervento.
+    responses:
+      '200':
+        description: cig associati all'intervento.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/InterventoCig'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/intervento/stato/riporta-in-bozza:
+  put:
+    operationId: putInterventiRiportaInBozza
+    description: Riporta l'acquisto in stato BOZZA.
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - in: body
+        name: interventi
+        required: true
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Intervento'
+    responses:
+      '200':
+        description: stato interventi visto.
+        schema:
+          $ref: '#/definitions/Intervento'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/intervento/avvia-intervento/{id-intervento}/{motivo-esclusione-cig}:
+  put:
+    operationId: putAvviaInterventoById
+    description: Riporta l'acquisto in stato BOZZA.
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - in: path
+        name: id-intervento
+        required: true
+        type: string
+        format: uuid
+        description: L'id dell intervento.                      
+      - in: path
+        name: motivo-esclusione-cig
+        required: true
+        type: integer
+        description: L'id del motivo esclusione cig.                      
+      - in: body
+        name: interventi
+        required: true
+        schema:
+          type: array
+          items:
+            $ref: string
+    responses:
+      '200':
+        description: avvia intervento.
+        schema:
+          $ref: '#/definitions/Intervento'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/pba/intervento/intervento-non-avviato/{id-intervento}:
+  put:
+    operationId: putInterventoNonAvviatoById
+    description: Riporta l'acquisto in non avviato.
+    produces:
+      - application/json
+    tags:
+      - intervento
+    parameters:
+      - in: path
+        name: id-intervento
+        required: true
+        type: string
+        format: uuid
+        description: L'id dell intervento.                                         
+    responses:
+      '200':
+        description: non avvia intervento.
+        schema:
+          $ref: '#/definitions/Intervento'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+                            

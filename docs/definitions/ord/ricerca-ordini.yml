@@ -18,9 +18,15 @@ RicercaOrdini:
     testataOrdine:
       type: object
       $ref: '#/definitions/TestataOrdine'
-    destinatario:
+    settoreEmittente:
       type: object
-      $ref: '#/definitions/Destinatario'
+      $ref: '#/definitions/Settore'
+    settore:
+      type: object
+      $ref: '#/definitions/Settore'
+    settoreIndirizzo:
+      type: object
+      $ref: '#/definitions/SettoreIndirizzo'
     impegno:
       type: object
       $ref: '#/definitions/Impegno'

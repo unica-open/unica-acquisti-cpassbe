@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -10,6 +10,7 @@
  */
 package it.csi.cpass.cpassbe.ejb.business.be.dad;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +19,7 @@ import java.util.UUID;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.pba.CpassTPbaInterventoAltriDatiDao;
 import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.pba.CpassTPbaInterventoImportiDao;
 import it.csi.cpass.cpassbe.ejb.entity.pba.CpassTPbaInterventoImporti;
 import it.csi.cpass.cpassbe.ejb.mapper.CpassMappers;
@@ -32,6 +34,8 @@ import it.csi.cpass.cpassbe.lib.util.pagination.PagedList;
 public class InterventoImportiDad extends BaseDad {
 
 	@Inject private CpassTPbaInterventoImportiDao cpassTPbaInterventoImportiDao;
+	@Inject private CpassTPbaInterventoAltriDatiDao cpassTPbaInterventoAltriDatiDao;
+
 
 	/**
 	 * Find by id
@@ -50,9 +54,10 @@ public class InterventoImportiDad extends BaseDad {
 	 * @return the model instances
 	 */
 	public PagedList<InterventoImporti> getInterventiImporti(InterventoImporti interventoImporti, int page, int size) {
-		Page<CpassTPbaInterventoImporti> cpassTPbaInterventoImportis = cpassTPbaInterventoImportiDao.findPaginated(
+		final Page<CpassTPbaInterventoImporti> cpassTPbaInterventoImportis = cpassTPbaInterventoImportiDao.findPaginated(
 				interventoImporti.getImportoAnniSuccessivi(),
 				interventoImporti.getImportoAnnoSecondo(),
+				interventoImporti.getImportoAnnoTerzo(),
 				interventoImporti.getImportoAnniSuccessivi(),
 				getId(interventoImporti.getIntervento()),
 				getId(interventoImporti.getRisorsa()),
@@ -60,7 +65,12 @@ public class InterventoImportiDad extends BaseDad {
 				size);
 		return toPagedList(cpassTPbaInterventoImportis, page, size, CpassMappers.INTERVENTO_IMPORTI::toModel);
 	}
-	
+
+	public List<InterventoImporti> getInterventiImportiByInterventoId(UUID interventoId) {
+		final List<CpassTPbaInterventoImporti> cpassTPbaInterventoImportis = cpassTPbaInterventoImportiDao.getInterventiImportiByInterventoId(interventoId);
+		return CpassMappers.INTERVENTO_IMPORTI_MINIMAL.toModels(cpassTPbaInterventoImportis);
+	}
+
 	/**
 	 * Deletes by uuid
 	 * @param uuid the uuid
@@ -68,7 +78,7 @@ public class InterventoImportiDad extends BaseDad {
 	public void deleteInterventoImporti(UUID uuid) {
 		cpassTPbaInterventoImportiDao.deleteLogically(uuid);
 	}
-	
+
 	/**
 	 * Deletes by uuid
 	 * @param uuid the uuid
@@ -76,8 +86,8 @@ public class InterventoImportiDad extends BaseDad {
 	public void deleteNotLogically(UUID uuid) {
 		cpassTPbaInterventoImportiDao.delete(uuid);
 	}
-	
-	
+
+
 	/**
 	 * Inserts the interventoImporti
 	 * @param interventoImporti the interventoImporti
@@ -87,11 +97,26 @@ public class InterventoImportiDad extends BaseDad {
 		if (interventoImporti.getRichiestaMotivazione() == null) {
 			interventoImporti.setRichiestaMotivazione(Boolean.FALSE);
 		}
-		CpassTPbaInterventoImporti cpassTPbaInterventoImporti = CpassMappers.INTERVENTO_IMPORTI.toEntity(interventoImporti);
+		final CpassTPbaInterventoImporti cpassTPbaInterventoImporti = CpassMappers.INTERVENTO_IMPORTI.toEntity(interventoImporti);
+		cpassTPbaInterventoImportiDao.insert(cpassTPbaInterventoImporti);
+		cpassTPbaInterventoImportiDao.flush();
+		return interventoImporti;
+	}
+
+	/**
+	 * Inserts the interventoImporti
+	 * @param interventoImporti the interventoImporti
+	 * @return the model instance
+	 */
+	public InterventoImporti saveInterventoImportiXCsv(InterventoImporti interventoImporti) {
+		if (interventoImporti.getRichiestaMotivazione() == null) {
+			interventoImporti.setRichiestaMotivazione(Boolean.FALSE);
+		}
+		final CpassTPbaInterventoImporti cpassTPbaInterventoImporti = CpassMappers.INTERVENTO_IMPORTI.toEntity(interventoImporti);
 		cpassTPbaInterventoImportiDao.insert(cpassTPbaInterventoImporti);
 		return interventoImporti;
 	}
-	
+
 	/**
 	 * Updates the interventoImporti
 	 * @param interventoImporti the interventoImporti
@@ -101,8 +126,9 @@ public class InterventoImportiDad extends BaseDad {
 		if (interventoImporti.getRichiestaMotivazione() == null) {
 			interventoImporti.setRichiestaMotivazione(Boolean.FALSE);
 		}
-		CpassTPbaInterventoImporti cpassTPbaInterventoImporti = CpassMappers.INTERVENTO_IMPORTI.toEntity(interventoImporti);
+		final CpassTPbaInterventoImporti cpassTPbaInterventoImporti = CpassMappers.INTERVENTO_IMPORTI.toEntity(interventoImporti);
 		cpassTPbaInterventoImportiDao.update(cpassTPbaInterventoImporti);
+		cpassTPbaInterventoImportiDao.flush();
 		return interventoImporti;
 	}
 	/**
@@ -110,11 +136,29 @@ public class InterventoImportiDad extends BaseDad {
 	 * @param interventiImporti
 	 * @return the intervento importi
 	 */
-	public List<InterventoImporti> saveInterventiImporti(List<InterventoImporti> interventiImporti) {
-		List<InterventoImporti> ris = new ArrayList<>();
-		for(InterventoImporti ii : interventiImporti) {
-			ris.add(saveInterventoImporti(ii));
+	public List<InterventoImporti> saveInterventiImportiXCsv(List<InterventoImporti> interventiImporti) {
+		final List<InterventoImporti> ris = new ArrayList<>();
+		for(final InterventoImporti ii : interventiImporti) {
+			ris.add(saveInterventoImportiXCsv(ii));
 		}
 		return ris;
+	}
+
+	/**
+	 *
+	 * @param interventoId
+	 * @return BigDecimal
+	 */
+	public BigDecimal getImportoTotByInterventoId(UUID interventoId) {
+		return cpassTPbaInterventoImportiDao.getImportoTotByInterventoId(interventoId);
+	}
+
+	/**
+	 *
+	 * @param interventoId
+	 * @return BigDecimal
+	 */
+	public BigDecimal getImportoIvaTotByInterventoId(UUID interventoId) {
+		return cpassTPbaInterventoAltriDatiDao.getImportoIvaTotByInterventoId(interventoId);
 	}
 }

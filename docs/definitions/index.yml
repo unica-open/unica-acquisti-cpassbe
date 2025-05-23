@@ -7,20 +7,33 @@ definitions:
   $include: ./system/elaborazione-parametro.yml
   $include: ./system/ente.yml
   $include: ./system/modulo.yml
+  $include: ./system/notifica.yml
+  $include: ./system/notifica-info.yml
+  $include: ./system/testo-notifica.yml
   $include: ./system/parametro-stampa.yml
   $include: ./system/permesso.yml
   $include: ./system/ruolo.yml
+  $include: ./system/vsettore.yml
   $include: ./system/settore.yml
   $include: ./system/settore-ruoli-permessi.yml
   $include: ./system/settore-indirizzo.yml
   $include: ./system/utente.yml
-
+  $include: ./system/utente-settore.yml
+  $include: ./system/ruolo-utente-settore.yml
+  $include: ./system/utente-rup-deleghe.yml
+  $include: ./system/cdc.yml
+  $include: ./system/paged-response-ruolo-permesso.yml
+  $include: ./system/paged-response-modulo-ruolo-permesso.yml
+  $include: ./system/ruolo-permesso.yml
+  $include: ./system/modulo-ruolo-permesso.yml
+  $include: ./system/ricerca-ruolo-permesso.yml
   $include: ./decodifica/acquisto-variato.yml
   $include: ./decodifica/ausa.yml
   $include: ./decodifica/cpv.yml
   $include: ./decodifica/modalita-affidamento.yml
   $include: ./decodifica/nuts.yml
   $include: ./decodifica/ods.yml
+  $include: ./decodifica/ods-dati-contabili.yml
   $include: ./decodifica/paged-response-ods.yml
   $include: ./decodifica/priorita.yml
   $include: ./decodifica/ricompreso-tipo.yml
@@ -32,23 +45,28 @@ definitions:
   $include: ./decodifica/unita-misura.yml
   $include: ./decodifica/tipo-acquisto.yml
   $include: ./decodifica/tipo-ordine.yml
-  $include: ./decodifica/tipo-procedura.yml
-  $include: ./decodifica/stato-el-ordine.yml
   $include: ./decodifica/stato-nso.yml
-  $include: ./decodifica/oggetti-spesa.yml
+  $include: ./decodifica/provvedimento-tipo.yml
+  $include: ./decodifica/paged-response-cpv.yml
+  $include: ./decodifica/motivi-esclusione-cig.yml
   
   $include: ./pba/interventi-da-copia.yml
   $include: ./pba/intervento.yml
+  $include: ./pba/intervento-cig.yml
   $include: ./pba/intervento-importi.yml
+  $include: ./pba/tipo-procedura-pba.yml
   $include: ./pba/paged-response-intervento.yml
   $include: ./pba/programma.yml
   $include: ./pba/web-intervento-file-holder.yml
   $include: ./pba/intervento-altri-dati.yml
   $include: ./pba/storico-intervento-rup.yml
   $include: ./pba/stato-intervento-info.yml
+  $include: ./pba/stati-intervento.yml
+  $include: ./pba/copia-intervento-wrapper.yml
+  $include: ./pba/ricerca-interventi-per-copia.yml
 
   $include: ./ord/destinatario.yml
-  $include: ./ord/provvedimento.yml
+  $include: ./ord/riga-ordine-wrapper.yml
   $include: ./ord/riga-ordine.yml
   $include: ./ord/impegno.yml
   $include: ./ord/paged-response-fornitore.yml
@@ -58,6 +76,7 @@ definitions:
   $include: ./ord/paged-response-ordine.yml
   $include: ./ord/subimpegno.yml
   $include: ./ord/testata-ordine.yml
+  $include: ./ord/testata-ordine-wrapper.yml
   $include: ./ord/filtro-impegni.yml
   $include: ./ord/salva-impegni.yml
   $include: ./ord/vordine.yml
@@ -67,7 +86,17 @@ definitions:
   $include: ./ord/impegno-ordine.yml
   $include: ./ord/subimpegno-ordine.yml
   $include: ./ord/ricerca-righe-da-evadere.yml
+  $include: ./ord/esito-invia-ordine-nso-service.yml
+  $include: ./ord/sezione.yml
+  $include: ./ord/paged-response-sezione.yml
+  $include: ./ord/protocollo-ordine.yml
+  $include: ./ord/documenti-ordine.yml
+  $include: ./ord/settore-aoo-acta.yml
+  $include: ./ord/aoo-acta.yml
+  $include: ./ord/settore-serie-acta.yml
+  $include: ./ord/tipo-procedura-ord.yml
 
+  
   $include: ./ord/evasione/testata-evasione.yml
   $include: ./ord/evasione/causale-sospensione-evasione.yml
   $include: ./ord/evasione/documento-trasporto.yml
@@ -83,10 +112,59 @@ definitions:
   $include: ./ord/evasione/paged-response-evasione.yml
   $include: ./ord/evasione/ricerca-evasioni.yml
   $include: ./ord/evasione/controlla-evasione.yml
-    
+  $include: ./ord/evasione/anteprima-ordine-su-evasione.yml
+  $include: ./ord/web-scarico-mepa-file-holder.yml
+
+  $include: ./ord/evasione/ricerca-ddt.yml
+  $include: ./ord/evasione/paged-response-documento-trasporto.yml
+
+  $include: ./ord/mepa/scarico-mepa-testata.yml
+  $include: ./ord/mepa/scarico-mepa-riga.yml
+  $include: ./ord/mepa/scarico-mepa-xml.yml
+  $include: ./ord/mepa/scarico-mepa-sconti.yml
+  $include: ./ord/mepa/paged-response-mepa-testata.yml
+  $include: ./ord/mepa/form-testata-ordine-mepa.yml
+  $include: ./ord/mepa/post-ordine-mepa-body-wrapper.yml
+  $include: ./ord/mepa/riga-mepa-wrapper.yml
+
+  $include: ./ord/rda/testata-rda.yml
+  $include: ./ord/rda/ricerca-rda.yml
+  $include: ./ord/rda/riga-rda.yml
+  $include: ./ord/rda/ricerca-rms-da-evadere.yml
+  $include: ./ord/rda/paged-response-rms-da-evadere.yml
+  $include: ./ord/rda/paged-response-rda.yml
+  $include: ./ord/rda/paged-response-rms-da-smistare.yml
+  $include: ./ord/rda/ricerca-rms-da-smistare.yml
+  $include: ./ord/consultazioni/ricerca-x-consultazioni.yml
+  $include: ./ord/consultazioni/consultazioni-ordine.yml
+  $include: ./ord/consultazioni/consultazioni-evasione.yml
+  $include: ./ord/consultazioni/consultazioni-impegno.yml
+  $include: ./ord/consultazioni/consultazioni-ripartizione-evasione.yml
+  $include: ./ord/consultazioni/paged-response-consultazioni-impegno.yml
+  $include: ./ord/consultazioni/paged-response-consultazioni-ordine.yml
+  $include: ./ord/consultazioni/consultazioni-riepilogo.yml
+  $include: ./ord/consultazioni/consultazioni-riepilogo-finanziario.yml
+  $include: ./ord/consultazioni/consultazioni-riepilogo-acquisti.yml
+
+  $include: ./common/provvedimento.yml
   $include: ./common/documento-spesa.yml
   $include: ./common/listino-fornitore.yml
   $include: ./common/fornitore.yml
   $include: ./common/ufficio.yml
   $include: ./common/metadati-funzione.yml
+  $include: ./common/parametro.yml
+  $include: ./common/gestione-campo.yml
+
+  $include: ./rms/paged-response-rms.yml
+  $include: ./rms/ricerca-rms.yml
+  $include: ./rms/testata-rms.yml
+  $include: ./rms/riga-rms.yml
+  $include: ./rms/regole-smistamento-rms.yml
   
+  $include: ./bo/web-file-smistamento-csv-holder.yml
+  $include: ./bo/smistamento-manuale-rms.yml
+  $include: ./bo/utente/ricerca-utenti.yml
+  $include: ./bo/utente/paged-response-utente.yml
+
+  $include: ./magazzino/magazzino.yml
+  $include: ./magazzino/paged-response-magazzino.yml

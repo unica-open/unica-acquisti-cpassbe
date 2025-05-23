@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -13,17 +13,18 @@ package it.csi.cpass.cpassbe.lib.dto;
 import java.io.Serializable;
 
 /**
- * The Class Stato.
+ * The Class Ruolo.
  */
-public class Ruolo extends BaseDto<Long> implements Serializable {
+public class Ruolo extends BaseDto<Integer> implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
-
 	/** The codice. */
 	private String codice;
 	/** The descrizione. */
 	private String descrizione;
+
+	private String selezionabileDaProcedura;
 
 	/** Default constructor */
 	public Ruolo() {}
@@ -32,7 +33,7 @@ public class Ruolo extends BaseDto<Long> implements Serializable {
 	 * Constructor
 	 * @param id the id
 	 */
-	public Ruolo(Long id) {
+	public Ruolo(Integer id) {
 		super(id);
 	}
 
@@ -64,6 +65,20 @@ public class Ruolo extends BaseDto<Long> implements Serializable {
 	 */
 	public void setCodice(String codice) {
 		this.codice = codice;
+	}
+
+	/**
+	 * @return the selezionabileDaprocedura
+	 */
+	public String getSelezionabileDaProcedura() {
+		return selezionabileDaProcedura;
+	}
+
+	/**
+	 * @param selezionabileDaprocedura the selezionabileDaprocedura to set
+	 */
+	public void setSelezionabileDaProcedura(String selezionabileDaProcedura) {
+		this.selezionabileDaProcedura = selezionabileDaProcedura;
 	}
 
 	@Override

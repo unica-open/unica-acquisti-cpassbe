@@ -13,8 +13,6 @@
  **********************************************/
 package it.csi.cpass.cpassbe.web.business.be.api;
 
-import java.util.UUID;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -31,8 +29,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-import it.csi.cpass.cpassbe.lib.dto.ord.OggettiSpesa;
-import it.csi.cpass.cpassbe.lib.dto.pba.Intervento;
+import it.csi.cpass.cpassbe.lib.dto.Ods;
+import it.csi.cpass.cpassbe.web.util.annotation.LoadSettore;
 
 /**
  * API interface for /decodifica path
@@ -70,7 +68,7 @@ public interface DecodificaApi {
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
-	
+
 	/**
 	 * Gets the Cpvs as tree
 	 * @param securityContext the security context
@@ -206,7 +204,7 @@ public interface DecodificaApi {
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
-	
+
 	@GET
 	@Path("tipo-ordine")
 	@Produces({MediaType.APPLICATION_JSON})
@@ -216,22 +214,31 @@ public interface DecodificaApi {
 			@Context HttpServletRequest httpRequest);
 
 	@GET
-	@Path("tipo-procedura")
+	@Path("tipo-ordine-no-type/{noTypeCode}")
 	@Produces({MediaType.APPLICATION_JSON})
-	public Response getTipoProcedura(
-			@Context SecurityContext securityContext,
-			@Context HttpHeaders httpHeaders,
-			@Context HttpServletRequest httpRequest);
-	
-	@GET
-	@Path("stato-el-ordine/{tipo}")
-	@Produces({MediaType.APPLICATION_JSON})
-	public Response getStatoElOrdineByTipo(
-			@PathParam("tipo") String tipo,
+	public Response getListaTipoOrdineExcludeCode(
+			@PathParam("noTypeCode") String noTypeCode,
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
 
+	@GET
+	@Path("tipo-procedura-ord")
+	@LoadSettore
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response getTipoProceduraOrd(
+			@Context SecurityContext securityContext,
+			@Context HttpHeaders httpHeaders,
+			@Context HttpServletRequest httpRequest);
+
+	@GET
+	@Path("tipo-procedura-pba")
+	@LoadSettore
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response getTipoProceduraPba(
+			@Context SecurityContext securityContext,
+			@Context HttpHeaders httpHeaders,
+			@Context HttpServletRequest httpRequest);
 
 	@GET
 	@Path("aliquote-iva")
@@ -240,7 +247,7 @@ public interface DecodificaApi {
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
-	
+
 	@GET
 	@Path("unita-misura")
 	@Produces({MediaType.APPLICATION_JSON})
@@ -248,32 +255,35 @@ public interface DecodificaApi {
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
-	
+
+
+
 	/**
-	 * 
+	 *
 	 * @param offset
 	 * @param limit
 	 * @param sort
 	 * @param direction
-	 * @param oggettiSpesa
+	 * @param ods
 	 * @param securityContext
 	 * @param httpHeaders
 	 * @param httpRequest
 	 * @return
 	 */
 	@POST
-	@Path("ricerca/oggetti-spesa")
+	@Path("ricerca/cpv-oggetti-spesa")
 	@Produces({MediaType.APPLICATION_JSON})
-	public Response getRicercaOggettiSpesa(
+	@LoadSettore
+	public Response getRicercaCpvOggettiSpesa(
 			@Min(0) @QueryParam("offset") Integer offset,
 			@Min(1) @Max(100) @QueryParam("limit") Integer limit,
 			@QueryParam("sort") @DefaultValue("") String sort,
 			@QueryParam("direction") @DefaultValue("asc") String direction,
-			OggettiSpesa oggettiSpesa,
+			Ods ods,
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
-	
+
 	@GET
 	@Path("stato/{tipo}")
 	@Produces({MediaType.APPLICATION_JSON})
@@ -282,7 +292,7 @@ public interface DecodificaApi {
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
-	
+
 	@GET
 	@Path("stato-nso/{tipo}")
 	@Produces({MediaType.APPLICATION_JSON})
@@ -291,7 +301,7 @@ public interface DecodificaApi {
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
-	
+
 	@GET
 	@Path("causale-sospensione-evasione-valide")
 	@Produces({MediaType.APPLICATION_JSON})
@@ -299,7 +309,7 @@ public interface DecodificaApi {
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
-	
+
 	@GET
 	@Path("tipo-evasione")
 	@Produces({MediaType.APPLICATION_JSON})
@@ -319,6 +329,32 @@ public interface DecodificaApi {
 	@Path("tipo-acquisto")
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response getTipoAcquistos(
+			@Context SecurityContext securityContext,
+			@Context HttpHeaders httpHeaders,
+			@Context HttpServletRequest httpRequest);
+
+	@GET
+	@Path("tipo-provvedimento")
+	@LoadSettore
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response getProvvedimentoTipo(
+			@Context SecurityContext securityContext,
+			@Context HttpHeaders httpHeaders,
+			@Context HttpServletRequest httpRequest);
+
+	@GET
+	@Path("motivi-esclusione-cig")
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response getMotiviEsclusioneCig(
+			@Context SecurityContext securityContext,
+			@Context HttpHeaders httpHeaders,
+			@Context HttpServletRequest httpRequest);
+
+	@GET
+	@Path("tipo-settore")
+	@LoadSettore
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response getTipoSettore(
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);

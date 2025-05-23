@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -16,8 +16,8 @@ import java.util.UUID;
 
 import it.csi.cpass.cpassbe.lib.dto.BaseAuditedDto;
 import it.csi.cpass.cpassbe.lib.dto.Settore;
+import it.csi.cpass.cpassbe.lib.dto.Stato;
 import it.csi.cpass.cpassbe.lib.dto.ord.Destinatario;
-import it.csi.cpass.cpassbe.lib.dto.ord.StatoElOrdine;
 
 public class DestinatarioEvasione extends BaseAuditedDto<UUID> implements Serializable {
 
@@ -25,17 +25,11 @@ public class DestinatarioEvasione extends BaseAuditedDto<UUID> implements Serial
 	private static final long serialVersionUID = 1L;
 
 	private Integer progressivo;
-
-	private StatoElOrdine statoElOrdine;
-
+	private Stato stato;
 	private Destinatario destinatarioOrdine;
-
 	private TestataEvasione testataEvasione;
-
 	private Settore settore;
-
 	private List<RigaEvasione> rigaEvasiones;
-
 	private String cap;
 	private String email;
 	private String indirizzo;
@@ -44,6 +38,7 @@ public class DestinatarioEvasione extends BaseAuditedDto<UUID> implements Serial
 	private String contatto;
 	private String provincia;
 	private String telefono;
+	private String sede;
 
 	public DestinatarioEvasione() {
 	}
@@ -63,17 +58,17 @@ public class DestinatarioEvasione extends BaseAuditedDto<UUID> implements Serial
 	}
 
 	/**
-	 * @return the statoElOrdine
+	 * @return the stato
 	 */
-	public StatoElOrdine getStatoElOrdine() {
-		return statoElOrdine;
+	public Stato getStato() {
+		return stato;
 	}
 
 	/**
-	 * @param statoElOrdine the statoElOrdine to set
+	 * @param stato the stato to set
 	 */
-	public void setStatoElOrdine(StatoElOrdine statoElOrdine) {
-		this.statoElOrdine = statoElOrdine;
+	public void setStato(Stato stato) {
+		this.stato = stato;
 	}
 
 	/**
@@ -243,5 +238,20 @@ public class DestinatarioEvasione extends BaseAuditedDto<UUID> implements Serial
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
+
+	/**
+	 * @return the sede
+	 */
+	public String getSede() {
+		return sede;
+	}
+
+	/**
+	 * @param sede the sede to set
+	 */
+	public void setSede(String sede) {
+		this.sede = sede;
+	}
+
 
 }

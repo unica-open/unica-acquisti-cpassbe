@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -18,7 +18,7 @@ import java.util.UUID;
 /**
  * Impegno
  */
-public class Subimpegno extends BaseDto<UUID> implements Serializable {
+public class Subimpegno extends BaseAuditedDto<UUID> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -37,7 +37,7 @@ public class Subimpegno extends BaseDto<UUID> implements Serializable {
 	private String descrizioneCapitolo;
 
 	private Integer annoProvvedimento;
-	private Integer numeroProvvedimento;
+	private String numeroProvvedimento;
 	private String settoreProvvedimento;
 
 	private Ente ente;
@@ -224,14 +224,14 @@ public class Subimpegno extends BaseDto<UUID> implements Serializable {
 	/**
 	 * @return the numeroProvvedimento
 	 */
-	public Integer getNumeroProvvedimento() {
+	public String getNumeroProvvedimento() {
 		return numeroProvvedimento;
 	}
 
 	/**
 	 * @param numeroProvvedimento the numeroProvvedimento to set
 	 */
-	public void setNumeroProvvedimento(Integer numeroProvvedimento) {
+	public void setNumeroProvvedimento(String numeroProvvedimento) {
 		this.numeroProvvedimento = numeroProvvedimento;
 	}
 

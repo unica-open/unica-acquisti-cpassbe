@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -11,7 +11,6 @@
 package it.csi.cpass.cpassbe.ejb.entity.pba;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -53,8 +52,8 @@ public class CpassTPbaIntervento extends BaseAuditedEntity<UUID> implements Seri
 	private UUID interventoId;
 
 	@Column(name="esente_cup")
-	private Boolean esenteCup; 
-	
+	private Boolean esenteCup;
+
 	/** The intervento anno avvio. */
 	@Column(name="intervento_anno_avvio", nullable=false)
 	private Integer interventoAnnoAvvio;
@@ -94,6 +93,12 @@ public class CpassTPbaIntervento extends BaseAuditedEntity<UUID> implements Seri
 	@ManyToOne
 	@JoinColumn(name="mod_affidamento_id", nullable=false)
 	private CpassDPbaModAffidamento cpassDPbaModAffidamento;
+
+	/** The cpass D tipo procedura. */
+	//bi-directional many-to-one association to CpassDPbaModAffidamento
+	@ManyToOne
+	@JoinColumn(name="tipo_procedura_id")
+	private CpassDPbaTipoProcedura cpassDPbaTipoProcedura;
 
 	/** The cpass D nut. */
 	//bi-directional many-to-one association to CpassDPbaNuts
@@ -143,7 +148,7 @@ public class CpassTPbaIntervento extends BaseAuditedEntity<UUID> implements Seri
 
 	@Column(name="intervento_ricompreso_cui")
 	private String interventoRicompresoCui;
-	
+
 	/** The cpass T intervento ricompreso. */
 	//bi-directional many-to-one association to CpassTPbaIntervento
 	@ManyToOne
@@ -178,46 +183,92 @@ public class CpassTPbaIntervento extends BaseAuditedEntity<UUID> implements Seri
 
 	@Column(name="intervento_importi_copia_tipo")
 	private String interventoImportiCopiaTipo;
-	
+
 	@Column(name="flag_cui_non_generato")
 	private Boolean flagCuiNonGenerato;
-	
+
 	@Column(name="motivazione_non_riproposto")
 	private String motivazioneNonRiproposto;
-	
+
 	@Column(name="data_visto")
 	private Date dataVisto;
-			
+
 	@ManyToOne
 	@JoinColumn(name="utente_visto_id")
 	private CpassTUtente cpassTUtenteVisto;
-			
+
 	@Column(name="data_validazione")
 	private Date dataValidazione;
-			
+
 	@ManyToOne
 	@JoinColumn(name="utente_validazione_id")
 	private CpassTUtente cpassTUtenteValidazione;
-			
+
 	@Column(name="data_rifiuto")
 	private Date dataRifiuto;
-			
+
 	@ManyToOne
 	@JoinColumn(name="utente_rifiuto_id")
 	private CpassTUtente cpassTUtenteRifiuto;
-	
+
 	/** The cpass D settore interventi. */
 	//bi-directional many-to-one association to CpassTSettore
 	@ManyToOne
 	@JoinColumn(name="settore_id", nullable=false)
 	private CpassTSettore cpassTSettore;
 
-	//private List<CpassDCpv> cpasslistCpv;
-	
+
 	//bi-directional many-to-one association to CpassRInterventoCpv
-		@OneToMany(mappedBy="cpassTPbaIntervento")
-		private List<CpassRInterventoCpv> cpassRInterventoCpvs;
-		
+	@OneToMany(mappedBy="cpassTPbaIntervento")
+	private List<CpassRInterventoCpv> cpassRInterventoCpvs;
+
+	private Boolean capofila;
+
+	@Column(name="data_visto_ragioneria")
+	private Date dataVistoRagioneria;
+
+	@Column(name="data_avviato")
+	private Date dataAvviato;
+
+	@Column(name="avviato")
+	private Boolean avviato;
+
+	@Column(name="versione_definitiva")
+	private Boolean versioneDefinitiva;
+
+	@Column(name="visto_ragioneria")
+	private Boolean vistoRagioneria;
+
+	//bi-directional many-to-one association to CpassRPbaStatiIntervento
+	@OneToMany(mappedBy="cpassTPbaIntervento")
+	private List<CpassRPbaStatiIntervento> cpassRPbaStatiInterventos;
+
+	//bi-directional many-to-one association to CpassRPbaStoricoInterventoRup
+	@OneToMany(mappedBy="cpassTPbaIntervento")
+	private List<CpassRPbaStoricoInterventoRup> cpassRPbaStoricoInterventoRups;
+
+	//bi-directional many-to-one association to CpassTPbaIntervento
+	@ManyToOne
+	@JoinColumn(name="intervento_capofila_id")
+	private CpassTPbaIntervento cpassTPbaInterventoCapofila;
+
+	//bi-directional many-to-one association to CpassTUtente
+	@ManyToOne
+	@JoinColumn(name="utente_visto_ragioneria_id")
+	private CpassTUtente cpassTUtenteVistoRagioneria;
+
+	//bi-directional many-to-one association to CpassTUtente
+	@ManyToOne
+	@JoinColumn(name="utente_avviato_id")
+	private CpassTUtente cpassTUtenteAvviato;
+
+	//bi-directional many-to-one association to CpassTPbaInterventoCig
+	@OneToMany(mappedBy="cpassTPbaIntervento")
+	private List<CpassTPbaInterventoCig> cpassTPbaInterventoCigs;
+
+	@Column(name="esente_iva")
+	private String esenteIva;
+
 	/**
 	 * Gets the intervento id.
 	 *
@@ -225,6 +276,14 @@ public class CpassTPbaIntervento extends BaseAuditedEntity<UUID> implements Seri
 	 */
 	public UUID getInterventoId() {
 		return this.interventoId;
+	}
+
+	public String getEsenteIva() {
+		return esenteIva;
+	}
+
+	public void setEsenteIva(String esenteIva) {
+		this.esenteIva = esenteIva;
 	}
 
 	/**
@@ -520,15 +579,15 @@ public class CpassTPbaIntervento extends BaseAuditedEntity<UUID> implements Seri
 		}
 		return ris;
 	}
-*/
+	 */
 	/**
 	 * @param cpasslistCpv the cpasslistCpv to set
 	 */
 	//public void setCpasslistCpv(List<CpassDCpv> cpasslistCpv) {
-		//this.cpasslistCpv = cpasslistCpv;
+	//this.cpasslistCpv = cpasslistCpv;
 	//}
 
-	
+
 	/**
 	 * Adds the cpass T intervento importi.
 	 *
@@ -617,7 +676,7 @@ public class CpassTPbaIntervento extends BaseAuditedEntity<UUID> implements Seri
 		this.cpassDPbaRicompresoTipo = cpassDPbaRicompresoTipo;
 	}
 
-	
+
 	/**
 	 * @return the cpassTUtenteRup
 	 */
@@ -632,7 +691,7 @@ public class CpassTPbaIntervento extends BaseAuditedEntity<UUID> implements Seri
 		this.cpassTUtenteRup = cpassTUtenteRup;
 	}
 
-	
+
 	/**
 	 * @return the cpassDPbaNuts
 	 */
@@ -689,7 +748,7 @@ public class CpassTPbaIntervento extends BaseAuditedEntity<UUID> implements Seri
 		this.motivazioneNonRiproposto = motivazioneNonRiproposto;
 	}
 
-	
+
 	/**
 	 * @return the interventoCopiaTipo
 	 */
@@ -704,7 +763,7 @@ public class CpassTPbaIntervento extends BaseAuditedEntity<UUID> implements Seri
 		this.interventoCopiaTipo = interventoCopiaTipo;
 	}
 
-	
+
 	/**
 	 * @return the interventoImportiCopiaTipo
 	 */
@@ -733,7 +792,7 @@ public class CpassTPbaIntervento extends BaseAuditedEntity<UUID> implements Seri
 		this.cpassTSettore = cpassTSettore;
 	}
 
-	
+
 	/**
 	 * @return the cpassTPbaInterventoAltriDatis
 	 */
@@ -769,7 +828,7 @@ public class CpassTPbaIntervento extends BaseAuditedEntity<UUID> implements Seri
 
 		return cpassRInterventoCpv;
 	}
-	
+
 	/**
 	 * @return the esenteCup
 	 */
@@ -784,7 +843,7 @@ public class CpassTPbaIntervento extends BaseAuditedEntity<UUID> implements Seri
 		this.esenteCup = esenteCup;
 	}
 
-	
+
 	/**
 	 * @return the dataVisto
 	 */
@@ -869,7 +928,7 @@ public class CpassTPbaIntervento extends BaseAuditedEntity<UUID> implements Seri
 		this.cpassTUtenteRifiuto = cpassTUtenteRifiuto;
 	}
 
-	
+
 	/**
 	 * @return the interventoRicompresoCui
 	 */
@@ -894,11 +953,209 @@ public class CpassTPbaIntervento extends BaseAuditedEntity<UUID> implements Seri
 		interventoId = id;
 	}
 
-	
+
 	@Override
 	public void initId() {
-		this.interventoId = UuidUtils.generateUUIDv5FromNamespaceAndString(NAMESPACE, cpassTPbaProgramma.getId() + "|" + interventoCui);
+		final UUID id = UuidUtils.generateUUIDv5FromNamespaceAndString(NAMESPACE, cpassTPbaProgramma.getId() + "|" + interventoCui);
+		this.interventoId = id;
 	}
-	
-	
+	//////////////////////////
+
+
+
+	public List<CpassRPbaStatiIntervento> getCpassRPbaStatiInterventos() {
+		return this.cpassRPbaStatiInterventos;
+	}
+
+	/**
+	 * @return the dataAvviato
+	 */
+	public Date getDataAvviato() {
+		return dataAvviato;
+	}
+
+	/**
+	 * @param dataAvviato the dataAvviato to set
+	 */
+	public void setDataAvviato(Date dataAvviato) {
+		this.dataAvviato = dataAvviato;
+	}
+
+	/**
+	 * @return the avviato
+	 */
+	public Boolean getAvviato() {
+		return avviato;
+	}
+
+	/**
+	 * @param avviato the avviato to set
+	 */
+	public void setAvviato(Boolean avviato) {
+		this.avviato = avviato;
+	}
+
+	/**
+	 * @return the cpassTUtenteAvviato
+	 */
+	public CpassTUtente getCpassTUtenteAvviato() {
+		return cpassTUtenteAvviato;
+	}
+
+	/**
+	 * @param cpassTUtenteAvviato the cpassTUtenteAvviato to set
+	 */
+	public void setCpassTUtenteAvviato(CpassTUtente cpassTUtenteAvviato) {
+		this.cpassTUtenteAvviato = cpassTUtenteAvviato;
+	}
+
+	public void setCpassRPbaStatiInterventos(List<CpassRPbaStatiIntervento> cpassRPbaStatiInterventos) {
+		this.cpassRPbaStatiInterventos = cpassRPbaStatiInterventos;
+	}
+
+	public CpassRPbaStatiIntervento addCpassRPbaStatiIntervento(CpassRPbaStatiIntervento cpassRPbaStatiIntervento) {
+		getCpassRPbaStatiInterventos().add(cpassRPbaStatiIntervento);
+		cpassRPbaStatiIntervento.setCpassTPbaIntervento(this);
+
+		return cpassRPbaStatiIntervento;
+	}
+
+	public CpassRPbaStatiIntervento removeCpassRPbaStatiIntervento(CpassRPbaStatiIntervento cpassRPbaStatiIntervento) {
+		getCpassRPbaStatiInterventos().remove(cpassRPbaStatiIntervento);
+		cpassRPbaStatiIntervento.setCpassTPbaIntervento(null);
+
+		return cpassRPbaStatiIntervento;
+	}
+
+	/**
+	 * @return the capofila
+	 */
+	public Boolean getCapofila() {
+		return capofila;
+	}
+
+	/**
+	 * @param capofila the capofila to set
+	 */
+	public void setCapofila(Boolean capofila) {
+		this.capofila = capofila;
+	}
+
+	/**
+	 * @return the dataVistoRagioneria
+	 */
+	public Date getDataVistoRagioneria() {
+		return dataVistoRagioneria;
+	}
+
+	/**
+	 * @param dataVistoRagioneria the dataVistoRagioneria to set
+	 */
+	public void setDataVistoRagioneria(Date dataVistoRagioneria) {
+		this.dataVistoRagioneria = dataVistoRagioneria;
+	}
+
+	/**
+	 * @return the versioneDefinitiva
+	 */
+	public Boolean getVersioneDefinitiva() {
+		return versioneDefinitiva;
+	}
+
+	/**
+	 * @param versioneDefinitiva the versioneDefinitiva to set
+	 */
+	public void setVersioneDefinitiva(Boolean versioneDefinitiva) {
+		this.versioneDefinitiva = versioneDefinitiva;
+	}
+
+	/**
+	 * @return the vistoRagioneria
+	 */
+	public Boolean getVistoRagioneria() {
+		return vistoRagioneria;
+	}
+
+	/**
+	 * @param vistoRagioneria the vistoRagioneria to set
+	 */
+	public void setVistoRagioneria(Boolean vistoRagioneria) {
+		this.vistoRagioneria = vistoRagioneria;
+	}
+
+	/**
+	 * @return the cpassRPbaStoricoInterventoRups
+	 */
+	public List<CpassRPbaStoricoInterventoRup> getCpassRPbaStoricoInterventoRups() {
+		return cpassRPbaStoricoInterventoRups;
+	}
+
+	/**
+	 * @param cpassRPbaStoricoInterventoRups the cpassRPbaStoricoInterventoRups to set
+	 */
+	public void setCpassRPbaStoricoInterventoRups(List<CpassRPbaStoricoInterventoRup> cpassRPbaStoricoInterventoRups) {
+		this.cpassRPbaStoricoInterventoRups = cpassRPbaStoricoInterventoRups;
+	}
+
+	/**
+
+
+	/**
+	 * @return the cpassTUtenteVistoRagioneria
+	 */
+	public CpassTUtente getCpassTUtenteVistoRagioneria() {
+		return cpassTUtenteVistoRagioneria;
+	}
+
+	/**
+	 * @return the cpassTPbaInterventoCapofila
+	 */
+	public CpassTPbaIntervento getCpassTPbaInterventoCapofila() {
+		return cpassTPbaInterventoCapofila;
+	}
+
+	/**
+	 * @param cpassTPbaInterventoCapofila the cpassTPbaInterventoCapofila to set
+	 */
+	public void setCpassTPbaInterventoCapofila(CpassTPbaIntervento cpassTPbaInterventoCapofila) {
+		this.cpassTPbaInterventoCapofila = cpassTPbaInterventoCapofila;
+	}
+
+	/**
+	 * @param cpassTUtenteVistoRagioneria the cpassTUtenteVistoRagioneria to set
+	 */
+	public void setCpassTUtenteVistoRagioneria(CpassTUtente cpassTUtenteVistoRagioneria) {
+		this.cpassTUtenteVistoRagioneria = cpassTUtenteVistoRagioneria;
+	}
+
+	/**
+	 * @return the cpassDPbaTipoProcedura
+	 */
+	public CpassDPbaTipoProcedura getCpassDPbaTipoProcedura() {
+		return cpassDPbaTipoProcedura;
+	}
+
+	/**
+	 * @param cpassDPbaTipoProcedura the cpassDPbaTipoProcedura to set
+	 */
+	public void setCpassDPbaTipoProcedura(CpassDPbaTipoProcedura cpassDPbaTipoProcedura) {
+		this.cpassDPbaTipoProcedura = cpassDPbaTipoProcedura;
+	}
+
+	/**
+	 * @return the cpassTPbaInterventoCigs
+	 */
+	public List<CpassTPbaInterventoCig> getCpassTPbaInterventoCigs() {
+		return cpassTPbaInterventoCigs;
+	}
+
+	/**
+	 * @param cpassTPbaInterventoCigs the cpassTPbaInterventoCigs to set
+	 */
+	public void setCpassTPbaInterventoCigs(List<CpassTPbaInterventoCig> cpassTPbaInterventoCigs) {
+		this.cpassTPbaInterventoCigs = cpassTPbaInterventoCigs;
+	}
+
+
+
 }

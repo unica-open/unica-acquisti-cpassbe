@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -28,8 +28,10 @@ public class InterventoImpCsv extends BaseDto<UUID> implements Serializable {
 	private String importoAnnoPrimo;
 	/** The importo anno secondo. */
 	private String importoAnnoSecondo;
+	private String importoAnnoTerzo;
 	/** The importo anni successivi. */
 	private String importoAnniSuccessivi;
+	private String codiceInterno;
 	/**
 	 * @return the cui
 	 */
@@ -90,6 +92,19 @@ public class InterventoImpCsv extends BaseDto<UUID> implements Serializable {
 	public void setImportoAnnoSecondo(String importoAnnoSecondo) {
 		this.importoAnnoSecondo = importoAnnoSecondo;
 	}
+
+	/**
+	 * @return the importoAnnoSTerzo
+	 */
+	public String getImportoAnnoTerzo() {
+		return importoAnnoTerzo;
+	}
+	/**
+	 * @param importoAnnoSTerzo the importoAnnoSTerzo to set
+	 */
+	public void setImportoAnnoTerzo(String importoAnnoTerzo) {
+		this.importoAnnoTerzo = importoAnnoTerzo;
+	}
 	/**
 	 * @return the importoAnniSuccessivi
 	 */
@@ -102,8 +117,17 @@ public class InterventoImpCsv extends BaseDto<UUID> implements Serializable {
 	public void setImportoAnniSuccessivi(String importoAnniSuccessivi) {
 		this.importoAnniSuccessivi = importoAnniSuccessivi;
 	}
-	
-	
-	
+	/**
+	 * @return the codiceInterno
+	 */
+	public String getCodiceInterno() {
+		return codiceInterno;
+	}
+	/**
+	 * @param codiceInterno the codiceInterno to set
+	 */
+	public void setCodiceInterno(String codiceInterno) {
+		this.codiceInterno = codiceInterno;
+	}
 
 }

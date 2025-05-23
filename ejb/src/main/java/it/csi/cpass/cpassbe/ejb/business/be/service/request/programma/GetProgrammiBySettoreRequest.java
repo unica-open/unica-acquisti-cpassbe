@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -19,12 +19,12 @@ import it.csi.cpass.cpassbe.ejb.business.be.service.request.base.BaseRequest;
  */
 public class GetProgrammiBySettoreRequest implements BaseRequest {
 	private final UUID settoreId;
-	private Boolean soloValidi;
+	private final Boolean soloValidi;
 
 	/**
 	 * Constructor
 	 * @param settoreId the id settore
-	 * @param soloValidi 
+	 * @param soloValidi
 	 */
 	public GetProgrammiBySettoreRequest(UUID settoreId , Boolean soloValidi) {
 		this.settoreId = settoreId;
@@ -45,7 +45,7 @@ public class GetProgrammiBySettoreRequest implements BaseRequest {
 		return soloValidi;
 	}
 
-	
-	
-	
+
+
+
 }

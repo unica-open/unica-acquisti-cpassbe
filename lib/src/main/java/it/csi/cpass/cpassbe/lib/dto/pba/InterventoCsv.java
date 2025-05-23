@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -30,51 +30,51 @@ public class InterventoCsv extends BaseDto<UUID> implements Serializable {
 	/** The cup. */
 	private String cup;
 	/** The ricompreso. */
-	//private RicompresoTipo ricompresoTipo;  ()  
-	private String acquistoRicompreso;//Codice  
+	//private RicompresoTipo ricompresoTipo;  ()
+	private String acquistoRicompreso;//Codice
 
 	/** The intervento ricompreso. */
 	//private Intervento interventoRicompreso;
 	private String interventoRicompresoCui;
-	
+
 	/** The lotto funzionale. */
 	//private Boolean lottoFunzionale;
 	private String lottoFunzionaleSINO;
 
 	/** The durata mesi. */
-	private String durataMesi;	
-	
+	private String durataMesi;
+
 	/** The nuovo affidamento. */
 	//private Boolean nuovoAffidamento;
 	private String nuovoAffidamentoSiNo;
-	
+
 	/** The ausa. */
 	//private Ausa ausa;
 	private String ausaCodice;
-	
+
 	/** The acquistoVariato. */
 	//private AcquistoVariato acquistoVariato;
 	private String acquistoVariatoCodice;//tab b2
-	
+
 	/** The utente rup. */
 	//private Utente utenteRup;
 	private String utenteRupCf;
-	
+
 	/** The descrizione acquisto. */
-	private String descrizioneAcquisto;	
+	private String descrizioneAcquisto;
 
 	/** The settore interventi. */
 	//private SettoreInterventi settoreInterventi;
 	private String  settoreInterventiFS;
-	
+
 	/** The cpv. */
 	//private Cpv cpv;
 	private String cpvCodice;
-		
+
 	/** The nuts. */
 	//private Nuts nuts;
 	private String nutsCodice;
-	
+
 	/** The tipo priorita. */
 	//private Priorita priorita;
 	private String prioritaCodice;
@@ -91,9 +91,15 @@ public class InterventoCsv extends BaseDto<UUID> implements Serializable {
 	//private Stato stato;
 	private String settoreCodice;
 
-	/** The programma. */
-	//private Programma programma;
+	private String codiceInterno;
 
+	private Boolean flagCuiNonGenerato;
+
+	private String motivazioneNonRiproposto;
+
+	private String note;
+
+	private String tipoProceduraCodice;
 
 	/** Default constructor */
 	public InterventoCsv() {}
@@ -363,5 +369,76 @@ public class InterventoCsv extends BaseDto<UUID> implements Serializable {
 	public void setSettoreCodice(String settoreCodice) {
 		this.settoreCodice = settoreCodice;
 	}
-	
+
+	/**
+	 * @return the codiceInterno
+	 */
+	public String getCodiceInterno() {
+		return codiceInterno;
+	}
+
+	/**
+	 * @param codiceInterno the codiceInterno to set
+	 */
+	public void setCodiceInterno(String codiceInterno) {
+		this.codiceInterno = codiceInterno;
+	}
+
+	/**
+	 * @return the flagCuiNonGenerato
+	 */
+	public Boolean getFlagCuiNonGenerato() {
+		return flagCuiNonGenerato;
+	}
+
+	/**
+	 * @param flagCuiNonGenerato the flagCuiNonGenerato to set
+	 */
+	public void setFlagCuiNonGenerato(Boolean flagCuiNonGenerato) {
+		this.flagCuiNonGenerato = flagCuiNonGenerato;
+	}
+
+	/**
+	 * @return the motivazioneNonRiproposto
+	 */
+	public String getMotivazioneNonRiproposto() {
+		return motivazioneNonRiproposto;
+	}
+
+	/**
+	 * @param motivazioneNonRiproposto the motivazioneNonRiproposto to set
+	 */
+	public void setMotivazioneNonRiproposto(String motivazioneNonRiproposto) {
+		this.motivazioneNonRiproposto = motivazioneNonRiproposto;
+	}
+
+	/**
+	 * @return the note
+	 */
+	public String getNote() {
+		return note;
+	}
+
+	/**
+	 * @param note the note to set
+	 */
+	public void setNote(String note) {
+		this.note = note;
+	}
+
+	/**
+	 * @return the tipoProceduraCodice
+	 */
+	public String getTipoProceduraCodice() {
+		return tipoProceduraCodice;
+	}
+
+	/**
+	 * @param tipoProceduraCodice the tipoProceduraCodice to set
+	 */
+	public void setTipoProceduraCodice(String tipoProceduraCodice) {
+		this.tipoProceduraCodice = tipoProceduraCodice;
+	}
+
+
 }

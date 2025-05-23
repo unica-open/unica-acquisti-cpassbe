@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -24,6 +24,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import it.csi.cpass.cpassbe.ejb.entity.CpassDStato;
 import it.csi.cpass.cpassbe.ejb.entity.CpassTSettore;
 import it.csi.cpass.cpassbe.ejb.entity.base.BaseAuditedEntity;
 import it.csi.cpass.cpassbe.lib.util.uuid.UuidUtils;
@@ -31,7 +32,7 @@ import it.csi.cpass.cpassbe.lib.util.uuid.UuidUtils;
 
 /**
  * The persistent class for the cpass_t_ord_destinatario database table.
- * 
+ *
  */
 @Entity
 @Table(name="cpass_t_ord_destinatario_ordine")
@@ -69,10 +70,11 @@ public class CpassTOrdDestinatarioOrdine  extends BaseAuditedEntity<UUID> implem
 	private String telefono;
 
 
-	//bi-directional many-to-one association to CpassDStatoElOrdine
+
+	//bi-directional many-to-one association to CpassDStato
 	@ManyToOne
-	@JoinColumn(name="stato_el_ordine_id")
-	private CpassDStatoElOrdine cpassDStatoElOrdine;
+	@JoinColumn(name="stato_id")
+	private CpassDStato cpassDStato;
 
 	//bi-directional many-to-one association to CpassTOrdTestataOrdine
 	@ManyToOne
@@ -87,11 +89,19 @@ public class CpassTOrdDestinatarioOrdine  extends BaseAuditedEntity<UUID> implem
 	//bi-directional many-to-one association to CpassTOrdRigaOrdine
 	@OneToMany(mappedBy="cpassTOrdDestinatario")
 	private List<CpassTOrdRigaOrdine> cpassTOrdRigaOrdines;
-	
+
 	// bi-directional many-to-one association to CpassDOrdStatoNso
 	@ManyToOne
 	@JoinColumn(name = "stato_nso_id")
 	private CpassDOrdStatoNso cpassDOrdStatoNso;
+
+	@Column(name="settore_indirizzo_codice")
+	private String settoreIndirizzoCodice;
+
+	@ManyToOne
+	@JoinColumn(name = "settore_indirizzo_id")
+	private CpassTSettoreIndirizzo cpassTSettoreIndirizzo;
+
 
 	public CpassTOrdDestinatarioOrdine() {
 	}
@@ -184,16 +194,22 @@ public class CpassTOrdDestinatarioOrdine  extends BaseAuditedEntity<UUID> implem
 		this.telefono = telefono;
 	}
 
-	public CpassDStatoElOrdine getCpassDStatoElOrdine() {
-		return this.cpassDStatoElOrdine;
-	}
-
-	public void setCpassDStatoElOrdine(CpassDStatoElOrdine cpassDStatoElOrdine) {
-		this.cpassDStatoElOrdine = cpassDStatoElOrdine;
-	}
-
 	public CpassTOrdTestataOrdine getCpassTOrdTestataOrdine() {
 		return this.cpassTOrdTestataOrdine;
+	}
+
+	/**
+	 * @return the cpassDStato
+	 */
+	public CpassDStato getCpassDStato() {
+		return cpassDStato;
+	}
+
+	/**
+	 * @param cpassDStato the cpassDStato to set
+	 */
+	public void setCpassDStato(CpassDStato cpassDStato) {
+		this.cpassDStato = cpassDStato;
 	}
 
 	public void setCpassTOrdTestataOrdine(CpassTOrdTestataOrdine cpassTOrdTestataOrdine) {
@@ -229,7 +245,7 @@ public class CpassTOrdDestinatarioOrdine  extends BaseAuditedEntity<UUID> implem
 
 		return cpassTOrdRigaOrdine;
 	}
-	
+
 	/**
 	 * @return the cpassDOrdStatoNso
 	 */
@@ -242,6 +258,36 @@ public class CpassTOrdDestinatarioOrdine  extends BaseAuditedEntity<UUID> implem
 	 */
 	public void setCpassDOrdStatoNso(CpassDOrdStatoNso cpassDOrdStatoNso) {
 		this.cpassDOrdStatoNso = cpassDOrdStatoNso;
+	}
+
+
+
+	/**
+	 * @return the settoreIndirizzoCodice
+	 */
+	public String getSettoreIndirizzoCodice() {
+		return settoreIndirizzoCodice;
+	}
+
+	/**
+	 * @param settoreIndirizzoCodice the settoreIndirizzoCodice to set
+	 */
+	public void setSettoreIndirizzoCodice(String settoreIndirizzoCodice) {
+		this.settoreIndirizzoCodice = settoreIndirizzoCodice;
+	}
+
+	/**
+	 * @return the cpassTSettoreIndirizzo
+	 */
+	public CpassTSettoreIndirizzo getCpassTSettoreIndirizzo() {
+		return cpassTSettoreIndirizzo;
+	}
+
+	/**
+	 * @param cpassTSettoreIndirizzo the cpassTSettoreIndirizzo to set
+	 */
+	public void setCpassTSettoreIndirizzo(CpassTSettoreIndirizzo cpassTSettoreIndirizzo) {
+		this.cpassTSettoreIndirizzo = cpassTSettoreIndirizzo;
 	}
 
 	@Override

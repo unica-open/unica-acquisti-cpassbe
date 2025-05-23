@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -31,31 +31,22 @@ import it.csi.cpass.cpassbe.ejb.entity.base.BaseEntity;
 @NamedQuery(name="CpassTProgressivo.findAll", query="SELECT c FROM CpassTProgressivo c")
 public class CpassTProgressivo implements Serializable, BaseEntity<CpassTProgressivoPk>  {
 
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 7497648086809080214L;
 
 	@EmbeddedId
 	private CpassTProgressivoPk id;
 
-	/** The progressivo numero. */
 	@Version
-	@Column(name="progressivo_numero", nullable=false)
+	@Column(name="progressivo_numero")
 	private Integer progressivoNumero;
 
-	/**
-	 * Gets the progressivo numero.
-	 *
-	 * @return the progressivo numero
-	 */
+	public CpassTProgressivo() {
+	}
+
 	public Integer getProgressivoNumero() {
 		return this.progressivoNumero;
 	}
 
-	/**
-	 * Sets the progressivo numero.
-	 *
-	 * @param progressivoNumero the new progressivo numero
-	 */
 	public void setProgressivoNumero(Integer progressivoNumero) {
 		this.progressivoNumero = progressivoNumero;
 	}
@@ -69,6 +60,8 @@ public class CpassTProgressivo implements Serializable, BaseEntity<CpassTProgres
 	public void setId(CpassTProgressivoPk id) {
 		this.id = id;
 	}
+
+
 
 	@Override
 	public void initId() {

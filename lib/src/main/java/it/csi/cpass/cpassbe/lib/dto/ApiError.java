@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -66,7 +66,7 @@ public class ApiError implements Serializable {
 		this.params = params;
 		this.groupParams = new HashMap<>();
 	}
-	
+
 	/**
 	 * Constructor using fields
 	 * @param code the code
@@ -95,7 +95,7 @@ public class ApiError implements Serializable {
 		this.params = params;
 		this.groupParams = new HashMap<>();
 	}
-	
+
 	/**
 	 * Gets the code.
 	 * @return the code
@@ -111,7 +111,7 @@ public class ApiError implements Serializable {
 	public void setCode(String code) {
 		this.code = code;
 	}
-	
+
 	/**
 	 * @return the group
 	 */
@@ -162,14 +162,14 @@ public class ApiError implements Serializable {
 	public Map<String, Object> getGroupParams() {
 		return groupParams;
 	}
-	
+
 	/**
 	 * @param groupParams the groupParams to set
 	 */
 	public void setGroupParams(Map<String, Object> groupParams) {
 		this.groupParams = groupParams != null ? groupParams : new HashMap<>();
 	}
-	
+
 	/**
 	 * @return the type
 	 */
@@ -237,8 +237,18 @@ public class ApiError implements Serializable {
 	 */
 	@JsonbTransient
 	public String getFullErrorMessage() {
+		return getFullErrorMessage(true);
+	}
+
+	/**
+	 * Gets the full error message
+	 *
+	 * @return the fullErrorMessage
+	 */
+	@JsonbTransient
+	public String getFullErrorMessage(boolean withCode) {
 		StringSubstitutor sub = new StringSubstitutor(this.params, "{", "}");
-		return this.code + " - " + sub.replace(this.errorMessage);
+		return ((withCode) ? this.code +" - " : "") + sub.replace(this.errorMessage);
 	}
 
 }

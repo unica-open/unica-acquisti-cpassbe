@@ -1,0 +1,863 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="urn:FdeWSAppjRicercaGateway" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="urn:FdeWSAppjRicercaGateway" xmlns:intf="urn:FdeWSAppjRicercaGateway" xmlns:tns1="http://messages.library.saga.it" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema targetNamespace="urn:FdeWSAppjRicercaGateway" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://messages.library.saga.it"/>
+   <complexType abstract="true" name="baseRequest">
+    <sequence>
+     <element maxOccurs="1" minOccurs="0" name="annoBilancio" type="xsd:int"/>
+     <element maxOccurs="1" minOccurs="0" name="codiceEnte" type="xsd:string"/>
+     <element maxOccurs="1" minOccurs="0" name="codiceFruitore" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType abstract="true" name="baseRicercaRequest">
+    <complexContent>
+     <extension base="impl:baseRequest">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType abstract="true" name="baseRicercaSoggetti">
+    <complexContent>
+     <extension base="impl:baseRicercaRequest">
+      <sequence>
+       <element maxOccurs="1" minOccurs="0" name="codice" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="codiceFiscale" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="partitaIva" type="xsd:string"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType abstract="true" name="entitaBase">
+    <sequence>
+     <element maxOccurs="1" minOccurs="0" name="codice" type="xsd:string"/>
+     <element maxOccurs="1" minOccurs="0" name="stato" type="impl:stato"/>
+    </sequence>
+   </complexType>
+   <complexType abstract="true" name="entitaCodificataBase">
+    <complexContent>
+     <extension base="impl:entitaBase">
+      <sequence>
+       <element maxOccurs="1" minOccurs="0" name="descrizione" type="xsd:string"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="stato">
+    <complexContent>
+     <extension base="impl:entitaCodificataBase">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ricercaSinteticaSoggetti">
+    <complexContent>
+     <extension base="impl:baseRicercaSoggetti">
+      <sequence>
+       <element maxOccurs="1" minOccurs="0" name="denominazione" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="stato" type="impl:stato"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <element name="ricercaSinteticaSoggetti" type="impl:ricercaSinteticaSoggetti"/>
+   <complexType name="ente">
+    <complexContent>
+     <extension base="impl:entitaCodificataBase">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType abstract="true" name="messaggioBase">
+    <complexContent>
+     <extension base="impl:entitaCodificataBase">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="errore">
+    <complexContent>
+     <extension base="impl:messaggioBase">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <simpleType name="esito">
+    <restriction base="xsd:string">
+     <enumeration value="SUCCESSO"/>
+     <enumeration value="FALLIMENTO"/>
+    </restriction>
+   </simpleType>
+   <complexType name="messaggio">
+    <complexContent>
+     <extension base="impl:messaggioBase">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType abstract="true" name="baseResponse">
+    <sequence>
+     <element maxOccurs="1" minOccurs="0" name="ente" type="impl:ente"/>
+     <element maxOccurs="unbounded" minOccurs="0" name="errori" nillable="true" type="impl:errore"/>
+     <element maxOccurs="1" minOccurs="0" name="esito" type="impl:esito"/>
+     <element maxOccurs="unbounded" minOccurs="0" name="messaggi" nillable="true" type="impl:messaggio"/>
+    </sequence>
+   </complexType>
+   <complexType abstract="true" name="baseRicercaResponse">
+    <complexContent>
+     <extension base="impl:baseResponse">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="contatti">
+    <complexContent>
+     <extension base="impl:entitaBase">
+      <sequence>
+       <element maxOccurs="1" minOccurs="0" name="cellulare" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="email" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="fax" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="pec" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="telefono" type="xsd:string"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="recapito">
+    <complexContent>
+     <extension base="impl:entitaBase">
+      <sequence>
+       <element maxOccurs="1" minOccurs="0" name="cap" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="codiceIstatComune" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="codiceNazione" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="comune" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="descrizioneNazione" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="indirizzo" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="numeroCivico" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="provincia" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="sedime" type="xsd:string"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="sede">
+    <complexContent>
+     <extension base="impl:entitaBase">
+      <sequence>
+       <element maxOccurs="1" minOccurs="0" name="descrizione" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="recapito" type="impl:recapito"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="modalitaPagamento">
+    <complexContent>
+     <extension base="impl:entitaCodificataBase">
+      <sequence>
+       <element maxOccurs="1" minOccurs="0" name="codiceTipoAccredito" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="descrizioneTipoAccredito" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="sede" type="impl:sede"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="naturaGiuridica">
+    <complexContent>
+     <extension base="impl:entitaCodificataBase">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <simpleType name="sesso">
+    <restriction base="xsd:string">
+     <enumeration value="MASCHIO"/>
+     <enumeration value="FEMMINA"/>
+     <enumeration value="NON_DEFINITO"/>
+    </restriction>
+   </simpleType>
+   <complexType name="soggetto">
+    <complexContent>
+     <extension base="impl:entitaBase">
+      <sequence>
+       <element maxOccurs="1" minOccurs="0" name="codiceFiscale" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="codiceFiscaleEstero" type="xsd:string"/>
+       <element maxOccurs="unbounded" minOccurs="0" name="codiciSoggettiCollegatiPrecedenti" nillable="true" type="xsd:string"/>
+       <element maxOccurs="unbounded" minOccurs="0" name="codiciSoggettiCollegatiSuccessivi" nillable="true" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="cognome" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="contatti" type="impl:contatti"/>
+       <element maxOccurs="1" minOccurs="0" name="dataNascita" type="xsd:dateTime"/>
+       <element maxOccurs="unbounded" minOccurs="0" name="elencoModalitaPagamento" nillable="true" type="impl:modalitaPagamento"/>
+       <element maxOccurs="unbounded" minOccurs="0" name="elencoSedi" nillable="true" type="impl:sede"/>
+       <element maxOccurs="1" minOccurs="0" name="indirizzoPrincipale" type="impl:recapito"/>
+       <element maxOccurs="1" minOccurs="0" name="naturaGiuridica" type="impl:naturaGiuridica"/>
+       <element maxOccurs="1" minOccurs="0" name="nome" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="partitaIva" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="ragioneSociale" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="sesso" type="impl:sesso"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType abstract="true" name="baseRicercaSoggettiResponse">
+    <complexContent>
+     <extension base="impl:baseRicercaResponse">
+      <sequence>
+       <element maxOccurs="unbounded" minOccurs="0" name="soggetti" nillable="true" type="impl:soggetto"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ricercaSinteticaSoggettiResponse">
+    <complexContent>
+     <extension base="impl:baseRicercaSoggettiResponse">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <element name="ricercaSinteticaSoggettiResponse" type="impl:ricercaSinteticaSoggettiResponse"/>
+   <complexType name="ArrayOf_xsd_anyType">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="xsd:anyType"/>
+    </sequence>
+   </complexType>
+   <element name="fault" type="tns1:SagaException"/>
+   <complexType abstract="true" name="ricercaPaginataRequest">
+    <complexContent>
+     <extension base="impl:baseRicercaRequest">
+      <sequence>
+       <element maxOccurs="1" minOccurs="0" name="numeroElementiPerPagina" type="xsd:int"/>
+       <element maxOccurs="1" minOccurs="0" name="numeroPagina" type="xsd:int"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType abstract="true" name="baseRicercaDocumento">
+    <complexContent>
+     <extension base="impl:ricercaPaginataRequest">
+      <sequence>
+       <element maxOccurs="1" minOccurs="0" name="annoDocumento" type="xsd:int"/>
+       <element maxOccurs="1" minOccurs="0" name="annoRepertorio" type="xsd:int"/>
+       <element maxOccurs="1" minOccurs="0" name="codiceSoggetto" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="dataRepertorio" type="xsd:dateTime"/>
+       <element maxOccurs="1" minOccurs="0" name="numeroDocumento" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="numeroRepertorio" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="registroRepertorio" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="tipoDocumento" type="xsd:string"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ricercaDocumentoSpesa">
+    <complexContent>
+     <extension base="impl:baseRicercaDocumento">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <element name="ricercaDocumentoSpesa" type="impl:ricercaDocumentoSpesa"/>
+   <complexType abstract="true" name="ricercaPaginataResponse">
+    <complexContent>
+     <extension base="impl:baseRicercaResponse">
+      <sequence>
+       <element maxOccurs="1" minOccurs="0" name="totaleRisultati" type="xsd:int"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType abstract="true" name="baseRicercaDocumentoResponse">
+    <complexContent>
+     <extension base="impl:ricercaPaginataResponse">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="documento">
+    <complexContent>
+     <extension base="impl:entitaCodificataBase">
+      <sequence>
+       <element maxOccurs="1" minOccurs="0" name="annoDocumento" type="xsd:int"/>
+       <element maxOccurs="1" minOccurs="0" name="annoRepertorio" type="xsd:int"/>
+       <element maxOccurs="1" minOccurs="0" name="arrotondamento" type="xsd:decimal"/>
+       <element maxOccurs="1" minOccurs="0" name="codiceSoggetto" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="dataRepertorio" type="xsd:dateTime"/>
+       <element maxOccurs="1" minOccurs="0" name="importoDocumento" type="xsd:decimal"/>
+       <element maxOccurs="1" minOccurs="0" name="importoNettoDocumento" type="xsd:decimal"/>
+       <element maxOccurs="1" minOccurs="0" name="numeroDocumento" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="numeroRepertorio" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="registroRepertorio" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="tipoDocumento" type="xsd:string"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ordine">
+    <sequence>
+     <element maxOccurs="1" minOccurs="0" name="numeroOrdine" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="documentoSpesa">
+    <complexContent>
+     <extension base="impl:documento">
+      <sequence>
+       <element maxOccurs="unbounded" minOccurs="0" name="elencoOrdini" nillable="true" type="impl:ordine"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ricercaDocumentoSpesaResponse">
+    <complexContent>
+     <extension base="impl:baseRicercaDocumentoResponse">
+      <sequence>
+       <element maxOccurs="unbounded" minOccurs="0" name="documentiSpesa" nillable="true" type="impl:documentoSpesa"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <element name="ricercaDocumentoSpesaResponse" type="impl:ricercaDocumentoSpesaResponse"/>
+   <complexType name="ricercaMovimentoGestione">
+    <complexContent>
+     <extension base="impl:ricercaPaginataRequest">
+      <sequence>
+       <element maxOccurs="1" minOccurs="0" name="annoProvvedimento" type="xsd:int"/>
+       <element maxOccurs="1" minOccurs="0" name="codiceStruttura" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="codiceTipoProvvedimento" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="codiceTipoStruttura" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="numeroProvvedimento" type="xsd:int"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ricercaImpegno">
+    <complexContent>
+     <extension base="impl:ricercaMovimentoGestione">
+      <sequence>
+       <element maxOccurs="1" minOccurs="0" name="annoImpegno" type="xsd:int"/>
+       <element maxOccurs="1" minOccurs="0" name="numeroImpegno" type="xsd:int"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <element name="ricercaImpegno" type="impl:ricercaImpegno"/>
+   <complexType name="pianoDeiContiFinanziario">
+    <complexContent>
+     <extension base="impl:entitaCodificataBase">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="strutturaAmministrativa">
+    <complexContent>
+     <extension base="impl:entitaCodificataBase">
+      <sequence>
+       <element maxOccurs="1" minOccurs="0" name="codiceTipoStruttura" type="xsd:string"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="provvedimento">
+    <complexContent>
+     <extension base="impl:entitaBase">
+      <sequence>
+       <element maxOccurs="1" minOccurs="0" name="annoProvvedimento" type="xsd:int"/>
+       <element maxOccurs="1" minOccurs="0" name="codiceTipoProvvedimento" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="numeroProvvedimento" type="xsd:int"/>
+       <element maxOccurs="1" minOccurs="0" name="sac" type="impl:strutturaAmministrativa"/>
+       <element maxOccurs="1" minOccurs="0" name="statoProvvedimento" type="xsd:string"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="movimentoGestione">
+    <complexContent>
+     <extension base="impl:entitaCodificataBase">
+      <sequence>
+       <element maxOccurs="1" minOccurs="0" name="cig" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="codiceSoggetto" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="cup" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="importo" type="xsd:decimal"/>
+       <element maxOccurs="1" minOccurs="0" name="numeroArticolo" type="xsd:int"/>
+       <element maxOccurs="1" minOccurs="0" name="numeroCapitolo" type="xsd:int"/>
+       <element maxOccurs="1" minOccurs="0" name="numeroUEB" type="xsd:int"/>
+       <element maxOccurs="1" minOccurs="0" name="parereFinanziario" type="xsd:boolean"/>
+       <element maxOccurs="1" minOccurs="0" name="pdc" type="impl:pianoDeiContiFinanziario"/>
+       <element maxOccurs="1" minOccurs="0" name="provvedimento" type="impl:provvedimento"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="subImpegno">
+    <complexContent>
+     <extension base="impl:movimentoGestione">
+      <sequence>
+       <element maxOccurs="1" minOccurs="0" name="annoSubImpegno" type="xsd:int"/>
+       <element maxOccurs="1" minOccurs="0" name="disponibilitaLiquidare" type="xsd:decimal"/>
+       <element maxOccurs="1" minOccurs="0" name="numeroSubImpegno" type="xsd:int"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="impegno">
+    <complexContent>
+     <extension base="impl:movimentoGestione">
+      <sequence>
+       <element maxOccurs="1" minOccurs="0" name="annoImpegno" type="xsd:int"/>
+       <element maxOccurs="1" minOccurs="0" name="annoImpegnoOrigine" type="xsd:int"/>
+       <element maxOccurs="1" minOccurs="0" name="annoImpegnoRiaccertato" type="xsd:int"/>
+       <element maxOccurs="1" minOccurs="0" name="disponibilitaLiquidare" type="xsd:decimal"/>
+       <element maxOccurs="1" minOccurs="0" name="numImpegnoOrigine" type="xsd:int"/>
+       <element maxOccurs="1" minOccurs="0" name="numImpegnoRiaccertato" type="xsd:int"/>
+       <element maxOccurs="1" minOccurs="0" name="numeroImpegno" type="xsd:int"/>
+       <element maxOccurs="unbounded" minOccurs="0" name="subImpegni" nillable="true" type="impl:subImpegno"/>
+       <element maxOccurs="1" minOccurs="0" name="tipoImpegno" type="xsd:string"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ricercaImpegnoResponse">
+    <complexContent>
+     <extension base="impl:ricercaPaginataResponse">
+      <sequence>
+       <element maxOccurs="unbounded" minOccurs="0" name="impegni" nillable="true" type="impl:impegno"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <element name="ricercaImpegnoResponse" type="impl:ricercaImpegnoResponse"/>
+   <complexType name="ricercaDettaglioSoggetti">
+    <complexContent>
+     <extension base="impl:baseRicercaSoggetti">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <element name="ricercaDettaglioSoggetto" type="impl:ricercaDettaglioSoggetti"/>
+   <complexType name="ricercaDettaglioSoggettiResponse">
+    <complexContent>
+     <extension base="impl:baseRicercaSoggettiResponse">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <element name="ricercaDettaglioSoggettoResponse" type="impl:ricercaDettaglioSoggettiResponse"/>
+   <complexType name="ricercaCapitolo">
+    <complexContent>
+     <extension base="impl:ricercaPaginataRequest">
+      <sequence>
+       <element maxOccurs="1" minOccurs="0" name="numeroArticolo" type="xsd:int"/>
+       <element maxOccurs="1" minOccurs="0" name="numeroCapitolo" type="xsd:int"/>
+       <element maxOccurs="1" minOccurs="0" name="numeroUEB" type="xsd:int"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ricercaCapitoloUscitaGestione">
+    <complexContent>
+     <extension base="impl:ricercaCapitolo">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <element name="ricercaCapitoloUscitaGestione" type="impl:ricercaCapitoloUscitaGestione"/>
+   <complexType name="classificatoreGenerico">
+    <complexContent>
+     <extension base="impl:entitaCodificataBase">
+      <sequence>
+       <element maxOccurs="1" minOccurs="0" name="tipoCodifica" type="xsd:string"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="tipoFinanziamento">
+    <complexContent>
+     <extension base="impl:entitaCodificataBase">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="tipoFondo">
+    <complexContent>
+     <extension base="impl:entitaCodificataBase">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="titolo">
+    <complexContent>
+     <extension base="impl:entitaCodificataBase">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="capitolo">
+    <complexContent>
+     <extension base="impl:entitaBase">
+      <sequence>
+       <element maxOccurs="1" minOccurs="0" name="annoEsercizio" type="xsd:int"/>
+       <element maxOccurs="unbounded" minOccurs="0" name="classificatoriGenerici" nillable="true" type="impl:classificatoreGenerico"/>
+       <element maxOccurs="1" minOccurs="0" name="descrizione" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="descrizioneArticolo" type="xsd:string"/>
+       <element maxOccurs="1" minOccurs="0" name="numeroArticolo" type="xsd:int"/>
+       <element maxOccurs="1" minOccurs="0" name="numeroCapitolo" type="xsd:int"/>
+       <element maxOccurs="1" minOccurs="0" name="numeroUEB" type="xsd:int"/>
+       <element maxOccurs="1" minOccurs="0" name="pianoDeiContiFinanziario" type="impl:pianoDeiContiFinanziario"/>
+       <element maxOccurs="1" minOccurs="0" name="rilevanteIva" type="xsd:boolean"/>
+       <element maxOccurs="1" minOccurs="0" name="sac" type="impl:strutturaAmministrativa"/>
+       <element maxOccurs="1" minOccurs="0" name="tipoFinanziamento" type="impl:tipoFinanziamento"/>
+       <element maxOccurs="1" minOccurs="0" name="tipoFondo" type="impl:tipoFondo"/>
+       <element maxOccurs="1" minOccurs="0" name="titolo" type="impl:titolo"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="importo">
+    <complexContent>
+     <extension base="impl:entitaBase">
+      <sequence>
+       <element maxOccurs="1" minOccurs="0" name="annoCompetenza" type="xsd:int"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="importoCapitoloUscitaGestione">
+    <complexContent>
+     <extension base="impl:importo">
+      <sequence>
+       <element maxOccurs="1" minOccurs="0" name="disponibilitaImpegnare" type="xsd:decimal"/>
+       <element maxOccurs="1" minOccurs="0" name="stanziamento" type="xsd:decimal"/>
+       <element maxOccurs="1" minOccurs="0" name="stanziamentoCassa" type="xsd:decimal"/>
+       <element maxOccurs="1" minOccurs="0" name="stanziamentoResiduo" type="xsd:decimal"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="macroaggregato">
+    <complexContent>
+     <extension base="impl:entitaCodificataBase">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="missione">
+    <complexContent>
+     <extension base="impl:entitaCodificataBase">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="programma">
+    <complexContent>
+     <extension base="impl:entitaCodificataBase">
+      <sequence/>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="capitoloUscitaGestione">
+    <complexContent>
+     <extension base="impl:capitolo">
+      <sequence>
+       <element maxOccurs="unbounded" minOccurs="0" name="importiUG" nillable="true" type="impl:importoCapitoloUscitaGestione"/>
+       <element maxOccurs="1" minOccurs="0" name="macroaggregato" type="impl:macroaggregato"/>
+       <element maxOccurs="1" minOccurs="0" name="missione" type="impl:missione"/>
+       <element maxOccurs="1" minOccurs="0" name="programma" type="impl:programma"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ricercaCapitoloUscitaGestioneResponse">
+    <complexContent>
+     <extension base="impl:ricercaPaginataResponse">
+      <sequence>
+       <element maxOccurs="unbounded" minOccurs="0" name="capitoliUscitaGestione" nillable="true" type="impl:capitoloUscitaGestione"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <element name="ricercaCapitoloUscitaGestioneResponse" type="impl:ricercaCapitoloUscitaGestioneResponse"/>
+  </schema>
+  <schema elementFormDefault="qualified" targetNamespace="http://messages.library.saga.it" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="urn:FdeWSAppjRicercaGateway"/>
+   <complexType name="MsgDACContainer">
+    <sequence>
+     <element name="error" type="xsd:boolean"/>
+     <element name="ignore" type="xsd:boolean"/>
+     <element name="information" type="xsd:boolean"/>
+     <element name="messageContainer" nillable="true" type="tns1:MsgDACContainer"/>
+     <element name="messages" nillable="true" type="impl:ArrayOf_xsd_anyType"/>
+     <element name="messagesCount" type="xsd:int"/>
+     <element name="messagesSorted" nillable="true" type="impl:ArrayOf_xsd_anyType"/>
+     <element name="numberMessages" type="xsd:int"/>
+     <element name="originatorException" nillable="true" type="tns1:SagaException"/>
+     <element name="sagaException" nillable="true" type="tns1:SagaException"/>
+     <element name="type" type="xsd:int"/>
+     <element name="viewed" type="xsd:boolean"/>
+     <element name="warning" type="xsd:boolean"/>
+    </sequence>
+   </complexType>
+   <complexType name="SagaException">
+    <sequence>
+     <element name="message" nillable="true" type="xsd:string"/>
+     <element name="messageContainer" nillable="true" type="tns1:MsgDACContainer"/>
+    </sequence>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="ricercaSinteticaSoggettiResponse">
+
+      <wsdl:part element="impl:ricercaSinteticaSoggettiResponse" name="ricercaSinteticaSoggettiResponse"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="ricercaImpegnoRequest">
+
+      <wsdl:part element="impl:ricercaImpegno" name="ricercaImpegno"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="ricercaDocumentoSpesaResponse">
+
+      <wsdl:part element="impl:ricercaDocumentoSpesaResponse" name="ricercaDocumentoSpesaResponse"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="ricercaImpegnoResponse">
+
+      <wsdl:part element="impl:ricercaImpegnoResponse" name="ricercaImpegnoResponse"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="ricercaDettaglioSoggettoRequest">
+
+      <wsdl:part element="impl:ricercaDettaglioSoggetto" name="ricercaDettaglioSoggetto"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="ricercaSinteticaSoggettiRequest">
+
+      <wsdl:part element="impl:ricercaSinteticaSoggetti" name="ricercaSinteticaSoggetti"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="SagaException">
+
+      <wsdl:part element="impl:fault" name="fault"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="ricercaDocumentoSpesaRequest">
+
+      <wsdl:part element="impl:ricercaDocumentoSpesa" name="ricercaDocumentoSpesa"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="ricercaDettaglioSoggettoResponse">
+
+      <wsdl:part element="impl:ricercaDettaglioSoggettoResponse" name="ricercaDettaglioSoggettoResponse"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="ricercaCapitoloUscitaGestioneResponse">
+
+      <wsdl:part element="impl:ricercaCapitoloUscitaGestioneResponse" name="ricercaCapitoloUscitaGestioneResponse"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="ricercaCapitoloUscitaGestioneRequest">
+
+      <wsdl:part element="impl:ricercaCapitoloUscitaGestione" name="ricercaCapitoloUscitaGestione"/>
+
+   </wsdl:message>
+
+   <wsdl:portType name="FdeWSAppjRicercaGateway">
+
+      <wsdl:operation name="ricercaSinteticaSoggetti" parameterOrder="ricercaSinteticaSoggetti">
+
+         <wsdl:input message="impl:ricercaSinteticaSoggettiRequest" name="ricercaSinteticaSoggettiRequest"/>
+
+         <wsdl:output message="impl:ricercaSinteticaSoggettiResponse" name="ricercaSinteticaSoggettiResponse"/>
+
+         <wsdl:fault message="impl:SagaException" name="SagaException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="ricercaDocumentoSpesa" parameterOrder="ricercaDocumentoSpesa">
+
+         <wsdl:input message="impl:ricercaDocumentoSpesaRequest" name="ricercaDocumentoSpesaRequest"/>
+
+         <wsdl:output message="impl:ricercaDocumentoSpesaResponse" name="ricercaDocumentoSpesaResponse"/>
+
+         <wsdl:fault message="impl:SagaException" name="SagaException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="ricercaImpegno" parameterOrder="ricercaImpegno">
+
+         <wsdl:input message="impl:ricercaImpegnoRequest" name="ricercaImpegnoRequest"/>
+
+         <wsdl:output message="impl:ricercaImpegnoResponse" name="ricercaImpegnoResponse"/>
+
+         <wsdl:fault message="impl:SagaException" name="SagaException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="ricercaDettaglioSoggetto" parameterOrder="ricercaDettaglioSoggetto">
+
+         <wsdl:input message="impl:ricercaDettaglioSoggettoRequest" name="ricercaDettaglioSoggettoRequest"/>
+
+         <wsdl:output message="impl:ricercaDettaglioSoggettoResponse" name="ricercaDettaglioSoggettoResponse"/>
+
+         <wsdl:fault message="impl:SagaException" name="SagaException"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="ricercaCapitoloUscitaGestione" parameterOrder="ricercaCapitoloUscitaGestione">
+
+         <wsdl:input message="impl:ricercaCapitoloUscitaGestioneRequest" name="ricercaCapitoloUscitaGestioneRequest"/>
+
+         <wsdl:output message="impl:ricercaCapitoloUscitaGestioneResponse" name="ricercaCapitoloUscitaGestioneResponse"/>
+
+         <wsdl:fault message="impl:SagaException" name="SagaException"/>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="FdeWSAppjRicercaGatewaySoapBinding" type="impl:FdeWSAppjRicercaGateway">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="ricercaSinteticaSoggetti">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="ricercaSinteticaSoggettiRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="ricercaSinteticaSoggettiResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SagaException">
+
+            <wsdlsoap:fault name="SagaException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="ricercaDocumentoSpesa">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="ricercaDocumentoSpesaRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="ricercaDocumentoSpesaResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SagaException">
+
+            <wsdlsoap:fault name="SagaException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="ricercaImpegno">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="ricercaImpegnoRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="ricercaImpegnoResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SagaException">
+
+            <wsdlsoap:fault name="SagaException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="ricercaDettaglioSoggetto">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="ricercaDettaglioSoggettoRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="ricercaDettaglioSoggettoResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SagaException">
+
+            <wsdlsoap:fault name="SagaException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="ricercaCapitoloUscitaGestione">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="ricercaCapitoloUscitaGestioneRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="ricercaCapitoloUscitaGestioneResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="SagaException">
+
+            <wsdlsoap:fault name="SagaException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="FdeWSAppjRicercaGatewayService">
+
+      <wsdl:port binding="impl:FdeWSAppjRicercaGatewaySoapBinding" name="FdeWSAppjRicercaGateway">
+
+         <wsdlsoap:address location="http://tst-api-ent.ecosis.csi.it:80/api/SIMEL2_FdeWSAppjRicercaGateway-I/1.0"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

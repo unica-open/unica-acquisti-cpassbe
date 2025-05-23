@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -33,12 +33,13 @@ public class GetRicercaInterventiXCopiaService extends BaseInterventoService<Get
 
 	@Override
 	protected void execute() {
-		PagedList<Intervento> interventi = interventoDad.getRicercaInterventiXCopia(
+		final PagedList<Intervento> interventi = interventoDad.getRicercaInterventiXCopia(
 				request.getPage(),
 				request.getSize(),
 				request.getSort(),
 				request.getProgrammaIdOld(),
-				request.getProgrammaIdNew()
+				request.getProgrammaIdNew(),
+				request.getUtenteRupId()
 				);
 		response.setInterventi(interventi);
 	}

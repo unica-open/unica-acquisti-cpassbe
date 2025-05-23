@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -11,7 +11,6 @@
 package it.csi.cpass.cpassbe.ejb.entity;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -30,7 +29,7 @@ import it.csi.cpass.cpassbe.ejb.entity.base.BaseEntity;
 
 /**
  * The persistent class for the cpass_r_ufficio_settore database table.
- * 
+ *
  */
 @Entity
 @Table(name="cpass_r_ufficio_settore")
@@ -75,7 +74,7 @@ public class CpassRUfficioSettore implements Serializable, BaseEntity<Integer> {
 		return this.dataValiditaFine;
 	}
 
-	public void setDataValiditaFine(Timestamp dataValiditaFine) {
+	public void setDataValiditaFine(Date dataValiditaFine) {
 		this.dataValiditaFine = dataValiditaFine;
 	}
 
@@ -83,7 +82,7 @@ public class CpassRUfficioSettore implements Serializable, BaseEntity<Integer> {
 		return this.dataValiditaInizio;
 	}
 
-	public void setDataValiditaInizio(Timestamp dataValiditaInizio) {
+	public void setDataValiditaInizio(Date dataValiditaInizio) {
 		this.dataValiditaInizio = dataValiditaInizio;
 	}
 

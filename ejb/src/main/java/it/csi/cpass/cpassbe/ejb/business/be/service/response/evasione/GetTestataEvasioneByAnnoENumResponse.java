@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -11,7 +11,6 @@
 package it.csi.cpass.cpassbe.ejb.business.be.service.response.evasione;
 
 import it.csi.cpass.cpassbe.ejb.business.be.service.response.base.BaseGetResponse;
-import it.csi.cpass.cpassbe.lib.dto.ord.TestataOrdine;
 import it.csi.cpass.cpassbe.lib.dto.ord.evasione.TestataEvasione;
 
 public class GetTestataEvasioneByAnnoENumResponse extends BaseGetResponse<TestataEvasione> {
@@ -36,5 +35,5 @@ public class GetTestataEvasioneByAnnoENumResponse extends BaseGetResponse<Testat
 	protected TestataEvasione getEntity() {
 		return testataEvasione;
 	}
-	
+
 }

@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -13,6 +13,7 @@ package it.csi.cpass.cpassbe.ejb.business.be.dad;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -20,13 +21,11 @@ import javax.inject.Inject;
 
 import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.ord.evasione.CpassTOrdImpegnoEvasioneDao;
 import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.ord.evasione.CpassTOrdSubimpegnoEvasioneDao;
-import it.csi.cpass.cpassbe.ejb.entity.ord.CpassTOrdImpegnoOrdine;
-import it.csi.cpass.cpassbe.ejb.entity.ord.CpassTOrdSubimpegnoOrdine;
 import it.csi.cpass.cpassbe.ejb.entity.ord.evasione.CpassTOrdImpegnoEvasione;
 import it.csi.cpass.cpassbe.ejb.entity.ord.evasione.CpassTOrdSubimpegnoEvasione;
 import it.csi.cpass.cpassbe.ejb.mapper.CpassMappers;
-import it.csi.cpass.cpassbe.lib.dto.ord.ImpegnoOrdine;
 import it.csi.cpass.cpassbe.lib.dto.ord.evasione.ImpegnoEvasione;
+import it.csi.cpass.cpassbe.lib.dto.ord.evasione.RigaEvasione;
 import it.csi.cpass.cpassbe.lib.dto.ord.evasione.SubimpegnoEvasione;
 
 @ApplicationScoped
@@ -36,143 +35,218 @@ public class ImpegnoEvasioneDad extends BaseDad {
 	private CpassTOrdImpegnoEvasioneDao cpassTOrdImpegnoEvasioneDao;
 	@Inject
 	private CpassTOrdSubimpegnoEvasioneDao cpassTOrdSubimpegnoEvasioneDao;
-
+	/**
+	 * 
+	 * @param impegnoEvasione
+	 * @return
+	 */
 	public ImpegnoEvasione insert(ImpegnoEvasione impegnoEvasione) {
-		CpassTOrdImpegnoEvasione cpassTOrdImpegnoEvasione = CpassMappers.IMPEGNO_EVASIONE.toEntity(impegnoEvasione);
-		ImpegnoEvasione result = CpassMappers.IMPEGNO_EVASIONE.toModel(cpassTOrdImpegnoEvasioneDao.insert(cpassTOrdImpegnoEvasione));
+		final CpassTOrdImpegnoEvasione cpassTOrdImpegnoEvasione = CpassMappers.IMPEGNO_EVASIONE.toEntity(impegnoEvasione);
+		final ImpegnoEvasione result = CpassMappers.IMPEGNO_EVASIONE.toModel(cpassTOrdImpegnoEvasioneDao.insert(cpassTOrdImpegnoEvasione));
 		return result;
 	}
 
+	/**
+	 *
+	 * @param impegnoEvasione
+	 * @return ImpegnoEvasione
+	 */
 	public ImpegnoEvasione update(ImpegnoEvasione impegnoEvasione) {
-		CpassTOrdImpegnoEvasione cpassTOrdImpegnoEvasione = CpassMappers.IMPEGNO_EVASIONE.toEntity(impegnoEvasione);
-		ImpegnoEvasione result = CpassMappers.IMPEGNO_EVASIONE.toModel(cpassTOrdImpegnoEvasioneDao.update(cpassTOrdImpegnoEvasione));
+		final CpassTOrdImpegnoEvasione cpassTOrdImpegnoEvasione = CpassMappers.IMPEGNO_EVASIONE.toEntity(impegnoEvasione);
+		final ImpegnoEvasione result = CpassMappers.IMPEGNO_EVASIONE.toModel(cpassTOrdImpegnoEvasioneDao.update(cpassTOrdImpegnoEvasione));
 		return result;
 	}
-
+	/**
+	 *
+	 * @param idRigaEvasione
+	 * @return List<ImpegnoEvasione>
+	 */
 	public List<ImpegnoEvasione> getImpegniByRigaEvasione(UUID idRigaEvasione) {
-		List<ImpegnoEvasione> impegnoEvasionesRet = new ArrayList<ImpegnoEvasione>();
-
+		final List<ImpegnoEvasione> impegnoEvasionesRet = new ArrayList<>();
 		// impegni
-		List<CpassTOrdImpegnoEvasione> impegnoEvasiones = cpassTOrdImpegnoEvasioneDao.getImpegniEvasione(idRigaEvasione);
+		final List<CpassTOrdImpegnoEvasione> impegnoEvasiones = cpassTOrdImpegnoEvasioneDao.getImpegniEvasione(idRigaEvasione);
 		if (impegnoEvasiones != null) {
-			for (CpassTOrdImpegnoEvasione cpassTOrdImpegnoEvasione : impegnoEvasiones) {
-				ImpegnoEvasione impegnoEvasione = CpassMappers.IMPEGNO_EVASIONE.toModel(cpassTOrdImpegnoEvasione);
+			for (final CpassTOrdImpegnoEvasione cpassTOrdImpegnoEvasione : impegnoEvasiones) {
+				final ImpegnoEvasione impegnoEvasione = CpassMappers.IMPEGNO_EVASIONE.toModel(cpassTOrdImpegnoEvasione);
 				impegnoEvasione.setImportoRipartito(cpassTOrdImpegnoEvasione.getImportoRipartito());
 				impegnoEvasione.setImportoSospeso(cpassTOrdImpegnoEvasione.getImportoSospeso());
 				impegnoEvasione.setImportoLiquidato(cpassTOrdImpegnoEvasione.getImportoLiquidato());
-				impegnoEvasionesRet.add(impegnoEvasione);
-
-				// subimpegni
-				List<CpassTOrdSubimpegnoEvasione> subimpegnoEvasiones = cpassTOrdSubimpegnoEvasioneDao
-						.getSubimpegni(cpassTOrdImpegnoEvasione.getImpegnoEvasioneId());
+				// se sono in presenza di subimpegni
+				final List<CpassTOrdSubimpegnoEvasione> subimpegnoEvasiones = cpassTOrdSubimpegnoEvasioneDao.getSubimpegni(cpassTOrdImpegnoEvasione.getImpegnoEvasioneId());
 				if (subimpegnoEvasiones != null) {
-					for (CpassTOrdSubimpegnoEvasione cpassTOrdSubimpegnoEvasione : subimpegnoEvasiones) {
-						SubimpegnoEvasione subimpegnoEvasione = CpassMappers.SUBIMPEGNO_EVASIONE.toModel(cpassTOrdSubimpegnoEvasione);
-						subimpegnoEvasione.setImportoRipartito(cpassTOrdSubimpegnoEvasione.getImportoRipartito());
-						subimpegnoEvasione.setImportoSospeso(cpassTOrdSubimpegnoEvasione.getImportoSospeso());
-						subimpegnoEvasione.setImportoLiquidato(cpassTOrdSubimpegnoEvasione.getImportoLiquidato());
-						impegnoEvasione.getSubimpegnoEvasiones().add(subimpegnoEvasione);
+					//inizializzo l'array subimpegni e' necessario dato che in alcuni casi risulta essere già popolato
+					impegnoEvasione.setSubimpegnoEvasiones(new ArrayList<>());
+					for (final CpassTOrdSubimpegnoEvasione cpassTOrdSubimpegnoEvasione : subimpegnoEvasiones) {
+
+						final SubimpegnoEvasione subimpegnoEvasione = CpassMappers.SUBIMPEGNO_EVASIONE.toModel(cpassTOrdSubimpegnoEvasione);
+
+						subimpegnoEvasione.setImportoRipartito(subimpegnoEvasione.getImportoRipartito());
+						subimpegnoEvasione.setImportoSospeso(subimpegnoEvasione.getImportoSospeso());
+						subimpegnoEvasione.setImportoLiquidato(subimpegnoEvasione.getImportoLiquidato());
 
 						// calcolo TotaleRipartibile
-						BigDecimal totaleOrdinato = subimpegnoEvasione.getSubimpegnoOrdine().getSubimpegnoImporto();
-						BigDecimal totaleGiaEvaso = cpassTOrdSubimpegnoEvasioneDao.calcolaTotaleEvaso(subimpegnoEvasione.getSubimpegnoOrdine().getId());
+						final BigDecimal totaleOrdinato = subimpegnoEvasione.getSubimpegnoOrdine().getSubimpegnoImporto();
+						final BigDecimal totaleGiaEvaso = cpassTOrdSubimpegnoEvasioneDao.calcolaTotaleEvaso(subimpegnoEvasione.getSubimpegnoOrdine().getId());
 						BigDecimal totaleRipartibile = totaleOrdinato.subtract(totaleGiaEvaso);
 
 						totaleRipartibile = totaleRipartibile.add(subimpegnoEvasione.getImportoRipartito()).add(subimpegnoEvasione.getImportoSospeso());
 						subimpegnoEvasione.setTotaleRipartibile(totaleRipartibile);
+						impegnoEvasione.getSubimpegnoEvasiones().add(subimpegnoEvasione);
 					}
-
 				} else {
 					// calcolo TotaleRipartibile
-					BigDecimal totaleOrdinato = impegnoEvasione.getImpegnoOrdine().getImporto();
-					BigDecimal totaleGiaEvaso = cpassTOrdImpegnoEvasioneDao.calcolaTotaleEvaso(impegnoEvasione.getImpegnoOrdine().getId());
+					final BigDecimal totaleOrdinato = impegnoEvasione.getImpegnoOrdine().getImporto();
+					final BigDecimal totaleGiaEvaso = cpassTOrdImpegnoEvasioneDao.calcolaTotaleEvaso(impegnoEvasione.getImpegnoOrdine().getId());
 					BigDecimal totaleRipartibile = totaleOrdinato.subtract(totaleGiaEvaso);
-
 					// fix NullPointerException
-					if (impegnoEvasione.getImportoRipartito() == null) {
-						impegnoEvasione.setImportoRipartito(new BigDecimal(0));
-					}
-					totaleRipartibile = totaleRipartibile.add(impegnoEvasione.getImportoRipartito()).add(impegnoEvasione.getImportoSospeso());
+					final BigDecimal impRip = impegnoEvasione.getImportoRipartito() == null ? BigDecimal.ZERO : impegnoEvasione.getImportoRipartito();
+					impegnoEvasione.setImportoRipartito(impRip);
+					// fix NullPointerException
+					final BigDecimal impSospeso = impegnoEvasione.getImportoSospeso() == null ? BigDecimal.ZERO : impegnoEvasione.getImportoSospeso();
+					impegnoEvasione.setImportoSospeso(impSospeso);
+
+					totaleRipartibile = totaleRipartibile.add(impRip).add(impSospeso);
 					impegnoEvasione.setTotaleRipartibile(totaleRipartibile);
 				}
+				impegnoEvasionesRet.add(impegnoEvasione);
 			}
 		}
-
 		return impegnoEvasionesRet;
 	}
 
+	/**
+	 *
+	 * @param impegnoEvasione
+	 * @return ImpegnoEvasione
+	 */
 	public ImpegnoEvasione saveImpegnoEvasione(ImpegnoEvasione impegnoEvasione) {
-		CpassTOrdImpegnoEvasione impegnoEvasioneEntity = CpassMappers.IMPEGNO_EVASIONE.toEntity(impegnoEvasione);
-
+		final CpassTOrdImpegnoEvasione impegnoEvasioneEntity = CpassMappers.IMPEGNO_EVASIONE.toEntity(impegnoEvasione);
 		// incremento il progressivo
 		if (impegnoEvasione.getImpegnoProgressivo() == null || impegnoEvasione.getImpegnoProgressivo().equals(0)) {
 			Integer maxProgressivo = 0;
-			List<CpassTOrdImpegnoEvasione> righeEvasione = cpassTOrdImpegnoEvasioneDao.findByIdRigaEvasione(impegnoEvasione.getRigaEvasione().getId());
-			for (CpassTOrdImpegnoEvasione riga : righeEvasione) {
+			final List<CpassTOrdImpegnoEvasione> righeEvasione = cpassTOrdImpegnoEvasioneDao.findByIdRigaEvasione(impegnoEvasione.getRigaEvasione().getId());
+			for (final CpassTOrdImpegnoEvasione riga : righeEvasione) {
 				if (riga.getImpegnoProgressivo() > maxProgressivo) {
 					maxProgressivo = riga.getImpegnoProgressivo();
 				}
 			}
-			impegnoEvasioneEntity.setImpegnoProgressivo(++maxProgressivo);
+			maxProgressivo++;
+			impegnoEvasioneEntity.setImpegnoProgressivo(maxProgressivo);
 		}
-
-		ImpegnoEvasione result = CpassMappers.IMPEGNO_EVASIONE.toModel(cpassTOrdImpegnoEvasioneDao.insert(impegnoEvasioneEntity));
+		final CpassTOrdImpegnoEvasione ris = cpassTOrdImpegnoEvasioneDao.insert(impegnoEvasioneEntity);
+		cpassTOrdImpegnoEvasioneDao.flush();
+		final ImpegnoEvasione result = CpassMappers.IMPEGNO_EVASIONE.toModel(ris);
 		return result;
 	}
-	
+	/**
+	 *
+	 * @param impegnoOrdineId
+	 * @return List<ImpegnoEvasione>
+	 */
 	public List<ImpegnoEvasione> findByIdImpegnoOrdine(UUID impegnoOrdineId) {
-		List<CpassTOrdImpegnoEvasione> cpassTOrdImpegnoEvasiones = cpassTOrdImpegnoEvasioneDao.findByIdImpegnoOrdine(impegnoOrdineId);
-		List<ImpegnoEvasione> impegnoEvasiones = CpassMappers.IMPEGNO_EVASIONE.toModels(cpassTOrdImpegnoEvasiones);
+		final List<CpassTOrdImpegnoEvasione> cpassTOrdImpegnoEvasiones = cpassTOrdImpegnoEvasioneDao.findByIdImpegnoOrdine(impegnoOrdineId);
+		final List<ImpegnoEvasione> impegnoEvasiones = CpassMappers.IMPEGNO_EVASIONE.toModels(cpassTOrdImpegnoEvasiones);
 		return impegnoEvasiones;
 	}
-
+	/**
+	 *
+	 * @param impegnoOrdineId
+	 * @return BigDecimal
+	 */
 	public BigDecimal calcolaTotaleEvaso(UUID impegnoOrdineId) {
 		return cpassTOrdImpegnoEvasioneDao.calcolaTotaleEvaso(impegnoOrdineId);
 	}
-
-	public BigDecimal calcolaTotale(Integer impegnoAnno, Integer impegnoNumero) {
-		return cpassTOrdImpegnoEvasioneDao.calcolaTotale(impegnoAnno, impegnoNumero);
+	/**
+	 *
+	 * @param impegnoAnno
+	 * @param impegnoNumero
+	 * @return BigDecimal
+	 */
+	public BigDecimal calcolaTotale(Integer impegnoAnno, Integer impegnoNumero, UUID testataEvasioneId) {
+		return cpassTOrdImpegnoEvasioneDao.calcolaTotale(impegnoAnno, impegnoNumero, testataEvasioneId);
 	}
-
+	/**
+	 *
+	 * @param rigaEvasioneId
+	 */
 	public void deleteImpegniEvasioneByRiga(UUID rigaEvasioneId) {
-		List<CpassTOrdImpegnoEvasione> impegniEvasiones = cpassTOrdImpegnoEvasioneDao.getImpegniEvasione(rigaEvasioneId);
-		if (impegniEvasiones != null) {
-			for (CpassTOrdImpegnoEvasione impegnoEvasione : impegniEvasiones) {
+		final List<CpassTOrdImpegnoEvasione> impegniEvasiones = cpassTOrdImpegnoEvasioneDao.getImpegniEvasione(rigaEvasioneId);
+		if ( impegniEvasiones != null && !impegniEvasiones.isEmpty()) {
+			for (final CpassTOrdImpegnoEvasione impegnoEvasione : impegniEvasiones) {
 
 				if (impegnoEvasione.getCpassTOrdSubimpegnoEvasiones() != null) {
-					for (CpassTOrdSubimpegnoEvasione subImpegno : impegnoEvasione.getCpassTOrdSubimpegnoEvasiones()) {
+					for (final CpassTOrdSubimpegnoEvasione subImpegno : impegnoEvasione.getCpassTOrdSubimpegnoEvasiones()) {
 						cpassTOrdSubimpegnoEvasioneDao.delete(subImpegno.getSubimpegnoEvasioneId());
 					}
 				}
-
 				cpassTOrdImpegnoEvasioneDao.delete(impegnoEvasione.getId());
 			}
+			cpassTOrdImpegnoEvasioneDao.flushAndClear();
 		}
 	}
-
+	/**
+	 *
+	 * @param rigaEvasioneId
+	 */
 	public void annullamentoLogicoImpegniEvasioneByRiga(UUID rigaEvasioneId) {
-		List<CpassTOrdImpegnoEvasione> impegniEvasiones = cpassTOrdImpegnoEvasioneDao.getImpegniEvasione(rigaEvasioneId);
+		final List<CpassTOrdImpegnoEvasione> impegniEvasiones = cpassTOrdImpegnoEvasioneDao.getImpegniEvasione(rigaEvasioneId);
 		if (impegniEvasiones != null) {
-			for (CpassTOrdImpegnoEvasione impegnoEvasione : impegniEvasiones) {
+			for (final CpassTOrdImpegnoEvasione impegnoEvasione : impegniEvasiones) {
 
 				if (impegnoEvasione.getCpassTOrdSubimpegnoEvasiones() != null) {
-					for (CpassTOrdSubimpegnoEvasione subimpegnoEvasione : impegnoEvasione.getCpassTOrdSubimpegnoEvasiones()) {
-						
-						subimpegnoEvasione.setImportoLiquidato(new BigDecimal(0));
-						subimpegnoEvasione.setImportoRipartito(new BigDecimal(0));
-						subimpegnoEvasione.setImportoSospeso(new BigDecimal(0));
-						
+					for (final CpassTOrdSubimpegnoEvasione subimpegnoEvasione : impegnoEvasione.getCpassTOrdSubimpegnoEvasiones()) {
+						subimpegnoEvasione.setImportoLiquidato(BigDecimal.ZERO);
+						subimpegnoEvasione.setImportoRipartito(BigDecimal.ZERO);
+						subimpegnoEvasione.setImportoSospeso(BigDecimal.ZERO);
 						cpassTOrdSubimpegnoEvasioneDao.update(subimpegnoEvasione);
 					}
 				}
-				
-				impegnoEvasione.setImportoLiquidato(new BigDecimal(0));
-				impegnoEvasione.setImportoRipartito(new BigDecimal(0));
-				impegnoEvasione.setImportoSospeso(new BigDecimal(0));
-
+				impegnoEvasione.setImportoLiquidato(BigDecimal.ZERO);
+				impegnoEvasione.setImportoRipartito(BigDecimal.ZERO);
+				impegnoEvasione.setImportoSospeso(BigDecimal.ZERO);
 				cpassTOrdImpegnoEvasioneDao.update(impegnoEvasione);
 			}
 		}
 	}
-
+	/**
+	 *
+	 * @param uuid
+	 * @return
+	 */
+	public Optional<ImpegnoEvasione> getImpegnoEvasione(UUID uuid) {
+		return cpassTOrdImpegnoEvasioneDao.findOne(uuid).map(CpassMappers.IMPEGNO_EVASIONE::toModel);
+	}
+	/**
+	 *
+	 * @param idRigaEvasione
+	 * @return List<ImpegnoEvasione>
+	 */
+	public List<ImpegnoEvasione> getByIdRigaEvasione(UUID idRigaEvasione) {
+		final List<CpassTOrdImpegnoEvasione> entities = cpassTOrdImpegnoEvasioneDao.getImpegniEvasione(idRigaEvasione);
+		return CpassMappers.IMPEGNO_EVASIONE.toModels(entities);
+	}
+	/**
+	 *
+	 * @param rigaEvasiones
+	 * @param impegnoAnno
+	 * @param impegnoNumero
+	 * @return List<ImpegnoEvasione>
+	 */
+	public List<ImpegnoEvasione> getByIdsRigaEvasioneEImpegno(List<RigaEvasione> rigaEvasiones, Integer impegnoAnno, Integer impegnoNumero) {
+		final List<CpassTOrdImpegnoEvasione> entities = cpassTOrdImpegnoEvasioneDao.findByIdsRigaEvasioneEImpegno(rigaEvasiones, impegnoAnno, impegnoNumero);
+		return CpassMappers.IMPEGNO_EVASIONE.toModels(entities);
+	}
+	/**
+	 *
+	 * @param rigaEvasiones
+	 * @param impegnoAnno
+	 * @param impegnoNumero
+	 * @param subimpegnoAnno
+	 * @param subimpegnoNumero
+	 * @return List<SubimpegnoEvasione>
+	 */
+	public List<SubimpegnoEvasione> getByIdsRigaEvasioneESubimpegno(List<RigaEvasione> rigaEvasiones, Integer impegnoAnno, Integer impegnoNumero,Integer subimpegnoAnno, Integer subimpegnoNumero) {
+		final List<CpassTOrdSubimpegnoEvasione> entities = cpassTOrdSubimpegnoEvasioneDao.findByIdsRigaEvasioneESubimpegno(rigaEvasiones, impegnoAnno, impegnoNumero, subimpegnoAnno, subimpegnoNumero);
+		return CpassMappers.SUBIMPEGNO_EVASIONE.toModels(entities);
+	}
 }

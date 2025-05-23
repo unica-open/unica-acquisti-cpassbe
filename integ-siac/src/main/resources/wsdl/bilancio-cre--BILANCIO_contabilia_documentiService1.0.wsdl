@@ -232,7 +232,7 @@
   </wsdl:binding>
   <wsdl:service name="DocumentiService">
     <wsdl:port name="DocumentiServicePort" binding="tns:DocumentiServiceSoapBinding">
-      <soap:address location="http://tst-api-ent.ecosis.csi.it:80/api/BILANCIO_contabilia_documentiService/1.0"></soap:address>
+      <soap:address location="${siac-location-documenti}"></soap:address>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

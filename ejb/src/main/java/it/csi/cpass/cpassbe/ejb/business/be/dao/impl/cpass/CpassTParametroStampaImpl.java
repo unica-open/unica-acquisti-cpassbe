@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -32,14 +32,14 @@ public class CpassTParametroStampaImpl extends BaseEntityDaoImpl<Integer, CpassT
 
 	@Override
 	public List<CpassTParametroStampa> getParametriStampeByNomeStampa(String nomeStampa) {
-		Map<String, Object> params = new HashMap<>();
-		StringBuilder jpql = new StringBuilder()
-			.append("FROM CpassTParametroStampa ps ")
-			.append(" WHERE 1 = 1 ");
+		final Map<String, Object> params = new HashMap<>();
+		final StringBuilder jpql = new StringBuilder()
+				.append("FROM CpassTParametroStampa ps ")
+				.append(" WHERE 1 = 1 ");
 		JpaQueryHelper.andFieldEquals(jpql, params, "ps.nomeStampa", "nomeStampa", nomeStampa);
 		jpql.append(" order by ps.ordinamento ");
-		
-		TypedQuery<CpassTParametroStampa> query = composeTypedQuery(jpql, params);
+
+		final TypedQuery<CpassTParametroStampa> query = composeTypedQuery(jpql, params);
 		return query.getResultList();
 	}
 

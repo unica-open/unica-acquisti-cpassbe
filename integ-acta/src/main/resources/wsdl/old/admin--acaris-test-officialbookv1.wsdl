@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="OfficialBookService" targetNamespace="officialbookservice.acaris.acta.doqui.it" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:common="common.acaris.acta.doqui.it" xmlns:officialbook="officialbookservice.acaris.acta.doqui.it" xmlns:tns="officialbookservice.acaris.acta.doqui.it" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="common.acaris.acta.doqui.it">
+			<xsd:include schemaLocation="http://tst-applogic.reteunitaria.piemonte.it/actasrv/officialbookWS?xsd=ACARIS-Common.xsd"/>
+		</xsd:schema>
+    <xsd:schema targetNamespace="officialbookservice.acaris.acta.doqui.it">
+			<xsd:include schemaLocation="http://tst-applogic.reteunitaria.piemonte.it/actasrv/officialbookWS?xsd=ACARIS-OfficialBook.xsd"/>
+			<xsd:include schemaLocation="http://tst-applogic.reteunitaria.piemonte.it/actasrv/officialbookWS?xsd=ACARIS-OfficialBookMessaging.xsd"/>
+		</xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="getPropertiesMassiveResponse">
+    <wsdl:part name="output" element="common:getPropertiesMassiveResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="creaAnnotazioneOBRequest">
+    <wsdl:part name="input" element="officialbook:creaAnnotazioneOB">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="inviaSegnaturaRequest">
+    <wsdl:part name="input" element="officialbook:inviaSegnatura">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRegistriesRequest">
+    <wsdl:part name="input" element="officialbook:getRegistries">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="creaRegistrazioneResponse">
+    <wsdl:part name="output" element="officialbook:creaRegistrazioneResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="creaAnnotazioneOBResponse">
+    <wsdl:part name="output" element="officialbook:creaAnnotazioneOBResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryRequest">
+    <wsdl:part name="input" element="common:query">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPropertiesMassiveRequest">
+    <wsdl:part name="input" element="common:getPropertiesMassive">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="inviaSegnaturaResponse">
+    <wsdl:part name="output" element="officialbook:inviaSegnaturaResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryResponse">
+    <wsdl:part name="output" element="common:queryResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRegistriesResponse">
+    <wsdl:part name="output" element="officialbook:getRegistriesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPropertiesResponse">
+    <wsdl:part name="output" element="officialbook:getPropertiesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="creaRegistrazioneRequest">
+    <wsdl:part name="input" element="officialbook:creaRegistrazione">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updatePropertiesResponse">
+    <wsdl:part name="output" element="officialbook:updatePropertiesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="importaRegistrazioneRequest">
+    <wsdl:part name="input" element="officialbook:importaRegistrazione">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updatePropertiesRequest">
+    <wsdl:part name="input" element="officialbook:updateProperties">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="importaRegistrazioneResponse">
+    <wsdl:part name="output" element="officialbook:importaRegistrazioneResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="acarisException">
+    <wsdl:part name="fault" element="common:acarisFault">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPropertiesRequest">
+    <wsdl:part name="input" element="officialbook:getProperties">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="OfficialBookServicePort">
+    <wsdl:operation name="creaRegistrazione">
+      <wsdl:input message="officialbook:creaRegistrazioneRequest">
+    </wsdl:input>
+      <wsdl:output message="officialbook:creaRegistrazioneResponse">
+    </wsdl:output>
+      <wsdl:fault name="creaRegistrazioneFault" message="officialbook:acarisException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="importaRegistrazione">
+      <wsdl:input message="officialbook:importaRegistrazioneRequest">
+    </wsdl:input>
+      <wsdl:output message="officialbook:importaRegistrazioneResponse">
+    </wsdl:output>
+      <wsdl:fault name="importaRegistrazioneFault" message="officialbook:acarisException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRegistries">
+      <wsdl:input message="officialbook:getRegistriesRequest">
+    </wsdl:input>
+      <wsdl:output message="officialbook:getRegistriesResponse">
+    </wsdl:output>
+      <wsdl:fault name="getRegistriesFault" message="officialbook:acarisException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProperties">
+      <wsdl:input message="officialbook:getPropertiesRequest">
+    </wsdl:input>
+      <wsdl:output message="officialbook:getPropertiesResponse">
+    </wsdl:output>
+      <wsdl:fault name="getPropertiesFault" message="officialbook:acarisException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateProperties">
+      <wsdl:input message="officialbook:updatePropertiesRequest">
+    </wsdl:input>
+      <wsdl:output message="officialbook:updatePropertiesResponse">
+    </wsdl:output>
+      <wsdl:fault name="updatePropertiesFault" message="officialbook:acarisException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="query">
+      <wsdl:input message="officialbook:queryRequest">
+    </wsdl:input>
+      <wsdl:output message="officialbook:queryResponse">
+    </wsdl:output>
+      <wsdl:fault name="queryFault" message="officialbook:acarisException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPropertiesMassive">
+      <wsdl:input message="officialbook:getPropertiesMassiveRequest">
+    </wsdl:input>
+      <wsdl:output message="officialbook:getPropertiesMassiveResponse">
+    </wsdl:output>
+      <wsdl:fault name="getPropertiesMassiveFault" message="officialbook:acarisException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="creaAnnotazioneOB">
+      <wsdl:input message="officialbook:creaAnnotazioneOBRequest">
+    </wsdl:input>
+      <wsdl:output message="officialbook:creaAnnotazioneOBResponse">
+    </wsdl:output>
+      <wsdl:fault name="creaAnnotazioneOBFault" message="officialbook:acarisException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="inviaSegnatura">
+      <wsdl:input message="officialbook:inviaSegnaturaRequest">
+    </wsdl:input>
+      <wsdl:output message="officialbook:inviaSegnaturaResponse">
+    </wsdl:output>
+      <wsdl:fault name="inviaSegnaturaFault" message="officialbook:acarisException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="OfficialBookServiceBinding" type="officialbook:OfficialBookServicePort">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="creaRegistrazione">
+      <soap:operation/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="creaRegistrazioneFault">
+        <soap:fault name="creaRegistrazioneFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="importaRegistrazione">
+      <soap:operation/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="importaRegistrazioneFault">
+        <soap:fault name="importaRegistrazioneFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRegistries">
+      <soap:operation/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="getRegistriesFault">
+        <soap:fault name="getRegistriesFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProperties">
+      <soap:operation/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="getPropertiesFault">
+        <soap:fault name="getPropertiesFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateProperties">
+      <soap:operation/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="updatePropertiesFault">
+        <soap:fault name="updatePropertiesFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="query">
+      <soap:operation/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="queryFault">
+        <soap:fault name="queryFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPropertiesMassive">
+      <soap:operation/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="getPropertiesMassiveFault">
+        <soap:fault name="getPropertiesMassiveFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="creaAnnotazioneOB">
+      <soap:operation/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="creaAnnotazioneOBFault">
+        <soap:fault name="creaAnnotazioneOBFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="inviaSegnatura">
+      <soap:operation/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="inviaSegnaturaFault">
+        <soap:fault name="inviaSegnaturaFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="OfficialBookService">
+    <wsdl:port name="OfficialBookServicePort" binding="officialbook:OfficialBookServiceBinding">
+      <soap:address location="http://tst-api-piemonte.ecosis.csi.it/documentale/acaris-test-officialbook/v1"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

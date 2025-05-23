@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -20,7 +20,9 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
+import it.csi.cpass.cpassbe.ejb.business.be.dad.DestinatarioOrdineDad;
 import it.csi.cpass.cpassbe.ejb.business.be.dad.StampeDad;
+import it.csi.cpass.cpassbe.ejb.business.be.dad.SystemDad;
 import it.csi.cpass.cpassbe.ejb.business.be.service.impl.stampe.StampaAllegatoInterventoByProgrammaService;
 import it.csi.cpass.cpassbe.ejb.business.be.service.impl.stampe.StampaService;
 import it.csi.cpass.cpassbe.ejb.business.be.service.request.stampe.StampaAllegatoInterventoByProgrammaRequest;
@@ -33,18 +35,22 @@ import it.csi.cpass.cpassbe.ejb.business.be.service.response.stampe.StampaRespon
  */
 @Stateless
 @Lock(LockType.READ)
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class StampeFacade extends BaseFacade {
 
 	@Inject private StampeDad stampeDad;
+	@Inject private DestinatarioOrdineDad destOrdineDad;
+	@Inject private SystemDad systemDad;
+
+
 	/**
 	 * Prints the AllegatoSchedaB by programma
 	 * @param id the id
 	 * @param formatFile the format file
 	 * @return the intervento
 	 */
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public StampaAllegatoInterventoByProgrammaResponse stampaAllegatoIntervento(UUID id, String formatFile) {
-		return executeService(new StampaAllegatoInterventoByProgrammaRequest(id, formatFile), new StampaAllegatoInterventoByProgrammaService(configurationHelper, stampeDad));
+	public StampaAllegatoInterventoByProgrammaResponse stampaAllegatoInterventoDaButtare(UUID id, String formatFile) {
+		return executeService(new StampaAllegatoInterventoByProgrammaRequest(id, formatFile), new StampaAllegatoInterventoByProgrammaService(configurationHelper, stampeDad, systemDad));
 	}
 
 	/**
@@ -54,8 +60,8 @@ public class StampeFacade extends BaseFacade {
 	 * @param listaParametri the parametri
 	 * @return the stampa
 	 */
-	public StampaResponse stampa(String nomeStampa, String formatFile, List<String> listaParametri) {
-		return executeService(new StampaRequest( nomeStampa,  formatFile, listaParametri), new StampaService(configurationHelper, stampeDad));
+	public StampaResponse stampa(String nomeStampaLogico,String fileName, String formatFile, List<String> listaParametri) {
+		return executeService(new StampaRequest( nomeStampaLogico, fileName,  formatFile, listaParametri), new StampaService(configurationHelper, stampeDad, destOrdineDad, systemDad ));
 	}
-	
+
 }

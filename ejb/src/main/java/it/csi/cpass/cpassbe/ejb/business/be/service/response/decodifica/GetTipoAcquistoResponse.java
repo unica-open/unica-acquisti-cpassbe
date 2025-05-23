@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -45,7 +45,7 @@ public class GetTipoAcquistoResponse extends BaseGetResponse<List<TipoAcquisto>>
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		builder.append("GetTipoAcquistoResponse [listaTipoAcquisto=").append(listaTipoAcquisto).append(", apiErrors=").append(getApiErrors()).append("]");
 		return builder.toString();
 	}

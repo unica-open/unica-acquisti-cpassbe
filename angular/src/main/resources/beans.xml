@@ -1,0 +1,13 @@
+<!--
+  ========================LICENSE_START=================================
+  CPASS BackEnd - ANGULAR submodule
+  %%
+  Copyright (C) 2019 - 2025 CSI Piemonte
+  %%
+  SPDX-FileCopyrightText: Copyright 2019 - 2025 | CSI Piemonte
+  SPDX-License-Identifier: EUPL-1.2
+  =========================LICENSE_END==================================
+  -->
+<beans xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/beans_2_0.xsd" bean-discovery-mode="all" version="2.0"> 
+</beans>

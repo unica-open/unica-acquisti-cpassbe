@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  ========================LICENSE_START=================================
+  CPASS BackEnd - INTEGRATION submodule - NotiER
+  %%
+  Copyright (C) 2019 - 2021 CSI Piemonte
+  %%
+  SPDX-FileCopyrightText: Copyright 2019 - 2021 | CSI Piemonte
+  SPDX-License-Identifier: EUPL-1.2
+  =========================LICENSE_END==================================
+  -->
+
+<ns4:Order xmlns="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:ns2="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2" xmlns:ns3="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:ns4="urn:oasis:names:specification:ubl:schema:xsd:Order-2">
+    <CustomizationID>urn:fdc:peppol.eu:poacc:trns:order:3:restrictive:urn:www.agid.gov.it:trns:ordine:3.1</CustomizationID>
+    <ProfileID>urn:fdc:peppol.eu:poacc:bis:order_only:3</ProfileID>
+    <ID>2020_110_1_1</ID>
+    <IssueDate>2020-12-15+01:00</IssueDate>
+    <OrderTypeCode listID="UNCL1001">220</OrderTypeCode>
+    <Note>terzo ordine mio</Note>
+    <DocumentCurrencyCode listID="ISO4217">EUR</DocumentCurrencyCode>
+    <ns3:ValidityPeriod/>
+    <ns3:OrderDocumentReference>
+        <ID></ID>
+    </ns3:OrderDocumentReference>
+    <ns3:AdditionalDocumentReference>
+        <ID>2017/210</ID>
+        <DocumentType>Delibera</DocumentType>
+    </ns3:AdditionalDocumentReference>
+    <ns3:Contract>
+        <ID>TOBD</ID>
+    </ns3:Contract>
+    <ns3:BuyerCustomerParty>
+        <ns3:Party>
+            <EndpointID schemeID="0201">S04VFA</EndpointID>
+            <ns3:PartyName>
+                <Name>A1111C-Patrimonio immobiliare, beni mobili, economato e cassa economale</Name>
+            </ns3:PartyName>
+            <ns3:PostalAddress>
+                <StreetName>Via Viotti,8</StreetName>
+                <CityName>Torino</CityName>
+                <PostalZone>10121</PostalZone>
+                <CountrySubentity>TO</CountrySubentity>
+                <ns3:Country>
+                	<IdentificationCode listID="ISO3166-1:Alpha2">IT</IdentificationCode>
+                </ns3:Country>
+            </ns3:PostalAddress>
+            <ns3:PartyTaxScheme>
+                <CompanyID>80087670016</CompanyID>
+                <ns3:TaxScheme>
+                    <ID>VAT</ID>
+                </ns3:TaxScheme>
+            </ns3:PartyTaxScheme>
+            <ns3:PartyLegalEntity>
+                <RegistrationName>REGIONE PIEMONTE</RegistrationName>
+            </ns3:PartyLegalEntity>
+        </ns3:Party>
+    </ns3:BuyerCustomerParty>
+    <ns3:SellerSupplierParty>
+        <ns3:Party>
+            <EndpointID schemeID="9906">IT00488410010</EndpointID>
+            <ns3:PartyName>
+                <Name>TELECOM ITALIA S.P.A.</Name>
+            </ns3:PartyName>
+            <ns3:PostalAddress>
+                <StreetName>Via GAETANO NEGRI 1,1</StreetName>
+                <CityName>Milano</CityName>
+                <PostalZone>20123</PostalZone>
+                <ns3:Country>
+                    <IdentificationCode listID="ISO3166-1:Alpha2">IT</IdentificationCode>
+                </ns3:Country>
+            </ns3:PostalAddress>
+            <ns3:PartyLegalEntity>
+                <RegistrationName>TELECOM ITALIA S.P.A.</RegistrationName>
+            </ns3:PartyLegalEntity>
+        </ns3:Party>
+    </ns3:SellerSupplierParty>
+    <ns3:Delivery>
+        <ns3:DeliveryLocation>
+            <ns3:Address>
+                <StreetName>Piazza Castello,165</StreetName>
+                <CityName>Torino</CityName>
+                <PostalZone>10121</PostalZone>
+                <ns3:Country>
+                    <IdentificationCode listID="ISO3166-1:Alpha2">IT</IdentificationCode>
+                </ns3:Country>
+            </ns3:Address>
+        </ns3:DeliveryLocation>
+        <ns3:RequestedDeliveryPeriod/>
+        <ns3:DeliveryParty>
+            <ns3:PartyName>
+                <Name>A1910A-Servizi infrastrutturali e tecnologici</Name>
+            </ns3:PartyName>
+            <ns3:Contact>
+                <Name/>
+                <Telephone>0</Telephone>
+                <ElectronicMail/>
+            </ns3:Contact>
+        </ns3:DeliveryParty>
+    </ns3:Delivery>
+    <ns3:TaxTotal>
+        <TaxAmount currencyID="EUR">2.00000</TaxAmount>
+    </ns3:TaxTotal>
+    <ns3:AnticipatedMonetaryTotal>
+        <LineExtensionAmount currencyID="EUR">50.0000000</LineExtensionAmount>
+        <TaxExclusiveAmount currencyID="EUR">50.00000</TaxExclusiveAmount>
+        <TaxInclusiveAmount currencyID="EUR">52.00000</TaxInclusiveAmount>
+        <AllowanceTotalAmount currencyID="EUR">0.00000</AllowanceTotalAmount>
+        <PayableAmount currencyID="EUR">52.00000</PayableAmount>
+    </ns3:AnticipatedMonetaryTotal>
+    <ns3:OrderLine>
+        <Note/>
+        <ns3:LineItem>
+            <ID>1</ID>
+            <Quantity unitCode="C62">1.00</Quantity>
+            <LineExtensionAmount currencyID="EUR">50.0000000</LineExtensionAmount>
+            <PartialDeliveryIndicator>false</PartialDeliveryIndicator>
+            <ns3:Price>
+                <PriceAmount currencyID="EUR">50.00000</PriceAmount>
+                <BaseQuantity>1.00</BaseQuantity>
+            </ns3:Price>
+            <ns3:Item>
+                <Description>SERVIZI DI TRASPORTO MERCI</Description>
+                <ns3:BuyersItemIdentification>
+                    <ID>SC0014</ID>
+                </ns3:BuyersItemIdentification>
+                <ns3:SellersItemIdentification>
+                    <ID>servizio</ID>
+                </ns3:SellersItemIdentification>
+                <ns3:CommodityClassification>
+                    <ItemClassificationCode listID="STI" listVersionID="19.0501">60161000-4</ItemClassificationCode>
+                </ns3:CommodityClassification>
+                <ns3:ClassifiedTaxCategory>
+                    <ID>S</ID>
+                    <Percent>4</Percent>
+                    <ns3:TaxScheme>
+                        <ID>VAT</ID>
+                    </ns3:TaxScheme>
+                </ns3:ClassifiedTaxCategory>
+            </ns3:Item>
+        </ns3:LineItem>
+    </ns3:OrderLine>
+</ns4:Order>

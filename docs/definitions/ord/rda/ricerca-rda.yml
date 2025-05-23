@@ -1,0 +1,28 @@
+RicercaRda:
+  type: object
+  properties:
+    rdaAnnoDa:
+      type: integer
+    rdaNumeroDa:
+      type: integer
+    rdaAnnoA:
+      type: integer
+    rdaNumeroA:
+      type: integer
+    dataInserimentoDa:
+      type: string
+      format: date-time
+    dataInserimentoA:
+      type: string
+      format: date-time
+    statoRigaRms:
+      type: string      
+    testataRda:
+      type: object
+      $ref: '#/definitions/TestataRda'
+    rigaRda:
+      type: object
+      $ref: '#/definitions/RigaRda'
+    settoreDestinatario:
+      type: object
+      $ref: '#/definitions/Settore'

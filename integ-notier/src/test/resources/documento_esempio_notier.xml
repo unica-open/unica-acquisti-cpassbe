@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  ========================LICENSE_START=================================
+  CPASS BackEnd - INTEGRATION submodule - NotiER
+  %%
+  Copyright (C) 2019 - 2021 CSI Piemonte
+  %%
+  SPDX-FileCopyrightText: Copyright 2019 - 2021 | CSI Piemonte
+  SPDX-License-Identifier: EUPL-1.2
+  =========================LICENSE_END==================================
+  -->
+
+<ns4:Order xmlns="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:ns2="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2" xmlns:ns3="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:ns4="urn:oasis:names:specification:ubl:schema:xsd:Order-2">
+    <CustomizationID>urn:fdc:peppol.eu:poacc:trns:order:3:restrictive:urn:www.agid.gov.it:trns:ordine:3.1</CustomizationID>
+    <ProfileID>urn:fdc:peppol.eu:poacc:bis:order_only:3</ProfileID>
+    <ID>960-202019-1958</ID>
+    <IssueDate>2020-12-16</IssueDate>
+    <OrderTypeCode listID="UNCL1001">220</OrderTypeCode>
+    <DocumentCurrencyCode listID="ISO4217">EUR</DocumentCurrencyCode>
+    <ns3:ValidityPeriod>
+        <EndDate>2021-03-16</EndDate>
+    </ns3:ValidityPeriod>
+    <ns3:OriginatorDocumentReference>
+        <ID>8562069AD9</ID>
+    </ns3:OriginatorDocumentReference>
+    <ns3:AdditionalDocumentReference>
+        <ID>2018-10-30-3190</ID>
+        <DocumentType>DELIBERA</DocumentType>
+    </ns3:AdditionalDocumentReference>
+    <ns3:Contract>
+        <ID>960-2020-2042</ID>
+    </ns3:Contract>
+    <ns3:BuyerCustomerParty>
+        <ns3:Party>
+            <EndpointID schemeID="0201">TESTAP</EndpointID>
+            <ns3:PartyName>
+                <Name>Istituto Ortopedico Rizzoli</Name>
+            </ns3:PartyName>
+            <ns3:PostalAddress>
+                <StreetName>Via di Barbiano, 1/10</StreetName>
+                <CityName>Bologna</CityName>
+                <PostalZone>40136</PostalZone>
+                <CountrySubentity>BO</CountrySubentity>
+                <ns3:Country>
+                    <IdentificationCode>IT</IdentificationCode>
+                </ns3:Country>
+            </ns3:PostalAddress>
+            <ns3:PartyTaxScheme>
+                <CompanyID>IT00302030374</CompanyID>
+                <ns3:TaxScheme>
+                    <ID>VAT</ID>
+                </ns3:TaxScheme>
+            </ns3:PartyTaxScheme>
+            <ns3:PartyLegalEntity>
+                <RegistrationName>Istituto Ortopedico Rizzoli</RegistrationName>
+                <CompanyID>00302030374</CompanyID>
+                <ns3:RegistrationAddress>
+                    <CityName>Bologna</CityName>
+                    <ns3:Country>
+                        <IdentificationCode>IT</IdentificationCode>
+                    </ns3:Country>
+                </ns3:RegistrationAddress>
+            </ns3:PartyLegalEntity>
+            <ns3:Contact>
+                <Name>MAURO LUCIA</Name>
+                <ElectronicMail>lucia.mauro@ior.it</ElectronicMail>
+            </ns3:Contact>
+        </ns3:Party>
+    </ns3:BuyerCustomerParty>
+    <ns3:SellerSupplierParty>
+        <ns3:Party>
+            <EndpointID schemeID="9907">03792620829</EndpointID>
+            <ns3:PartyIdentification>
+                <ID>IT03792620829</ID>
+            </ns3:PartyIdentification>
+            <ns3:PartyName>
+                <Name>GE.ME.S. GENERAL MEDICAL SUPPLIES S.R.L.</Name>
+            </ns3:PartyName>
+            <ns3:PostalAddress>
+                <StreetName>VIA PIGNATELLI ARAGONA 82</StreetName>
+                <CityName>PALERMO</CityName>
+                <PostalZone>90141</PostalZone>
+                <CountrySubentity>PA</CountrySubentity>
+                <ns3:Country>
+                    <IdentificationCode>IT</IdentificationCode>
+                </ns3:Country>
+            </ns3:PostalAddress>
+            <ns3:PartyLegalEntity>
+                <RegistrationName>GE.ME.S. GENERAL MEDICAL SUPPLIES S.R.L.</RegistrationName>
+                <CompanyID>03792620829</CompanyID>
+            </ns3:PartyLegalEntity>
+            <ns3:Contact>
+                <Name>GE.ME.S. GENERAL MEDICAL SUPPLIES S.R.L.</Name>
+                <Telephone>092422939</Telephone>
+                <ElectronicMail>info@gemes.it</ElectronicMail>
+            </ns3:Contact>
+        </ns3:Party>
+    </ns3:SellerSupplierParty>
+    <ns3:AccountingCustomerParty>
+        <ns3:Party>
+            <EndpointID schemeID="0201">UFZSSP</EndpointID>
+            <ns3:PartyName>
+                <Name>Istituto Ortopedico Rizzoli</Name>
+            </ns3:PartyName>
+            <ns3:PostalAddress>
+                <StreetName>Via di Barbiano, 1/10</StreetName>
+                <CityName>Bologna</CityName>
+                <PostalZone>40136</PostalZone>
+                <CountrySubentity>BO</CountrySubentity>
+                <ns3:Country>
+                    <IdentificationCode>IT</IdentificationCode>
+                </ns3:Country>
+            </ns3:PostalAddress>
+            <ns3:PartyTaxScheme>
+                <CompanyID>IT00302030374</CompanyID>
+                <ns3:TaxScheme>
+                    <ID>VAT</ID>
+                </ns3:TaxScheme>
+            </ns3:PartyTaxScheme>
+            <ns3:PartyLegalEntity>
+                <RegistrationName>Istituto Ortopedico Rizzoli</RegistrationName>
+                <CompanyID>00302030374</CompanyID>
+                <ns3:RegistrationAddress>
+                    <CityName>Bologna</CityName>
+                    <ns3:Country>
+                        <IdentificationCode>IT</IdentificationCode>
+                    </ns3:Country>
+                </ns3:RegistrationAddress>
+            </ns3:PartyLegalEntity>
+        </ns3:Party>
+    </ns3:AccountingCustomerParty>
+    <ns3:Delivery>
+        <ns3:DeliveryLocation>
+            <ID>00302030374-9600CB19</ID>
+            <ns3:Address>
+                <StreetName>SS 113 AL KM 246</StreetName>
+                <CityName>BAGHERIA</CityName>
+                <PostalZone>90011</PostalZone>
+                <CountrySubentity>PA</CountrySubentity>
+                <ns3:Country>
+                    <IdentificationCode>IT</IdentificationCode>
+                </ns3:Country>
+            </ns3:Address>
+        </ns3:DeliveryLocation>
+        <ns3:RequestedDeliveryPeriod>
+            <StartDate>2020-12-16</StartDate>
+            <EndDate>2020-12-21</EndDate>
+        </ns3:RequestedDeliveryPeriod>
+        <ns3:DeliveryParty>
+            <ns3:PartyName>
+                <Name>c/o FARMACIA INTERNA 3^ PIANO  dal 10 al 22 agosto FARMACIA CHIUSA</Name>
+            </ns3:PartyName>
+        </ns3:DeliveryParty>
+    </ns3:Delivery>
+    <ns3:DeliveryTerms>
+        <SpecialTerms>OFR</SpecialTerms>
+    </ns3:DeliveryTerms>
+    <ns3:TaxTotal>
+        <TaxAmount currencyID="EUR">25.71</TaxAmount>
+    </ns3:TaxTotal>
+    <ns3:AnticipatedMonetaryTotal>
+        <LineExtensionAmount currencyID="EUR">642.78</LineExtensionAmount>
+        <TaxExclusiveAmount currencyID="EUR">642.78</TaxExclusiveAmount>
+        <TaxInclusiveAmount currencyID="EUR">668.49</TaxInclusiveAmount>
+        <PayableAmount currencyID="EUR">668.49</PayableAmount>
+    </ns3:AnticipatedMonetaryTotal>
+    <ns3:OrderLine>
+        <Note>RICH 146 DEL 25/11/2020</Note>
+        <ns3:LineItem>
+            <ID>1</ID>
+            <Quantity unitCode="C62" unitCodeListID="UNECERec20">1</Quantity>
+            <LineExtensionAmount currencyID="EUR">79.98</LineExtensionAmount>
+            <AccountingCost>S2611 RS ORTOPEDIA GENERALE - REPARTO SICILIA</AccountingCost>
+            <ns3:Price>
+                <PriceAmount currencyID="EUR">79.98000</PriceAmount>
+                <ns3:AllowanceCharge>
+                    <ChargeIndicator>false</ChargeIndicator>
+                    <Amount currencyID="EUR">49.02000</Amount>
+                    <BaseAmount currencyID="EUR">129.00000</BaseAmount>
+                </ns3:AllowanceCharge>
+            </ns3:Price>
+            <ns3:Item>
+                <Name>ARTROSC MONO FILO GUIDA_TIGHTROPE DRILL PIN APERTO 4MM_AR-1595T_ARTHREX INC.</Name>
+                <ns3:BuyersItemIdentification>
+                    <ID>1031871</ID>
+                </ns3:BuyersItemIdentification>
+                <ns3:SellersItemIdentification>
+                    <ID>AR1595T</ID>
+                </ns3:SellersItemIdentification>
+                <ns3:CommodityClassification>
+                    <ItemClassificationCode listID="STO" listVersionID="UNCL7143">K030202</ItemClassificationCode>
+                </ns3:CommodityClassification>
+                <ns3:CommodityClassification>
+                    <ItemClassificationCode listID="ZZZ">DM1:447494</ItemClassificationCode>
+                </ns3:CommodityClassification>
+                <ns3:ClassifiedTaxCategory>
+                    <ID>S</ID>
+                    <Percent>4</Percent>
+                    <ns3:TaxScheme>
+                        <ID>VAT</ID>
+                    </ns3:TaxScheme>
+                </ns3:ClassifiedTaxCategory>
+                <ns3:AdditionalItemProperty>
+                    <Name>PackSizeNumeric</Name>
+                    <Value>1</Value>
+                </ns3:AdditionalItemProperty>
+            </ns3:Item>
+        </ns3:LineItem>
+    </ns3:OrderLine>
+    <ns3:OrderLine>
+        <Note>RICH 146 DEL 25/11/2020</Note>
+        <ns3:LineItem>
+            <ID>2</ID>
+            <Quantity unitCode="C62" unitCodeListID="UNECERec20">1</Quantity>
+            <LineExtensionAmount currencyID="EUR">290.00</LineExtensionAmount>
+            <AccountingCost>S2611 RS ORTOPEDIA GENERALE - REPARTO SICILIA</AccountingCost>
+            <ns3:Price>
+                <PriceAmount currencyID="EUR">290.00000</PriceAmount>
+            </ns3:Price>
+            <ns3:Item>
+                <Name>PROT OSTEOSINT CAMBRA/ANCORETTA ANCORETTA TENDINE LEGAMENTO_TIGHTROPE ACL RT SIST ANCOR_AR-1588RT_ARTHREX ITALIA SRL</Name>
+                <ns3:BuyersItemIdentification>
+                    <ID>1022190</ID>
+                </ns3:BuyersItemIdentification>
+                <ns3:SellersItemIdentification>
+                    <ID>AR1588RT</ID>
+                </ns3:SellersItemIdentification>
+                <ns3:CommodityClassification>
+                    <ItemClassificationCode listID="STO" listVersionID="UNCL7143">P09120102</ItemClassificationCode>
+                </ns3:CommodityClassification>
+                <ns3:CommodityClassification>
+                    <ItemClassificationCode listID="ZZZ">DM1:351935</ItemClassificationCode>
+                </ns3:CommodityClassification>
+                <ns3:ClassifiedTaxCategory>
+                    <ID>S</ID>
+                    <Percent>4</Percent>
+                    <ns3:TaxScheme>
+                        <ID>VAT</ID>
+                    </ns3:TaxScheme>
+                </ns3:ClassifiedTaxCategory>
+                <ns3:AdditionalItemProperty>
+                    <Name>PackSizeNumeric</Name>
+                    <Value>1</Value>
+                </ns3:AdditionalItemProperty>
+            </ns3:Item>
+        </ns3:LineItem>
+    </ns3:OrderLine>
+    <ns3:OrderLine>
+        <Note>RICH 146 DEL 25/11/2020</Note>
+        <ns3:LineItem>
+            <ID>3</ID>
+            <Quantity unitCode="C62" unitCodeListID="UNECERec20">1</Quantity>
+            <LineExtensionAmount currencyID="EUR">272.80</LineExtensionAmount>
+            <AccountingCost>S2611 RS ORTOPEDIA GENERALE - REPARTO SICILIA</AccountingCost>
+            <ns3:Price>
+                <PriceAmount currencyID="EUR">272.80000</PriceAmount>
+                <ns3:AllowanceCharge>
+                    <ChargeIndicator>false</ChargeIndicator>
+                    <Amount currencyID="EUR">167.20000</Amount>
+                    <BaseAmount currencyID="EUR">440.00000</BaseAmount>
+                </ns3:AllowanceCharge>
+            </ns3:Price>
+            <ns3:Item>
+                <Name>PROT OSTEOSINT VITE OSTEOSINT BARRETTA_BIO-INTERFERENCE VITE 10X28MM_AR-5028B-10_ARTHREX ITALIA SRL</Name>
+                <ns3:BuyersItemIdentification>
+                    <ID>1028880</ID>
+                </ns3:BuyersItemIdentification>
+                <ns3:SellersItemIdentification>
+                    <ID>AR5028B-10</ID>
+                </ns3:SellersItemIdentification>
+                <ns3:CommodityClassification>
+                    <ItemClassificationCode listID="STO" listVersionID="UNCL7143">P09120606</ItemClassificationCode>
+                </ns3:CommodityClassification>
+                <ns3:CommodityClassification>
+                    <ItemClassificationCode listID="ZZZ">DM1:217258</ItemClassificationCode>
+                </ns3:CommodityClassification>
+                <ns3:ClassifiedTaxCategory>
+                    <ID>S</ID>
+                    <Percent>4</Percent>
+                    <ns3:TaxScheme>
+                        <ID>VAT</ID>
+                    </ns3:TaxScheme>
+                </ns3:ClassifiedTaxCategory>
+                <ns3:AdditionalItemProperty>
+                    <Name>PackSizeNumeric</Name>
+                    <Value>1</Value>
+                </ns3:AdditionalItemProperty>
+            </ns3:Item>
+        </ns3:LineItem>
+    </ns3:OrderLine>
+</ns4:Order>

@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - INTEGRATION submodule - SIAC
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -31,7 +31,7 @@ import it.csi.siac.integ.data._1.Soggetto;
 public interface FornitoreSiacMapper extends BaseMapperInterface<Fornitore, Soggetto> {
 
 	@Override
-	@Mapping(source = "naturaGiuridica.descrizione", target = "naturaGiuridica", qualifiedBy = TrimmedString.class)
+	@Mapping(source = "naturaGiuridica.codice", target = "naturaGiuridica", qualifiedBy = TrimmedString.class)
 	@Mapping(source = "codice", target = "codice", qualifiedBy = TrimmedString.class)
 	@Mapping(source = "ragioneSociale", target = "ragioneSociale", qualifiedBy = TrimmedString.class)
 	@Mapping(source = "cognome", target = "cognome", qualifiedBy = TrimmedString.class)
@@ -45,7 +45,7 @@ public interface FornitoreSiacMapper extends BaseMapperInterface<Fornitore, Sogg
 	@Mapping(source = "indirizzoPrincipale.cap", target = "cap", qualifiedBy = TrimmedString.class)
 	@Mapping(source = "indirizzoPrincipale.comune", target = "comune", qualifiedBy = TrimmedString.class)
 	@Mapping(source = "indirizzoPrincipale.provincia", target = "provincia", qualifiedBy = TrimmedString.class)
-	@Mapping(source = "stato.descrizione", target = "stato", qualifiedBy = TrimmedString.class)
+	@Mapping(source = "stato.codice", target = "stato", qualifiedBy = TrimmedString.class)
 	@Mapping(source = "codiciSoggettiCollegatiSuccessivi", target = "codiciFornitoriCollegatiSuccessivi")
 	@Mapping(source = "elencoModalitaPagamento", target = "elencoModalitaPagamento")
 	Fornitore toModel(Soggetto entity);

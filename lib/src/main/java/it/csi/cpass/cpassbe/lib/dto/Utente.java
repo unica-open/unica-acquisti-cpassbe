@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -11,6 +11,7 @@
 package it.csi.cpass.cpassbe.lib.dto;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -29,11 +30,25 @@ public class Utente extends BaseAuditedDto<UUID> implements Serializable {
 	private String codiceFiscale;
 	/** telefono */
 	private String telefono;
-	/** Email */	
+	/** Email */
 	private String email;
-	/** Rup */	
-	private Boolean rup;
-	
+	/** The nome. */
+	private String msgData;
+	/** Rup */
+	//private Boolean rup;
+	private Boolean presenteSuHr;
+
+	private String identitaDigitale;
+
+	private List<UtenteSettore> utenteSettores;
+
+	private List<UtenteRupDeleghe> utenteRupDeleghes;
+
+	/** The nome. */
+	private ApiError error;
+
+	//private List<UtenteSezione> utenteSeziones;
+
 	/** Default constructor */
 	public Utente() {}
 
@@ -93,7 +108,7 @@ public class Utente extends BaseAuditedDto<UUID> implements Serializable {
 		this.codiceFiscale = codiceFiscale;
 	}
 
-	
+
 	/**
 	 * @return the telefono
 	 */
@@ -122,19 +137,108 @@ public class Utente extends BaseAuditedDto<UUID> implements Serializable {
 		this.email = email;
 	}
 
-	
+
 	/**
 	 * @return the rup
 	 */
+	/*
 	public Boolean getRup() {
 		return rup;
 	}
 
-	/**
-	 * @param rup the rup to set
-	 */
 	public void setRup(Boolean rup) {
 		this.rup = rup;
+	}
+*/
+
+	/**
+	 * @return the identitaDigitale
+	 */
+	public String getIdentitaDigitale() {
+		return identitaDigitale;
+	}
+
+	/**
+	 * @param identitaDigitale the identitaDigitale to set
+	 */
+	public void setIdentitaDigitale(String identitaDigitale) {
+		this.identitaDigitale = identitaDigitale;
+	}
+
+
+
+	/**
+	 * @return the utenteSettores
+	 */
+	public List<UtenteSettore> getUtenteSettores() {
+		return utenteSettores;
+	}
+
+	/**
+	 * @param utenteSettores the utenteSettores to set
+	 */
+	public void setUtenteSettores(List<UtenteSettore> utenteSettores) {
+		this.utenteSettores = utenteSettores;
+	}
+
+	/**
+	 * @return the utenteRupDeleghes
+	 */
+	public List<UtenteRupDeleghe> getUtenteRupDeleghes() {
+		return utenteRupDeleghes;
+	}
+
+	/**
+	 * @param utenteRupDeleghes the utenteRupDeleghes to set
+	 */
+	public void setUtenteRupDeleghes(List<UtenteRupDeleghe> utenteRupDeleghes) {
+		this.utenteRupDeleghes = utenteRupDeleghes;
+	}
+
+
+	/**
+	 * @return the msgData
+	 */
+	public String getMsgData() {
+		return msgData;
+	}
+
+	/**
+	 * @param msgData the msgData to set
+	 */
+	public void setMsgData(String msgData) {
+		this.msgData = msgData;
+	}
+
+
+	/**
+	 * @return the presenteSuHr
+	 */
+	public Boolean getPresenteSuHr() {
+		return presenteSuHr;
+	}
+
+	/**
+	 * @param presenteSuHr the presenteSuHr to set
+	 */
+	public void setPresenteSuHr(Boolean presenteSuHr) {
+		this.presenteSuHr = presenteSuHr;
+	}
+
+
+
+	/**
+	 * @return the error
+	 */
+	public ApiError getError() {
+		return error;
+	}
+
+	/**
+	 * @param error the error to set
+	 */
+	public void setError(ApiError error) {
+		this.error = error;
 	}
 
 	/**

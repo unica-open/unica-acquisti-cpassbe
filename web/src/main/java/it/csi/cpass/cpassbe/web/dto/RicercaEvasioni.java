@@ -13,8 +13,8 @@ package it.csi.cpass.cpassbe.web.dto;
 import java.util.Date;
 
 import it.csi.cpass.cpassbe.lib.dto.Impegno;
+import it.csi.cpass.cpassbe.lib.dto.Ods;
 import it.csi.cpass.cpassbe.lib.dto.Subimpegno;
-import it.csi.cpass.cpassbe.lib.dto.ord.OggettiSpesa;
 import it.csi.cpass.cpassbe.lib.dto.ord.evasione.DestinatarioEvasione;
 import it.csi.cpass.cpassbe.lib.dto.ord.evasione.TestataEvasione;
 
@@ -26,7 +26,7 @@ public class RicercaEvasioni {
 	private Integer annoEvasioneA;
 	private Date dataInserimentoDa;
 	private Date dataInserimentoA;
-	
+
 	private Integer annoOrdineDa;
 	private Integer numeroOrdineDa;
 	private Integer annoOrdineA;
@@ -34,14 +34,15 @@ public class RicercaEvasioni {
 	private Date dataEmissioneDa;
 	private Date dataEmissioneA;
 	private Integer annoProvvedimento;
-	private Integer numeroProvvedimento;
-	
+	private String numeroProvvedimento;
+	private String provvedimentoTipo;
+
 	private TestataEvasione testataEvasione;
 	private DestinatarioEvasione destinatarioEvasione;
 	private Impegno impegno;
 	private Subimpegno subimpegno;
 //	private RigaOrdine rigaOrdine;
-	private OggettiSpesa oggettiSpesa;
+	private Ods oggettiSpesa;
 	/**
 	 * @return the numeroEvasioneDa
 	 */
@@ -186,8 +187,8 @@ public class RicercaEvasioni {
 	public void setDataEmissioneA(Date dataEmissioneA) {
 		this.dataEmissioneA = dataEmissioneA;
 	}
-	
-	
+
+
 	/**
 	 * @return the annoProvvedimento
 	 */
@@ -203,13 +204,13 @@ public class RicercaEvasioni {
 	/**
 	 * @return the numeroProvvedimento
 	 */
-	public Integer getNumeroProvvedimento() {
+	public String getNumeroProvvedimento() {
 		return numeroProvvedimento;
 	}
 	/**
 	 * @param numeroProvvedimento the numeroProvvedimento to set
 	 */
-	public void setNumeroProvvedimento(Integer numeroProvvedimento) {
+	public void setNumeroProvvedimento(String numeroProvvedimento) {
 		this.numeroProvvedimento = numeroProvvedimento;
 	}
 	/**
@@ -263,14 +264,23 @@ public class RicercaEvasioni {
 	/**
 	 * @return the oggetiSpesa
 	 */
-	public OggettiSpesa getOggettiSpesa() {
+	public Ods getOggettiSpesa() {
 		return oggettiSpesa;
 	}
 	/**
 	 * @param oggetiSpesa the oggetiSpesa to set
 	 */
-	public void setOggetiSpesa(OggettiSpesa oggettiSpesa) {
+	public void setOggetiSpesa(Ods oggettiSpesa) {
 		this.oggettiSpesa = oggettiSpesa;
 	}
+
+	public String getProvvedimentoTipo() {
+		return provvedimentoTipo;
+	}
+	public void setProvvedimentoTipo(String provvedimentoTipo) {
+		this.provvedimentoTipo = provvedimentoTipo;
+	}
+
+
 
 }

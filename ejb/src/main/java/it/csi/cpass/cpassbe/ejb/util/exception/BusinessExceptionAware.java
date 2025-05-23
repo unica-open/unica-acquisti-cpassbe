@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -28,6 +28,13 @@ public interface BusinessExceptionAware {
 	void checkBusinessCondition(boolean condition, ApiError message);
 	/**
 	 * Checks for business condition
+	 * @param condition the condition to check
+	 * @param message the message to supply to the exception
+	 * @param throwException whether to throw an exception
+	 */
+	void checkBusinessCondition(boolean condition, ApiError message, boolean throwException);
+	/**
+	 * Checks for business condition
 	 * @param condition supplier for the condition to check
 	 * @param message the message to supply to the exception
 	 */
@@ -45,4 +52,6 @@ public interface BusinessExceptionAware {
 	 * @param message the message to supply to the exception
 	 */
 	void checkBusinessCondition(BooleanSupplier condition, Supplier<ApiError> message);
+
+	void generaException(ApiError message);
 }

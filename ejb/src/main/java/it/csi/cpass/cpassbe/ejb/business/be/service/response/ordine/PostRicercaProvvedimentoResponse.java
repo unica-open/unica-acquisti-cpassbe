@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -10,35 +10,41 @@
  */
 package it.csi.cpass.cpassbe.ejb.business.be.service.response.ordine;
 
-import it.csi.cpass.cpassbe.ejb.business.be.service.response.base.BasePagedResponse;
-import it.csi.cpass.cpassbe.lib.dto.ord.Provvedimento;
-import it.csi.cpass.cpassbe.lib.util.pagination.PagedList;
-import it.csi.cpass.cpassbe.lib.util.pagination.PagedListImpl;
+import java.util.ArrayList;
+import java.util.List;
+
+import it.csi.cpass.cpassbe.ejb.business.be.service.response.base.BaseGetResponse;
+import it.csi.cpass.cpassbe.lib.dto.Provvedimento;
 
 /**
  * Response for reading list of Provvedimento.
  */
-public class PostRicercaProvvedimentoResponse extends BasePagedResponse<Provvedimento> {
+public class PostRicercaProvvedimentoResponse extends BaseGetResponse<List<Provvedimento>> {
 
-	private PagedList<Provvedimento> provvedimenti = new PagedListImpl<>();
+	private List<Provvedimento> provvedimenti = new ArrayList<>();
 
 	/**
 	 * @return the provvedimenti
 	 */
-	public PagedList<Provvedimento> getProvvedimenti() {
+	public List<Provvedimento> getProvvedimenti() {
 		return provvedimenti;
 	}
 
 	/**
-	 * @param Provvedimenti the provvedimenti to set
+	 * @param provvedimenti the provvedimenti to set
 	 */
-	public void setProvvedimenti(PagedList<Provvedimento> provvedimenti) {
-		this.provvedimenti = provvedimenti != null ? provvedimenti : new PagedListImpl<>();
+	public void setProvvedimenti(List<Provvedimento> provvedimenti) {
+		this.provvedimenti = provvedimenti;
 	}
 
 	@Override
-	protected PagedList<Provvedimento> getEntity() {
+	protected List<Provvedimento> getEntity() {
+		// TODO Auto-generated method stub
 		return provvedimenti;
 	}
+
+
+
+
 
 }

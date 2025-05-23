@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -21,8 +21,8 @@ import it.csi.cpass.cpassbe.lib.dto.custom.StatoInterventoInfo;
 
 public class GetUltimoStatoInfoByInterventoService extends BaseService<GetUltimoStatoInfoByInterventoRequest, GetUltimoStatoInfoByInterventoResponse> {
 
-	private InterventoDad interventoDad;
-	
+	private final InterventoDad interventoDad;
+
 	public GetUltimoStatoInfoByInterventoService(ConfigurationHelper configurationHelper, InterventoDad interventoDad) {
 		super(configurationHelper);
 		this.interventoDad = interventoDad;
@@ -30,12 +30,12 @@ public class GetUltimoStatoInfoByInterventoService extends BaseService<GetUltimo
 
 	@Override
 	protected void checkServiceParams() {
-		checkNotNull(request.getId(), "id");		
+		checkNotNull(request.getId(), "id");
 	}
 
 	@Override
 	protected void execute() {
-		List<StatoInterventoInfo> listastatoInfo = interventoDad.getUltimoStatoInfoByIntervento(request.getId());
+		final List<StatoInterventoInfo> listastatoInfo = interventoDad.getUltimoStatoInfoByIntervento(request.getId());
 		response.setListastatoInterventoInfo(listastatoInfo);
-	}	
+	}
 }

@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -23,12 +23,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 
-import org.apache.commons.lang.StringUtils;
+//import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
+import org.jboss.ejb3.annotation.TransactionTimeout;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
@@ -49,21 +51,29 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.squareup.okhttp.OkHttpClient;
 
+import it.csi.cpass.cpassbe.ejb.business.be.dad.DecodificaDad;
 import it.csi.cpass.cpassbe.ejb.business.be.dad.ElaborazioneDad;
 import it.csi.cpass.cpassbe.ejb.business.be.dad.ElaborazioneMessaggioDad;
 import it.csi.cpass.cpassbe.ejb.business.be.dad.ElaborazioneParametroDad;
 import it.csi.cpass.cpassbe.ejb.business.be.dad.InterventoDad;
+import it.csi.cpass.cpassbe.ejb.business.be.dad.InterventoImportiDad;
 import it.csi.cpass.cpassbe.ejb.business.be.dad.ProgrammaDad;
 import it.csi.cpass.cpassbe.ejb.business.be.dad.SystemDad;
+import it.csi.cpass.cpassbe.ejb.exception.NotFoundException;
 import it.csi.cpass.cpassbe.ejb.util.ConstantsCPassElaborazione;
+import it.csi.cpass.cpassbe.ejb.util.ConstantsCPassParametro;
 import it.csi.cpass.cpassbe.ejb.util.ConstantsCPassRisorsa;
-import it.csi.cpass.cpassbe.ejb.util.CpassStatiEnum;
+import it.csi.cpass.cpassbe.ejb.util.ConstantsCPassStato;
+import it.csi.cpass.cpassbe.ejb.util.NumberUtility;
+import it.csi.cpass.cpassbe.ejb.util.StringUtility;
 import it.csi.cpass.cpassbe.lib.dto.Elaborazione;
 import it.csi.cpass.cpassbe.lib.dto.ElaborazioneMessaggio;
 import it.csi.cpass.cpassbe.lib.dto.ElaborazioneParametro;
+import it.csi.cpass.cpassbe.lib.dto.Parametro;
+import it.csi.cpass.cpassbe.lib.dto.Stato;
 import it.csi.cpass.cpassbe.lib.dto.Utente;
+import it.csi.cpass.cpassbe.lib.dto.pba.AcquistiDaTrasmettere;
 import it.csi.cpass.cpassbe.lib.dto.pba.Intervento;
-import it.csi.cpass.cpassbe.lib.dto.pba.InterventoImporti;
 import it.csi.cpass.cpassbe.lib.dto.pba.Programma;
 import it.csi.cpass.cpassbe.mit.client.ApiClient;
 import it.csi.cpass.cpassbe.mit.client.ApiClientCPass;
@@ -86,103 +96,108 @@ public class MITManager extends BaseFacade {
 	private static final String SETTORE_INTERVENTI_SERVIZI = "S";
 	private static final String SETTORE_INTERVENTI_FORNITURE = "F";
 	private static final String SETTORE_INTERVENTI_LAVORO = "L";
-	
 	private static final String MIT_TRUE = "1"; // "S";
 	private static final String MIT_FALSE = "2"; // "N";
-
 	public static final String MODALITA_INVIO = "MODALITA_INVIO";
-
 	private static final String AMBIENTE_MIT = "MIT";
-
 	private static final String MIT_USERNAME = "MIT_USERNAME";
 	private static final String MIT_PASSWORD = "MIT_PASSWORD";
 	private static final String MIT_CLIENT_KEY = "MIT_CLIENT_KEY";
 	private static final String MIT_CLIENT_ID = "MIT_CLIENT_ID";
 	private static final String MIT_URL_WSLOGIN = "MIT_URL_WSLOGIN";
 	private static final String MIT_URL_WSPROGRAMMI = "MIT_URL_WSPROGRAMMI";
-
 	private static final String MIT_PROXY_HOSTNAME = "MIT_PROXY_HOSTNAME";
 	private static final String MIT_PROXY_PORT = "MIT_PROXY_PORT";
-	
 	public static final String MODALITA_INVIO_CONTROLLO = "1";
 	public static final String MODALITA_INVIO_CONTROLLO_PUBBLICAZIONE = "2";
-
-	private SystemDad systemDad;
-	private InterventoDad interventoDad;
-	private ProgrammaDad programmaDad;
-	private ElaborazioneMessaggioDad elaborazioneMessaggioDad;
-	private ElaborazioneDad elaborazioneDad;
-	private ElaborazioneParametroDad elaborazioneParametroDad;
-
+	private final SystemDad systemDad;
+	private final InterventoDad interventoDad;
+	private final InterventoImportiDad interventoImportiDad;
+	private final ProgrammaDad programmaDad;
+	private final ElaborazioneMessaggioDad elaborazioneMessaggioDad;
+	private final ElaborazioneDad elaborazioneDad;
+	private final ElaborazioneParametroDad elaborazioneParametroDad;
+	private final DecodificaDad decodificaDad;
 	private Map<String, String> parametri = null;
 
 	/**
-	 * 
+	 *
 	 * @param systemDad
 	 * @param interventoDad
 	 * @param programmaDad
 	 * @param elaborazioneDad
 	 * @param elaborazioneMessaggioDad
 	 */
-	public MITManager(SystemDad systemDad, InterventoDad interventoDad, ProgrammaDad programmaDad, ElaborazioneDad elaborazioneDad,
-			ElaborazioneMessaggioDad elaborazioneMessaggioDad, ElaborazioneParametroDad elaborazioneParametroDad) {
+	public MITManager(SystemDad systemDad,
+			InterventoDad interventoDad,
+			InterventoImportiDad interventoImportiDad,
+			ProgrammaDad programmaDad,
+			ElaborazioneDad elaborazioneDad,
+			ElaborazioneMessaggioDad elaborazioneMessaggioDad,
+			ElaborazioneParametroDad elaborazioneParametroDad,
+			DecodificaDad decodificaDad) {
 		this.systemDad = systemDad;
 		this.interventoDad = interventoDad;
+		this.interventoImportiDad = interventoImportiDad;
 		this.programmaDad = programmaDad;
 		this.elaborazioneDad = elaborazioneDad;
 		this.elaborazioneMessaggioDad = elaborazioneMessaggioDad;
 		this.elaborazioneParametroDad = elaborazioneParametroDad;
+		this.decodificaDad = decodificaDad;
 	}
 
 	/**
 	 * Trasmissione
-	 * 
+	 *
 	 * @param elaborazione the elaborazione
 	 * @param programma    the programma
 	 */
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	@TransactionTimeout(unit = TimeUnit.MINUTES, value = 10)
 	public void trasmetti(Elaborazione elaborazione, Programma programma) {
-		final String methodName = "trasmetti";
+		final String methodName = "trasmetti al MIT";
 		try {
 			elaborazione.setStato(ConstantsCPassElaborazione.StatoEnum.IN_ELABORAZIONE.getStatoDB());
 			elaborazione.setData(new Date(System.currentTimeMillis()));
-			elaborazioneDad.updateElaborazione(elaborazione);
-			elaborazioneDad.flush();
+			elaborazioneDad.saveElaborazione(elaborazione);
 			log.info(methodName, "In elaborazione - id: " + elaborazione.getId() + " - entitaId: " + elaborazione.getEntitaId());
-		
+			//System.out.println(methodName +  "In elaborazione - id: " + elaborazione.getId() + " - entitaId: " + elaborazione.getEntitaId());
 			Programma programmaPubblicazione = programma;
 			if (programmaPubblicazione == null) {
-				Optional<Programma> optional = programmaDad.getProgramma(UUID.fromString(elaborazione.getEntitaId()));
-				programmaPubblicazione = optional.get();
+				final Optional<Programma> optional = programmaDad.getProgramma(UUID.fromString(elaborazione.getEntitaId()));
+				programmaPubblicazione = optional.orElseThrow(() -> new NotFoundException("programma"));
 			}
-			
+			final Stato statoTrasmesso = decodificaDad.getStato(ConstantsCPassStato.StatoProgrammaEnum.TRASMESSO.getCostante(),ConstantsCPassStato.TipoStatoEnum.PROGRAMMA.getCostante());
+			programmaPubblicazione.setStato(statoTrasmesso);
 			UUID enteId = null;
 			if (programmaPubblicazione.getEnte() != null) {
 				enteId = programmaPubblicazione.getEnte().getId();
 			}
 			parametri = systemDad.getParametri(null, AMBIENTE_MIT, enteId);
-
-			String token = login(elaborazione);
+			//System.out.println(methodName +  "estraggo i parametri");
+			final String token = loginMit(elaborazione);
+			log.info(methodName, "token --> "+ token);
+			//System.out.println("token --> "+ token);
 			if (token != null) {
-				ElaborazioneParametro elaborazioneParametro = elaborazioneParametroDad.getParametro(elaborazione.getId(), MODALITA_INVIO);
-				String modalitaInvio = elaborazioneParametro.getValore();
+				final ElaborazioneParametro elaborazioneParametro = elaborazioneParametroDad.getParametro(elaborazione.getId(), MODALITA_INVIO);
+				final String modalitaInvio = elaborazioneParametro.getValore();
 				if (modalitaInvio != null && (modalitaInvio.equals(MODALITA_INVIO_CONTROLLO) || modalitaInvio.equals(MODALITA_INVIO_CONTROLLO_PUBBLICAZIONE))) {
-					pubblicaProgramma(elaborazione, programmaPubblicazione, token, modalitaInvio);
+					//pubblicaProgramma(elaborazione, programmaPubblicazione, token, modalitaInvio);
+					//System.out.println(methodName +  "PUBBLICO IL PROGRAMMA");
+					pubblicaProgramma(elaborazione, programmaPubblicazione,  modalitaInvio);
 				} else {
+					log.error(methodName, "modalità invio non valida " );
 					throw new RuntimeException("modalità invio non valida");
 				}
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			log.error(methodName, e.getMessage(), e);
-
-			String strStacktTrace = ExceptionUtils.getStackTrace(e);
-
+			final String strStacktTrace = ExceptionUtils.getStackTrace(e);
 			elaborazione.setEsito("ERRORE");
 			elaborazione.setStato(ConstantsCPassElaborazione.StatoEnum.ERRORE_ELABORAZIONE.getStatoDB());
 			elaborazione.setData(new Date(System.currentTimeMillis()));
-			elaborazioneDad.updateElaborazione(elaborazione);
-
-			ElaborazioneMessaggio elaborazioneMessaggio = new ElaborazioneMessaggio();
+			elaborazioneDad.saveElaborazione(elaborazione);
+			final ElaborazioneMessaggio elaborazioneMessaggio = new ElaborazioneMessaggio();
 			elaborazioneMessaggio.setElaborazione(elaborazione);
 			elaborazioneMessaggio.setTipo("E"); // errore
 			elaborazioneMessaggio.setDescrizione(strStacktTrace);
@@ -191,109 +206,110 @@ public class MITManager extends BaseFacade {
 		}
 	}
 
-	private String login(Elaborazione elaborazione) {
+	private String loginMit(Elaborazione elaborazione) {
 		final String methodName = "login";
-		String username = parametri.get(MIT_USERNAME);
-		String password = parametri.get(MIT_PASSWORD);
-		String clientKey = parametri.get(MIT_CLIENT_KEY);
-		String clientId = parametri.get(MIT_CLIENT_ID);
-		String urlWsLogin = parametri.get(MIT_URL_WSLOGIN);
-
-		AccountApi accountApi = new AccountApi();
+		final String username = parametri.get(MIT_USERNAME);
+		final String password = parametri.get(MIT_PASSWORD);
+		final String clientKey = parametri.get(MIT_CLIENT_KEY);
+		final String clientId = parametri.get(MIT_CLIENT_ID);
+		final String urlWsLogin = parametri.get(MIT_URL_WSLOGIN);
+		final AccountApi accountApi = new AccountApi();
 		accountApi.getApiClient().setBasePath(urlWsLogin);
-		
-		OkHttpClient httpClient = getHttpClientWithProxy();
-		if (httpClient != null) {
+		final OkHttpClient httpClient = getHttpClientWithProxy();
+		if(httpClient != null) {
+			httpClient.setConnectTimeout((long) 10 * 60 * 1000, TimeUnit.MILLISECONDS);
 			accountApi.getApiClient().setHttpClient(httpClient);
 		}
-
-		LoginResult loginResult = null;
 		String token = null;
 		try {
-			loginResult = accountApi.accountRestServiceLoginPubblica(username, password, clientKey, clientId);
+			final LoginResult loginResult = accountApi.accountRestServiceLoginPubblica(username, password, clientKey, clientId);
 			if (loginResult != null) {
 				token = loginResult.getToken();
 			}
-		} catch (ApiException e) {
+		} catch (final ApiException e) {
 			// esempio
 			// code: 404
 			// body: {"esito":false,"error":"not-found"}
-			log.error(methodName,
-					"Error. Code: \"" + e.getCode() + "\" - Message: \"" + e.getMessage() + "\" - Body: \"" + e.getResponseBody() + "\"",
-					e);
-
+			log.error(methodName,"Error. Code: \"" + e.getCode() + "\" - Message: \"" + e.getMessage() + "\" - Body: \"" + e.getResponseBody() + "\"",e);
+			//System.out.println("Error. Code: \"" + e.getCode() + "\" - Message: \"" + e.getMessage() + "\" - Body: \"" + e.getResponseBody() + "\"");
 			elaborazione.setEsito("" + e.getCode());
 			elaborazione.setStato(ConstantsCPassElaborazione.StatoEnum.ERRORE_ELABORAZIONE.getStatoDB());
 			elaborazione.setData(new Date(System.currentTimeMillis()));
-			elaborazioneDad.updateElaborazione(elaborazione);
-
-			ElaborazioneMessaggio elaborazioneMessaggio = new ElaborazioneMessaggio();
+			elaborazioneDad.saveElaborazione(elaborazione);
+			final ElaborazioneMessaggio elaborazioneMessaggio = new ElaborazioneMessaggio();
 			elaborazioneMessaggio.setElaborazione(elaborazione);
 			elaborazioneMessaggio.setTipo("E"); // errore
 			elaborazioneMessaggio.setDescrizione(e.getMessage() + " - " + e.getResponseBody());
 			elaborazioneMessaggio.setCode("" + e.getCode());
 			elaborazioneMessaggioDad.saveElaborazioneMessaggio(elaborazioneMessaggio);
 		}
-
 		return token;
 	}
 
 	private OkHttpClient getHttpClientWithProxy() {
 		OkHttpClient httpClient = null;
-		String hostnameProxy = parametri.get(MIT_PROXY_HOSTNAME);
-		String strPortProxy = parametri.get(MIT_PROXY_PORT);
+		final String hostnameProxy = parametri.get(MIT_PROXY_HOSTNAME);
+		final String strPortProxy = parametri.get(MIT_PROXY_PORT);
 		if (hostnameProxy != null && !hostnameProxy.trim().equals("") && strPortProxy != null && !strPortProxy.trim().equals("")) {
-			int portProxy = Integer.parseInt(strPortProxy);
-			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(hostnameProxy, portProxy));
+			final int portProxy = Integer.parseInt(strPortProxy);
+			final Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(hostnameProxy, portProxy));
 			httpClient = new OkHttpClient().setProxy(proxy);
 		}
 		return httpClient;
 	}
 
-	private void pubblicaProgramma(Elaborazione elaborazione, Programma programma, String token, String modalitaInvio) {
+	private void pubblicaProgramma(Elaborazione elaborazione, Programma programma,  String modalitaInvio) {
 		final String methodName = "pubblicaProgramma";
 		ApiClient apiClient = null;
+		final String token = loginMit(elaborazione);
+		long start = System.currentTimeMillis();
 		try {
-			PubblicaProgrammaFornitureServiziEntry body = populateProgrammaEntry(programma);
-			ProgrammiApi programmiApi = new ProgrammiApi();
-			
+			final PubblicaProgrammaFornitureServiziEntry body = populateProgrammaEntry(programma);
+			final ProgrammiApi programmiApi = new ProgrammiApi();
 			apiClient  = new ApiClientCPass();
+			// JIRA-720 10 min di timeout
+			apiClient.setConnectTimeout(10 * 60 * 1000);
+			// TODO: verificare se serve o anche se parametrizzare
+			apiClient.getHttpClient().setWriteTimeout((long)10*60*1000, TimeUnit.MILLISECONDS);
+			apiClient.getHttpClient().setReadTimeout((long)10*60*1000, TimeUnit.MILLISECONDS);
 			// apiClient = programmiApi.getApiClient();
 			programmiApi.setApiClient(apiClient);
-			
-			String urlWsProgrammi = parametri.get(MIT_URL_WSPROGRAMMI);
+			final String urlWsProgrammi = parametri.get(MIT_URL_WSPROGRAMMI);
 			apiClient.setBasePath(urlWsProgrammi);
-
-			OkHttpClient httpClient = getHttpClientWithProxy();
-			if (httpClient != null) {
+			final OkHttpClient httpClient = getHttpClientWithProxy();
+			if(httpClient != null) {
+				httpClient.setConnectTimeout((long)10*60*1000, TimeUnit.MILLISECONDS);
 				programmiApi.getApiClient().setHttpClient(httpClient);
 			}
-			
 			// ridefiniti gli adapter per errore:
 			// Can not deserialize value of type java.util.Date from String "2020-03-25T10:31:19.883+01:00": expected format
 			// "dd/MM/yyyy"
 			// at [Source: org.glassfish.jersey.message.internal.ReaderInterceptorExecutor$UnCloseableInputStream@2bf783e3; line: 1,
 			// column: 180] (through reference chain:
 			// it.maggioli.eldasoft.wsprogrammi.vo.programmi.fornitureservizi.PubblicaProgrammaFornitureServiziEntry["dataApprovazione"])
-			GsonBuilder gsonBuilder = new GsonBuilder().registerTypeAdapter(Date.class, new DateAdapter(apiClient))
+			final GsonBuilder gsonBuilder = new GsonBuilder().registerTypeAdapter(Date.class, new DateAdapter(apiClient))
 					.registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
 					.registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter());
-			Gson gson = gsonBuilder.create();
+			final Gson gson = gsonBuilder.create();
 			apiClient.getJSON().setGson(gson);
-			
-			String strBody = apiClient.getJSON().serialize(body);
+			log.info(methodName, "prima della stampa json");
+			final String strBody = apiClient.getJSON().serialize(body);
 			log.info(methodName, "strBody: " + strBody);
 			log.info(methodName, "modalitaInvio: " + modalitaInvio);
-
-			PubblicazioneResult pubblicazioneResult = programmiApi.programmiRestServicePubblicaFornitureServizi(body, modalitaInvio, token);
-			Long idRicevutoMit = pubblicazioneResult.getId();
+			start = System.currentTimeMillis();
+			final PubblicazioneResult pubblicazioneResult = programmiApi.programmiRestServicePubblicaFornitureServizi(body, modalitaInvio, token);
+			final long stop = System.currentTimeMillis();
+			log.info("", "millisecondi per chiamata " + (stop - start));
+			final Long idRicevutoMit = pubblicazioneResult.getId();
 			if (idRicevutoMit != null) {
 				log.info(methodName, "idRicevutoMit: " + idRicevutoMit + " per programma: " + programma.getId());
-
 				// se il record del programma che si sta tramsettendo non ha ancora l'idRicevutoMit
 				// if (programma.getIdRicevutoMit() == null) {
-					programma.setIdRicevutoMit(idRicevutoMit);
-					programmaDad.updateProgramma(programma);
+				programma.setIdRicevutoMit(idRicevutoMit);
+				programma.setDataTrasmissioneMit(new Date());
+				programmaDad.updateProgramma(programma);
+				//System.out.println(methodName +  "dopo update programma");
+				log.info(methodName ,  "dopo update programma");
 				// }
 			}
 
@@ -305,34 +321,35 @@ public class MITManager extends BaseFacade {
 				elaborazione.setStato(ConstantsCPassElaborazione.StatoEnum.ERRORE_ELABORAZIONE.getStatoDB());
 			}
 			elaborazione.setData(new Date(System.currentTimeMillis()));
-			elaborazioneDad.updateElaborazione(elaborazione);
+			//elaborazioneDad.updateElaborazione(elaborazione);
+			elaborazioneDad.saveElaborazione(elaborazione);
 
-			List<ValidateEntry> listValidate = pubblicazioneResult.getValidate();
+			final List<ValidateEntry> listValidate = pubblicazioneResult.getValidate();
 			if (listValidate != null) {
-				for (ValidateEntry validateEntry : listValidate) {
-					ElaborazioneMessaggio elaborazioneMessaggio = new ElaborazioneMessaggio();
+				for (final ValidateEntry validateEntry : listValidate) {
+					final ElaborazioneMessaggio elaborazioneMessaggio = new ElaborazioneMessaggio();
 					elaborazioneMessaggio.setElaborazione(elaborazione);
 					elaborazioneMessaggio.setTipo(validateEntry.getTipo());
 					elaborazioneMessaggio.setDescrizione(validateEntry.getMessaggio());
 					elaborazioneMessaggio.setCode(validateEntry.getNome());
-	
 					elaborazioneMessaggioDad.saveElaborazioneMessaggio(elaborazioneMessaggio);
 				}
 			}
-
-		} catch (ApiException e) {
-			// esempio
-			// code: 401
-			// body: {"id":null,"error":"Il token non è valido."}
-			log.error(methodName,"Error. Code: \"" + e.getCode() + "\" - Message: \"" + e.getMessage() + "\" - Body: \"" + e.getResponseBody() + "\"",e);			
-//			Type localVarReturnType = new TypeToken<PubblicazioneResult>(){}.getType();
-//			PubblicazioneResult pubblicazioneResult = apiClient.getJSON().deserialize(e.getResponseBody(), localVarReturnType);
+		} catch (final ApiException e) {
+			final long stop = System.currentTimeMillis();
+			log.error("ApiException ", "millisecondi per chiamata " + (stop - start));
+			//System.out.println("ApiException  " + "millisecondi per chiamata " + (stop - start));
+			//esempio
+			//code: 401
+			//body: {"id":null,"error":"Il token non è valido."}
+			log.error(methodName,"Error. Code: \"" + e.getCode() + "\" - Message: \"" + e.getMessage() + "\" - Body: \"" + e.getResponseBody() + "\"",e);
+			//Type localVarReturnType = new TypeToken<PubblicazioneResult>(){}.getType();
+			//PubblicazioneResult pubblicazioneResult = apiClient.getJSON().deserialize(e.getResponseBody(), localVarReturnType);
 			elaborazione.setEsito("" + e.getCode());
 			elaborazione.setStato(ConstantsCPassElaborazione.StatoEnum.ERRORE_ELABORAZIONE.getStatoDB());
 			elaborazione.setData(new Date(System.currentTimeMillis()));
-			elaborazioneDad.updateElaborazione(elaborazione);
-
-			ElaborazioneMessaggio elaborazioneMessaggio = new ElaborazioneMessaggio();
+			elaborazioneDad.saveElaborazione(elaborazione);
+			final ElaborazioneMessaggio elaborazioneMessaggio = new ElaborazioneMessaggio();
 			elaborazioneMessaggio.setElaborazione(elaborazione);
 			elaborazioneMessaggio.setTipo("E"); // errore
 			elaborazioneMessaggio.setDescrizione(e.getMessage() + " - " + e.getResponseBody());
@@ -342,263 +359,343 @@ public class MITManager extends BaseFacade {
 	}
 
 	private PubblicaProgrammaFornitureServiziEntry populateProgrammaEntry(Programma programma) {
-		PubblicaProgrammaFornitureServiziEntry body = new PubblicaProgrammaFornitureServiziEntry();
+		final String methodName="populateProgrammaEntry";
+		log.info(methodName, "START");
+		//System.out.println(methodName+ " START");
+		final PubblicaProgrammaFornitureServiziEntry body = new PubblicaProgrammaFornitureServiziEntry();
 		body.setId(programma.getCodiceMit());
-		body.setAnno(Long.valueOf(programma.getAnno().longValue()));
+		body.setAnno(programma.getAnno().longValue());
 		body.setCodiceFiscaleSA(programma.getEnte().getCodiceFiscale());
-		
 		// body.setDescrizione(programma.getDescrizione());
-		if (programma.getIdRicevutoMit() != null) {
+		// if (programma.getIdRicevutoMit() != null) {
+		if (programma.getVersione() > 1) {
 			// Esempio: Programma biennale degli acquisti di forniture e servizi 2020-2021 – Aggiornamento 01/10/2020
-			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-			body.setDescrizione("Programma biennale degli acquisti di forniture e servizi " + programma.getAnno() + "-"
-					+ (programma.getAnno() + 1) + " - Aggiornamento " + sdf.format(programma.getDataApprovazione()));
-		} else {
+			final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			body.setDescrizione("Programma degli acquisti di forniture e servizi " + programma.getAnno() + "-"+ (programma.getAnnoFineProgramma()) + " - Aggiornamento " + sdf.format(programma.getDataProvvedimento()));
+		} else if (programma.getVersione() == 1) {
 			// Esempio: Programma biennale degli acquisti di forniture e servizi 2020-2021
-			body.setDescrizione(
-					"Programma biennale degli acquisti di forniture e servizi " + programma.getAnno() + "-" + (programma.getAnno() + 1));
+			body.setDescrizione("Programma degli acquisti di forniture e servizi " + programma.getAnno() + "-" + (programma.getAnnoFineProgramma()));
 		}
-
 		if (programma.getNumeroProvvedimento() != null) {
 			body.setNumeroApprovazione("" + programma.getNumeroProvvedimento());
 		}
-
 		body.setDataApprovazione(new DateTime(programma.getDataProvvedimento()));
 		body.setDataPubblicazioneApprovazione(new DateTime(programma.getDataPubblicazione()));
 		body.setTitoloAttoApprovazione(programma.getDescrizioneProvvedimento());
 		body.setUrlAttoApprovazione(programma.getUrl());
 		body.setPrimaPubblicazioneSCP(null);
 		body.setUltimaModificaSCP(null);
-
 		// utenteDad.getUtente(programma.getUtenteReferente().getId());
-		Utente utenteReferente = programma.getUtenteReferente();
-		DatiGeneraliTecnicoEntry referente = new DatiGeneraliTecnicoEntry();
+		final Utente utenteReferente = programma.getUtenteReferente();
+		final DatiGeneraliTecnicoEntry referente = new DatiGeneraliTecnicoEntry();
 		referente.setNome(utenteReferente.getNome());
 		referente.setCognome(utenteReferente.getCognome());
 		referente.setCfPiva(utenteReferente.getCodiceFiscale());
 		body.setReferente(referente);
 
-		// Acquisti
-		List<AcquistoEntry> acquisti = new ArrayList<>();
-		body.setAcquisti(acquisti);
+		/* sezione codice modificato per spostamento logica al conferma */
+		// Acquisti Non annullati (estraggo tutti gli acquisti del programma non cancellati)
+		//List<Intervento> listIntNonAnnullati = interventoDad.getInterventoByProgrammaStato(programma.getId(),StatoInterventiEnum.CANCELLATO.getCostante(), false);
+		final List<AcquistiDaTrasmettere> listIntNonAnnullati = interventoDad.getAcquistiDaTrasmettereByProgrammaId(programma.getId());
 
-		// Acquisti Non annullati
-		List<Intervento> listIntNonAnnullati = interventoDad.getInterventoByProgrammaStato(programma.getId(),CpassStatiEnum.INT_CANCELLATO.getCostante(), false);
-		
-		// dovranno essere ordinati per anno di avvio dell’acquisto e quindi per numero CUI 
-		listIntNonAnnullati.sort(new Comparator<Intervento>() {
-			public int compare(Intervento i1, Intervento i2) {
-				int c = i1.getAnnoAvvio().compareTo(i2.getAnnoAvvio());
-				if (c != 0) {
-					return c;
-				}
-				return i1.getCui().compareTo(i2.getCui());
-			};
-		});
-		
-		populateAcquisti(programma, acquisti, listIntNonAnnullati);
+		// scremo in base alla soglia e riordino
+		// con la nuova versione la scrematura va fatta a monte
+		//List<Intervento> listaScremataDaSoglia = scremoAcquistiInBaseAllaSoglia(programma.getEnte().getId(),listIntNonAnnullati);
+
+		// Acquisti
+		//List<AcquistoEntry> listaAcquisti = populateAcquisti(programma, listaScremataDaSoglia);
+		final List<AcquistoEntry> listaAcquisti = populateAcquisti(programma, listIntNonAnnullati);
+
+		body.setAcquisti(listaAcquisti);
 
 		// Acquisti NON riproposti
-		List<AcquistoNonRipropostoEntry> acquistiNonRiproposti = new ArrayList<>();
+		//List<AcquistoNonRipropostoEntry> acquistiNonRiproposti = populateAcquistiNonRiproposti(listaScremataDaSoglia);
+		final List<AcquistoNonRipropostoEntry> acquistiNonRiproposti = populateAcquistiNonRiproposti(listIntNonAnnullati);
+
 		body.setAcquistiNonRiproposti(acquistiNonRiproposti);
-		populateAcquistiNonRiproposti(listIntNonAnnullati, acquistiNonRiproposti);
+		/* FINE sezione codice modificato per spostamento logica al conferma */
 
 		body.setIdRicevuto(programma.getIdRicevutoMit());
+		log.info("populateProgrammaEntry", "STOP");
+		//System.out.println(methodName+ " STOP");
 		return body;
 	}
 
-	private void populateAcquisti(Programma programma, List<AcquistoEntry> acquisti, List<Intervento> listIntNonAnnullati) {
+	/**
+	 * @param programma
+	 * @param methodName
+	 * @param listIntNonAnnullati
+	 * @return
+	 */
+	protected List<Intervento> scremoAcquistiInBaseAllaSoglia_old(UUID enteId, List<Intervento> listIntNonAnnullati) {
+		final String methodName ="scremoAcquistiInBaseAllaSoglia";
+		//nel caso non fosse esplicitato il parametro sul db uso 0 come default come soglia di non invio
+		BigDecimal sogliaDiNonInvio = BigDecimal.ZERO;
+		final Parametro soglia = systemDad.getParametro(ConstantsCPassParametro.ChiaveEnum.SOGLIA_DI_NON_INVIO_MIT.getCostante(),null, enteId);
+		if(soglia != null && soglia.getValore()!=null && !soglia.getValore().trim().equals("")) {
+			log.info(methodName, "");
+			sogliaDiNonInvio = new BigDecimal(soglia.getValore());
+			log.info(methodName, "soglia del  parametro SOGLIA_DI_NON_INVIO_MIT sul database " + sogliaDiNonInvio);
+		}else {
+			log.warn(methodName, "*************************************************************************************");
+			log.warn(methodName, "soglia di default 0 in assenza del parametro SOGLIA_DI_NON_INVIO_MIT sul database inserire il parametro sul DB");
+			log.warn(methodName, "*************************************************************************************");
+		}
+
+		final List<Intervento>  listaScremataDaSoglia = new ArrayList<>();
+		for(final Intervento interv : listIntNonAnnullati) {
+			final BigDecimal importo = clacolaImportocalcolato(interv);
+			if(importo.compareTo(sogliaDiNonInvio)>=0) {
+				listaScremataDaSoglia.add(interv);
+			}else {
+				log.info("populateProgrammaEntry", "intervento eliminato "+interv.getCui());
+			}
+		}
+
+		// dovranno essere ordinati per anno di avvio dell’acquisto e quindi per numero CUI
+		listaScremataDaSoglia.sort(new Comparator<Intervento>() {
+			@Override
+			public int compare(Intervento i1, Intervento i2) {
+				final int c = i1.getAnnoAvvio().compareTo(i2.getAnnoAvvio());
+				if (c != 0) {return c;}
+				return i1.getCui().compareTo(i2.getCui());
+			}
+		});
+		return listaScremataDaSoglia;
+	}
+
+	private BigDecimal clacolaImportocalcolato(Intervento interv) {
+		BigDecimal importoCalcolato = BigDecimal.ZERO;
+		BigDecimal iva = BigDecimal.ZERO;
+		/*
+		Dato un acquisto, occorre innanzitutto verificare il valore del campo CPASS_T_PBA_INTERVENTO.lotto_funzionale:
+		Se esso è FALSE, allora occorre calcolare l’importo come ∑ (CPASS_T_PBA_IMPORTI_INTERVENTO.importo_anno_primo + CPASS_T_PBA_IMPORTI_INTERVENTO.importo_anno_secondo +
+		CPASS_T_PBA_IMPORTI_INTERVENTO.importo_anni_successivi)
+		Se esso è TRUE, allora occorre ricercare tutti gli altri acquisti collegati (cioè gli acquisti che hanno lo stesso capofila_id dell’acquisto che si sta prendendo in considerazione) e sommare gli importi su tutti questi acquisti come ∑ (CPASS_T_PBA_IMPORTI_INTERVENTO.importo_anno_primo + CPASS_T_PBA_IMPORTI_INTERVENTO.importo_anno_secondo +
+		CPASS_T_PBA_IMPORTI_INTERVENTO.importo_anni_successivi)
+		 */
+		if(interv.getLottoFunzionale()== null || !interv.getLottoFunzionale()) {
+			importoCalcolato = interventoImportiDad.getImportoTotByInterventoId(interv.getId());
+			iva = interventoImportiDad.getImportoIvaTotByInterventoId(interv.getId());
+		}else {
+			if(interv.getInterventoCapofila()==null || interv.getInterventoCapofila().getId() == null) {
+				//log.error("calcolaImportocalcolato ", "******************************************************");
+				//log.error("calcolaImportocalcolato ", "******************************************************");
+				importoCalcolato = interventoImportiDad.getImportoTotByInterventoId(interv.getId());
+				iva = interventoImportiDad.getImportoIvaTotByInterventoId(interv.getId());
+				log.error("calcolaImportocalcolato ", "intervento con id -->"+ interv.getId() +" presenta flg lotto funzionale a true ma non ha indicazione sul sui intervento capofila" );
+				//log.error("calcolaImportocalcolato ", "******************************************************");
+				//log.error("calcolaImportocalcolato ", "******************************************************");
+			}
+			final List<Intervento> listIntervCollegatoCapofila = interventoDad.getInterventiByCapofilaId(interv.getInterventoCapofila().getId(),interv.getProgramma().getId());
+			for(final Intervento collegatoCapofila :listIntervCollegatoCapofila) {
+				importoCalcolato = importoCalcolato.add(interventoImportiDad.getImportoTotByInterventoId(collegatoCapofila.getId()));
+				iva = interventoImportiDad.getImportoIvaTotByInterventoId(collegatoCapofila.getId());
+			}
+		}
+
+		log.debug("CUI -->"+ interv.getCui() + " importo calcolato ", importoCalcolato);
+		log.debug("CUI -->"+ interv.getCui() + " I.V.A.", iva);
+		return importoCalcolato.subtract(iva);
+	}
+
+	private List<AcquistoEntry> populateAcquisti(Programma programma,  List<AcquistiDaTrasmettere> listaAcquistiDaTrasmettere) {
+		final List<AcquistoEntry> listaAcquisti = new ArrayList<>();
+
+
 		final String methodName = "populateAcquisti";
-		for (Intervento intervento : listIntNonAnnullati) {
-			if (StringUtils.isNotEmpty(intervento.getMotivazioneNonRiproposto())) {
+		String intIdInesameOld = "";
+		AcquistoEntry acquistoEntry = null;
+		for (final AcquistiDaTrasmettere acquistiDaTrasmettere : listaAcquistiDaTrasmettere) {
+			if (StringUtility.isNotEmpty(acquistiDaTrasmettere.getMotivazioneNonRiproposto())) {
 				continue;
 			}
-			AcquistoEntry acquistoEntry = new AcquistoEntry();
-			acquisti.add(acquistoEntry);
+			final String intIdInesame = acquistiDaTrasmettere.getInterventoId().toString();
 
-			acquistoEntry.setCui(intervento.getCui());
-
-			if (intervento.getSettoreInterventi().getCodice().equalsIgnoreCase(SETTORE_INTERVENTI_FORNITURE)) {
-				acquistoEntry.setSettore(SettoreEnum.F);
-			} else if (intervento.getSettoreInterventi().getCodice().equalsIgnoreCase(SETTORE_INTERVENTI_SERVIZI)) {
-				acquistoEntry.setSettore(SettoreEnum.S);
-			} else if (intervento.getSettoreInterventi().getCodice().equalsIgnoreCase(SETTORE_INTERVENTI_LAVORO)) {
-				acquistoEntry.setSettore(SettoreEnum.L);
-			} else {
-				// TODO errore?
-			}
-
-			acquistoEntry.setCodiceInterno(null);
-			acquistoEntry.setDescrizione(intervento.getDescrizioneAcquisto());
-			acquistoEntry.setAnno(intervento.getAnnoAvvio().intValue() == programma.getAnno().intValue() ? 1L:2L);
-			acquistoEntry.setEsenteCup(intervento.getCup() == null || intervento.getCup().trim().equals("") ? MIT_TRUE : MIT_FALSE);
-			acquistoEntry.setCup(intervento.getCup());
-
-			Long acquistoRicompreso = null;
-			try {
-				if (intervento.getRicompresoTipo() != null) {
-					acquistoRicompreso = Long.valueOf(intervento.getRicompresoTipo().getCodice().trim());
+			if(!intIdInesame.equalsIgnoreCase(intIdInesameOld)) {
+				// Inizio inizializzazione oggetto
+				acquistoEntry = new AcquistoEntry();
+				if (acquistiDaTrasmettere.getSettoreInterventiCodice().equalsIgnoreCase(SETTORE_INTERVENTI_FORNITURE)) {
+					acquistoEntry.setSettore(SettoreEnum.F);
+				} else if (acquistiDaTrasmettere.getSettoreInterventiCodice().equalsIgnoreCase(SETTORE_INTERVENTI_SERVIZI)) {
+					acquistoEntry.setSettore(SettoreEnum.S);
+				} else if (acquistiDaTrasmettere.getSettoreInterventiCodice().equalsIgnoreCase(SETTORE_INTERVENTI_LAVORO)) {
+					acquistoEntry.setSettore(SettoreEnum.L);
+				} else {
+					log.error(methodName, "codice non censito "+acquistiDaTrasmettere.getSettoreInterventiCodice());
+					//System.out.println(methodName+ " codice non censito "+intervento.getSettoreInterventi().getCodice());
 				}
-			} catch (Exception e) {
-				log.error(methodName, e.getMessage(), e);
-			}
-			acquistoEntry.setAcquistoRicompreso(acquistoRicompreso);		
-			acquistoEntry.setCuiCollegato(intervento.getRicompresoCui() != null ? intervento.getRicompresoCui() : "");
-			/*
-			if (intervento.getInterventoRicompreso() != null) {
-				acquistoEntry.setCuiCollegato(intervento.getInterventoRicompreso().getCui());
-			}
-			*/
-			acquistoEntry.setCpv(intervento.getCpv().getCodice());
-			acquistoEntry.setIstat(null);
-			acquistoEntry.setNuts(intervento.getNuts().getCodice());
-			acquistoEntry.setQuantita(null);
-			acquistoEntry.setUnitaMisura(null);
 
-			Long priorita = null;
-			try {
-				priorita = Long.valueOf(intervento.getPriorita().getCodice());
-			} catch (Exception e) {
-				log.error(methodName, e.getMessage(), e);
+				Long acquistoRicompreso = null;
+				if (StringUtility.isNotEmpty(acquistiDaTrasmettere.getRicompresoTipoCodice())) {
+					acquistoRicompreso  = Long.valueOf(acquistiDaTrasmettere.getRicompresoTipoCodice().trim());
+				}
+				acquistoEntry.setAcquistoRicompreso(acquistoRicompreso);
+
+				Long priorita = null;
+				if (StringUtility.isNotEmpty(acquistiDaTrasmettere.getRicompresoTipoCodice())) {
+					priorita = Long.valueOf(acquistiDaTrasmettere.getPrioritaCodice().trim());
+				}
+
+				Long variato = null;
+				if (StringUtility.isNotEmpty(acquistiDaTrasmettere.getAcquistoVariatoCodice())) {
+					variato = Long.valueOf(acquistiDaTrasmettere.getAcquistoVariatoCodice());
+				}
+				acquistoEntry.setVariato(variato);
+
+				if (acquistiDaTrasmettere.getModalitaAffidamento() != null) {
+					acquistoEntry.setDelega(acquistiDaTrasmettere.getModalitaAffidamento().equalsIgnoreCase("ND") ? MIT_FALSE : MIT_TRUE);
+				}
+
+				if (acquistiDaTrasmettere.getAusaCodice() != null) {
+					acquistoEntry.setCodiceSoggettoDelegato(acquistiDaTrasmettere.getAusaCodice());
+					acquistoEntry.setNomeSoggettoDelegato(acquistiDaTrasmettere.getAusaDescrizione());
+				}
+				acquistoEntry.setPriorita(priorita);
+				acquistoEntry.setCuiCollegato(StringUtility.isNotEmpty( acquistiDaTrasmettere.getInterventoRicompresoCui()) ? acquistiDaTrasmettere.getInterventoRicompresoCui() : "");
+				acquistoEntry.setCpv(acquistiDaTrasmettere.getCpvCodice());
+				acquistoEntry.setNuts(acquistiDaTrasmettere.getNutsCodice());
+				acquistoEntry.setLottoFunzionale(acquistiDaTrasmettere.getInterventoLottoFunzionale() == null || !acquistiDaTrasmettere.getInterventoLottoFunzionale().booleanValue() ? MIT_FALSE : MIT_TRUE);
+				acquistoEntry.setDurataInMesi(acquistiDaTrasmettere.getInterventoDurataMesi().longValue());
+				acquistoEntry.setNuovoAffidamento(acquistiDaTrasmettere.getInterventoNuovoAffid() == null || !acquistiDaTrasmettere.getInterventoNuovoAffid().booleanValue() ? MIT_FALSE : MIT_TRUE);
+				acquistoEntry.setCui(acquistiDaTrasmettere.getInterventoCui());
+				acquistoEntry.setDescrizione(acquistiDaTrasmettere.getInterventoDescrizioneAcquisto());
+				acquistoEntry.setAnno(acquistiDaTrasmettere.getInterventoAnnoAvvio().equals(programma.getAnno()) ? 1L:2L);
+				acquistoEntry.setEsenteCup(acquistiDaTrasmettere.getInterventoCup() == null || acquistiDaTrasmettere.getInterventoCup().trim().equals("") ? MIT_TRUE : MIT_FALSE);
+				acquistoEntry.setCup(acquistiDaTrasmettere.getInterventoCup());
+
+				acquistoEntry.setImportoIva1(NumberUtility.toDouble(acquistiDaTrasmettere.getIvaPrimoAnno()));
+				acquistoEntry.setImportoIva2(NumberUtility.toDouble(acquistiDaTrasmettere.getIvaSecondoAnno()));
+				acquistoEntry.setImportoIva3(NumberUtility.toDouble(acquistiDaTrasmettere.getIvaTerzoAnno()));
+				acquistoEntry.setImportoIvaSucc(NumberUtility.toDouble(acquistiDaTrasmettere.getIvaAnniSuccessivi()));
+				acquistoEntry.setNote(acquistiDaTrasmettere.getNote());
+				// altri campi "Non valorizzati" saltati
+				final DatiGeneraliTecnicoEntry rup = new DatiGeneraliTecnicoEntry();
+				rup.setNome(acquistiDaTrasmettere.getRupUtenteNome());
+				rup.setCognome(acquistiDaTrasmettere.getRupUtenteCognome());
+				rup.setCfPiva(acquistiDaTrasmettere.getRupUtenteCodiceFiscale());
+				acquistoEntry.setRup(rup);
+				// da verificare se sono effettivamente a null
+				acquistoEntry.setIstat(null);
+				acquistoEntry.setQuantita(null);
+				acquistoEntry.setUnitaMisura(null);
+				acquistoEntry.setImportoCapitalePrivato(null);
+				//acquistoEntry.setImportoTotale(null);
+				final BigDecimal totale = acquistiDaTrasmettere.getImportoAnnoPrimo().add(acquistiDaTrasmettere.getImportoAnnoSecondo().add(acquistiDaTrasmettere.getImportoAnnoTerzo().add(acquistiDaTrasmettere.getImportoAnniSuccessivi())));
+				acquistoEntry.setImportoTotale(NumberUtility.toDouble(totale));
+				acquistoEntry.setCodiceInterno(null);
+				acquistoEntry.setSpeseSostenute(null);
+				acquistoEntry.setImportoRisorseFinanziarie(null);
+				acquistoEntry.setImportoRisorseFinanziarieRegionali(null);
+				acquistoEntry.setImportoRisorseFinanziarieAltro(null);
+				acquistoEntry.setMeseAvvioProcedura(null);
+				listaAcquisti.add(acquistoEntry);
+				// Fine inizializzazione oggetto
 			}
-			acquistoEntry.setPriorita(priorita);
-			acquistoEntry.setLottoFunzionale(intervento.getLottoFunzionale() == null || !intervento.getLottoFunzionale().booleanValue() ? MIT_FALSE : MIT_TRUE);
-			acquistoEntry.setDurataInMesi(Long.valueOf(intervento.getDurataMesi().longValue()));
-			acquistoEntry.setNuovoAffidamento(intervento.getNuovoAffidamento() == null || !intervento.getNuovoAffidamento().booleanValue() ? MIT_FALSE : MIT_TRUE);
-			InterventoImporti interventoImportiFilter = new InterventoImporti();
-			interventoImportiFilter.setIntervento(intervento);
-			// PagedList<InterventoImporti> pagedList = interventoImportiDad.getInterventiImporti(interventoImportiFilter, 1, 0);
-			// for (InterventoImporti interventoImporti : pagedList.getList()) {
-			for (InterventoImporti interventoImporti : intervento.getListInterventoImporti()) {
-				if (interventoImporti.getRisorsa().getTagTrasmissione() != null) {
-					if (interventoImporti.getRisorsa().getTagTrasmissione().equalsIgnoreCase(ConstantsCPassRisorsa.RisorsaEnum.RISORSE_VINCOLATE_PER_LEGGE.getTagTrasmissione())) {
-						acquistoEntry.setRisorseVincolatePerLegge1(toDouble(interventoImporti.getImportoAnnoPrimo()));
-						acquistoEntry.setRisorseVincolatePerLegge2(toDouble(interventoImporti.getImportoAnnoSecondo()));
-						acquistoEntry.setRisorseVincolatePerLeggeSucc(toDouble(interventoImporti.getImportoAnniSuccessivi()));
-					} else if (interventoImporti.getRisorsa().getTagTrasmissione().equalsIgnoreCase(ConstantsCPassRisorsa.RisorsaEnum.RISORSE_MUTUO.getTagTrasmissione())) {
-						acquistoEntry.setRisorseMutuo1(toDouble(interventoImporti.getImportoAnnoPrimo()));
-						acquistoEntry.setRisorseMutuo2(toDouble(interventoImporti.getImportoAnnoSecondo()));
-						acquistoEntry.setRisorseMutuoSucc(toDouble(interventoImporti.getImportoAnniSuccessivi()));
-					} else if (interventoImporti.getRisorsa().getTagTrasmissione().equalsIgnoreCase(ConstantsCPassRisorsa.RisorsaEnum.RISORSE_PRIVATI.getTagTrasmissione())) {
-						acquistoEntry.setRisorsePrivati1(toDouble(interventoImporti.getImportoAnnoPrimo()));
-						acquistoEntry.setRisorsePrivati2(toDouble(interventoImporti.getImportoAnnoSecondo()));
-						acquistoEntry.setRisorsePrivatiSucc(toDouble(interventoImporti.getImportoAnniSuccessivi()));
-					} else if (interventoImporti.getRisorsa().getTagTrasmissione().equalsIgnoreCase(ConstantsCPassRisorsa.RisorsaEnum.RISORSE_BILANCIO.getTagTrasmissione())) {
-						acquistoEntry.setRisorseBilancio1(toDouble(interventoImporti.getImportoAnnoPrimo()));
-						acquistoEntry.setRisorseBilancio2(toDouble(interventoImporti.getImportoAnnoSecondo()));
-						acquistoEntry.setRisorseBilancioSucc(toDouble(interventoImporti.getImportoAnniSuccessivi()));	
-					} else if (interventoImporti.getRisorsa().getTagTrasmissione().equalsIgnoreCase(ConstantsCPassRisorsa.RisorsaEnum.RISORSE_ART3.getTagTrasmissione())) {
-						acquistoEntry.setRisorseArt31(toDouble(interventoImporti.getImportoAnnoPrimo()));
-						acquistoEntry.setRisorseArt32(toDouble(interventoImporti.getImportoAnnoSecondo()));
-						acquistoEntry.setRisorseArt3Succ(toDouble(interventoImporti.getImportoAnniSuccessivi()));	
-					} else if (interventoImporti.getRisorsa().getTagTrasmissione().equalsIgnoreCase(ConstantsCPassRisorsa.RisorsaEnum.RISORSE_IMMOBILI.getTagTrasmissione())) {
-						acquistoEntry.setRisorseImmobili1(toDouble(interventoImporti.getImportoAnnoPrimo()));
-						acquistoEntry.setRisorseImmobili2(toDouble(interventoImporti.getImportoAnnoSecondo()));
-						acquistoEntry.setRisorseImmobiliSucc(toDouble(interventoImporti.getImportoAnniSuccessivi()));
-					} else if (interventoImporti.getRisorsa().getTagTrasmissione().equalsIgnoreCase(ConstantsCPassRisorsa.RisorsaEnum.RISORSE_ALTRO.getTagTrasmissione())) {
-						acquistoEntry.setRisorseAltro1(toDouble(interventoImporti.getImportoAnnoPrimo()));
-						acquistoEntry.setRisorseAltro2(toDouble(interventoImporti.getImportoAnnoSecondo()));
-						acquistoEntry.setRisorseAltroSucc(toDouble(interventoImporti.getImportoAnniSuccessivi()));
-					}				
-				} else if (interventoImporti.getRisorsa().getTipo().equalsIgnoreCase(ConstantsCPassRisorsa.TipoEnum.CAPITALE_PRIVATO.getTipo())) {
-					boolean importiTuttiAZero = interventoImporti.getImportoAnnoPrimo().signum() == 0 
-							&& interventoImporti.getImportoAnnoSecondo().signum() == 0
-							&& interventoImporti.getImportoAnniSuccessivi().signum() == 0;
+			intIdInesameOld = intIdInesame;
+
+
+			//valorizzo le varie risorse
+			final String tagTrasmissione = acquistiDaTrasmettere.getRisorsaTagTrasmissione() != null ? acquistiDaTrasmettere.getRisorsaTagTrasmissione().trim() : "";
+			if(tagTrasmissione!=null) {
+				if (tagTrasmissione.equalsIgnoreCase(ConstantsCPassRisorsa.RisorsaEnum.RISORSE_VINCOLATE_PER_LEGGE.getTagTrasmissione())) {
+					acquistoEntry.setRisorseVincolatePerLegge1(NumberUtility.toDouble(acquistiDaTrasmettere.getImportoAnnoPrimo()));
+					acquistoEntry.setRisorseVincolatePerLegge2(NumberUtility.toDouble(acquistiDaTrasmettere.getImportoAnnoSecondo()));
+					acquistoEntry.setRisorseVincolatePerLegge3(NumberUtility.toDouble(acquistiDaTrasmettere.getImportoAnnoTerzo()));
+					acquistoEntry.setRisorseVincolatePerLeggeSucc(NumberUtility.toDouble(acquistiDaTrasmettere.getImportoAnniSuccessivi()));
+				}
+				else if (tagTrasmissione.equalsIgnoreCase(ConstantsCPassRisorsa.RisorsaEnum.RISORSE_MUTUO.getTagTrasmissione())) {
+					acquistoEntry.setRisorseMutuo1(NumberUtility.toDouble(acquistiDaTrasmettere.getImportoAnnoPrimo()));
+					acquistoEntry.setRisorseMutuo2(NumberUtility.toDouble(acquistiDaTrasmettere.getImportoAnnoSecondo()));
+					acquistoEntry.setRisorseMutuo3(NumberUtility.toDouble(acquistiDaTrasmettere.getImportoAnnoTerzo()));
+					acquistoEntry.setRisorseMutuoSucc(NumberUtility.toDouble(acquistiDaTrasmettere.getImportoAnniSuccessivi()));
+				} else if (tagTrasmissione.equalsIgnoreCase(ConstantsCPassRisorsa.RisorsaEnum.RISORSE_PRIVATI.getTagTrasmissione())) {
+					acquistoEntry.setRisorsePrivati1(NumberUtility.toDouble(acquistiDaTrasmettere.getImportoAnnoPrimo()));
+					acquistoEntry.setRisorsePrivati2(NumberUtility.toDouble(acquistiDaTrasmettere.getImportoAnnoSecondo()));
+					acquistoEntry.setRisorsePrivati3(NumberUtility.toDouble(acquistiDaTrasmettere.getImportoAnnoTerzo()));
+					acquistoEntry.setRisorsePrivatiSucc(NumberUtility.toDouble(acquistiDaTrasmettere.getImportoAnniSuccessivi()));
+
+					final boolean importiTuttiAZero = acquistiDaTrasmettere.getImportoAnnoPrimo().signum() == 0
+							&& acquistiDaTrasmettere.getImportoAnnoSecondo().signum() == 0
+							&& acquistiDaTrasmettere.getImportoAnnoTerzo().signum() == 0
+							&& acquistiDaTrasmettere.getImportoAnniSuccessivi().signum() == 0;
 					if (!importiTuttiAZero) {
-						acquistoEntry.setTipologiaCapitalePrivato(interventoImporti.getRisorsa().getCodice());
+
+						final String codiceRisorsaCapPrivato= interventoDad.getAcquistiDaTrasmettereCapPrivatoByIntgerventoId(acquistiDaTrasmettere.getInterventoId()).get(0).getCodiceRisorsa();
+
+						acquistoEntry.setTipologiaCapitalePrivato(codiceRisorsaCapPrivato);//(acquistiDaTrasmettere.getCodiceRisorsa());
 					}
+
+				} else if (tagTrasmissione.equalsIgnoreCase(ConstantsCPassRisorsa.RisorsaEnum.RISORSE_BILANCIO.getTagTrasmissione())) {
+					acquistoEntry.setRisorseBilancio1(NumberUtility.toDouble(acquistiDaTrasmettere.getImportoAnnoPrimo()));
+					acquistoEntry.setRisorseBilancio2(NumberUtility.toDouble(acquistiDaTrasmettere.getImportoAnnoSecondo()));
+					acquistoEntry.setRisorseBilancio3(NumberUtility.toDouble(acquistiDaTrasmettere.getImportoAnnoTerzo()));
+					acquistoEntry.setRisorseBilancioSucc(NumberUtility.toDouble(acquistiDaTrasmettere.getImportoAnniSuccessivi()));
+				} else if (tagTrasmissione.equalsIgnoreCase(ConstantsCPassRisorsa.RisorsaEnum.RISORSE_ART3.getTagTrasmissione())) {
+					acquistoEntry.setRisorseArt31(NumberUtility.toDouble(acquistiDaTrasmettere.getImportoAnnoPrimo()));
+					acquistoEntry.setRisorseArt32(NumberUtility.toDouble(acquistiDaTrasmettere.getImportoAnnoSecondo()));
+					acquistoEntry.setRisorseArt33(NumberUtility.toDouble(acquistiDaTrasmettere.getImportoAnnoTerzo()));
+					acquistoEntry.setRisorseArt3Succ(NumberUtility.toDouble(acquistiDaTrasmettere.getImportoAnniSuccessivi()));
+				} else if (tagTrasmissione.equalsIgnoreCase(ConstantsCPassRisorsa.RisorsaEnum.RISORSE_IMMOBILI.getTagTrasmissione())) {
+					acquistoEntry.setRisorseImmobili1(NumberUtility.toDouble(acquistiDaTrasmettere.getImportoAnnoPrimo()));
+					acquistoEntry.setRisorseImmobili2(NumberUtility.toDouble(acquistiDaTrasmettere.getImportoAnnoSecondo()));
+					acquistoEntry.setRisorseImmobili3(NumberUtility.toDouble(acquistiDaTrasmettere.getImportoAnnoTerzo()));
+					acquistoEntry.setRisorseImmobiliSucc(NumberUtility.toDouble(acquistiDaTrasmettere.getImportoAnniSuccessivi()));
+				} else if (tagTrasmissione.equalsIgnoreCase(ConstantsCPassRisorsa.RisorsaEnum.RISORSE_ALTRO.getTagTrasmissione())) {
+					acquistoEntry.setRisorseAltro1(NumberUtility.toDouble(acquistiDaTrasmettere.getImportoAnnoPrimo()));
+					acquistoEntry.setRisorseAltro2(NumberUtility.toDouble(acquistiDaTrasmettere.getImportoAnnoSecondo()));
+					acquistoEntry.setRisorseAltro3(NumberUtility.toDouble(acquistiDaTrasmettere.getImportoAnnoTerzo()));
+					acquistoEntry.setRisorseAltroSucc(NumberUtility.toDouble(acquistiDaTrasmettere.getImportoAnniSuccessivi()));
 				}
 			}
-
-			acquistoEntry.setSpeseSostenute(null);
-			acquistoEntry.setImportoRisorseFinanziarie(null);
-			acquistoEntry.setImportoRisorseFinanziarieRegionali(null);
-			acquistoEntry.setImportoRisorseFinanziarieAltro(null);
-			acquistoEntry.setMeseAvvioProcedura(null);
-
-			if (intervento.getModalitaAffidamento() != null) {
-				acquistoEntry.setDelega(intervento.getModalitaAffidamento().getCodice().equalsIgnoreCase("ND") ? MIT_FALSE : MIT_TRUE);
-			}
-
-			if (intervento.getAusa() != null) {
-				acquistoEntry.setCodiceSoggettoDelegato(intervento.getAusa().getCodice());
-				acquistoEntry.setNomeSoggettoDelegato(intervento.getAusa().getDescrizione());
-			}
-
-			Long variato = null;
-			try {
-				if (intervento.getAcquistoVariato() != null) {
-					variato = Long.valueOf(intervento.getAcquistoVariato().getCodice());
-				}
-			} catch (Exception e) {
-				log.error(methodName, e.getMessage(), e);
-			}
-			acquistoEntry.setVariato(variato);
-
-			acquistoEntry.setNote(null);
-			// altri campi "Non valorizzati" saltati
-
-			DatiGeneraliTecnicoEntry rup = new DatiGeneraliTecnicoEntry();
-			rup.setNome(intervento.getUtenteRup().getNome());
-			rup.setCognome(intervento.getUtenteRup().getCognome());
-			rup.setCfPiva(intervento.getUtenteRup().getCodiceFiscale());
-			acquistoEntry.setRup(rup);
-
-			acquistoEntry.setImportoCapitalePrivato(null);
-			acquistoEntry.setImportoTotale(null);
 		}
+		return listaAcquisti;
 	}
-	
-	private void populateAcquistiNonRiproposti(List<Intervento> listIntNonAnnullati,
-			List<AcquistoNonRipropostoEntry> acquistiNonRiproposti) {
+
+
+	private List<AcquistoNonRipropostoEntry> populateAcquistiNonRiproposti(List<AcquistiDaTrasmettere> listIntNonAnnullati) {
 		final String methodName = "populateAcquistiNonRiproposti";
-		for (Intervento intervento : listIntNonAnnullati) {
-			// abbiano il campo motivazione_non_riproposto valorizzato
-			if (intervento.getMotivazioneNonRiproposto() == null || intervento.getMotivazioneNonRiproposto().trim().equals("")) {
+		final List<AcquistoNonRipropostoEntry> acquistiNonRiproposti = new ArrayList<>();
+		String intIdInesameOld = "";
+		for (final AcquistiDaTrasmettere intervento : listIntNonAnnullati) {
+			if (StringUtility.isEmpty(intervento.getMotivazioneNonRiproposto())) {
 				continue;
 			}
-
-			AcquistoNonRipropostoEntry acquistoNonRipropostoEntry = new AcquistoNonRipropostoEntry();
-			acquistiNonRiproposti.add(acquistoNonRipropostoEntry);
-
-			acquistoNonRipropostoEntry.setCui(intervento.getCui());
-			acquistoNonRipropostoEntry.setCup(intervento.getCup());
-			acquistoNonRipropostoEntry.setDescrizione(intervento.getDescrizioneAcquisto());
-
-			BigDecimal importo = BigDecimal.ZERO;
-			for (InterventoImporti interventoImporti : intervento.getListInterventoImporti()) {
-				importo = importo.add(interventoImporti.getImportoAnnoPrimo());
-				importo = importo.add(interventoImporti.getImportoAnnoSecondo());
-				importo = importo.add(interventoImporti.getImportoAnniSuccessivi());
-			}
-			acquistoNonRipropostoEntry.setImporto(toDouble(importo));
-
-			Long priorita = null;
-			try {
-				if (intervento.getPriorita() != null) {
-					priorita = Long.valueOf(intervento.getPriorita().getCodice());
+			// abbiamo il campo motivazione_non_riproposto valorizzato
+			final String intIdInesame = intervento.getInterventoId().toString();
+			if( !intIdInesame.equalsIgnoreCase(intIdInesameOld)) {
+				final AcquistoNonRipropostoEntry acquistoNonRipropostoEntry = new AcquistoNonRipropostoEntry();
+				acquistoNonRipropostoEntry.setCui(intervento.getInterventoCui());
+				acquistoNonRipropostoEntry.setCup(intervento.getInterventoCup());
+				acquistoNonRipropostoEntry.setDescrizione(intervento.getInterventoDescrizioneAcquisto());
+				BigDecimal importoCalcolato;
+				//BigDecimal iva = BigDecimal.ZERO;
+				importoCalcolato = interventoImportiDad.getImportoTotByInterventoId(intervento.getInterventoId());
+				//iva = interventoImportiDad.getImportoIvaTotByInterventoId(intervento.getInterventoId());
+				//acquistoNonRipropostoEntry.setImporto(NumberUtility.toDouble(importoCalcolato.subtract(iva)));
+				acquistoNonRipropostoEntry.setImporto(NumberUtility.toDouble(importoCalcolato));
+				log.info("populateAcquistiNonRiproposti CUI -->"+ intervento.getInterventoCui() + " importo calcolato ", importoCalcolato);
+				//log.info("populateAcquistiNonRiproposti CUI -->"+ intervento.getInterventoCui() + " I.V.A.", iva);
+				Long priorita = null;
+				try {
+					if (StringUtility.isNotEmpty(intervento.getPrioritaCodice())) {
+						priorita = Long.valueOf(intervento.getPrioritaCodice());
+					}
+				} catch (final Exception e) {
+					log.error(methodName, e.getMessage(), e);
 				}
-			} catch (Exception e) {
-				log.error(methodName, e.getMessage(), e);
+				acquistoNonRipropostoEntry.setPriorita(priorita);
+				acquistoNonRipropostoEntry.setMotivo(intervento.getMotivazioneNonRiproposto());
+				acquistiNonRiproposti.add(acquistoNonRipropostoEntry);
 			}
-			acquistoNonRipropostoEntry.setPriorita(priorita);
-
-			acquistoNonRipropostoEntry.setMotivo(intervento.getMotivazioneNonRiproposto());
+			intIdInesameOld = intIdInesame;
 		}
-	}
-
-	private Double toDouble(BigDecimal bd) {
-		return Double.valueOf(bd.doubleValue());
+		return acquistiNonRiproposti;
 	}
 
 	private static class DateAdapter implements JsonSerializer<Date>, JsonDeserializer<Date> {
 		private final ApiClient apiClient;
 
-		/**
-		 * Constructor for DateAdapter
-		 *
-		 * @param apiClient Api client
-		 */
 		public DateAdapter(ApiClient apiClient) {
 			super();
 			this.apiClient = apiClient;
@@ -631,10 +728,10 @@ public class MITManager extends BaseFacade {
 		 */
 		@Override
 		public Date deserialize(JsonElement json, Type date, JsonDeserializationContext context) throws JsonParseException {
-			String str = json.getAsJsonPrimitive().getAsString();
+			final String str = json.getAsJsonPrimitive().getAsString();
 			try {
 				return apiClient.parseDateOrDatetime(str);
-			} catch (RuntimeException e) {
+			} catch (final RuntimeException e) {
 				throw new JsonParseException(e);
 			}
 		}
@@ -646,15 +743,13 @@ public class MITManager extends BaseFacade {
 	private static class DateTimeTypeAdapter extends TypeAdapter<DateTime> {
 
 		private final DateTimeFormatter formatter = ISODateTimeFormat.dateTime();
-		private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		private final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
 		@Override
 		public void write(JsonWriter out, DateTime date) throws IOException {
 			if (date == null) {
 				out.nullValue();
 			} else {
-//	            out.value(formatter.print(date));
-
 				out.value(sdf.format(date.toDate()));
 			}
 		}
@@ -666,16 +761,12 @@ public class MITManager extends BaseFacade {
 				in.nextNull();
 				return null;
 			default:
-				String date = in.nextString();
+				final String date = in.nextString();
 				return formatter.parseDateTime(date);
-//	                return sdf.parse(date);
 			}
 		}
 	}
 
-	/**
-	 * Gson TypeAdapter for Joda LocalDate type
-	 */
 	private static class LocalDateTypeAdapter extends TypeAdapter<LocalDate> {
 
 		private final DateTimeFormatter formatter = ISODateTimeFormat.date();
@@ -696,7 +787,7 @@ public class MITManager extends BaseFacade {
 				in.nextNull();
 				return null;
 			default:
-				String date = in.nextString();
+				final String date = in.nextString();
 				return formatter.parseLocalDate(date);
 			}
 		}

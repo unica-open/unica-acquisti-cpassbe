@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -29,10 +29,13 @@ public class Elaborazione extends BaseDto<Integer> implements Serializable {
 	private Date data;
 	private String esito;
 	private ElaborazioneTipo elaborazioneTipo;
+	private Ente ente;
+	private Integer numElaborazioneDiGiornata;
+	private String dataElaborazioneDiGiornata;
 	private List<ElaborazioneMessaggio> listaMessaggi = new ArrayList<>();
 	private List<ElaborazioneParametro> listaParametri = new ArrayList<>();
 	private String idEsterno;
-	
+
 	/** Default empty constructor */
 	public Elaborazione() {}
 
@@ -120,7 +123,7 @@ public class Elaborazione extends BaseDto<Integer> implements Serializable {
 	public List<ElaborazioneMessaggio> getListaMessaggi() {
 		return listaMessaggi;
 	}
-	
+
 	/**
 	 * @return the listaParametri
 	 */
@@ -169,11 +172,42 @@ public class Elaborazione extends BaseDto<Integer> implements Serializable {
 	public void setIdEsterno(String idEsterno) {
 		this.idEsterno = idEsterno;
 	}
+	/**
+	 * @return the ente
+	 */
+	public Ente getEnte() {
+		return ente;
+	}
+
+	/**
+	 * @param ente the ente to set
+	 */
+	public void setEnte(Ente ente) {
+		this.ente = ente;
+	}
+
+	
+	public Integer getNumElaborazioneDiGiornata() {
+		return numElaborazioneDiGiornata;
+	}
+
+	public void setNumElaborazioneDiGiornata(Integer numElaborazioneDiGiornata) {
+		this.numElaborazioneDiGiornata = numElaborazioneDiGiornata;
+	}
+
+	
+	public String getDataElaborazioneDiGiornata() {
+		return dataElaborazioneDiGiornata;
+	}
+
+	public void setDataElaborazioneDiGiornata(String dataElaborazioneDiGiornata) {
+		this.dataElaborazioneDiGiornata = dataElaborazioneDiGiornata;
+	}
 
 	@Override
 	public String toString() {
 		return new StringBuilder()
-			.append("Elaborazione [entita_id=").append(entitaId)			
+			.append("Elaborazione [entita_id=").append(entitaId)
 			//.append(", tipo=").append(tipo)
 			.append(", utente=").append(utente)
 			.append(", stato=").append(stato)

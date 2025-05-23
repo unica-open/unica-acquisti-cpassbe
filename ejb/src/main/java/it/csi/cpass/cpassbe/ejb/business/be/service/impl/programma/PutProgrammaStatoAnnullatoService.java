@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -16,7 +16,9 @@ import it.csi.cpass.cpassbe.ejb.business.be.dad.InterventoDad;
 import it.csi.cpass.cpassbe.ejb.business.be.dad.ProgrammaDad;
 import it.csi.cpass.cpassbe.ejb.business.be.service.request.programma.PutProgrammaStatoAnnullatoRequest;
 import it.csi.cpass.cpassbe.ejb.business.be.service.response.programma.PutProgrammaStatoAnnullatoResponse;
-import it.csi.cpass.cpassbe.ejb.util.CpassStatiEnum;
+import it.csi.cpass.cpassbe.ejb.util.ConstantsCPassStato.StatoInterventiEnum;
+import it.csi.cpass.cpassbe.ejb.util.ConstantsCPassStato.StatoProgrammaEnum;
+import it.csi.cpass.cpassbe.ejb.util.ConstantsCPassStato.TipoStatoEnum;
 import it.csi.cpass.cpassbe.ejb.util.conf.ConfigurationHelper;
 import it.csi.cpass.cpassbe.lib.dto.error.MsgCpassPba;
 import it.csi.cpass.cpassbe.lib.dto.pba.Intervento;
@@ -33,7 +35,7 @@ public class PutProgrammaStatoAnnullatoService extends BaseProgrammaService<PutP
 	 * Constructor
 	 * @param configurationHelper the configuration helper
 	 * @param programmaDad the programma DAD
-	 * @param interventoDad 
+	 * @param interventoDad
 	 */
 	public PutProgrammaStatoAnnullatoService(ConfigurationHelper configurationHelper, ProgrammaDad programmaDad,InterventoDad interventoDad) {
 		super(configurationHelper, programmaDad);
@@ -49,17 +51,11 @@ public class PutProgrammaStatoAnnullatoService extends BaseProgrammaService<PutP
 
 	@Override
 	protected void execute() {
-	
-		List<Intervento> listIntNonAnnullati = interventoDad.getInterventoByProgrammaStato(programma.getId(),CpassStatiEnum.PRO_CANCELLATO.getCostante(),false);
-		
+		final List<Intervento> listIntNonAnnullati = interventoDad.getInterventoByProgrammaStato(programma.getId(),StatoProgrammaEnum.CANCELLATO.getCostante(),false);
 		checkBusinessCondition(listIntNonAnnullati.size()==0, MsgCpassPba.PBAPRGE0036.getError());
-		
-		Programma programmaAttuale = isEntityPresent(() -> programmaDad.getProgramma(programma.getId()), "programma");
-		
+		isEntityPresent(() -> programmaDad.getProgramma(programma.getId()), "programma");
 		// se in stato annullato non posso annullare il programma
 		//checkBusinessCondition(!programmaAttuale.getStato().getCodice().equals("ANNULLATO"), MsgCpass.PBAACQE0013.getError());
-
-		checkOptlock(programma.getOptlock(), programmaAttuale.getOptlock());
-		programmaDad.updateStatoProgramma(request.getProgramma().getId(),CpassStatiEnum.INT_CANCELLATO.getCostante(), "INTERVENTO");
+		programmaDad.updateStatoProgramma(request.getProgramma().getId(),StatoInterventiEnum.CANCELLATO.getCostante(), TipoStatoEnum.INTERVENTO.getCostante());
 	}
 }

@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -31,17 +31,18 @@ public interface InterventoImportiMinimalMapper extends BaseMapperInterface<Inte
 	@Override
 	@Mapping(source = "interventoImportiImportoAnnoPrimo", target = "importoAnnoPrimo")
 	@Mapping(source = "interventoImportiImportoAnnoSecondo", target = "importoAnnoSecondo")
+	@Mapping(source = "interventoImportiImportoAnnoTerzo", target = "importoAnnoTerzo")
 	@Mapping(source = "interventoImportiImportoAnniSuccessivi", target = "importoAnniSuccessivi")
 	@Mapping(source = "cpassDPbaRisorsa", target = "risorsa")
-	@Mapping(source = "cpassTPbaIntervento", target = "intervento",ignore = true)
+	//@Mapping(source = "cpassTPbaIntervento", target = "intervento",ignore = true)
 	InterventoImporti toModel(CpassTPbaInterventoImporti entity);
 
 	@Override
 	@IterableMapping(elementTargetType = InterventoImporti.class)
 	List<InterventoImporti> toModels(Collection<CpassTPbaInterventoImporti> entities);
-	
+
 	@Override
 	@IterableMapping(elementTargetType = CpassTPbaInterventoImporti.class)
 	List<CpassTPbaInterventoImporti> toEntities(Collection<InterventoImporti> models);
-	
+
 }

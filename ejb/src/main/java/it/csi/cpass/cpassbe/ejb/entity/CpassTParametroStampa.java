@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -52,6 +52,9 @@ public class CpassTParametroStampa implements Serializable, BaseEntity<Integer> 
 	@Column(name="file_name_template")
 	private String fileNameTemplate;
 
+	@Column(name="file_name")
+	private String fileName;
+
 	@Column(name="parametro")
 	private String parametro;
 
@@ -60,7 +63,7 @@ public class CpassTParametroStampa implements Serializable, BaseEntity<Integer> 
 
 	@Column(name="note")
 	private String note;
-	
+
 	@Column(name="procedure_utilizzate")
 	private String procedureUtilizzate;
 
@@ -70,11 +73,27 @@ public class CpassTParametroStampa implements Serializable, BaseEntity<Integer> 
 	@Column(name="formato_stampa")
 	private String formatoStampa;
 
+	@Column(name="multiplo")
+	private Boolean multiplo;
 	/**
 	 * @return the parametroStampaId
 	 */
 	public Integer getParametroStampaId() {
 		return parametroStampaId;
+	}
+
+	/**
+	 * @return the multiplo
+	 */
+	public Boolean getMultiplo() {
+		return multiplo;
+	}
+
+	/**
+	 * @param multiplo the multiplo to set
+	 */
+	public void setMultiplo(Boolean multiplo) {
+		this.multiplo = multiplo;
 	}
 
 	/**
@@ -195,7 +214,7 @@ public class CpassTParametroStampa implements Serializable, BaseEntity<Integer> 
 	public void setProcedureUtilizzate(String procedureUtilizzate) {
 		this.procedureUtilizzate = procedureUtilizzate;
 	}
-	
+
 	/**
 	 * @return the formatoStampa
 	 */
@@ -218,6 +237,20 @@ public class CpassTParametroStampa implements Serializable, BaseEntity<Integer> 
 	@Override
 	public void setId(Integer id) {
 		parametroStampaId = id;
+	}
+
+	/**
+	 * @return the fileName
+	 */
+	public String getFileName() {
+		return fileName;
+	}
+
+	/**
+	 * @param fileName the fileName to set
+	 */
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
 }

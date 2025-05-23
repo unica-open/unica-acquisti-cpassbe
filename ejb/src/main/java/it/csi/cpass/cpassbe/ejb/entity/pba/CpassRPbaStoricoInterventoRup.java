@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -39,7 +39,6 @@ public class CpassRPbaStoricoInterventoRup implements Serializable, BaseEntity<I
 	@Id
 	@SequenceGenerator(name="CPASS_R_PBA_INTERVENTO_RUPINTERVENTORUPID_GENERATOR", sequenceName="CPASS_R_PBA_STORICO_INTERVENTO_RUP_INTERVENTO_RUP_ID_SEQ", allocationSize = 1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CPASS_R_PBA_INTERVENTO_RUPINTERVENTORUPID_GENERATOR")
-
 	@Column(name="intervento_rup_id")
 	private Integer interventoRupId;
 
@@ -61,12 +60,12 @@ public class CpassRPbaStoricoInterventoRup implements Serializable, BaseEntity<I
 	@Column(name="data_storicizzazione")
 	private Date dataStoricizzazione;
 
-	
+
 	public CpassRPbaStoricoInterventoRup() {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return Integer
 	 */
 	public Integer getInterventoRupId() {

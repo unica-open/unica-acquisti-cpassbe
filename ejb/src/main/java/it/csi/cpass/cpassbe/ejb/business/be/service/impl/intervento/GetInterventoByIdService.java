@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -38,11 +38,8 @@ public class GetInterventoByIdService extends BaseInterventoService<GetIntervent
 
 	@Override
 	protected void execute() {
-		Intervento intervento = interventoDad.getIntervento(request.getId())
-				.orElseThrow(() -> new NotFoundException("intervento"));
-		
+		final Intervento intervento = interventoDad.getInterventoOpt(request.getId()).orElseThrow(() -> new NotFoundException("intervento"));
 		setRisorsaCapitalePrivato(intervento);
-		
 		response.setIntervento(intervento);
 	}
 

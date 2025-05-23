@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -38,13 +38,13 @@ public enum InterventoSort implements JpaSort {
 	/** The id. */
 	ID("id", "int.interventoId")
 	;
-	
+
 	/** The model name. */
 	private final String modelName;
-	
+
 	/** The query name. */
 	private final String queryName;
-	
+
 	/**
 	 * Constructor.
 	 *
@@ -55,17 +55,17 @@ public enum InterventoSort implements JpaSort {
 		this.modelName = modelName;
 		this.queryName = queryName;
 	}
-	
+
 	@Override
 	public String getQueryName() {
 		return queryName;
 	}
-	
+
 	@Override
 	public String getModelName() {
 		return modelName;
 	}
-	
+
 	/**
 	 * Retrieves the Sort by its model name.
 	 *
@@ -73,12 +73,12 @@ public enum InterventoSort implements JpaSort {
 	 * @return the sort
 	 */
 	public static InterventoSort byModelName(String modelName) {
-		for(InterventoSort is : InterventoSort.values()) {
+		for(final InterventoSort is : InterventoSort.values()) {
 			if(is.modelName.equalsIgnoreCase(modelName)) {
 				return is;
 			}
 		}
-		return InterventoSort.ID;
+		return InterventoSort.CUP;
 	}
-	
+
 }

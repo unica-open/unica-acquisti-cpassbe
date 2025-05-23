@@ -43,7 +43,7 @@ public class CorsFilter implements ContainerResponseFilter {
 	private static final Integer MAX_AGE = Integer.valueOf(42 * 60 * 60);
 	/** Logger */
 	private static final LogUtil LOG = new LogUtil(CorsFilter.class);
-	
+
 	// HEADER NAMES
 	private static final String ACCESS_CONTROL_ALLOW_HEADERS = "Access-Control-Allow-Headers";
 	private static final String ACCESS_CONTROL_EXPOSE_HEADERS = "Access-Control-Expose-Headers";
@@ -60,12 +60,12 @@ public class CorsFilter implements ContainerResponseFilter {
 				LOG.trace(methodName, "Cors filter not enabled. Skip...");
 				return;
 			}
-			
+
 			if(HttpMethod.OPTIONS.equals(requestContext.getMethod())) {
 				LOG.trace(methodName, "OPTIONS always accepted");
 				responseContext.setStatus(Status.ACCEPTED.getStatusCode());
 			}
-			
+
 			responseContext.getHeaders().add("Access-Control-Allow-Origin", "*");
 			responseContext.getHeaders().add("Access-Control-Allow-Methods", ALLOWED_METHODS);
 			responseContext.getHeaders().add(ACCESS_CONTROL_ALLOW_HEADERS, getRequestedAllowedHeaders(requestContext));
@@ -73,13 +73,13 @@ public class CorsFilter implements ContainerResponseFilter {
 			responseContext.getHeaders().add("Access-Control-Allow-Credentials", "true");
 			responseContext.getHeaders().add("Access-Control-Max-Age", String.valueOf(MAX_AGE));
 			responseContext.getHeaders().add("X-Responded-By", "cors-response-filter");
-			
+
 		} catch (Exception e) {
 			LOG.error(methodName, e.getMessage(), e);
 			throw e;
 		}
 	}
-	
+
 	/**
 	 * Checks whether the CORS are enabled
 	 * @return the enableCors data
@@ -93,7 +93,7 @@ public class CorsFilter implements ContainerResponseFilter {
 				}
 			}
 		}
-		
+
 		return enableCors;
 	}
 

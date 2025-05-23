@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -21,17 +21,16 @@ public class GetInterventoByCuiRequest implements BaseRequest {
 
 	private final String cui;
 	private final UUID idProgramma;
-	private final UUID settoreId;
+
 
 	/**
 	 * Constructor
 	 * @param cui the cui
-	 * @param idProgramma 
+	 * @param idProgramma
 	 */
-	public GetInterventoByCuiRequest(String cui, UUID idProgramma, UUID settoreId) {
+	public GetInterventoByCuiRequest(String cui, UUID idProgramma) {
 		this.cui = cui;
 		this.idProgramma = idProgramma;
-		this.settoreId = settoreId;
 	}
 
 	/**
@@ -48,11 +47,4 @@ public class GetInterventoByCuiRequest implements BaseRequest {
 		return idProgramma;
 	}
 
-	/**
-	 * @return
-	 */
-	public UUID getSettoreId() {
-		return settoreId;
-	}
-	
 }

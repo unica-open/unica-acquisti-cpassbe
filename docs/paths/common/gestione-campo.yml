@@ -1,0 +1,19 @@
+/common/gestione-campi:
+  get:
+    operationId: getGestioneCampi
+    description: Restituisce la gestione dei campi 
+    produces:
+      - application/json
+    tags:
+      - common
+    responses:
+      '200':
+        description: lista gestione campo.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/GestioneCampo'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'

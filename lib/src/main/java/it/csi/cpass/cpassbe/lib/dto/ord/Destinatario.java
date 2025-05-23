@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -12,11 +12,12 @@ package it.csi.cpass.cpassbe.lib.dto.ord;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 import it.csi.cpass.cpassbe.lib.dto.BaseAuditedDto;
 import it.csi.cpass.cpassbe.lib.dto.Settore;
+import it.csi.cpass.cpassbe.lib.dto.SettoreIndirizzo;
+import it.csi.cpass.cpassbe.lib.dto.Stato;
 
 /**
  * The Class Destinatario.
@@ -25,7 +26,7 @@ public class Destinatario extends BaseAuditedDto<UUID> implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
-	
+
 	private Integer progressivo;
 	private String cap;
 	private String contatto;
@@ -37,13 +38,15 @@ public class Destinatario extends BaseAuditedDto<UUID> implements Serializable {
 	private String provincia;
 	private StatoNso statoNso;
 	private String telefono;
-	private StatoElOrdine statoElOrdine;
+	private Stato stato;
 	private TestataOrdine testataOrdine;
 	private Settore Settore;
 	private int nRighe;
-	
+	private String indirizzoCodice;
+	private SettoreIndirizzo settoreIndirizzo;
+
 	public Destinatario() {}
-	
+
 	public Destinatario(UUID id) {
 		this.id = id;
 	}
@@ -135,17 +138,22 @@ public class Destinatario extends BaseAuditedDto<UUID> implements Serializable {
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
-
-	public StatoElOrdine getStatoElOrdine() {
-		return statoElOrdine;
-	}
-
-	public void setStatoElOrdine(StatoElOrdine statoElOrdine) {
-		this.statoElOrdine = statoElOrdine;
-	}
-
 	public TestataOrdine getTestataOrdine() {
 		return testataOrdine;
+	}
+
+	/**
+	 * @return the stato
+	 */
+	public Stato getStato() {
+		return stato;
+	}
+
+	/**
+	 * @param stato the stato to set
+	 */
+	public void setStato(Stato stato) {
+		this.stato = stato;
 	}
 
 	public void setTestataOrdine(TestataOrdine testataOrdine) {
@@ -170,6 +178,35 @@ public class Destinatario extends BaseAuditedDto<UUID> implements Serializable {
 
 	public void setnRighe(int nRighe) {
 		this.nRighe = nRighe;
+	}
+
+	/**
+	 * @return the indirizzoCodice
+	 */
+	public String getIndirizzoCodice() {
+		return indirizzoCodice;
+	}
+
+
+	/**
+	 * @return the settoreIndirizzo
+	 */
+	public SettoreIndirizzo getSettoreIndirizzo() {
+		return settoreIndirizzo;
+	}
+
+	/**
+	 * @param settoreIndirizzo the settoreIndirizzo to set
+	 */
+	public void setSettoreIndirizzo(SettoreIndirizzo settoreIndirizzo) {
+		this.settoreIndirizzo = settoreIndirizzo;
+	}
+
+	/**
+	 * @param indirizzoCodice the indirizzoCodice to set
+	 */
+	public void setIndirizzoCodice(String indirizzoCodice) {
+		this.indirizzoCodice = indirizzoCodice;
 	}
 
 	@Override

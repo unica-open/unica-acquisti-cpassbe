@@ -1,0 +1,16 @@
+PagedResponseRms:
+  type: object
+  properties:
+    list:
+      type: array
+      items:
+        $ref: '#/definitions/TestataRms'
+    currentPage:
+      type: integer
+      format: int64
+    totalPages:
+      type: integer
+      format: int64
+    totalElements:
+      type: integer
+      format: int64

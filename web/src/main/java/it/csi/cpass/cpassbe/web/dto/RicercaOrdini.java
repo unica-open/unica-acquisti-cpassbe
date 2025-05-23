@@ -13,11 +13,11 @@ package it.csi.cpass.cpassbe.web.dto;
 import java.util.Date;
 
 import it.csi.cpass.cpassbe.lib.dto.Impegno;
+import it.csi.cpass.cpassbe.lib.dto.Settore;
+import it.csi.cpass.cpassbe.lib.dto.SettoreIndirizzo;
 import it.csi.cpass.cpassbe.lib.dto.Subimpegno;
-import it.csi.cpass.cpassbe.lib.dto.ord.Destinatario;
 import it.csi.cpass.cpassbe.lib.dto.ord.RigaOrdine;
 import it.csi.cpass.cpassbe.lib.dto.ord.TestataOrdine;
-import it.csi.cpass.cpassbe.lib.dto.pba.Intervento;
 
 /**
  * Intervento da copia
@@ -31,10 +31,12 @@ public class RicercaOrdini {
 	private Date dataEmissioneDa;
 	private Date dataEmissioneA;
 	private TestataOrdine testataOrdine;
-	private Destinatario destinatario;
 	private Impegno impegno;
 	private Subimpegno subimpegno;
 	private RigaOrdine rigaOrdine;
+	private Settore settoreEmittente;
+	private Settore settore;
+	private SettoreIndirizzo settoreIndirizzo;
 
 	/**
 	 * @return the annoOrdineDa
@@ -121,18 +123,6 @@ public class RicercaOrdini {
 		this.testataOrdine = testataOrdine;
 	}
 	/**
-	 * @return the destinatario
-	 */
-	public Destinatario getDestinatario() {
-		return destinatario;
-	}
-	/**
-	 * @param destinatario the destinatario to set
-	 */
-	public void setDestinatario(Destinatario destinatario) {
-		this.destinatario = destinatario;
-	}
-	/**
 	 * @return the impegno
 	 */
 	public Impegno getImpegno() {
@@ -168,4 +158,43 @@ public class RicercaOrdini {
 	public void setRigaOrdine(RigaOrdine rigaOrdine) {
 		this.rigaOrdine = rigaOrdine;
 	}
+	/**
+	 * @return the settore
+	 */
+	public Settore getSettore() {
+		return settore;
+	}
+	/**
+	 * @param settore the settore to set
+	 */
+	public void setSettore(Settore settore) {
+		this.settore = settore;
+	}
+	/**
+	 * @return the settoreIndirizzo
+	 */
+	public SettoreIndirizzo getSettoreIndirizzo() {
+		return settoreIndirizzo;
+	}
+	/**
+	 * @param settoreIndirizzo the settoreIndirizzo to set
+	 */
+	public void setSettoreIndirizzo(SettoreIndirizzo settoreIndirizzo) {
+		this.settoreIndirizzo = settoreIndirizzo;
+	}
+	/**
+	 * @return the settoreEmittente
+	 */
+	public Settore getSettoreEmittente() {
+		return settoreEmittente;
+	}
+	/**
+	 * @param settoreEmittente the settoreEmittente to set
+	 */
+	public void setSettoreEmittente(Settore settoreEmittente) {
+		this.settoreEmittente = settoreEmittente;
+	}
+
+
+
 }

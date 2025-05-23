@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -70,7 +70,7 @@ public class MailHelper {
 	 */
 	private void initSession() {
 		// Init the properties
-		Properties props = new Properties();
+		final Properties props = new Properties();
 		props.put("mail.smtp.auth", configurationHelper.getProperty(ConfigurationValue.MAIL_SMTP_AUTH));
 		props.put("mail.smtp.starttls.enable", configurationHelper.getProperty(ConfigurationValue.MAIL_SMTP_STARTTLS_ENABLE));
 		props.put("mail.smtp.host", configurationHelper.getProperty(ConfigurationValue.MAIL_SMTP_HOST));
@@ -80,7 +80,7 @@ public class MailHelper {
 		try {
 
 			innerFrom = new InternetAddress(configurationHelper.getProperty(ConfigurationValue.MAIL_FROM), configurationHelper.getProperty(ConfigurationValue.MAIL_FROM_NAME));
-		} catch (UnsupportedEncodingException e) {
+		} catch (final UnsupportedEncodingException e) {
 			throw new IllegalStateException("Illegal state in setting property for mail", e);
 		}
 	}
@@ -111,7 +111,7 @@ public class MailHelper {
 		try {
 			fromAddress = new InternetAddress(from);
 			send(to, subject, fromAddress, text, attachments);
-		} catch (AddressException e) {
+		} catch (final AddressException e) {
 			throw new BusinessException(composeErrorMessage(e), e);
 		}
 	}
@@ -155,7 +155,7 @@ public class MailHelper {
 		try {
 			fromAddress = new InternetAddress(from);
 			sendHtml(to, subject, fromAddress, html, attachments);
-		} catch (AddressException e) {
+		} catch (final AddressException e) {
 			throw new BusinessException(composeErrorMessage(e), e);
 		}
 	}
@@ -184,9 +184,9 @@ public class MailHelper {
 	 * @param attachments the attachments
 	 */
 	private void innerSend(Collection<String> to, String subject, Address from, String text, String mediaType, List<Attachment> attachments) {
-		String addressList = to.stream().collect(Collectors.joining(","));
+		final String addressList = to.stream().collect(Collectors.joining(","));
 
-		Message message = new MimeMessage(session);
+		final Message message = new MimeMessage(session);
 		try {
 			message.setRecipients(RecipientType.TO, InternetAddress.parse(addressList));
 			message.setSubject(subject);
@@ -195,7 +195,7 @@ public class MailHelper {
 			handleContent(text, mediaType, attachments, message);
 
 			Transport.send(message);
-		} catch (MessagingException e) {
+		} catch (final MessagingException e) {
 			throw new BusinessException(composeErrorMessage(e), e);
 		}
 	}
@@ -298,23 +298,23 @@ public class MailHelper {
 			return;
 		}
 		// Send a multipart message
-		Multipart multipart = new MimeMultipart();
+		final Multipart multipart = new MimeMultipart();
 		// body
-		MimeBodyPart textBodyPart = new MimeBodyPart();
+		final MimeBodyPart textBodyPart = new MimeBodyPart();
 		textBodyPart.setContent(text, mediaType);
 		multipart.addBodyPart(textBodyPart);
 
 		// Add attachments
-		for(Attachment attachment : attachments) {
-			MimeBodyPart attachmentBodyPart = new MimeBodyPart();
-			ByteArrayDataSource bads = new ByteArrayDataSource(attachment.getBytes(), attachment.getMediaType());
+		for(final Attachment attachment : attachments) {
+			final MimeBodyPart attachmentBodyPart = new MimeBodyPart();
+			final ByteArrayDataSource bads = new ByteArrayDataSource(attachment.getBytes(), attachment.getMediaType());
 			attachmentBodyPart.setDataHandler(new DataHandler(bads));
 			attachmentBodyPart.setFileName(attachment.getFileName());
 			multipart.addBodyPart(attachmentBodyPart);
 		}
 		message.setContent(multipart);
 	}
-	
+
 	/**
 	 * Composes the error message
 	 * @param e the error

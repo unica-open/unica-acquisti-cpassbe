@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -18,6 +18,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
@@ -56,7 +58,6 @@ public class CpassDPermesso implements Serializable, BaseEntity<Integer> {
 	@Column(name="permesso_tipo")
 	private String permessoTipo;
 
-
 	/** The permesso tipo. */
 	//@Column(name="permesso_trasversale")
 	//private Boolean permessoTrasversale;
@@ -69,11 +70,18 @@ public class CpassDPermesso implements Serializable, BaseEntity<Integer> {
 	@Column(name="permesso_voce_menu")
 	private Boolean permessoVoceMenu;
 
+	private String disattivabile;
+
+	private Boolean attivo;
 
 	/** The cpass R ruolo permessos. */
 	//bi-directional many-to-one association to CpassRRuoloPermesso
 	@OneToMany(mappedBy="cpassDPermesso")
 	private List<CpassRRuoloPermesso> cpassRRuoloPermessos;
+
+	@ManyToOne
+	@JoinColumn(name="modulo_id")
+	private CpassDModulo cpassDModulo;
 
 	/**
 	 * Gets the permesso id.
@@ -227,6 +235,34 @@ public class CpassDPermesso implements Serializable, BaseEntity<Integer> {
 		this.permessoVoceMenu = permessoVoceMenu;
 	}
 
+	/**
+	 * @return the disattivabile
+	 */
+	public String getDisattivabile() {
+		return disattivabile;
+	}
+
+	/**
+	 * @param disattivabile the disattivabile to set
+	 */
+	public void setDisattivabile(String disattivabile) {
+		this.disattivabile = disattivabile;
+	}
+
+	/**
+	 * @return the attivo
+	 */
+	public Boolean getAttivo() {
+		return attivo;
+	}
+
+	/**
+	 * @param attivo the attivo to set
+	 */
+	public void setAttivo(Boolean attivo) {
+		this.attivo = attivo;
+	}
+
 	@Override
 	public Integer getId() {
 		return permessoId;
@@ -236,5 +272,23 @@ public class CpassDPermesso implements Serializable, BaseEntity<Integer> {
 	public void setId(Integer id) {
 		permessoId = id;
 	}
+
+	/**
+	 * @return the cpassDModulo
+	 */
+
+	public CpassDModulo getCpassDModulo() {
+		return cpassDModulo;
+	}
+
+	/**
+	 * @param cpassDModulo the cpassDModulo to set
+	 */
+	public void setCpassDModulo(CpassDModulo cpassDModulo) {
+		this.cpassDModulo = cpassDModulo;
+	}
+
+
+
 
 }

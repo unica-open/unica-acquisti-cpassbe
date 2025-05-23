@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -38,7 +38,8 @@ public interface CpvMapper extends BaseMapperInterface<Cpv, CpassDCpv> {
 	@Mapping(source = "cpvGruppo", target = "gruppo")
 	@Mapping(source = "cpvTipologia", target = "tipologia")
 	@Mapping(source = "cpassDPbaSettoreInterventi.settoreInterventiId", target = "settoreInterventi.id")
-	
+	// @Mapping(source = "cpassDOggettiSpesas", target = "oggettiSpesa")
+
 	Cpv toModel(CpassDCpv entity);
 
 	@Override
@@ -46,7 +47,7 @@ public interface CpvMapper extends BaseMapperInterface<Cpv, CpassDCpv> {
 	List<Cpv> toModels(Collection<CpassDCpv> entities);
 
 	@Override
-	@InheritInverseConfiguration(name="toModel")
+	@InheritInverseConfiguration(name = "toModel")
 	@Mapping(target = "cpassTPbaInterventos", ignore = true)
 	CpassDCpv toEntity(Cpv model);
 

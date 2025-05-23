@@ -1,0 +1,11 @@
+ConsultazioniRiepilogo:
+  type: object
+  properties:
+    annoEsercizio:
+      type: integer
+    consultazioniRiepilogoFinanziario:
+      type: object
+      $ref: '#/definitions/ConsultazioniRiepilogoFinanziario'
+    consultazioniRiepilogoAcquisti:
+      type: object
+      $ref: '#/definitions/ConsultazioniRiepilogoAcquisti'

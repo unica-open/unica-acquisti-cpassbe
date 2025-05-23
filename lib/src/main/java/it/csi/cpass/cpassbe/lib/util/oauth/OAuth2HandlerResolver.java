@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -22,9 +22,9 @@ import it.csi.cpass.cpassbe.lib.util.soap.DefaultHandlerResolver;
  * JAX-WS HandlerResolver for injecting OAuth2 headers
  */
 public class OAuth2HandlerResolver extends DefaultHandlerResolver {
-	
+
 	private final OAuth2Helper oAuth2Helper;
-	
+
 	/**
 	 * Injection constructor
 	 * @param oAuth2Helper the helper
@@ -37,7 +37,7 @@ public class OAuth2HandlerResolver extends DefaultHandlerResolver {
 
 	@Override
 	@SuppressWarnings("rawtypes")
-	protected void addOtherHandlers(List<Handler> chain) {
+	public void addOtherHandlers(List<Handler> chain) {
 		chain.add(new OAuth2SOAPHandler(oAuth2Helper));
 	}
 

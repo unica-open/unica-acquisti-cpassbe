@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -40,8 +40,8 @@ public class GetRicercaRigheDaEvadereService extends BaseService<GetRicercaRighe
 
 	@Override
 	protected void execute() {
-		
-		long count = rigaOrdineDad.countRigheDaEvadere(
+
+		final long count = rigaOrdineDad.countRigheDaEvadere(
 				request.getAnnoOrdineDa(),
 				request.getNumeroOrdineDa(),
 				request.getAnnoOrdineA(),
@@ -54,10 +54,10 @@ public class GetRicercaRigheDaEvadereService extends BaseService<GetRicercaRighe
 				request.getSubimpegno(),
 				request.getRigaOrdine(),
 				request.getOdsList());
-		
+
 		checkBusinessCondition(count>0, MsgCpassOrd.ORDORDE0043.getError()); // Nessun ordine presente
-		
-		List<RigaOrdine> rigaOrdines = rigaOrdineDad.getRigheDaEvadere(
+
+		final List<RigaOrdine> rigaOrdines = rigaOrdineDad.getRigheDaEvadere(
 				request.getAnnoOrdineDa(),
 				request.getNumeroOrdineDa(),
 				request.getAnnoOrdineA(),
@@ -71,9 +71,9 @@ public class GetRicercaRigheDaEvadereService extends BaseService<GetRicercaRighe
 				request.getRigaOrdine(),
 				request.getOdsList()
 				);
-		
+
 		checkBusinessCondition(rigaOrdines.size()>0, MsgCpassOrd.ORDORDE0044.getError());// Ordini non di competenza
-		
+
 		response.setRigheOrdine(rigaOrdines);
 	}
 

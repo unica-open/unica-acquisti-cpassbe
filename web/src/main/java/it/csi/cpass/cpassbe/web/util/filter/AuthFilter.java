@@ -24,11 +24,11 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.Provider;
 
-import it.csi.cpass.cpassbe.ejb.util.CpassThreadLocalContainer;
 import it.csi.cpass.cpassbe.ejb.util.conf.ConfigurationHelper;
 import it.csi.cpass.cpassbe.ejb.util.conf.ConfigurationValue;
 import it.csi.cpass.cpassbe.lib.dto.Utente;
 import it.csi.cpass.cpassbe.lib.util.log.LogUtil;
+import it.csi.cpass.cpassbe.lib.util.threadlocal.CpassThreadLocalContainer;
 import it.csi.cpass.cpassbe.web.util.filter.auth.AuthAdapter;
 import it.csi.cpass.cpassbe.web.util.filter.auth.NullAuthAdapter;
 
@@ -45,20 +45,21 @@ import it.csi.cpass.cpassbe.web.util.filter.auth.NullAuthAdapter;
 @Provider
 @Priority(Priorities.AUTHENTICATION)
 public class AuthFilter implements ContainerRequestFilter {
-	
+
 	/** Logger */
 	private static final LogUtil LOG = new LogUtil(AuthFilter.class);
 
 	private volatile boolean initialized = false;
+	//private boolean userMap = false;
 	private boolean devMode = false;
 	private AuthAdapter authAdapter;
-
 	@Inject private ConfigurationHelper configurationHelper;
 	@Context private UriInfo uriInfo;
 
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
 		final String methodName = "filter";
+		//LOG.fatal(methodName, uriInfo.getRequestUri());
 		try {
 			init();
 			Utente utente = authAdapter.processAuth(devMode, uriInfo, requestContext);
@@ -68,7 +69,7 @@ public class AuthFilter implements ContainerRequestFilter {
 			}
 			// TODO: impostare l'utente nel security context
 			elaborateSecurityContext(utente);
-			
+
 		} catch (Exception e) {
 			LOG.error(methodName, e.getMessage(), e);
 			throw e;
@@ -104,7 +105,21 @@ public class AuthFilter implements ContainerRequestFilter {
 	 */
 	private void elaborateSecurityContext(Utente utente) {
 		// Init thread local with ejb module
+/*
+		if(!userMap) {
+			audit(utente.getCodiceFiscale());
+		}
+		userMap = true;
+		*/
 		CpassThreadLocalContainer.UTENTE_CONNESSO.set(utente);
 	}
-
+	/*
+	private void audit(String cf) {
+		CsiLogAudit csiLogAudith = new CsiLogAudit();
+		csiLogAudith.setCfUtente(cf);
+		csiLogAudith.setDataOra(new Date());
+		csiLogAudith.setOperazione("LOGIN");
+		auditDad.insertCsiLogAudit(csiLogAudith );
+	}
+	*/
 }

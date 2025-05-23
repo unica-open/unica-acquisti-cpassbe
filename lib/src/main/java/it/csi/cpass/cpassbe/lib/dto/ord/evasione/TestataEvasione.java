@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -15,8 +15,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-
-import javax.persistence.Column;
 
 import it.csi.cpass.cpassbe.lib.dto.BaseAuditedDto;
 import it.csi.cpass.cpassbe.lib.dto.Fornitore;
@@ -40,7 +38,7 @@ public class TestataEvasione extends BaseAuditedDto<UUID> implements Serializabl
 	private Integer evasioneAnno;
 	private Integer evasioneNumero;
 	private Integer fatturaAnno;
-	private String fatturaCodice;
+	private String fatturaCodiceFornitore;
 	private String fatturaNumero;
 	private Integer fatturaProtocolloAnno;
 	private Integer fatturaProtocolloNumero;
@@ -52,14 +50,15 @@ public class TestataEvasione extends BaseAuditedDto<UUID> implements Serializabl
 	private List<DestinatarioEvasione> destinatarioEvasiones;
 	private Stato stato;
 	private Ufficio ufficio;
-	private DocumentoTrasporto documentoTrasporto;
+	private Integer documentoTrasportoId;
 	private Fornitore fornitore;
 	private Settore settore;
 	private Utente utenteCompilatore;
 	//private CausaleSospensioneEvasione causaleSospensioneEvasione;
 	private TipoEvasione tipoEvasione;
 	private Date dataInvioContabilita;
-	
+	private String fatturaCodiceExt;
+
 	public TestataEvasione() {
 	}
 
@@ -122,6 +121,7 @@ public class TestataEvasione extends BaseAuditedDto<UUID> implements Serializabl
 	/**
 	 * @return the dataModifica
 	 */
+	@Override
 	public Date getDataModifica() {
 		return dataModifica;
 	}
@@ -129,6 +129,7 @@ public class TestataEvasione extends BaseAuditedDto<UUID> implements Serializabl
 	/**
 	 * @param dataModifica the dataModifica to set
 	 */
+	@Override
 	public void setDataModifica(Date dataModifica) {
 		this.dataModifica = dataModifica;
 	}
@@ -232,17 +233,17 @@ public class TestataEvasione extends BaseAuditedDto<UUID> implements Serializabl
 	}
 
 	/**
-	 * @return the fatturaCodice
+	 * @return the fatturaCodiceFornitore
 	 */
-	public String getFatturaCodice() {
-		return fatturaCodice;
+	public String getFatturaCodiceFornitore() {
+		return fatturaCodiceFornitore;
 	}
 
 	/**
-	 * @param fatturaCodice the fatturaCodice to set
+	 * @param fatturaCodiceFornitore the fatturaCodice to set
 	 */
-	public void setFatturaCodice(String fatturaCodice) {
-		this.fatturaCodice = fatturaCodice;
+	public void setFatturaCodiceFornitore(String fatturaCodiceFornitore) {
+		this.fatturaCodiceFornitore = fatturaCodiceFornitore;
 	}
 
 	/**
@@ -386,20 +387,6 @@ public class TestataEvasione extends BaseAuditedDto<UUID> implements Serializabl
 	}
 
 	/**
-	 * @return the documentoTrasporto
-	 */
-	public DocumentoTrasporto getDocumentoTrasporto() {
-		return documentoTrasporto;
-	}
-
-	/**
-	 * @param documentoTrasporto the documentoTrasporto to set
-	 */
-	public void setDocumentoTrasporto(DocumentoTrasporto documentoTrasporto) {
-		this.documentoTrasporto = documentoTrasporto;
-	}
-
-	/**
 	 * @return the fornitore
 	 */
 	public Fornitore getFornitore() {
@@ -435,7 +422,7 @@ public class TestataEvasione extends BaseAuditedDto<UUID> implements Serializabl
 	}
 
 	/**
-	 * @param utente the utente to set
+	 * @param utenteCompilatore the utente to set
 	 */
 	public void setUtenteCompilatore(Utente utenteCompilatore) {
 		this.utenteCompilatore = utenteCompilatore;
@@ -482,5 +469,28 @@ public class TestataEvasione extends BaseAuditedDto<UUID> implements Serializabl
 	public void setDataInvioContabilita(Date dataInvioContabilita) {
 		this.dataInvioContabilita = dataInvioContabilita;
 	}
-	
+
+	public Integer getDocumentoTrasportoId() {
+		return documentoTrasportoId;
+	}
+
+	public void setDocumentoTrasportoId(Integer documentoTrasportoId) {
+		this.documentoTrasportoId = documentoTrasportoId;
+	}
+
+	/**
+	 * @return the fatturaCodiceExt
+	 */
+	public String getFatturaCodiceExt() {
+		return fatturaCodiceExt;
+	}
+
+	/**
+	 * @param fatturaCodiceExt the fatturaCodiceExt to set
+	 */
+	public void setFatturaCodiceExt(String fatturaCodiceExt) {
+		this.fatturaCodiceExt = fatturaCodiceExt;
+	}
+
+
 }

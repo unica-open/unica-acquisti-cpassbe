@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -18,37 +18,28 @@ import java.util.UUID;
 import it.csi.cpass.cpassbe.lib.dto.AliquoteIva;
 import it.csi.cpass.cpassbe.lib.dto.BaseAuditedDto;
 import it.csi.cpass.cpassbe.lib.dto.ListinoFornitore;
-import it.csi.cpass.cpassbe.lib.dto.ord.OggettiSpesa;
+import it.csi.cpass.cpassbe.lib.dto.Ods;
+import it.csi.cpass.cpassbe.lib.dto.Stato;
 import it.csi.cpass.cpassbe.lib.dto.ord.RigaOrdine;
-import it.csi.cpass.cpassbe.lib.dto.ord.StatoElOrdine;
 
 
 public class RigaEvasione  extends BaseAuditedDto<UUID> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private BigDecimal importoTotale;
-
 	private BigDecimal prezzoUnitario;
-
 	private Integer progressivo;
-
 	private List<ImpegnoEvasione> impegnoEvasiones;
-
 	private AliquoteIva aliquoteIva;
-
-	private OggettiSpesa oggettiSpesa;
-
-	private StatoElOrdine statoElOrdine;
-
-	private DocumentoTrasportoRiga documentoTrasportoRiga;
-
+	private Ods oggettiSpesa;
+	private Stato stato;
+	//private DocumentoTrasportoRiga documentoTrasportoRiga;
 	private ListinoFornitore listinoFornitore;
-
 	private DestinatarioEvasione destinatarioEvasione;
-
 	private RigaOrdine rigaOrdine;
-	
 	private BigDecimal totaleEvaso;
+	private BigDecimal quantitaEvasa;
+	private String note;
 
 	public RigaEvasione() {
 	}
@@ -126,44 +117,31 @@ public class RigaEvasione  extends BaseAuditedDto<UUID> implements Serializable 
 	/**
 	 * @return the oggettiSpesa
 	 */
-	public OggettiSpesa getOggettiSpesa() {
+	public Ods getOggettiSpesa() {
 		return oggettiSpesa;
 	}
 
 	/**
 	 * @param oggettiSpesa the oggettiSpesa to set
 	 */
-	public void setOggettiSpesa(OggettiSpesa oggettiSpesa) {
+	public void setOggettiSpesa(Ods oggettiSpesa) {
 		this.oggettiSpesa = oggettiSpesa;
 	}
 
 	/**
-	 * @return the statoElOrdine
+	 * @return the stato
 	 */
-	public StatoElOrdine getStatoElOrdine() {
-		return statoElOrdine;
+	public Stato getStato() {
+		return stato;
 	}
 
 	/**
-	 * @param statoElOrdine the statoElOrdine to set
+	 * @param stato the stato to set
 	 */
-	public void setStatoElOrdine(StatoElOrdine statoElOrdine) {
-		this.statoElOrdine = statoElOrdine;
+	public void setStato(Stato stato) {
+		this.stato = stato;
 	}
 
-	/**
-	 * @return the documentoTrasportoRiga
-	 */
-	public DocumentoTrasportoRiga getDocumentoTrasportoRiga() {
-		return documentoTrasportoRiga;
-	}
-
-	/**
-	 * @param documentoTrasportoRiga the documentoTrasportoRiga to set
-	 */
-	public void setDocumentoTrasportoRiga(DocumentoTrasportoRiga documentoTrasportoRiga) {
-		this.documentoTrasportoRiga = documentoTrasportoRiga;
-	}
 
 	/**
 	 * @return the listinoFornitore
@@ -215,6 +193,21 @@ public class RigaEvasione  extends BaseAuditedDto<UUID> implements Serializable 
 		this.totaleEvaso = totaleEvaso;
 	}
 
-	
+	public String getNote() {
+		return note;
+	}
+	public void setNote(String note) {
+		this.note = note;
+	}
+
+	public BigDecimal getQuantitaEvasa() {
+		return quantitaEvasa;
+	}
+
+	public void setQuantitaEvasa(BigDecimal quantitaEvasa) {
+		this.quantitaEvasa = quantitaEvasa;
+	}
+
+
 
 }

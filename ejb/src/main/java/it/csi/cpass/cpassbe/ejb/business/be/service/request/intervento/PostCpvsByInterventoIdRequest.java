@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -20,13 +20,13 @@ import it.csi.cpass.cpassbe.lib.dto.Cpv;
  * Request for posting the Intervento
  */
 public class PostCpvsByInterventoIdRequest implements BaseRequest {
-	private UUID idIntervento;
-	private List<Cpv> cpvs;
+	private final UUID idIntervento;
+	private final List<Cpv> cpvs;
 	//private final Intervento intervento;
 
-	
-	
-	
+
+
+
 	/**
 	 * Constructor
 	 * @param intervento the intervento

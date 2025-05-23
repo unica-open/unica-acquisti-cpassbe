@@ -23,6 +23,8 @@ public class WebInterventoFileHolder extends WebFileHolder{
 
 	@FormParam("annoProgramma")
 	private String annoProgramma;
+	@FormParam("separatore")
+	private String separatore;
 	@FormParam("versioneProgramma")
 	private String versioneProgramma;
 	@FormParam("utenteReferenteCf")
@@ -85,6 +87,21 @@ public class WebInterventoFileHolder extends WebFileHolder{
 		this.attachment2 = attachment2;
 	}
 
+
+	/**
+	 * @return the separatore
+	 */
+	public String getSeparatore() {
+		return separatore;
+	}
+
+	/**
+	 * @param separatore the separatore to set
+	 */
+	public void setSeparatore(String separatore) {
+		this.separatore = separatore;
+	}
+
 	@Override
 	public FileHolder toFileHolder() {
 		FileHolder fh = new FileHolder();
@@ -93,6 +110,7 @@ public class WebInterventoFileHolder extends WebFileHolder{
 		fh.setAnnoProgramma(annoProgramma);
 		fh.setVersioneProgramma(versioneProgramma);
 		fh.setUtenteReferenteCf(utenteReferenteCf);
+		fh.setSeparatore(separatore);
 		fh.setIdEnte(UUID.fromString(super.getIdEnte()));
 		return fh;
 	}

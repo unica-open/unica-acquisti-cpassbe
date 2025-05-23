@@ -21,3 +21,26 @@
         description: Errore generico.
         schema:
           $ref: '#/definitions/ApiError'
+/impegno/ricerca/sub-impegno-chiave-logica:
+  post:
+    operationId: postRicercaSubimpegnoByChiaveLogica
+    description: Ricerca impegno su sistema.
+    produces:
+      - application/json
+    tags:
+      - impegno
+    parameters:
+      - in: body
+        name: impegno
+        required: true
+        schema:
+          $ref: '#/definitions/Subimpegno'
+    responses:
+      '200':
+        description: Impegno registrato su sistema.
+        schema:
+          $ref: '#/definitions/Subimpegno'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'          

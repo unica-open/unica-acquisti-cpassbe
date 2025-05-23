@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -18,17 +18,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import it.csi.cpass.cpassbe.ejb.entity.CpassTEnte;
 import it.csi.cpass.cpassbe.ejb.entity.base.BaseAuditedEntity;
 
 
 /**
  * The persistent class for the cpass_d_ord_tipo_procedura database table.
- * 
+ *
  */
 @Entity
 @Table(name="cpass_d_ord_tipo_procedura")
@@ -47,6 +50,11 @@ public class CpassDOrdTipoProcedura extends BaseAuditedEntity<Integer> implement
 
 	@Column(name="tipo_procedura_descrizione")
 	private String tipoProceduraDescrizione;
+
+	@ManyToOne
+	@JoinColumn(name="ente_id", nullable=false)
+	private CpassTEnte  cpassTEnte;
+
 
 	//bi-directional many-to-one association to CpassTOrdTestataOrdine
 	@OneToMany(mappedBy="cpassDOrdTipoProcedura")
@@ -99,6 +107,21 @@ public class CpassDOrdTipoProcedura extends BaseAuditedEntity<Integer> implement
 		cpassTOrdTestataOrdine.setCpassDOrdTipoProcedura(null);
 
 		return cpassTOrdTestataOrdine;
+	}
+
+
+	/**
+	 * @return the cpassTEnte
+	 */
+	public CpassTEnte getCpassTEnte() {
+		return cpassTEnte;
+	}
+
+	/**
+	 * @param cpassTEnte the cpassTEnte to set
+	 */
+	public void setCpassTEnte(CpassTEnte cpassTEnte) {
+		this.cpassTEnte = cpassTEnte;
 	}
 
 	@Override

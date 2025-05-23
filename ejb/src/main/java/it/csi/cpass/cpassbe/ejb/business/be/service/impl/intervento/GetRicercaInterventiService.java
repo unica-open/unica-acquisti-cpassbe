@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -40,17 +40,17 @@ public class GetRicercaInterventiService extends BaseInterventoService<GetRicerc
 	@Override
 	protected void execute() {
 		String ordinamento = "";
-		List<MetadatiFunzione> listmetadati = request.getIntervento().getListMetadatiFunzione();
+		final List<MetadatiFunzione> listmetadati = request.getIntervento().getListMetadatiFunzione();
 		if(listmetadati != null && listmetadati.size()>0) {
 			ordinamento = commonDad.getOrdinamentoByModuloFunzioneTipo("PBA", "RICERCA_INTERVENTO", "JPQL",listmetadati);
 		}
-		
-		PagedList<Intervento> interventi = interventoDad.getRicercaInterventi(
+
+
+		final PagedList<Intervento> interventi = interventoDad.getRicercaInterventi(
 				request.getPage(),
 				request.getSize(),
 				request.getSort(),
 				request.getIntervento(),
-				request.getSettoreId(),
 				ordinamento
 				);
 		response.setInterventi(interventi);

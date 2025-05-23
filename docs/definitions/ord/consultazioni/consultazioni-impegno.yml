@@ -1,0 +1,35 @@
+ConsultazioniImpegno:
+  type: object
+  properties:
+    annoEsercizio:
+      type: integer
+    annoImpegno:
+      type: integer
+    annoSubImpegno:
+      type: integer
+    disponibileAdOrdinare:
+      type: number
+    evaso:
+      type: number
+    fornitoreCodice:
+      type: string
+    fornitoreRagioneSociale:
+      type: string
+    importo:
+      type: number
+    inContabilita:
+      type: number
+    listaConsultazioniOrdine:
+      type: array
+      items:  
+        $ref: '#/definitions/ConsultazioniOrdine'
+    numeroImpegno:
+      type: integer
+    numeroSubImpegno:
+      type: integer
+    ordNonLiqAnniPrec:
+      type: number
+    ordinato:
+      type: number
+    statoCode:
+      type: string

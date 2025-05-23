@@ -1,0 +1,11 @@
+RuoloPermesso:
+  type: object
+  properties:
+    id:
+      type: integer
+    ruolo:
+      type: object
+      $ref: '#/definitions/Ruolo'
+    permesso:
+      type: object
+      $ref: '#/definitions/Permesso'

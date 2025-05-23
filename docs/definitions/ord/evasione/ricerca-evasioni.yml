@@ -32,7 +32,7 @@ RicercaEvasioni:
     annoProvvedimento:
       type: integer
     numeroProvvedimento:
-      type: integer
+      type: string
     testataEvasione:
       type: object
       $ref: '#/definitions/TestataEvasione'
@@ -47,4 +47,6 @@ RicercaEvasioni:
       $ref: '#/definitions/Subimpegno'
     oggettiSpesa:
       type: object
-      $ref: '#/definitions/OggettiSpesa'
+      $ref: '#/definitions/Ods'
+    provvedimentoTipo:
+      type: string

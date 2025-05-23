@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -13,22 +13,18 @@ package it.csi.cpass.cpassbe.ejb.business.be.service.impl.intervento;
 import java.util.List;
 
 import it.csi.cpass.cpassbe.ejb.business.be.dad.InterventoDad;
-import it.csi.cpass.cpassbe.ejb.business.be.dad.SettoreDad;
 import it.csi.cpass.cpassbe.ejb.business.be.service.impl.base.BaseService;
 import it.csi.cpass.cpassbe.ejb.business.be.service.request.intervento.GetCpvsByInterventoIdRequest;
-import it.csi.cpass.cpassbe.ejb.business.be.service.request.utente.GetRupsBySettoreIdRequest;
 import it.csi.cpass.cpassbe.ejb.business.be.service.response.intervento.GetCpvsByInterventoIdResponse;
-import it.csi.cpass.cpassbe.ejb.business.be.service.response.utente.GetRupsBySettoreIdResponse;
 import it.csi.cpass.cpassbe.ejb.util.conf.ConfigurationHelper;
 import it.csi.cpass.cpassbe.lib.dto.Cpv;
-import it.csi.cpass.cpassbe.lib.dto.Utente;
 
 /**
  * Retrieves an GetRupsByInterventoId by its id
  */
 public class GetCpvsByInterventoIdService extends BaseService<GetCpvsByInterventoIdRequest, GetCpvsByInterventoIdResponse> {
 
-    private InterventoDad interventoDad;
+	private final InterventoDad interventoDad;
 	public GetCpvsByInterventoIdService(ConfigurationHelper configurationHelper, InterventoDad interventoDad) {
 		super(configurationHelper);
 		this.interventoDad = interventoDad;
@@ -41,7 +37,7 @@ public class GetCpvsByInterventoIdService extends BaseService<GetCpvsByIntervent
 
 	@Override
 	protected void execute() {
-		List<Cpv> cpvs = interventoDad.getCpvsByInterventoId(request.getId());
+		final List<Cpv> cpvs = interventoDad.getCpvsByInterventoId(request.getId());
 		response.setCpvs(cpvs);
 	}
 

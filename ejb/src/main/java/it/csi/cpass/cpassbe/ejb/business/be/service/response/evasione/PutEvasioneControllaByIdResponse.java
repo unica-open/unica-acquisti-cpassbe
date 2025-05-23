@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -17,7 +17,6 @@ import javax.ws.rs.core.Response.Status;
 
 import it.csi.cpass.cpassbe.ejb.business.be.service.response.base.BasePutResponse;
 import it.csi.cpass.cpassbe.lib.dto.ord.evasione.TestataEvasione;
-import it.csi.cpass.cpassbe.lib.util.convert.StringHelper;
 import it.csi.cpass.cpassbe.lib.util.serialization.JsonUtility;
 
 public class PutEvasioneControllaByIdResponse extends BasePutResponse {
@@ -41,7 +40,7 @@ public class PutEvasioneControllaByIdResponse extends BasePutResponse {
 	@Override
 	protected Response composeOwnResponse() {
 		final String methodName = "composeOwnResponse";
-		String serialized = JsonUtility.serialize(testataEvasione);
+		final String serialized = JsonUtility.serialize(testataEvasione);
 		log.debug(methodName, "JSON response: " + serialized);
 		return Response.status(Status.OK)
 				.entity(serialized)

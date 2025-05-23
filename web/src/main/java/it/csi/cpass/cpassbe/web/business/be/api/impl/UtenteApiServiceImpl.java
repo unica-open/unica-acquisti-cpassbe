@@ -10,17 +10,22 @@
  */
 package it.csi.cpass.cpassbe.web.business.be.api.impl;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 import it.csi.cpass.cpassbe.ejb.business.be.facade.UtenteFacade;
+import it.csi.cpass.cpassbe.lib.dto.Notifica;
 import it.csi.cpass.cpassbe.lib.dto.Utente;
 import it.csi.cpass.cpassbe.web.business.be.api.UtenteApi;
+import it.csi.cpass.cpassbe.web.dto.RicercaUtenti;
 import it.csi.cpass.cpassbe.web.util.annotation.Logged;
 
 /**
@@ -56,8 +61,8 @@ public class UtenteApiServiceImpl extends BaseRestServiceImpl implements UtenteA
 		return invoke(() -> utenteFacade.getSettoriByUtente());
 	}
 	@Override
-	public Response getModuloBySettore(UUID settoreId, SecurityContext securityContext, HttpHeaders httpHeaders, HttpServletRequest httpRequest) {
-		return invoke(() -> utenteFacade.getModuloBySettore(settoreId));
+	public Response getModuliBySettore(UUID settoreId, SecurityContext securityContext, HttpHeaders httpHeaders, HttpServletRequest httpRequest) {
+		return invoke(() -> utenteFacade.getModuliBySettore(settoreId));
 	}
 	@Override
 	public Response getPermessiBySettoreAndModulo(UUID settoreId, Integer idModulo, SecurityContext securityContext, HttpHeaders httpHeaders, HttpServletRequest httpRequest) {
@@ -71,7 +76,11 @@ public class UtenteApiServiceImpl extends BaseRestServiceImpl implements UtenteA
 	public Response getUtenteBySettoreRuolo(UUID settoreId, String ruoloCodice, SecurityContext securityContext,HttpHeaders httpHeaders, HttpServletRequest httpRequest) {
 		return invoke(() -> utenteFacade.getUtenteBySettoreRuolo(settoreId, ruoloCodice));
 	}
-	
+	@Override
+	public Response getUtenteByRuolo(String ruoloCodice, SecurityContext securityContext,HttpHeaders httpHeaders, HttpServletRequest httpRequest) {
+		return invoke(() -> utenteFacade.getUtenteByRuolo(ruoloCodice));
+	}
+
 	@Override
 	public Response getRuoliBySettore(UUID settoreId, SecurityContext securityContext, HttpHeaders httpHeaders, HttpServletRequest httpRequest) {
 		return invoke(() -> utenteFacade.getRuoliBySettore(settoreId));
@@ -89,7 +98,47 @@ public class UtenteApiServiceImpl extends BaseRestServiceImpl implements UtenteA
 	public Response getSettoriByRupId(UUID rupId, SecurityContext securityContext, HttpHeaders httpHeaders, HttpServletRequest httpRequest) {
 		return invoke(() -> utenteFacade.getSettoriByRupId(rupId));
 	}
+
+	@Override
+	public Response getCountNotificheNonLette(SecurityContext securityContext, HttpHeaders httpHeaders, HttpServletRequest httpRequest) {
+		return invoke(() -> utenteFacade.getCountNotificheNonLette());
+	}
+
+	@Override
+	public Response getNotificheNonLette(SecurityContext securityContext, HttpHeaders httpHeaders, HttpServletRequest httpRequest) {
+		return invoke(() -> utenteFacade.getNotificheNonLette());
+	}
+
 	@Override
 	public Response getSettoriRuoliPermessiByUtente(SecurityContext securityContext, HttpHeaders httpHeaders,HttpServletRequest httpRequest) {
 		return invoke(() -> utenteFacade.getSettoriRuoliPermessiByUtente());	}
+
+	@Override
+	public Response putAggiornaNotifiche(List<Notifica> listaNotifiche, SecurityContext securityContext,HttpHeaders httpHeaders, HttpServletRequest httpRequest) {
+		return invoke(() -> utenteFacade.putAggiornaNotifiche(listaNotifiche));
+	}
+
+	@Override
+	public Response getRuoliByEnte(String selezionabileDaProcedura,SecurityContext securityContext, HttpHeaders httpHeaders,HttpServletRequest httpRequest) {
+		return invoke(() -> utenteFacade.getRuoliByEnte( selezionabileDaProcedura));
+	}
+	@Override
+	public Response getRicercaUtenti(@Min(0) Integer page, @Min(1) @Max(100) Integer limit, String sort,String direction, RicercaUtenti ricUtenti, SecurityContext securityContext, HttpHeaders httpHeaders,HttpServletRequest httpRequest) {
+		return invoke(() -> utenteFacade.getRicercaUtenti(page, limit, sort, direction, ricUtenti.getDirigente(),ricUtenti.getRuolo(),ricUtenti.getSettore(),ricUtenti.getUtente(), ricUtenti.getCheckDataValiditaFineRUteSett()));
+	}
+	@Override
+	public Response getUtenteHrByCf(String cf, SecurityContext securityContext, HttpHeaders httpHeaders,HttpServletRequest httpRequest) {
+		return invoke(() -> utenteFacade.getUtenteHrByCf( cf));
+	}
+	@Override
+	public Response putSpostaUtentiSettore(UUID idSettoreOld, UUID idSettoreNew, String controllo, List<Utente> utenti,SecurityContext securityContext, HttpHeaders httpHeaders, HttpServletRequest httpRequest) {
+		return invoke(() -> utenteFacade.putSpostaUtentiSettore(idSettoreOld, idSettoreNew, utenti, controllo));
+	}
+	@Override
+	public Response getRicercaUtentiNoPage(RicercaUtenti ricUtenti, SecurityContext securityContext, HttpHeaders httpHeaders,HttpServletRequest httpRequest) {
+		return invoke(() -> utenteFacade.getRicercaUtentiNoPage(ricUtenti.getDirigente(),ricUtenti.getRuolo(),ricUtenti.getSettore(),ricUtenti.getUtente()));
+	}
+
+
+
 }

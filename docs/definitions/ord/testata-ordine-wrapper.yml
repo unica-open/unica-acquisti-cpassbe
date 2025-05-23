@@ -1,0 +1,10 @@
+TestataOrdineWrapper:
+  type: object
+  properties:
+    listaWarning:
+      type: array
+      items:  
+        $ref: '#/definitions/ApiError'
+    testataOrdine:
+      type: object
+      $ref: '#/definitions/TestataOrdine'

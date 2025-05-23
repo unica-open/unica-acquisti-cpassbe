@@ -49,12 +49,15 @@ TestataOrdine:
     fornitore:
       type: object
       $ref: '#/definitions/Fornitore'
+    tipoAcquisto:
+      type: object
+      $ref: '#/definitions/SettoreInterventi'
     provvedimento:
       type: object
       $ref: '#/definitions/Provvedimento'
-    tipoProcedura:
+    tipoProceduraOrd:
       type: object
-      $ref: '#/definitions/TipoProcedura'
+      $ref: '#/definitions/TipoProceduraOrd'
     numeroProcedura:
       type: string
     consegnaRiferimento:
@@ -79,6 +82,54 @@ TestataOrdine:
       type: array
       items:
         $ref: '#/definitions/Destinatario'
+    hasOds:
+      type: boolean
     optlock:
       type: string
       format: uuid
+    provvedimentoSettore:
+      type: string
+    provvedimentoTipo:
+      type: string
+    provvedimentoDescrizione:
+      type: string
+    cig:
+      type: string
+    motiviEsclusioneCig:
+      type: object
+      $ref: '#/definitions/MotiviEsclusioneCig'
+    protocolloOrdines:
+      type: array
+      items:
+        $ref: '#/definitions/ProtocolloOrdine'
+    rdas:
+      type: array
+      items:
+        $ref: '#/definitions/TestataRda'
+    documentiOrdines:
+      type: array
+      items:
+        $ref: '#/definitions/DocumentiOrdine'
+    derivato:
+      type: boolean    
+    annoRda:
+      type: integer
+    numeroRda:
+      type: integer
+    protocollato:
+      type: boolean
+    annoProtocollo:
+      type: integer
+    numeroProtocollo:
+      type: string
+    aoo:
+      type: boolean
+    totaleConIva:
+      type: number
+    totaleNoIVA:
+      type: number
+    utenteCreazione:
+      type: string
+    dataCreazione:
+      type: string
+      format: date-time

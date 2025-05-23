@@ -7,3 +7,8 @@ $include: ./preferenze.yml
 $include: ./metadati-funzione.yml
 $include: ./elaborazione.yml
 $include: ./ordinamento.yml
+$include: ./parametro.yml
+$include: ./gestione-campo.yml
+$include: ./ods.yml
+$include: ./mit.yml
+$include: ./test.yml

@@ -7,6 +7,12 @@
     tags:
       - common
     parameters:
+      - in: query
+        name: id-settore-radice
+        required: false
+        type: string
+        format: uuid
+        description: 'Settore al di sotto del quale si ha visibilità'
       - $ref: '#/parameters/offsetParam'
       - $ref: '#/parameters/limitParam'
       - $ref: '#/parameters/sortParam'
@@ -46,6 +52,70 @@
           type: array
           items:
             $ref: '#/definitions/SettoreIndirizzo'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/common/settore-precedente/{id-settore-precedente}/settore-attuale{id_settore-attuale}:
+  get:
+    operationId: isSettoreRiorganizzato
+    description: Restituisce se i due settori uno e riorganizzazione dell'altro
+    produces:
+      - application/json
+    tags:
+      - common
+    parameters:
+      - in: path
+        name: id-settore-precedente
+        required: true
+        type: string
+        format: uuid
+      - in: path
+        name: id_settore-attuale
+        required: true
+        type: string
+        format: uuid
+        description: id settore.
+    responses:
+      '200':
+        description: Restituisce se i due settori uno e riorganizzazione dell'altro.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Settore'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/common/settore-emittente/{id-settore-emittente}:
+  get:
+    operationId: checkCompatibilitaSettori
+    description: Restituisce true se i settori sono compatibili
+    produces:
+      - application/json
+    tags:
+      - common
+    parameters:
+      - in: path
+        name: id-settore-emittente
+        required: true
+        type: string
+        format: uuid
+      - in: query
+        name: codice-struttura-proponente
+        required: true
+        type: string
+      - in: query
+        name: id-settore-determina
+        required: false
+        type: string
+        formta: uuid
+        description: 'Settore del provvedimento se presente'
+    responses:
+      '200':
+        description: true se i settori sono compatibili
+        schema:
+          type: boolean
       default:
         description: Errore generico.
         schema:

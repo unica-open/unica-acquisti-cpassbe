@@ -1,0 +1,148 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<definitions name="CUSCSI_SOA_CITTA_METRO_TORINO" targetNamespace="http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_citta_metro_torino/" xmlns:tns="http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_citta_metro_torino/" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns1="http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_citta_metro_torino/get_dati_anagrafici/" xmlns:tns2="http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_citta_metro_torino/get_dati_assegnazione/" xmlns:tns3="http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_citta_metro_torino/get_dati_indirizzo_dip/" xmlns:tns4="http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_citta_metro_torino/get_organizzazioni_ente/" xmlns:tns5="http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_citta_metro_torino/get_tipologia_org_ente/">
+	<types>
+		<schema xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_citta_metro_torino/get_dati_anagrafici/">
+			<include schemaLocation="https://tst-aphr01.csi.it:4444/webservices/SOAProvider/plsql/cuscsi_soa_citta_metro_torino/APPS_CUSCSI_SOA_CITTA_METRO_TORINO_GET_DATI_ANAGRAFICI.xsd"/>
+		</schema>
+		<schema xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_citta_metro_torino/get_dati_assegnazione/">
+			<include schemaLocation="https://tst-aphr01.csi.it:4444/webservices/SOAProvider/plsql/cuscsi_soa_citta_metro_torino/APPS_ISG_CUSCSI_GET_DA13184968_CUSCSI_SOA_CITTA_METRO_TORIN1.xsd"/>
+		</schema>
+		<schema xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_citta_metro_torino/get_dati_indirizzo_dip/">
+			<include schemaLocation="https://tst-aphr01.csi.it:4444/webservices/SOAProvider/plsql/cuscsi_soa_citta_metro_torino/APPS_CUSCSI_SOA_CITTA_METRO_TORINO_GET_DATI_INDIRIZZO_DIP.xsd"/>
+		</schema>
+		<schema xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_citta_metro_torino/get_organizzazioni_ente/">
+			<include schemaLocation="https://tst-aphr01.csi.it:4444/webservices/SOAProvider/plsql/cuscsi_soa_citta_metro_torino/APPS_CUSCSI_SOA_CITTA_METRO_TORINO_GET_ORGANIZZAZIONI_ENTE.xsd"/>
+		</schema>
+		<schema xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_citta_metro_torino/get_tipologia_org_ente/">
+			<include schemaLocation="https://tst-aphr01.csi.it:4444/webservices/SOAProvider/plsql/cuscsi_soa_citta_metro_torino/APPS_ISG_CUSCSI_GET_TI8607024_CUSCSI_SOA_CITTA_METRO_TORIN1.xsd"/>
+		</schema>
+		<schema xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_citta_metro_torino/">
+			<element name="SOAHeader">
+				<complexType>
+					<sequence>
+						<element name="Responsibility" minOccurs="0" type="string"/>
+						<element name="RespApplication" minOccurs="0" type="string"/>
+						<element name="SecurityGroup" minOccurs="0" type="string"/>
+						<element name="NLSLanguage" minOccurs="0" type="string"/>
+						<element name="Org_Id" minOccurs="0" type="string"/>
+					</sequence>
+				</complexType>
+			</element>
+		</schema>
+	</types>
+	<message name="GET_DATI_ANAGRAFICI_Input_Msg">
+		<part name="header" element="tns:SOAHeader"/>
+		<part name="body" element="tns1:InputParameters"/>
+	</message>
+	<message name="GET_DATI_ANAGRAFICI_Output_Msg">
+		<part name="body" element="tns1:OutputParameters"/>
+	</message>
+	<message name="GET_DATI_ASSEGNAZIONE_Input_Msg">
+		<part name="header" element="tns:SOAHeader"/>
+		<part name="body" element="tns2:InputParameters"/>
+	</message>
+	<message name="GET_DATI_ASSEGNAZIONE_Output_Msg">
+		<part name="body" element="tns2:OutputParameters"/>
+	</message>
+	<message name="GET_DATI_INDIRIZZO_DIP_Input_Msg">
+		<part name="header" element="tns:SOAHeader"/>
+		<part name="body" element="tns3:InputParameters"/>
+	</message>
+	<message name="GET_DATI_INDIRIZZO_DIP_Output_Msg">
+		<part name="body" element="tns3:OutputParameters"/>
+	</message>
+	<message name="GET_ORGANIZZAZIONI_ENTE_Input_Msg">
+		<part name="header" element="tns:SOAHeader"/>
+		<part name="body" element="tns4:InputParameters"/>
+	</message>
+	<message name="GET_ORGANIZZAZIONI_ENTE_Output_Msg">
+		<part name="body" element="tns4:OutputParameters"/>
+	</message>
+	<message name="GET_TIPOLOGIA_ORG_ENTE_Input_Msg">
+		<part name="header" element="tns:SOAHeader"/>
+		<part name="body" element="tns5:InputParameters"/>
+	</message>
+	<message name="GET_TIPOLOGIA_ORG_ENTE_Output_Msg">
+		<part name="body" element="tns5:OutputParameters"/>
+	</message>
+	<portType name="CUSCSI_SOA_CITTA_METRO_TORINO_PortType">
+		<operation name="GET_DATI_ANAGRAFICI">
+			<input message="tns:GET_DATI_ANAGRAFICI_Input_Msg"/>
+			<output message="tns:GET_DATI_ANAGRAFICI_Output_Msg"/>
+		</operation>
+		<operation name="GET_DATI_ASSEGNAZIONE">
+			<input message="tns:GET_DATI_ASSEGNAZIONE_Input_Msg"/>
+			<output message="tns:GET_DATI_ASSEGNAZIONE_Output_Msg"/>
+		</operation>
+		<operation name="GET_DATI_INDIRIZZO_DIP">
+			<input message="tns:GET_DATI_INDIRIZZO_DIP_Input_Msg"/>
+			<output message="tns:GET_DATI_INDIRIZZO_DIP_Output_Msg"/>
+		</operation>
+		<operation name="GET_ORGANIZZAZIONI_ENTE">
+			<input message="tns:GET_ORGANIZZAZIONI_ENTE_Input_Msg"/>
+			<output message="tns:GET_ORGANIZZAZIONI_ENTE_Output_Msg"/>
+		</operation>
+		<operation name="GET_TIPOLOGIA_ORG_ENTE">
+			<input message="tns:GET_TIPOLOGIA_ORG_ENTE_Input_Msg"/>
+			<output message="tns:GET_TIPOLOGIA_ORG_ENTE_Output_Msg"/>
+		</operation>
+	</portType>
+	<binding name="CUSCSI_SOA_CITTA_METRO_TORINO_Binding" type="tns:CUSCSI_SOA_CITTA_METRO_TORINO_PortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="GET_DATI_ANAGRAFICI">
+			<soap:operation soapAction="https://tst-aphr01.csi.it:4444/webservices/SOAProvider/plsql/cuscsi_soa_citta_metro_torino/"/>
+			<input>
+				<soap:header message="tns:GET_DATI_ANAGRAFICI_Input_Msg" part="header" use="literal"/>
+				<soap:body parts="body" use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="GET_DATI_ASSEGNAZIONE">
+			<soap:operation soapAction="https://tst-aphr01.csi.it:4444/webservices/SOAProvider/plsql/cuscsi_soa_citta_metro_torino/"/>
+			<input>
+				<soap:header message="tns:GET_DATI_ASSEGNAZIONE_Input_Msg" part="header" use="literal"/>
+				<soap:body parts="body" use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="GET_DATI_INDIRIZZO_DIP">
+			<soap:operation soapAction="https://tst-aphr01.csi.it:4444/webservices/SOAProvider/plsql/cuscsi_soa_citta_metro_torino/"/>
+			<input>
+				<soap:header message="tns:GET_DATI_INDIRIZZO_DIP_Input_Msg" part="header" use="literal"/>
+				<soap:body parts="body" use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="GET_ORGANIZZAZIONI_ENTE">
+			<soap:operation soapAction="https://tst-aphr01.csi.it:4444/webservices/SOAProvider/plsql/cuscsi_soa_citta_metro_torino/"/>
+			<input>
+				<soap:header message="tns:GET_ORGANIZZAZIONI_ENTE_Input_Msg" part="header" use="literal"/>
+				<soap:body parts="body" use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="GET_TIPOLOGIA_ORG_ENTE">
+			<soap:operation soapAction="https://tst-aphr01.csi.it:4444/webservices/SOAProvider/plsql/cuscsi_soa_citta_metro_torino/"/>
+			<input>
+				<soap:header message="tns:GET_TIPOLOGIA_ORG_ENTE_Input_Msg" part="header" use="literal"/>
+				<soap:body parts="body" use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+		</operation>
+	</binding>
+	<service name="CUSCSI_SOA_CITTA_METRO_TORINO_Service">
+		<port name="CUSCSI_SOA_CITTA_METRO_TORINO_Port" binding="tns:CUSCSI_SOA_CITTA_METRO_TORINO_Binding">
+			<soap:address location="https://tst-aphr01.csi.it:4444/webservices/SOAProvider/plsql/cuscsi_soa_citta_metro_torino/"/>
+		</port>
+	</service>
+</definitions>

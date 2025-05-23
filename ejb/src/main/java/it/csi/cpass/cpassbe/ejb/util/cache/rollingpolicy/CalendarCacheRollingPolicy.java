@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -23,17 +23,17 @@ public abstract class CalendarCacheRollingPolicy implements CacheRollingPolicy {
 	 *
 	 * @param data           the cached date
 	 * @param calendarFields the calendar fields to check
-	 * 
+	 *
 	 * @return true, if the date is expired
 	 */
 	protected boolean isExpiredDate(Date data, int... calendarFields) {
-		Calendar cacheDate = Calendar.getInstance();
+		final Calendar cacheDate = Calendar.getInstance();
 		cacheDate.setTime(data);
-		Calendar now = Calendar.getInstance();
-		
-		for(int calendarField : calendarFields){
-			int cf = now.get(calendarField);
-			int cfCache = cacheDate.get(calendarField);
+		final Calendar now = Calendar.getInstance();
+
+		for(final int calendarField : calendarFields){
+			final int cf = now.get(calendarField);
+			final int cfCache = cacheDate.get(calendarField);
 
 			if (cfCache < cf) {
 				return true;

@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -30,10 +30,10 @@ import it.csi.cpass.cpassbe.lib.util.log.LogUtil;
  * SOAP handler for request/response logging
  */
 public class LogSOAPHandler implements SOAPHandler<SOAPMessageContext> {
-	
+
 	private final LogUtil log = new LogUtil(getClass());
 	private final Level level;
-	
+
 	/**
 	 * Constructor wrapping the level
 	 * @param level the log level
@@ -47,7 +47,7 @@ public class LogSOAPHandler implements SOAPHandler<SOAPMessageContext> {
 		final SOAPMessage msg = context.getMessage();
 		final boolean request = Boolean.TRUE.equals(context.get(MessageContext.MESSAGE_OUTBOUND_PROPERTY));
 		final String endpointAddress = (String) context.get(BindingProvider.ENDPOINT_ADDRESS_PROPERTY);
-		
+
 		if (request) {
 			// This is a request message.
 			logRequestMessage(endpointAddress, msg);
@@ -67,7 +67,7 @@ public class LogSOAPHandler implements SOAPHandler<SOAPMessageContext> {
 
 	/**
 	 * Writes the message to the given appendable.
-	 * 
+	 *
 	 * @param appendable the appendable to which add the message
 	 * @param soapMessage the message to write
 	 * @throws LogSOAPException in case of an exception during the logging phase
@@ -81,10 +81,10 @@ public class LogSOAPHandler implements SOAPHandler<SOAPMessageContext> {
 			throw new LogSOAPException("Exception in message write", e);
 		}
 	}
-	
+
 	/**
 	 * Logs the request message
-	 * @param endpointAddress 
+	 * @param endpointAddress
 	 * @param requestMessage the request
 	 */
 	private void logRequestMessage(String endpointAddress, final SOAPMessage requestMessage) {
@@ -102,10 +102,10 @@ public class LogSOAPHandler implements SOAPHandler<SOAPMessageContext> {
 			log.error(methodName, "Caught exception for request message: " + e.getMessage(), e);
 		}
 	}
-	
+
 	/**
 	 * Logs the response message
-	 * @param endpointAddress 
+	 * @param endpointAddress
 	 * @param msg the response message
 	 */
 	private void logResponseMessage(String endpointAddress, final SOAPMessage msg) {
@@ -123,10 +123,10 @@ public class LogSOAPHandler implements SOAPHandler<SOAPMessageContext> {
 			log.error(methodName, "Caught exception for response message: " + e.getMessage(), e);
 		}
 	}
-	
+
 	/**
 	 * Logs the error message
-	 * @param endpointAddress 
+	 * @param endpointAddress
 	 * @param msg the error message
 	 */
 	private void logErrorMessage(String endpointAddress, final SOAPMessage msg) {
@@ -155,7 +155,7 @@ public class LogSOAPHandler implements SOAPHandler<SOAPMessageContext> {
 		// Not required for logging
 		return new HashSet<>();
 	}
-	
+
 	/**
 	 * Exception in SOAP logging
 	 */

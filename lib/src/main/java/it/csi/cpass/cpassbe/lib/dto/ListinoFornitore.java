@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -12,11 +12,9 @@ package it.csi.cpass.cpassbe.lib.dto;
 
 import java.io.Serializable;
 
-import it.csi.cpass.cpassbe.lib.dto.ord.OggettiSpesa;
-
 public class ListinoFornitore  extends BaseAuditedDto<Integer> implements Serializable {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -30,14 +28,14 @@ public class ListinoFornitore  extends BaseAuditedDto<Integer> implements Serial
 	public ListinoFornitore(Integer id) {
 		super(id);
 	}
-	
+
 	private String codiceOds;
 	private String descrizione;
-	private OggettiSpesa oggettiSpesa;	
+	private Ods oggettiSpesa;
 	private Fornitore fornitore;
 
-	
-	
+
+
 	/**
 	 * @return the codiceOds
 	 */
@@ -69,14 +67,14 @@ public class ListinoFornitore  extends BaseAuditedDto<Integer> implements Serial
 	/**
 	 * @return the oggettiSpesa
 	 */
-	public OggettiSpesa getOggettiSpesa() {
+	public Ods getOggettiSpesa() {
 		return oggettiSpesa;
 	}
 
 	/**
 	 * @param oggettiSpesa the oggettiSpesa to set
 	 */
-	public void setOggettiSpesa(OggettiSpesa oggettiSpesa) {
+	public void setOggettiSpesa(Ods oggettiSpesa) {
 		this.oggettiSpesa = oggettiSpesa;
 	}
 

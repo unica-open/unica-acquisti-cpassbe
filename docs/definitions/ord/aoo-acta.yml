@@ -1,0 +1,21 @@
+AooActa:
+  type: object
+  properties:
+    aooDescrizione:
+      type: string
+    aooCodice:
+      type: string
+    dataFineValidita:
+      type: string
+      format: date-time
+    id:
+      type: string
+      format: uuid
+    protocolloOrdines:
+      type: array
+      items:  
+        $ref: '#/definitions/ProtocolloOrdine'
+    settoreAooActas:
+      type: array
+      items:  
+        $ref: '#/definitions/SettoreAooActa'

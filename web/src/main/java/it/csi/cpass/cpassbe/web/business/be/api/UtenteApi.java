@@ -13,12 +13,15 @@
  **********************************************/
 package it.csi.cpass.cpassbe.web.business.be.api;
 
+import java.util.List;
 import java.util.UUID;
 
+import javax.cache.annotation.CacheRemoveAll;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -32,7 +35,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
+import it.csi.cpass.cpassbe.lib.dto.Notifica;
 import it.csi.cpass.cpassbe.lib.dto.Utente;
+import it.csi.cpass.cpassbe.web.dto.RicercaUtenti;
+import it.csi.cpass.cpassbe.web.util.annotation.LoadSettore;
 
 
 
@@ -53,9 +59,8 @@ public interface UtenteApi {
 	 */
 	@DELETE
 	@Path("{id}")
+	@LoadSettore
 	@Produces({MediaType.APPLICATION_JSON})
-//	@PermissionCheck("STAMPA_INTERVENTO")
-//	@PermissionCheck("INS_INTERVENTO")
 	public Response deleteUtenteById(
 			@PathParam("id") UUID id,
 			@Context SecurityContext securityContext,
@@ -73,6 +78,7 @@ public interface UtenteApi {
 	 */
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
+	@LoadSettore
 	public Response getUtenti(
 			@Min(0) @QueryParam("offset") Integer offset,
 			@Min(1) @Max(100) @QueryParam("limit") Integer limit,
@@ -91,6 +97,7 @@ public interface UtenteApi {
 	 */
 	@POST
 	@Produces({MediaType.APPLICATION_JSON})
+	@LoadSettore
 	public Response postUtente(
 			Utente utente,
 			@Context SecurityContext securityContext,
@@ -109,6 +116,7 @@ public interface UtenteApi {
 	 */
 	@PUT
 	@Path("{id}")
+	@LoadSettore
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response putUtenteById(
 			@PathParam("id") UUID id,
@@ -134,7 +142,7 @@ public interface UtenteApi {
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
-	
+
 	/**
 	 * Gets the Utente
 	 * @param securityContext the security context
@@ -159,6 +167,7 @@ public interface UtenteApi {
 	 */
 	@GET
 	@Path("settore")
+	@CacheRemoveAll
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response getSettoriByUtente(
 			@Context SecurityContext securityContext,
@@ -175,8 +184,9 @@ public interface UtenteApi {
 	 */
 	@GET
 	@Path("settore/{id-settore}/modulo")
+	@CacheRemoveAll
 	@Produces({MediaType.APPLICATION_JSON})
-	public Response getModuloBySettore(
+	public Response getModuliBySettore(
 			@PathParam("id-settore") UUID settoreId,
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
@@ -184,7 +194,7 @@ public interface UtenteApi {
 
 	/**
 	 * Gets the permessi by Struttura id
-	 * @param settoreId 
+	 * @param settoreId
 	 * @param idModulo the id modulo
 	 * @param securityContext the security context
 	 * @param httpHeaders the HTTP headers
@@ -203,8 +213,8 @@ public interface UtenteApi {
 
 	/**
 	 * Get utente by Struttura id and Ruolo
-	 * @param settoreId 
-	 * @param ruoloCodice 
+	 * @param settoreId
+	 * @param ruoloCodice
 	 * @param securityContext the security context
 	 * @param httpHeaders the HTTP headers
 	 * @param httpRequest the HTTP request
@@ -219,8 +229,24 @@ public interface UtenteApi {
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
-	
-	
+	/**
+	 * Get utente by Ruolo
+	 * @param ruoloCodice
+	 * @param securityContext the security context
+	 * @param httpHeaders the HTTP headers
+	 * @param httpRequest the HTTP request
+	 * @return the response
+	 */
+	@GET
+	@Path("ruolo/{ruolo-codice}")
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response getUtenteByRuolo(
+			@PathParam("ruolo-codice") String ruoloCodice,
+			@Context SecurityContext securityContext,
+			@Context HttpHeaders httpHeaders,
+			@Context HttpServletRequest httpRequest);
+
+
 	/**
 	 * Get ruoli by settore
 	 * @param settoreId
@@ -237,10 +263,10 @@ public interface UtenteApi {
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
-	
+
 
 	/**
-	 * 
+	 *
 	 * @param utenteId
 	 * @param securityContext
 	 * @param httpHeaders
@@ -249,12 +275,13 @@ public interface UtenteApi {
 	 */
 	@GET
 	@Path("/settori/ruoli/permessi")
+	@CacheRemoveAll
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response getSettoriRuoliPermessiByUtente(
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
-	
+
 	/**
 	 * Gets a list of Utente RUP by the intervento id
 	 * @param id the intervento id
@@ -271,7 +298,7 @@ public interface UtenteApi {
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
-	
+
 	/**
 	 * Gets a list of Utente RUP by the intervento id
 	 * @param id the intervento id
@@ -288,7 +315,7 @@ public interface UtenteApi {
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
-	
+
 	/**
 	 * Gets a list of Settori by RUP id
 	 * @param id the RUP id
@@ -302,6 +329,105 @@ public interface UtenteApi {
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response getSettoriByRupId(
 			@PathParam("id-rup") UUID idRup,
+			@Context SecurityContext securityContext,
+			@Context HttpHeaders httpHeaders,
+			@Context HttpServletRequest httpRequest);
+
+	/**
+	 * Gets the count of unread notifications for the user provided
+	 * @param securityContext
+	 * @param httpHeaders
+	 * @param httpRequest
+	 * @return
+	 */
+	@GET
+	@Path("/notifiche/count-non-lette")
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response getCountNotificheNonLette(
+		@Context SecurityContext securityContext,
+		@Context HttpHeaders httpHeaders,
+		@Context HttpServletRequest httpRequest
+	);
+
+	@GET
+	@Path("/notifiche/non-lette")
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response getNotificheNonLette(
+		@Context SecurityContext securityContext,
+		@Context HttpHeaders httpHeaders,
+		@Context HttpServletRequest httpRequest
+	);
+
+	@PUT
+	@Path("/notifiche/aggiorna")
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response putAggiornaNotifiche(
+		List<Notifica> listaNotifiche,
+		@Context SecurityContext securityContext,
+		@Context HttpHeaders httpHeaders,
+		@Context HttpServletRequest httpRequest
+	);
+	/////////////////////////////////////
+
+	/**
+	 * Get ruoli by settore
+	 * @param settoreId
+	 * @param securityContext
+	 * @param httpHeaders
+	 * @param httpRequest
+	 * @return
+	 */
+	@GET
+	@LoadSettore
+	@Path("/lista-ruoli/ente/selezionabile/{selezionabile-da-procedura}")
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response getRuoliByEnte(
+			@PathParam("selezionabile-da-procedura") String selezionabileDaProcedura,
+			@Context SecurityContext securityContext,
+			@Context HttpHeaders httpHeaders,
+			@Context HttpServletRequest httpRequest);
+
+
+	@POST
+	@Path("ricerca")
+	@Produces({MediaType.APPLICATION_JSON})
+	@LoadSettore
+	public Response getRicercaUtenti(
+			@Min(0) @QueryParam("offset") Integer offset,
+			@Min(1) @Max(100) @QueryParam("limit") Integer limit,
+			@QueryParam("sort") @DefaultValue("") String sort,
+			@QueryParam("direction") @DefaultValue("asc") String direction,
+			RicercaUtenti ricUtenti,
+			@Context SecurityContext securityContext,
+			@Context HttpHeaders httpHeaders,
+			@Context HttpServletRequest httpRequest);
+	@POST
+	@Path("ricerca/no-page")
+	@Produces({MediaType.APPLICATION_JSON})
+	@LoadSettore
+	public Response getRicercaUtentiNoPage(
+			RicercaUtenti ricUtenti,
+			@Context SecurityContext securityContext,
+			@Context HttpHeaders httpHeaders,
+			@Context HttpServletRequest httpRequest);
+	@GET
+	@Path("cf/{cf}")
+	@LoadSettore
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response getUtenteHrByCf(
+			@PathParam("cf") String cf,
+			@Context SecurityContext securityContext,
+			@Context HttpHeaders httpHeaders,
+			@Context HttpServletRequest httpRequest);
+	@PUT
+	@Path("sposta-utenti-settore/{id-settore-old}/{id-settore-new}/controllo/{controllo}")
+	@LoadSettore
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response putSpostaUtentiSettore(
+			@PathParam("id-settore-old") UUID   idSettoreOld,
+			@PathParam("id-settore-new") UUID   idSettoreNew,
+			@PathParam("controllo")  String controllo,
+			List<Utente> utenti,
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);

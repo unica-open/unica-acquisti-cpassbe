@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -36,16 +36,18 @@ public interface ProgrammaMapper extends BaseMapperInterface<Programma, CpassTPb
 	@Mapping(source = "programmaAnno", target = "anno")
 	@Mapping(source = "programmaVersione", target = "versione")
 	@Mapping(source = "programmaDescrizione", target = "descrizione")
-	@Mapping(source = "numeroProvvedimento", target = "numeroProvvedimento")	
-	@Mapping(source = "descrizioneProvvedimento", target = "descrizioneProvvedimento")	
-	@Mapping(source = "dataProvvedimento", target = "dataProvvedimento")	
+	@Mapping(source = "numeroProvvedimento", target = "numeroProvvedimento")
+	@Mapping(source = "descrizioneProvvedimento", target = "descrizioneProvvedimento")
+	@Mapping(source = "dataProvvedimento", target = "dataProvvedimento")
 	@Mapping(source = "dataPubblicazione", target = "dataPubblicazione")
 	@Mapping(source = "cpassTEnte", target = "ente")
 	@Mapping(source = "cpassDStato", target = "stato")
 	@Mapping(source = "programmaCodiceMit", target = "codiceMit")
 	@Mapping(source = "idRicevutoMit", target = "idRicevutoMit")
-	@Mapping(source = "dataApprovazione", target = "dataApprovazione")	
-	
+	@Mapping(source = "dataApprovazione", target = "dataApprovazione")
+	@Mapping(source = "dataTrasmissioneMit", target = "dataTrasmissioneMit")
+	@Mapping(source = "annoFineProgramma", target = "annoFineProgramma")
+
 	@Mapping(source = "cpassTUtenteReferente", target = "utenteReferente")
 	Programma toModel(CpassTPbaProgramma entity);
 

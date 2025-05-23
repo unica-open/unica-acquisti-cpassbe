@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -52,18 +52,18 @@ public class CpassDPbaRisorsa implements Serializable, BaseEntity<Integer> {
 	/** The risorsa descrizione. */
 	@Column(name="risorsa_descrizione", nullable=false)
 	private String risorsaDescrizione;
-	
+
 	/** risorsa_tag_trasmissione*/
 	@Column(name="risorsa_tag_trasmissione")
 	private String risorsaTagTrasmissione;
-	
+
 	/** risorsa_ordinamento*/
 	@Column(name="risorsa_ordinamento")
 	private Integer risorsaOrdinamento;
-	
+
 	/** The risorsa tipo. */
 	@Column(name="risorsa_tipo")
-	private String risorsaTipo;	
+	private String risorsaTipo;
 
 	/** The cpass T intervento importis. */
 	//bi-directional many-to-one association to CpassTPbaInterventoImporti
@@ -79,7 +79,7 @@ public class CpassDPbaRisorsa implements Serializable, BaseEntity<Integer> {
 		return this.risorsaId;
 	}
 
-	
+
 	/**
 	 * @return the risorsaCodice
 	 */
@@ -188,7 +188,7 @@ public class CpassDPbaRisorsa implements Serializable, BaseEntity<Integer> {
 		return risorsaId;
 	}
 
-	
+
 	/**
 	 * @return the risorsaTagTrasmissione
 	 */
@@ -202,7 +202,7 @@ public class CpassDPbaRisorsa implements Serializable, BaseEntity<Integer> {
 	public void setRisorsaTagTrasmissione(String risorsaTagTrasmissione) {
 		this.risorsaTagTrasmissione = risorsaTagTrasmissione;
 	}
-	
+
 
 	/**
 	 * @return the risorsaOrdinamento

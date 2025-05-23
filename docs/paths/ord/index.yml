@@ -211,10 +211,10 @@
         description: Errore generico.
         schema:
           $ref: '#/definitions/ApiError'
-/ord/testata-ordine/invia-nso/{id}:
+/ord/testata-ordine/invia-nso-iniziale/{id}:
   put:
-    operationId: putOrdineInviaNSO
-    description: Invia ordine NSO.
+    operationId: inviaOrdineInzialeNSO
+    description: Invia ordine di tipo INIZIALE a NSO.
     produces:
       - application/json
     tags:
@@ -226,16 +226,35 @@
         type: string
         format: uuid
         description: L'id della testataOrdine.
-      - in: body
-        name: testataOrdine
-        required: true
-        schema:
-          $ref: '#/definitions/TestataOrdine'
     responses:
       '200':
-        description: testata ordine.
+        description: esito invio a NSO.
         schema:
-          $ref: '#/definitions/TestataOrdine'
+          $ref: '#/definitions/EsitoInviaOrdineNSOService'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/testata-ordine/invia-nso-revoca/{id}:
+  put:
+    operationId: inviaOrdineRevocaNSO
+    description: Invia ordine di tipo REVOCA a NSO.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della testataOrdine.
+    responses:
+      '200':
+        description: esito invio a NSO.
+        schema:
+          $ref: '#/definitions/EsitoInviaOrdineNSOService'
       default:
         description: Errore generico.
         schema:
@@ -409,10 +428,6 @@
     tags:
       - testataOrdine
     parameters:
-      - $ref: '#/parameters/offsetParam'
-      - $ref: '#/parameters/limitParam'
-      - $ref: '#/parameters/sortParam'
-      - $ref: '#/parameters/directionParam'
       - in: body
         name: provvedimento
         required: true
@@ -422,7 +437,9 @@
       '200':
         description: Provvedimenti registrati su sistema.
         schema:
-          $ref: '#/definitions/PagedResponseProvvedimento'
+          type: array
+          items:
+            $ref: '#/definitions/Provvedimento'
       default:
         description: Errore generico.
         schema:
@@ -544,7 +561,7 @@
       '200':
         description: testata ordine registrato.
         schema:
-          $ref: '#/definitions/RigaOrdine'
+          $ref: '#/definitions/RigaOrdineWrapper'
       default:
         description: Errore generico.
         schema:
@@ -698,7 +715,7 @@
       default:
         description: Errore generico.
         schema:
-          $ref: '#/definitions/ApiError'  
+          $ref: '#/definitions/ApiError'
 /ord/testata-ordine/ricerca:
   post:
     operationId: getRicercaOrdini
@@ -748,6 +765,32 @@
           type: array
           items:
             $ref: '#/definitions/TestataOrdine'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/testata-ordine/evasione-anteprima-ordine/{idEvasione}:
+  get:
+    operationId: getAnteprimeOrdineByEvasioneId
+    description: Restituisce un'anteprima delle testate Ordine per id evasione.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - in: path
+        name: idEvasione
+        required: true
+        type: string
+        format: uuid
+        description: L'id della testata evasione.
+    responses:
+      '200':
+        description: La testataOrdine registrata su sistema per dato id testata evasione.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/AnteprimaOrdineSuEvasione'
       default:
         description: Errore generico.
         schema:
@@ -829,3 +872,102 @@
         description: Errore generico.
         schema:
           $ref: '#/definitions/ApiError'
+/ord/testata-ordine/ordine-derivato:
+  post:
+    operationId: postTestataOrdineDerivato
+    description: Inserisce una testata ordine a partire da una rda su sistema.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - in: body
+        name: testataOrdine
+        required: true
+        schema:
+          $ref: '#/definitions/TestataOrdine'
+    responses:
+      '200':
+        description: testata ordine registrato.
+        schema:
+          $ref: '#/definitions/TestataOrdineWrapper'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/testata-ordine/ricerca-sezione:
+  post:
+    operationId: getRicercaSezione
+    description: Restituisce le sezioni registrate su sistema.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - $ref: '#/parameters/offsetParam'
+      - $ref: '#/parameters/limitParam'
+      - $ref: '#/parameters/sortParam'
+      - $ref: '#/parameters/directionParam'
+      - in: body
+        name: sezione
+        required: true
+        schema:
+          $ref: '#/definitions/Sezione'
+    responses:
+      '200':
+        description: Le Sezioni.
+        schema:
+          $ref: '#/definitions/PagedResponseSezione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/testata-ordine/ordine-documento/{idDocumento}:
+  get:
+    operationId: getDocumentoById
+    description: Restituisce il documento.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - in: path
+        name: idDocumento
+        required: true
+        type: integer
+        description: L'id del documento.
+    responses:
+      '200':
+        description: il documento selezionato 
+        schema:
+          $ref: '#/definitions/DocumentiOrdine'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/testata-ordine/ordine-documento/lista/{idTestata}:
+  get:
+    operationId: getDocumentiByOrdineTestataId
+    description: Restituisce la lista dei documenti collegati.
+    produces:
+      - application/json
+    tags:
+      - testataOrdine
+    parameters:
+      - in: path
+        name: idTestata
+        required: true
+        type: string
+        format: uuid
+        description: L'id della testata ordine.
+    responses:
+      '200':
+        description: lista dei documenti
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/DocumentiOrdine'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'                  

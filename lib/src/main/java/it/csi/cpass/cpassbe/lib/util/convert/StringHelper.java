@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -92,8 +92,8 @@ public final class StringHelper {
 	 */
 	public static String encodeHexString(byte[] byteArray) {
 		StringBuilder hexStringBuffer = new StringBuilder();
-		for (int i = 0; i < byteArray.length; i++) {
-			hexStringBuffer.append(byteToHex(byteArray[i]));
+		for (byte element : byteArray) {
+			hexStringBuffer.append(byteToHex(element));
 		}
 		return hexStringBuffer.toString();
 	}
@@ -231,7 +231,7 @@ public final class StringHelper {
 	public static String ifNotBlank(String string, String defaultValue) {
 		return StringUtils.isNotBlank(string) ? string.trim() : defaultValue;
 	}
-	
+
 	/**
 	 * Computes the UTF-8 length of a string
 	 * @param str the string
@@ -240,7 +240,7 @@ public final class StringHelper {
 	public static int getStringLengthUTF8(String str) {
 		return str.getBytes(StandardCharsets.UTF_8).length;
 	}
-	
+
 	/**
 	 * Trims a string to a specified length
 	 * @param original the original string
@@ -253,7 +253,7 @@ public final class StringHelper {
 		}
 		return original;
 	}
-	
+
 	/**
 	 * Transforms a string to kebab-case
 	 * @param str the string to transform
@@ -264,7 +264,7 @@ public final class StringHelper {
 				.replaceAll("([a-z0-9])([A-Z])", "$1-$2")
 				.replaceAll("([A-Z])([A-Z])(?=[a-z])", "$1-$2");
 	}
-	
+
 	/**
 	 * Merge multiple strings as a SQL-like enabled string
 	 * @param chunks the chunks to merge
@@ -281,7 +281,7 @@ public final class StringHelper {
 		}
 		return StringUtils.trimToNull(result.toString());
 	}
-	
+
 	/**
 	 * Computes the SHA-1 of a given string
 	 * @param input the input string
@@ -297,7 +297,7 @@ public final class StringHelper {
 			throw new RuntimeException("SHA-1 computation error for string \"" + input + "\"", e);
 		}
 	}
-	
+
 	/**
 	 * Computes the Base64 encoding of the SHA-1 of a given string
 	 * @param input the input string

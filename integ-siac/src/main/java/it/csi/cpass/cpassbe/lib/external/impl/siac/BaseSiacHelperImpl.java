@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - INTEGRATION submodule - SIAC
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -45,7 +45,10 @@ public abstract class BaseSiacHelperImpl extends BaseHelperImpl {
 				SiacConfigurationParams.CONSUMER_KEY,
 				SiacConfigurationParams.CONSUMER_SECRET,
 				SiacConfigurationParams.CODICE_ENTE,
-				SiacConfigurationParams.CODICE_APPLICATIVO);
+				SiacConfigurationParams.CODICE_APPLICATIVO//,
+				//SiacConfigurationParams.NUMERAZIONE_ATTI_UNIVOCA // eventualmente va aggiunto il parametro per tutti gi ambienti siac
+				
+				);
 		if(isOauth2Required(params)) {
 			// Check OAuth2 params
 			checkParameters(
@@ -68,7 +71,7 @@ public abstract class BaseSiacHelperImpl extends BaseHelperImpl {
 	
 	@Override
 	protected void addHandlerResolver(Map<String, String> params, Service service) {
-		final Level level = Level.INFO;
+		final Level level = Level.DEBUG;
 		if(isOauth2Required(params)) {
 			service.setHandlerResolver(new OAuth2HandlerResolver(level, initOAuth2Helper(params)));
 			return;
@@ -144,6 +147,7 @@ public abstract class BaseSiacHelperImpl extends BaseHelperImpl {
 				response.addMessage(message.getDescrizione());
 			}
 		}
+
 		return response;
 	}
 	

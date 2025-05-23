@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -31,7 +31,7 @@ public @interface ExternalServiceImpl {
 	 * @return the qualifier name
 	 */
 	String value();
-	
+
 	/** Inline instantiation of the {@link ExternalServiceImpl} annotation. */
 	public final static class Literal extends AnnotationLiteral<ExternalServiceImpl> implements ExternalServiceImpl {
 		private static final long serialVersionUID = 1L;

@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -13,13 +13,15 @@ package it.csi.cpass.cpassbe.ejb.business.be.service.impl.ordine;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import it.csi.cpass.cpassbe.ejb.business.be.dad.ImpegnoDad;
 import it.csi.cpass.cpassbe.ejb.business.be.dad.SettoreDad;
-import it.csi.cpass.cpassbe.ejb.business.be.service.UtilityImpegni;
 import it.csi.cpass.cpassbe.ejb.business.be.service.impl.base.BaseService;
 import it.csi.cpass.cpassbe.ejb.business.be.service.request.ordine.PostImpegniRequest;
 import it.csi.cpass.cpassbe.ejb.business.be.service.response.ordine.PostImpegniResponse;
+import it.csi.cpass.cpassbe.ejb.business.be.utility.UtilityImpegni;
 import it.csi.cpass.cpassbe.ejb.entity.CpassTEnte;
 import it.csi.cpass.cpassbe.ejb.entity.ord.CpassTFornitore;
 import it.csi.cpass.cpassbe.ejb.external.ExternalHelperLookup;
@@ -30,6 +32,7 @@ import it.csi.cpass.cpassbe.lib.IntegrationConstants;
 import it.csi.cpass.cpassbe.lib.dto.Ente;
 import it.csi.cpass.cpassbe.lib.dto.Fornitore;
 import it.csi.cpass.cpassbe.lib.dto.Impegno;
+import it.csi.cpass.cpassbe.lib.dto.Provvedimento;
 import it.csi.cpass.cpassbe.lib.dto.Settore;
 import it.csi.cpass.cpassbe.lib.dto.Subimpegno;
 import it.csi.cpass.cpassbe.lib.dto.error.MsgCpassOrd;
@@ -45,16 +48,15 @@ public class PostImpegniService extends BaseService<PostImpegniRequest, PostImpe
 
 	private final ExternalHelperLookup externalHelperLookup;
 	private final ImpegnoDad impegnoDad;
-	private SettoreDad settoreDad;
+	private final SettoreDad settoreDad;
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param configurationHelper
 	 * @param impegnoDad
 	 */
-	public PostImpegniService(ConfigurationHelper configurationHelper, ExternalHelperLookup externalHelperLookup, ImpegnoDad impegnoDad,
-			SettoreDad settoreDad) {
+	public PostImpegniService(ConfigurationHelper configurationHelper, ExternalHelperLookup externalHelperLookup, ImpegnoDad impegnoDad,SettoreDad settoreDad) {
 		super(configurationHelper);
 		this.externalHelperLookup = externalHelperLookup;
 		this.impegnoDad = impegnoDad;
@@ -68,40 +70,42 @@ public class PostImpegniService extends BaseService<PostImpegniRequest, PostImpe
 
 	@Override
 	protected void execute() {
-		Fornitore fornitoreOrdine = request.getSalvaImpegni().getTestataOrdine().getFornitore();
-		CpassTFornitore cpassTFornitoreOrdine = CpassMappers.FORNITORE.toEntity(fornitoreOrdine);
+		final Fornitore fornitoreOrdine = request.getSalvaImpegni().getTestataOrdine().getFornitore();
+		final CpassTFornitore cpassTFornitoreOrdine = CpassMappers.FORNITORE.toEntity(fornitoreOrdine);
 
 		// ente necessario per ricerca
-		Settore settore = settoreDad.findOne(request.getSalvaImpegni().getTestataOrdine().getSettore().getId());
-		Ente ente = settore.getEnte();
-		CpassTEnte cpassTEnte = CpassMappers.ENTE.toEntity(ente);
-		
+		final Settore settore = settoreDad.findOne(request.getSalvaImpegni().getTestataOrdine().getSettore().getId());
+		final Ente ente = settore.getEnte();
+		final CpassTEnte cpassTEnte = CpassMappers.ENTE.toEntity(ente);
+
 		// carico "vecchi" impegni (per controllo disponibile in modifica)
-		List<Impegno> impegnosOld = impegnoDad.getImpegniByRiga(request.getSalvaImpegni().getRigaOrdine().getId());
+		final List<Impegno> impegnosOld = impegnoDad.getImpegniByRiga(request.getSalvaImpegni().getRigaOrdine().getId());
 
 		// chiamata SIAC per verifiche
-		Impegno impegnoFiltro = new Impegno();
+		final Impegno impegnoFiltro = new Impegno();
 		impegnoFiltro.setAnnoProvvedimento(request.getSalvaImpegni().getTestataOrdine().getProvvedimento().getAnno());
 		impegnoFiltro.setNumeroProvvedimento(request.getSalvaImpegni().getTestataOrdine().getProvvedimento().getNumero());
 
-		Subimpegno subimpegnoFiltro = new Subimpegno();
+		final Subimpegno subimpegnoFiltro = new Subimpegno();
 		subimpegnoFiltro.setImpegno(impegnoFiltro);
 
-		FiltroImpegni filtroImpegni = new FiltroImpegni();
+		final FiltroImpegni filtroImpegni = new FiltroImpegni();
 		filtroImpegni.setSubimpegno(subimpegnoFiltro);
+		filtroImpegni.setTestataOrdine(request.getSalvaImpegni().getTestataOrdine());
+		arricchisciProvvedimentocolSettore( filtroImpegni, cpassTEnte.getEnteId());
+		final ExternalServiceResolveWrapper<ImpegnoHelper> handler = externalHelperLookup.lookup(ImpegnoHelper.class,ente.getId());
 
-		ExternalServiceResolveWrapper<ImpegnoHelper> handler = externalHelperLookup.lookup(ImpegnoHelper.class);
-		PagedList<Impegno> pagedListImpegni = invokeExternalService(handler, () -> handler.getInstance().getImpegni(handler.getParams(), filtroImpegni, 1, 0));
+		final PagedList<Impegno> pagedListImpegni = invokeExternalService(handler, () -> handler.getInstance().getImpegniEsterni(handler.getParams(), filtroImpegni, 1, 0,Boolean.TRUE,Boolean.FALSE));
 
 		if (pagedListImpegni != null && pagedListImpegni.getList() != null) {
-			List<Impegno> listImpegnoSIAC = pagedListImpegni.getList();
-			for (Impegno impegnoSIAC : listImpegnoSIAC) {
+			final List<Impegno> listImpegnoSIAC = pagedListImpegni.getList();
+			for (final Impegno impegnoSIAC : listImpegnoSIAC) {
 
-				for (Impegno impegno : request.getSalvaImpegni().getListImpegno()) {
+				for (final Impegno impegno : request.getSalvaImpegni().getListImpegno()) {
 					if (impegno == null) {
 						continue;
 					}
-					if (impegno.getAnnoEsercizio() != null && impegno.getAnnoEsercizio().equals(impegnoSIAC.getAnnoEsercizio()) 
+					if (impegno.getAnnoEsercizio() != null && impegno.getAnnoEsercizio().equals(impegnoSIAC.getAnnoEsercizio())
 							&& impegno.getAnno() != null && impegno.getAnno().equals(impegnoSIAC.getAnno())
 							&& impegno.getNumero() != null && impegno.getNumero().equals(impegnoSIAC.getNumero())) {
 
@@ -110,26 +114,26 @@ public class PostImpegniService extends BaseService<PostImpegniRequest, PostImpe
 						impegno.setDisponibile(UtilityImpegni.calcolaDisponibileAdOrdinare(impegnoDad, impegnoSIAC, ente.getId(), null)); // request.getSalvaImpegni().getTestataOrdine().getId()));
 
 						if (impegno.getSubimpegni() != null && impegno.getSubimpegni().size() > 0) {
-							for (Subimpegno subimpegno : impegno.getSubimpegni()) {
+							for (final Subimpegno subimpegno : impegno.getSubimpegni()) {
 
-								for (Subimpegno subimpegnoSIAC : impegnoSIAC.getSubimpegni()) {
+								for (final Subimpegno subimpegnoSIAC : impegnoSIAC.getSubimpegni()) {
 									if (subimpegno.getNumero().equals(subimpegnoSIAC.getNumero())) {
-										
+
 										// L’impegno deve essere definitivo - scartare tutti i subimpegni non definitivi (subimpegni.stato.codice != ‘D’)
 										if (!subimpegnoSIAC.getStato().equalsIgnoreCase(IntegrationConstants.IMPEGNO_STATO_DEFINITIVO)) {
 											checkCondition(false, MsgCpassOrd.ORDORDE0021.getError());
 										}
-									
+
 										subimpegno.setEnte(ente);
 										subimpegno.setDisponibile(UtilityImpegni.calcolaDisponibileAdOrdinare(impegnoDad, impegno, subimpegno, ente.getId()));
-										
+
 										BigDecimal importoOld = new BigDecimal(0);
-										for (Impegno impegnoOld : impegnosOld) {
-											if (impegno.getAnnoEsercizio() != null && impegno.getAnnoEsercizio().equals(impegnoOld.getAnnoEsercizio()) 
+										for (final Impegno impegnoOld : impegnosOld) {
+											if (impegno.getAnnoEsercizio() != null && impegno.getAnnoEsercizio().equals(impegnoOld.getAnnoEsercizio())
 													&& impegno.getAnno() != null && impegno.getAnno().equals(impegnoOld.getAnno())
 													&& impegno.getNumero() != null && impegno.getNumero().equals(impegnoOld.getNumero())) {
-												
-												for (Subimpegno subimpegnoOld : impegnoOld.getSubimpegni()) {
+
+												for (final Subimpegno subimpegnoOld : impegnoOld.getSubimpegni()) {
 													if (subimpegno.getNumero() != null && subimpegno.getNumero().equals(subimpegnoOld.getNumero())) {
 														importoOld = subimpegnoOld.getImporto();
 														if (importoOld == null) { // caso impegno creato da inserimento automatico senza importo
@@ -139,15 +143,15 @@ public class PostImpegniService extends BaseService<PostImpegniRequest, PostImpe
 												}
 											}
 										}
-									
+
 										// Il disponibile ad ordinare deve essere maggiore o al più uguale
-										BigDecimal disponibile = subimpegno.getDisponibile().add(importoOld);
+										final BigDecimal disponibile = subimpegno.getDisponibile().add(importoOld);
 										if (disponibile.compareTo(subimpegno.getImporto()) < 0) {
 											checkCondition(false, MsgCpassOrd.ORDORDE0026.getError());
 										}
 									}
 								}
-								
+
 							}
 
 						} else {
@@ -155,23 +159,23 @@ public class PostImpegniService extends BaseService<PostImpegniRequest, PostImpe
 							if (impegno.getImporto().compareTo(new BigDecimal(0)) <= 0) {
 								continue;
 							}
-							
+
 							// L’impegno deve essere definitivo - scartare tutti gli impegni senza subimpegni non definitivi (Impegni.stato != ‘D’)
 							if (!impegnoSIAC.getStato().equalsIgnoreCase(IntegrationConstants.IMPEGNO_STATO_DEFINITIVO)) {
 								checkCondition(false, MsgCpassOrd.ORDORDE0021.getError());
 							}
-							
+
 							BigDecimal importoOld = new BigDecimal(0);
-							for (Impegno impegnoOld : impegnosOld) {
-								if (impegno.getAnnoEsercizio() != null && impegno.getAnnoEsercizio().equals(impegnoOld.getAnnoEsercizio()) 
+							for (final Impegno impegnoOld : impegnosOld) {
+								if (impegno.getAnnoEsercizio() != null && impegno.getAnnoEsercizio().equals(impegnoOld.getAnnoEsercizio())
 										&& impegno.getAnno() != null && impegno.getAnno().equals(impegnoOld.getAnno())
 										&& impegno.getNumero() != null && impegno.getNumero().equals(impegnoOld.getNumero())) {
 									importoOld = impegnoOld.getImporto();
 								}
 							}
-							
+
 							// Il disponibile ad ordinare deve essere maggiore o al più uguale
-							BigDecimal disponibile = impegno.getDisponibile().add(importoOld);
+							final BigDecimal disponibile = impegno.getDisponibile().add(importoOld);
 							if (disponibile.compareTo(impegno.getImporto()) < 0) {
 								checkCondition(false, MsgCpassOrd.ORDORDE0026.getError());
 							}
@@ -182,7 +186,7 @@ public class PostImpegniService extends BaseService<PostImpegniRequest, PostImpe
 						if (impegnoSIAC.getSubimpegni() == null || impegnoSIAC.getSubimpegni().size() == 0) {
 							if (impegnoSIAC.getFornitore().getCodice() == null || impegnoSIAC.getFornitore().getCodice().trim().equals("")) {
 
-								String ctrlClasseSogg = handler.getParams().get(ConstantsCPassParametro.ChiaveEnum.CTRL_CLASSE_SOGG.getCostante());
+								final String ctrlClasseSogg = handler.getParams().get(ConstantsCPassParametro.ChiaveEnum.CTRL_CLASSE_SOGG.getCostante());
 								if (ctrlClasseSogg != null
 										&& ctrlClasseSogg.equalsIgnoreCase(ConstantsCPassParametro.ValoreEnum.CTRL_CLASSE_SOGG_ERRORE.getCostante())) {
 									checkCondition(false, MsgCpassOrd.ORDORDE0029.getError());
@@ -207,15 +211,15 @@ public class PostImpegniService extends BaseService<PostImpegniRequest, PostImpe
 		// impegni futuri
 		boolean bImpegniFuturi = false;
 
-		int annoCorrente = Calendar.getInstance().get(Calendar.YEAR);
-		for (Impegno impegno : request.getSalvaImpegni().getListImpegno()) {
+		final int annoCorrente = Calendar.getInstance().get(Calendar.YEAR);
+		for (final Impegno impegno : request.getSalvaImpegni().getListImpegno()) {
 			if (impegno == null) {
 				continue;
 			}
 			if (impegno.getAnno().intValue() <= annoCorrente) {
 				bImpegniCompetenzaResidui = true;
 			} else {
-				bImpegniFuturi = true;
+				bImpegniFuturi = Boolean.TRUE;
 			}
 		}
 		if (bImpegniCompetenzaResidui && bImpegniFuturi) {
@@ -229,6 +233,29 @@ public class PostImpegniService extends BaseService<PostImpegniRequest, PostImpe
 		separaMessaggiErrorePerTipo(response.getApiErrors());
 
 		response.setRigaOrdine(request.getSalvaImpegni().getRigaOrdine());
+	}
+
+
+	private void arricchisciProvvedimentocolSettore(FiltroImpegni filtroImpegni , UUID enteId) {
+		if(    filtroImpegni.getTestataOrdine()!=null
+				&& filtroImpegni.getTestataOrdine().getProvvedimento()!=null
+				&& filtroImpegni.getTestataOrdine().getProvvedimento().getSettore()!=null
+				&& filtroImpegni.getTestataOrdine().getProvvedimento().getSettore().getCodice()!=null
+				) {
+			final Provvedimento provvedimento = filtroImpegni.getTestataOrdine().getProvvedimento();
+			final String codiceSettore = provvedimento.getSettore().getCodice();
+			final Optional<Settore> settore = settoreDad.findByCodice (codiceSettore,enteId,false);
+			if(settore.isPresent()) {
+				provvedimento.setSettore(settore.get());
+			}else {
+				log.warn("arricchisciProvvedimentocolSettore", "**********************************************************************************************************");
+				log.warn("arricchisciProvvedimentocolSettore", "**********************************************************************************************************");
+				log.warn("arricchisciProvvedimentocolSettore", "SETTORE NON TROVATO - NON VALIDO - NON ASSOCIASTO ALL'ENTE CORRETTO " +codiceSettore +" ENTE_ID -->"+enteId);
+				log.warn("arricchisciProvvedimentocolSettore", "**********************************************************************************************************");
+				log.warn("arricchisciProvvedimentocolSettore", "**********************************************************************************************************");
+			}
+			filtroImpegni.getTestataOrdine().setProvvedimento(provvedimento);
+		}
 	}
 
 }

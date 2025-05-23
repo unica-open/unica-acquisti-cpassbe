@@ -58,7 +58,7 @@ public class InterventiDaCopia {
 	public void setInterventoImportoCopiaTipo(String interventoImportoCopiaTipo) {
 		this.interventoImportoCopiaTipo = interventoImportoCopiaTipo;
 	}
-	
+
 
 
 }

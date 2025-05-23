@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -94,7 +94,7 @@ public final class JpaQueryHelper {
 		if(fieldValue == null) {
 			return;
 		}
-		Object tmp = StringUtils.trimToEmpty(fieldValue);
+		final Object tmp = StringUtils.trimToEmpty(fieldValue);
 		if(StringUtils.isBlank((String)tmp)) {
 			return;
 		}
@@ -122,7 +122,7 @@ public final class JpaQueryHelper {
 	public static String toJpqlSearchParam(String jpqlParam) {
 		return " UPPER(TRANSLATE("+jpqlParam+",'ÀÁáàÉÈéèÍíÓóÒòÚú','AAaaEEeeIiOoOoUu')) ";
 	}
-	
+
 	/**
 	 * Adds field comparison query, in AND.
 	 *
@@ -140,17 +140,17 @@ public final class JpaQueryHelper {
 		Object tmp = fieldValue;
 		if(fieldValue instanceof String) {
 			tmp = StringUtils.trimToEmpty((String) tmp);
-			
+
 			if(StringUtils.isBlank((String)tmp)) {
 				return;
 			}
 		}
 		jpql.append(" AND ")
-			.append(fieldName)
-			.append(" ")
-			.append(comparison.getValue())
-			.append(" :")
-			.append(parameterAlias);
+		.append(fieldName)
+		.append(" ")
+		.append(comparison.getValue())
+		.append(" :")
+		.append(parameterAlias);
 		params.put(parameterAlias, tmp);
 	}
 
@@ -162,8 +162,8 @@ public final class JpaQueryHelper {
 	 */
 	public static void andFieldNotNull(StringBuilder jpql, String fieldName) {
 		jpql.append(" AND ")
-			.append(fieldName)
-			.append(" IS NOT NULL ");
+		.append(fieldName)
+		.append(" IS NOT NULL ");
 	}
 
 	/**
@@ -174,8 +174,8 @@ public final class JpaQueryHelper {
 	 */
 	public static void andFieldNull(StringBuilder jpql, String fieldName) {
 		jpql.append(" AND ")
-			.append(fieldName)
-			.append(" IS NULL ");
+		.append(fieldName)
+		.append(" IS NULL ");
 	}
 
 	/**
@@ -191,10 +191,10 @@ public final class JpaQueryHelper {
 			return;
 		}
 		jpql.append(" AND UPPER(")
-			.append(fieldName)
-			.append(") = UPPER(:")
-			.append(parameterAlias)
-			.append(")");
+		.append(fieldName)
+		.append(") = UPPER(:")
+		.append(parameterAlias)
+		.append(")");
 		params.put(parameterAlias, fieldValue);
 	}
 
@@ -232,17 +232,17 @@ public final class JpaQueryHelper {
 	 * @param fieldValue the field value
 	 */
 	private static void stringLike(String operator, StringBuilder jpql, Map<String, Object> params, String fieldName, String parameterAlias, String fieldValue) {
-		String tmp = StringUtils.trimToEmpty(fieldValue);
+		final String tmp = StringUtils.trimToEmpty(fieldValue);
 		if(StringUtils.isBlank(tmp)) {
 			return;
 		}
 		jpql.append(" ")
-			.append(operator)
-			.append(" UPPER(")
-			.append(fieldName)
-			.append(") LIKE UPPER(CONCAT('%', :")
-			.append(parameterAlias)
-			.append(", '%'))");
+		.append(operator)
+		.append(" UPPER(")
+		.append(fieldName)
+		.append(") LIKE UPPER(CONCAT('%', :")
+		.append(parameterAlias)
+		.append(", '%'))");
 		params.put(parameterAlias, tmp);
 	}
 
@@ -260,7 +260,7 @@ public final class JpaQueryHelper {
 		}
 		jpql.append(" AND ( ");
 		int i = 0;
-		for(String fieldValue : fieldValues) {
+		for(final String fieldValue : fieldValues) {
 			stringLike(i++ == 0 ? "" : "OR", jpql, params, fieldName, parameterAlias + "_" + i, fieldValue);
 		}
 		jpql.append(" ) ");
@@ -279,9 +279,9 @@ public final class JpaQueryHelper {
 			return;
 		}
 		jpql.append(" AND UPPER(")
-			.append(fieldName)
-			.append(") IN :")
-			.append(parameterAlias);
+		.append(fieldName)
+		.append(") IN :")
+		.append(parameterAlias);
 		params.put(parameterAlias, fieldValue.stream().map(String::toUpperCase).collect(Collectors.toList()));
 	}
 
@@ -299,9 +299,9 @@ public final class JpaQueryHelper {
 			return;
 		}
 		jpql.append(" AND UPPER(")
-			.append(fieldName)
-			.append(") IN :")
-			.append(parameterAlias);
+		.append(fieldName)
+		.append(") IN :")
+		.append(parameterAlias);
 		params.put(parameterAlias, fieldValue);
 	}
 
@@ -319,9 +319,9 @@ public final class JpaQueryHelper {
 			return;
 		}
 		jpql.append(", ")
-			.append(fieldName)
-			.append(" = :")
-			.append(fieldAlias);
+		.append(fieldName)
+		.append(" = :")
+		.append(fieldAlias);
 		params.put(fieldAlias, fieldValue);
 	}
 
@@ -339,12 +339,12 @@ public final class JpaQueryHelper {
 			return;
 		}
 		jpql.append(", ")
-			.append(fieldName)
-			.append(" = :")
-			.append(fieldAlias);
+		.append(fieldName)
+		.append(" = :")
+		.append(fieldAlias);
 		params.put(fieldAlias, fieldValue);
 	}
-	
+
 	/**
 	 * Checks the parameter for validita
 	 * @param jpql       the jpql
@@ -356,21 +356,41 @@ public final class JpaQueryHelper {
 	public static void andCheckDateValidita(StringBuilder jpql, Map<String, Object> params, String tableAlias, String fieldAlias, Date checkTime) {
 		// validita_inizio
 		jpql
-			.append(" AND ( ")
-			.append(tableAlias).append(".dataValiditaInizio IS NULL OR (")
-			.append(tableAlias).append(".dataValiditaInizio IS NOT NULL AND ")
-			.append(tableAlias).append(".dataValiditaInizio <= :").append(fieldAlias)
-			.append(")")
-			.append(")");
+		.append(" AND ( ")
+		.append(tableAlias).append(".dataValiditaInizio IS NULL OR (")
+		.append(tableAlias).append(".dataValiditaInizio IS NOT NULL AND ")
+		.append(tableAlias).append(".dataValiditaInizio <= :").append(fieldAlias)
+		.append(")")
+		.append(")");
 		// validita_fine
 		jpql
-			.append(" AND ( ")
-			.append(tableAlias).append(".dataValiditaFine IS NULL OR (")
-			.append(tableAlias).append(".dataValiditaFine IS NOT NULL AND ")
-			.append(tableAlias).append(".dataValiditaFine >= :").append(fieldAlias)
-			.append(")")
-			.append(")");
+		.append(" AND ( ")
+		.append(tableAlias).append(".dataValiditaFine IS NULL OR (")
+		.append(tableAlias).append(".dataValiditaFine IS NOT NULL AND ")
+		.append(tableAlias).append(".dataValiditaFine >= :").append(fieldAlias)
+		.append(")")
+		.append(")");
 	}
+
+	/**
+	 * Checks the parameter for validita
+	 * @param jpql       the jpql
+	 * @param params     the params
+	 * @param tableAlias the table alias
+	 * @param fieldAlias the field alias
+	 * @param checkTime  the time to check against
+	 */
+	public static void andCheckDateValiditaFine(StringBuilder jpql, Map<String, Object> params, String tableAlias, String fieldAlias, Date checkTime) {
+		// validita_fine
+		jpql
+		.append(" AND ( ")
+		.append(tableAlias).append(".dataValiditaFine IS NULL OR (")
+		.append(tableAlias).append(".dataValiditaFine IS NOT NULL AND ")
+		.append(tableAlias).append(".dataValiditaFine >= :").append(fieldAlias)
+		.append(")")
+		.append(")");
+	}
+
 	/**
 	 * Checks the parameter for validita
 	 * @param jpql       the jpql
@@ -381,7 +401,7 @@ public final class JpaQueryHelper {
 	public static void andCheckDateValidita(StringBuilder jpql, Map<String, Object> params, String tableAlias, Date checkTime) {
 		JpaQueryHelper.andCheckDateValidita(jpql, params, tableAlias, "now", checkTime);
 	}
-	
+
 	/**
 	 * Checks the parameter for validita
 	 * @param jpql       the jpql
@@ -392,12 +412,12 @@ public final class JpaQueryHelper {
 	 */
 	public static void andCheckDataCancellazione(StringBuilder jpql, Map<String, Object> params, String tableAlias, String fieldAlias, Date checkTime) {
 		jpql
-			.append(" AND ( ")
-			.append(tableAlias).append(".dataCancellazione IS NULL OR (")
-			.append(tableAlias).append(".dataCancellazione IS NOT NULL AND ")
-			.append(tableAlias).append(".dataCancellazione > :").append(fieldAlias)
-			.append(")")
-			.append(")");
+		.append(" AND ( ")
+		.append(tableAlias).append(".dataCancellazione IS NULL OR (")
+		.append(tableAlias).append(".dataCancellazione IS NOT NULL AND ")
+		.append(tableAlias).append(".dataCancellazione > :").append(fieldAlias)
+		.append(")")
+		.append(")");
 	}
 	/**
 	 * Checks the parameter for validita

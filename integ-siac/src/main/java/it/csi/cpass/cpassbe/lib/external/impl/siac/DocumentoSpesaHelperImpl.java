@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - INTEGRATION submodule - SIAC
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -40,7 +40,9 @@ public class DocumentoSpesaHelperImpl extends BaseSiacHelperImpl implements Docu
 		checkBaseParameters(params);
 		URL wsdlUrl = getWSDLUrl(params);
 		RicercaService_Service ricercaServiceService = wsdlUrl != null ? new RicercaService_Service(wsdlUrl) : new RicercaService_Service();
+		
 		addHandlerResolver(params, ricercaServiceService);
+		
 		RicercaService ricercaService = ricercaServiceService.getRicercaServicePort();
 		RicercaDocumentoSpesa req = composeRequest(params, filtroDocumentoSpesa,1);
 		RicercaDocumentoSpesaResponse ricercaDocumentoSpesaResponse = ricercaService.ricercaDocumentoSpesa(req);
@@ -65,8 +67,11 @@ public class DocumentoSpesaHelperImpl extends BaseSiacHelperImpl implements Docu
 		final String methodName = "getDocumentoSpesa";
 		checkBaseParameters(params);
 		URL wsdlUrl = getWSDLUrl(params);
+		
+		// Api manager 
 		RicercaService_Service ricercaServiceService = wsdlUrl != null ? new RicercaService_Service(wsdlUrl) : new RicercaService_Service();
 		addHandlerResolver(params, ricercaServiceService);
+		
 		RicercaService ricercaService = ricercaServiceService.getRicercaServicePort();
 		RicercaDocumentoSpesa req = composeRequest(params, filtroDocumentoSpesa,1);
 		RicercaDocumentoSpesaResponse ricercaDocumentoSpesaResponse = ricercaService.ricercaDocumentoSpesa(req);

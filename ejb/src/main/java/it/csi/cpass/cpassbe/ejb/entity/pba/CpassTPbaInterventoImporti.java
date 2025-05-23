@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -57,13 +57,17 @@ public class CpassTPbaInterventoImporti extends BaseAuditedEntity<UUID> implemen
 	@Column(name="intervento_importi_importo_anno_secondo", nullable=false, precision=131089)
 	private BigDecimal interventoImportiImportoAnnoSecondo;
 
-	@Column(name="motivazione")
-    private String motivazione;
-	
-	@Column(name="richiesta_motivazione")
-    private Boolean richiestaMotivazione;
+	/** The intervento importi importo anno terzo. */
+	@Column(name="intervento_importi_importo_anno_terzo", nullable=false, precision=131089)
+	private BigDecimal interventoImportiImportoAnnoTerzo;
 
-    
+	@Column(name="motivazione")
+	private String motivazione;
+
+	@Column(name="richiesta_motivazione")
+	private Boolean richiestaMotivazione;
+
+
 	/** The cpass D risorsa. */
 	//bi-directional many-to-one association to CpassDPbaRisorsa
 	@ManyToOne
@@ -149,6 +153,24 @@ public class CpassTPbaInterventoImporti extends BaseAuditedEntity<UUID> implemen
 	}
 
 	/**
+	 * Gets the intervento importi importo anno terzo.
+	 *
+	 * @return the intervento importi importo anno terzo
+	 */
+	public BigDecimal getInterventoImportiImportoAnnoTerzo() {
+		return interventoImportiImportoAnnoTerzo;
+	}
+
+	/**
+	 * Sets the intervento importi importo anno terzo.
+	 *
+	 * @param interventoImportiImportoAnnoTerzo the new intervento importi importo anno terzo
+	 */
+	public void setInterventoImportiImportoAnnoTerzo(BigDecimal interventoImportiImportoAnnoTerzo) {
+		this.interventoImportiImportoAnnoTerzo = interventoImportiImportoAnnoTerzo;
+	}
+
+	/**
 	 * Gets the cpass D risorsa.
 	 *
 	 * @return the cpass D risorsa
@@ -194,7 +216,7 @@ public class CpassTPbaInterventoImporti extends BaseAuditedEntity<UUID> implemen
 		interventoImportiId = id;
 	}
 
-	
+
 	/**
 	 * @return the motivazione
 	 */

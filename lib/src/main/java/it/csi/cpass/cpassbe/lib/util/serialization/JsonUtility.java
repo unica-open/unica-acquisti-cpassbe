@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -66,7 +66,7 @@ public final class JsonUtility {
 	public static <T> T deserialize(String json, Class<T> type) {
 		return JSONB.fromJson(json, type);
 	}
-	
+
 	/**
 	 * Parses the throwable
 	 * @param t the throwable to parse
@@ -75,7 +75,7 @@ public final class JsonUtility {
 	 */
 	public static JsonObject parseThrowable(Throwable t, boolean debugMode) {
 		JsonBuilderFactory jsonBuilderFactory = Json.createBuilderFactory(new HashMap<>());
-		
+
 		JsonObjectBuilder job = jsonBuilderFactory.createObjectBuilder();
 		job.add("class", t.getClass().getName());
 		job.add("message", t.getMessage());

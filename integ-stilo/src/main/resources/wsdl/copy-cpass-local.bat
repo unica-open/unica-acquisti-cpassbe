@@ -1,0 +1,1 @@
+copy /y C:\myworkspace\cpass\cpassbe\ear\target\cpassbe.ear C:\servers\wildfly-23.0.2.Final\standalone\deployments

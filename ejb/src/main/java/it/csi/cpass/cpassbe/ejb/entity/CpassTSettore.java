@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -11,6 +11,7 @@
 package it.csi.cpass.cpassbe.ejb.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,6 +25,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import it.csi.cpass.cpassbe.ejb.entity.base.BaseAuditedEntity;
+import it.csi.cpass.cpassbe.ejb.entity.ord.CpassRSettoreAooActa;
+import it.csi.cpass.cpassbe.ejb.entity.ord.CpassTSettoreIndirizzo;
 import it.csi.cpass.cpassbe.lib.util.uuid.UuidUtils;
 
 
@@ -46,10 +49,6 @@ public class CpassTSettore extends BaseAuditedEntity<UUID> implements Serializab
 	@Column(name="settore_id", unique=true, nullable=false)
 	private UUID settoreId;
 
-	/** The settore cap. */
-	@Column(name="settore_cap", nullable=false, length=5)
-	private String settoreCap;
-
 	/** The settore codice. */
 	@Column(name="settore_codice", nullable=false, length=50)
 	private String settoreCodice;
@@ -58,26 +57,23 @@ public class CpassTSettore extends BaseAuditedEntity<UUID> implements Serializab
 	@Column(name="settore_descrizione", nullable=false, length=500)
 	private String settoreDescrizione;
 
-	/** The settore indirizzo. */
-	@Column(name="settore_indirizzo", nullable=false, length=500)
-	private String settoreIndirizzo;
+	/** The data modifica. */
+	@Column(name="data_validita_fine")
+	private Date dataValiditaFine;
 
-	/** The settore localita. */
-	@Column(name="settore_localita", nullable=false, length=500)
-	private String settoreLocalita;
-
-	/** The settore provincia. */
-	@Column(name="settore_provincia", nullable=false, length=2)
-	private String settoreProvincia;
-
-	/** The settore telefono. */
-	@Column(name="settore_telefono", nullable=false, length=50)
-	private String settoreTelefono;
+	/** The data modifica. */
+	@Column(name="data_validita_inizio")
+	private Date dataValiditaInizio;
 
 	/** The cpass R utente settores. */
 	//bi-directional many-to-one association to CpassRUtenteSettore
 	@OneToMany(mappedBy="cpassTSettore")
 	private List<CpassRUtenteSettore> cpassRUtenteSettores;
+
+	/** The cpass R utente settores. */
+	//bi-directional many-to-one association to CpassRUtenteSettore
+	@OneToMany(mappedBy="cpassTSettore")
+	private List<CpassTSettoreIndirizzo> cpassTSettoreIndirizzos;
 
 	/** The cpass D tipo settore. */
 	//bi-directional many-to-one association to CpassDTipoSettore
@@ -90,15 +86,6 @@ public class CpassTSettore extends BaseAuditedEntity<UUID> implements Serializab
 	@ManyToOne
 	@JoinColumn(name="ente_id", nullable=false)
 	private CpassTEnte cpassTEnte;
-
-	@Column(name="settore_num_civico")
-	private String settoreNumCivico;
-
-	@Column(name="settore_contatto")
-	private String settoreContatto;
-	
-	@Column(name="settore_email")
-	private String settoreEmail;
 
 	//bi-directional many-to-one association to CpassTSettore
 	@ManyToOne
@@ -113,10 +100,27 @@ public class CpassTSettore extends BaseAuditedEntity<UUID> implements Serializab
 	@OneToMany(mappedBy="cpassTSettore")
 	private List<CpassRUfficioSettore> cpassRUfficioSettores;
 
+	//bi-directional many-to-one association to CpassRUfficioSettore
+	@OneToMany(mappedBy="cpassTSettore")
+	private List<CpassRSettoreCdc> cpassRSettoreCdcs;
+
 	//bi-directional many-to-one association to CpassRUtenteRupSettore
 	@OneToMany(mappedBy="cpassTSettore")
 	private List<CpassRUtenteRupSettore> cpassRUtenteRupSettores;
-	
+
+	//bi-directional many-to-one association to CpassRSettoreAooActa
+	@OneToMany(mappedBy="cpassTSettore")
+	private List<CpassRSettoreAooActa> cpassRSettoreAooActas;
+
+	/** The firma. */
+	@Column(name="firma", nullable=true, length=50)
+	private String firma;
+
+	/** The cpass R dirigente settores. */
+	//bi-directional many-to-one association to CpassRUtenteSettore
+	@OneToMany(mappedBy="cpassTSettore")
+	private List<CpassRDirigenteSettore> cpassRDirigenteSettore;
+
 	/**
 	 * Gets the settore id.
 	 *
@@ -133,24 +137,6 @@ public class CpassTSettore extends BaseAuditedEntity<UUID> implements Serializab
 	 */
 	public void setSettoreId(UUID settoreId) {
 		this.settoreId = settoreId;
-	}
-
-	/**
-	 * Gets the settore cap.
-	 *
-	 * @return the settore cap
-	 */
-	public String getSettoreCap() {
-		return this.settoreCap;
-	}
-
-	/**
-	 * Sets the settore cap.
-	 *
-	 * @param settoreCap the new settore cap
-	 */
-	public void setSettoreCap(String settoreCap) {
-		this.settoreCap = settoreCap;
 	}
 
 	/**
@@ -187,78 +173,6 @@ public class CpassTSettore extends BaseAuditedEntity<UUID> implements Serializab
 	 */
 	public void setSettoreDescrizione(String settoreDescrizione) {
 		this.settoreDescrizione = settoreDescrizione;
-	}
-
-	/**
-	 * Gets the settore indirizzo.
-	 *
-	 * @return the settore indirizzo
-	 */
-	public String getSettoreIndirizzo() {
-		return this.settoreIndirizzo;
-	}
-
-	/**
-	 * Sets the settore indirizzo.
-	 *
-	 * @param settoreIndirizzo the new settore indirizzo
-	 */
-	public void setSettoreIndirizzo(String settoreIndirizzo) {
-		this.settoreIndirizzo = settoreIndirizzo;
-	}
-
-	/**
-	 * Gets the settore localita.
-	 *
-	 * @return the settore localita
-	 */
-	public String getSettoreLocalita() {
-		return this.settoreLocalita;
-	}
-
-	/**
-	 * Sets the settore localita.
-	 *
-	 * @param settoreLocalita the new settore localita
-	 */
-	public void setSettoreLocalita(String settoreLocalita) {
-		this.settoreLocalita = settoreLocalita;
-	}
-
-	/**
-	 * Gets the settore provincia.
-	 *
-	 * @return the settore provincia
-	 */
-	public String getSettoreProvincia() {
-		return this.settoreProvincia;
-	}
-
-	/**
-	 * Sets the settore provincia.
-	 *
-	 * @param settoreProvincia the new settore provincia
-	 */
-	public void setSettoreProvincia(String settoreProvincia) {
-		this.settoreProvincia = settoreProvincia;
-	}
-
-	/**
-	 * Gets the settore telefono.
-	 *
-	 * @return the settore telefono
-	 */
-	public String getSettoreTelefono() {
-		return this.settoreTelefono;
-	}
-
-	/**
-	 * Sets the settore telefono.
-	 *
-	 * @param settoreTelefono the new settore telefono
-	 */
-	public void setSettoreTelefono(String settoreTelefono) {
-		this.settoreTelefono = settoreTelefono;
 	}
 
 	/**
@@ -341,48 +255,6 @@ public class CpassTSettore extends BaseAuditedEntity<UUID> implements Serializab
 		this.cpassTEnte = cpassTEnte;
 	}
 
-	/**
-	 * @return the settoreNumCivico
-	 */
-	public String getSettoreNumCivico() {
-		return settoreNumCivico;
-	}
-
-	/**
-	 * @param settoreNumCivico the settoreNumCivico to set
-	 */
-	public void setSettoreNumCivico(String settoreNumCivico) {
-		this.settoreNumCivico = settoreNumCivico;
-	}
-
-	/**
-	 * @return the settoreContatto
-	 */
-	public String getSettoreContatto() {
-		return settoreContatto;
-	}
-
-	/**
-	 * @param settoreContatto the settoreContatto to set
-	 */
-	public void setSettoreContatto(String settoreContatto) {
-		this.settoreContatto = settoreContatto;
-	}
-
-	/**
-	 * @return the settoreEmail
-	 */
-	public String getSettoreEmail() {
-		return settoreEmail;
-	}
-
-	/**
-	 * @param settoreEmail the settoreEmail to set
-	 */
-	public void setSettoreEmail(String settoreEmail) {
-		this.settoreEmail = settoreEmail;
-	}
-
 	public CpassTSettore getCpassTSettorePadre() {
 		return this.cpassTSettorePadre;
 	}
@@ -434,13 +306,60 @@ public class CpassTSettore extends BaseAuditedEntity<UUID> implements Serializab
 
 		return cpassRUfficioSettore;
 	}
-	
+
 	public List<CpassRUtenteRupSettore> getCpassRUtenteRupSettores() {
 		return this.cpassRUtenteRupSettores;
 	}
 
 	public void setCpassRUtenteRupSettores(List<CpassRUtenteRupSettore> cpassRUtenteRupSettores) {
 		this.cpassRUtenteRupSettores = cpassRUtenteRupSettores;
+	}
+
+
+	/**
+	 * @return the cpassTSettoreIndirizzos
+	 */
+	public List<CpassTSettoreIndirizzo> getCpassTSettoreIndirizzos() {
+		return cpassTSettoreIndirizzos;
+	}
+
+	/**
+	 * @param cpassTSettoreIndirizzos the cpassTSettoreIndirizzos to set
+	 */
+	public void setCpassTSettoreIndirizzos(List<CpassTSettoreIndirizzo> cpassTSettoreIndirizzos) {
+		this.cpassTSettoreIndirizzos = cpassTSettoreIndirizzos;
+	}
+
+
+
+	/**
+	 * @return the firma
+	 */
+	public String getFirma() {
+		return firma;
+	}
+
+	/**
+	 * @param firma the firma to set
+	 */
+	public void setFirma(String firma) {
+		this.firma = firma;
+	}
+
+
+
+	/**
+	 * @return the cpassRSettoreAooActas
+	 */
+	public List<CpassRSettoreAooActa> getCpassRSettoreAooActas() {
+		return cpassRSettoreAooActas;
+	}
+
+	/**
+	 * @param cpassRSettoreAooActas the cpassRSettoreAooActas to set
+	 */
+	public void setCpassRSettoreAooActas(List<CpassRSettoreAooActa> cpassRSettoreAooActas) {
+		this.cpassRSettoreAooActas = cpassRSettoreAooActas;
 	}
 
 	public CpassRUtenteRupSettore addCpassRUtenteRupSettore(CpassRUtenteRupSettore cpassRUtenteRupSettore) {
@@ -450,13 +369,72 @@ public class CpassTSettore extends BaseAuditedEntity<UUID> implements Serializab
 		return cpassRUtenteRupSettore;
 	}
 
+
 	public CpassRUtenteRupSettore removeCpassRUtenteRupSettore(CpassRUtenteRupSettore cpassRUtenteRupSettore) {
 		getCpassRUtenteRupSettores().remove(cpassRUtenteRupSettore);
 		cpassRUtenteRupSettore.setCpassTSettore(null);
 
 		return cpassRUtenteRupSettore;
 	}
-	
+
+
+	/**
+	 * @return the cpassRDirigenteSettore
+	 */
+	public List<CpassRDirigenteSettore> getCpassRDirigenteSettore() {
+		return cpassRDirigenteSettore;
+	}
+
+	/**
+	 * @param cpassRDirigenteSettore the cpassRDirigenteSettore to set
+	 */
+	public void setCpassRDirigenteSettore(List<CpassRDirigenteSettore> cpassRDirigenteSettore) {
+		this.cpassRDirigenteSettore = cpassRDirigenteSettore;
+	}
+
+
+	/**
+	 * @return the cpassRSettoreCdcs
+	 */
+	public List<CpassRSettoreCdc> getCpassRSettoreCdcs() {
+		return cpassRSettoreCdcs;
+	}
+
+	/**
+	 * @param cpassRSettoreCdcs the cpassRSettoreCdcs to set
+	 */
+	public void setCpassRSettoreCdcs(List<CpassRSettoreCdc> cpassRSettoreCdcs) {
+		this.cpassRSettoreCdcs = cpassRSettoreCdcs;
+	}
+
+	/**
+	 * @return the dataValiditaFine
+	 */
+	public Date getDataValiditaFine() {
+		return dataValiditaFine;
+	}
+
+	/**
+	 * @param dataValiditaFine the dataValiditaFine to set
+	 */
+	public void setDataValiditaFine(Date dataValiditaFine) {
+		this.dataValiditaFine = dataValiditaFine;
+	}
+
+	/**
+	 * @return the dataValiditaInizio
+	 */
+	public Date getDataValiditaInizio() {
+		return dataValiditaInizio;
+	}
+
+	/**
+	 * @param dataValiditaInizio the dataValiditaInizio to set
+	 */
+	public void setDataValiditaInizio(Date dataValiditaInizio) {
+		this.dataValiditaInizio = dataValiditaInizio;
+	}
+
 	@Override
 	public UUID getId() {
 		return settoreId;

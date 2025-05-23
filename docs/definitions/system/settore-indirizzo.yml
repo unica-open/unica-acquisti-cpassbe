@@ -4,6 +4,8 @@ SettoreIndirizzo:
     id:
       type: string
       format: uuid
+    descrizione:
+      type: string
     indirizzo:
       type: string
     numCivico:
@@ -14,6 +16,8 @@ SettoreIndirizzo:
       type: string
     cap:
       type: string
+    indirizzoCodice:
+      type: string
     contatto:
       type: string
     email:
@@ -23,3 +27,29 @@ SettoreIndirizzo:
     settore:
       type: object
       $ref: '#/definitions/Settore'
+    magazzino:
+      type: object
+      $ref: '#/definitions/Magazzino'
+    principale:
+      type: boolean
+    esternoEnte:
+      type: boolean
+    dataCreazione:
+      type: string
+      format: date-time
+    utenteCreazione:
+      type: string
+    dataModifica:
+      type: string
+      format: date-time
+    utenteModifica:
+      type: string
+    dataCancellazione:
+      type: string
+      format: date-time
+    utenteCancellazione:
+      type: string
+    optlock:
+      type: string
+      format: uuid
+      

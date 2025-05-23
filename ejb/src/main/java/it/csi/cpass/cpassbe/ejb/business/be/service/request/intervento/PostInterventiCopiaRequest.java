@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -21,25 +21,25 @@ import it.csi.cpass.cpassbe.lib.dto.pba.Intervento;
  * Request for posting the Intervento
  */
 public class PostInterventiCopiaRequest implements BaseRequest {
-
 	private List<Intervento> interventi = new ArrayList<>();
-
-	private String interventoCopiaTipo;
-	private String interventoImportoCopiaTipo;
-	private UUID idProgramma;
+	private final String interventoCopiaTipo;
+	private final String interventoImportoCopiaTipo;
+	private final UUID idProgramma;
+	private final String stato;
 
 	/**
 	 * Constructor
 	 * @param intervento the intervento
-	 * @param interventoCopiaTipo 
-	 * @param interventoImportoCopiaTipo 
-	 * @param idProgramma 
+	 * @param interventoCopiaTipo
+	 * @param interventoImportoCopiaTipo
+	 * @param idProgramma
 	 */
-	public PostInterventiCopiaRequest(List<Intervento> interventi,String interventoCopiaTipo,String interventoImportoCopiaTipo, UUID idProgramma) {
+	public PostInterventiCopiaRequest(List<Intervento> interventi,String interventoCopiaTipo,String interventoImportoCopiaTipo, UUID idProgramma,String stato) {
 		this.interventi = interventi;
 		this.interventoCopiaTipo=interventoCopiaTipo;
 		this.interventoImportoCopiaTipo=interventoImportoCopiaTipo;
 		this.idProgramma = idProgramma;
+		this.stato = stato;
 	}
 
 
@@ -48,6 +48,14 @@ public class PostInterventiCopiaRequest implements BaseRequest {
 	 */
 	public UUID getIdProgramma() {
 		return idProgramma;
+	}
+
+
+	/**
+	 * @return the stato
+	 */
+	public String getStato() {
+		return stato;
 	}
 
 	/**
@@ -71,5 +79,5 @@ public class PostInterventiCopiaRequest implements BaseRequest {
 	public List<Intervento> getInterventi() {
 		return interventi;
 	}
-	
+
 }

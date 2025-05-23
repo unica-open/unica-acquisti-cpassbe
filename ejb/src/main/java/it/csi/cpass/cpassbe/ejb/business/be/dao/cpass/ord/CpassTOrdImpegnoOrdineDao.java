@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -23,12 +23,12 @@ import it.csi.cpass.cpassbe.ejb.entity.ord.CpassTOrdImpegnoOrdine;
 public interface CpassTOrdImpegnoOrdineDao extends BaseAuditedEntityDao<UUID, CpassTOrdImpegnoOrdine> {
 
 	public List<CpassTOrdImpegnoOrdine> getImpegniCollegati(UUID testataOrdineId);
-	
-	public BigDecimal calcolaOrdinato(UUID impegnoId, UUID testataOrdineId);
-	
+	public BigDecimal calcolaOrdinato(UUID impegnoId,Integer impegnoAnnoEsercizio, UUID testataOrdineId);
 	public List<CpassTOrdImpegnoOrdine> getImpegni(UUID rigaOrdineId);
 	public List<CpassTOrdImpegnoOrdine> getImpegniNonPresentiEvasione(UUID rigaOrdineId, UUID rigaEvasioneId);
-	
 	public void deleteByRiga(UUID rigaOrdineId);
-	
+	public void deleteFromTestataordine(UUID testataOrdineId);
+	public BigDecimal calcolaOrdinatoImpegno(Integer annoEsercizio, Integer annoImpegno, Integer numeroImpegno,Integer annoEsercizioSuOrdine,UUID enteId);
+	public void updateFromTestataordine(UUID testataOrdineId);
+
 }

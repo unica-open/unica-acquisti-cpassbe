@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -11,23 +11,28 @@
 package it.csi.cpass.cpassbe.ejb.entity.ord.evasione;
 
 import java.io.Serializable;
-import javax.persistence.*;
-
-import it.csi.cpass.cpassbe.ejb.entity.CpassTSettore;
-import it.csi.cpass.cpassbe.ejb.entity.base.BaseAuditedEntity;
-import it.csi.cpass.cpassbe.ejb.entity.ord.CpassDStatoElOrdine;
-import it.csi.cpass.cpassbe.ejb.entity.ord.CpassTOrdDestinatarioOrdine;
-import it.csi.cpass.cpassbe.ejb.entity.ord.evasione.CpassTOrdRigaEvasione;
-import it.csi.cpass.cpassbe.ejb.entity.ord.evasione.CpassTOrdTestataEvasione;
-import it.csi.cpass.cpassbe.lib.util.uuid.UuidUtils;
-
 import java.util.List;
 import java.util.UUID;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import it.csi.cpass.cpassbe.ejb.entity.CpassDStato;
+import it.csi.cpass.cpassbe.ejb.entity.CpassTSettore;
+import it.csi.cpass.cpassbe.ejb.entity.base.BaseAuditedEntity;
+import it.csi.cpass.cpassbe.ejb.entity.ord.CpassTOrdDestinatarioOrdine;
+import it.csi.cpass.cpassbe.lib.util.uuid.UuidUtils;
 
 
 /**
  * The persistent class for the cpass_t_ord_destinatario_evasione database table.
- * 
+ *
  */
 @Entity
 @Table(name="cpass_t_ord_destinatario_evasione")
@@ -44,10 +49,11 @@ public class CpassTOrdDestinatarioEvasione extends BaseAuditedEntity<UUID> imple
 
 	private Integer progressivo;
 
-	//bi-directional many-to-one association to CpassDStatoElOrdine
+
+	//bi-directional many-to-one association to CpassDStato
 	@ManyToOne
-	@JoinColumn(name="stato_el_ordine_id")
-	private CpassDStatoElOrdine cpassDStatoElOrdine;
+	@JoinColumn(name="stato_id")
+	private CpassDStato cpassDStato;
 
 	//bi-directional many-to-one association to CpassTOrdDestinatario
 	@ManyToOne
@@ -67,7 +73,7 @@ public class CpassTOrdDestinatarioEvasione extends BaseAuditedEntity<UUID> imple
 	//bi-directional many-to-one association to CpassTOrdRigaEvasione
 	@OneToMany(mappedBy="cpassTOrdDestinatarioEvasione")
 	private List<CpassTOrdRigaEvasione> cpassTOrdRigaEvasiones;
-	
+
 	private String cap;
 	private String email;
 	private String indirizzo;
@@ -98,16 +104,22 @@ public class CpassTOrdDestinatarioEvasione extends BaseAuditedEntity<UUID> imple
 		this.progressivo = progressivo;
 	}
 
-	public CpassDStatoElOrdine getCpassDStatoElOrdine() {
-		return this.cpassDStatoElOrdine;
-	}
-
-	public void setCpassDStatoElOrdine(CpassDStatoElOrdine cpassDStatoElOrdine) {
-		this.cpassDStatoElOrdine = cpassDStatoElOrdine;
-	}
-
 	public CpassTOrdDestinatarioOrdine getCpassTOrdDestinatarioOrdine() {
 		return this.cpassTOrdDestinatarioOrdine;
+	}
+
+	/**
+	 * @return the cpassDStato
+	 */
+	public CpassDStato getCpassDStato() {
+		return cpassDStato;
+	}
+
+	/**
+	 * @param cpassDStato the cpassDStato to set
+	 */
+	public void setCpassDStato(CpassDStato cpassDStato) {
+		this.cpassDStato = cpassDStato;
 	}
 
 	public void setCpassTOrdDestinatarioOrdine(CpassTOrdDestinatarioOrdine cpassTOrdDestinatarioOrdine) {
@@ -150,7 +162,7 @@ public class CpassTOrdDestinatarioEvasione extends BaseAuditedEntity<UUID> imple
 		cpassTOrdRigaEvasione.setCpassTOrdDestinatarioEvasione(null);
 		return cpassTOrdRigaEvasione;
 	}
-	
+
 	public String getCap() {
 		return cap;
 	}

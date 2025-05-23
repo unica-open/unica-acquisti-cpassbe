@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -24,7 +24,7 @@ import it.csi.cpass.cpassbe.lib.dto.Settore;
  */
 public class GetSettoriByRupIdService extends BaseService<GetSettoriByRupIdRequest, GetSettoriByRupIdResponse> {
 
-    private UtenteDad utenteDad;
+	private final UtenteDad utenteDad;
 	public GetSettoriByRupIdService(ConfigurationHelper configurationHelper, UtenteDad utenteDad) {
 		super(configurationHelper);
 		this.utenteDad = utenteDad;
@@ -37,7 +37,7 @@ public class GetSettoriByRupIdService extends BaseService<GetSettoriByRupIdReque
 
 	@Override
 	protected void execute() {
-		List<Settore> settori = utenteDad.getSettoriByRupId(request.getId());
+		final List<Settore> settori = utenteDad.getSettoriByRupId(request.getId());
 		response.setSettori(settori);
 	}
 

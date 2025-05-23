@@ -42,9 +42,9 @@ DestinatarioEvasione:
     settore:
       type: object
       $ref: '#/definitions/Settore'
-    statoElOrdine:
+    stato:
       type: object
-      $ref: '#/definitions/StatoElOrdine'
+      $ref: '#/definitions/Stato'
     telefono:
       type: string
     testataEvasione:
@@ -55,4 +55,6 @@ DestinatarioEvasione:
     utenteCreazione:
       type: string
     utenteModifica:
+      type: string
+    sede:
       type: string

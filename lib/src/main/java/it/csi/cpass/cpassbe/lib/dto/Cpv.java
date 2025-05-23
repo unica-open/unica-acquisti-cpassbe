@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -47,7 +47,9 @@ public class Cpv extends BaseDto<Integer> implements Serializable {
 	private List<Cpv> listCpv = new ArrayList<>();
 	/** The cpvIdPadre. */
 	private Integer idPadre;
-	
+
+	private List<Ods> oggettiSpesa;
+
 	/** Default constructor */
 	public Cpv() {}
 
@@ -217,7 +219,7 @@ public class Cpv extends BaseDto<Integer> implements Serializable {
 		this.listCpv = listCpv;
 	}
 
-	
+
 	/**
 	 * @return the livello
 	 */
@@ -232,7 +234,7 @@ public class Cpv extends BaseDto<Integer> implements Serializable {
 		this.livello = livello;
 	}
 
-	
+
 	/**
 	 * @return the idPadre
 	 */
@@ -245,6 +247,21 @@ public class Cpv extends BaseDto<Integer> implements Serializable {
 	 */
 	public void setIdPadre(Integer idPadre) {
 		this.idPadre = idPadre;
+	}
+
+
+	/**
+	 * @return the oggettiSpesa
+	 */
+	public List<Ods> getOggettiSpesa() {
+		return oggettiSpesa;
+	}
+
+	/**
+	 * @param oggettiSpesa the oggettiSpesa to set
+	 */
+	public void setOggettiSpesa(List<Ods> oggettiSpesa) {
+		this.oggettiSpesa = oggettiSpesa;
 	}
 
 	@Override

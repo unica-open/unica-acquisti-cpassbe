@@ -1,0 +1,31 @@
+UtenteSettore:
+  type: object
+  properties:
+    dataValiditaFine:
+      type: string
+      format: date-time
+    dataValiditaInizio:
+      type: string
+      format: date-time
+    dirigente:
+      type: boolean
+    id:
+      type: integer
+    ruoloUtenteSettores:
+      type: array
+      items:  
+        $ref: '#/definitions/RuoloUtenteSettore'
+    rup:
+      type: boolean
+    settore:
+      type: object
+      $ref: '#/definitions/Settore'
+    seziones:
+      type: array
+      items:  
+        $ref: '#/definitions/Sezione'
+    utente:
+      type: object
+      $ref: '#/definitions/Utente'
+    utenteSettoreDefault:
+      type: boolean

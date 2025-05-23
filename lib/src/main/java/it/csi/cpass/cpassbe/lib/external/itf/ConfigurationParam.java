@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -21,7 +21,7 @@ public interface ConfigurationParam {
 	 * @return the param name
 	 */
 	String getParamName();
-	
+
 	/**
 	 * Checks whether the given argument equals the configuration
 	 * @param parametro the parametro to check

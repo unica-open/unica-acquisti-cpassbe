@@ -23,39 +23,40 @@
 
   <properties>
     <!-- Modules version -->
-    <revision>1.0.0</revision>
-
+    <revision>2.1.0</revision>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <!-- Compiler configuration -->
     <maven.compiler.target>11</maven.compiler.target>
     <maven.compiler.source>11</maven.compiler.source>
 
     <!-- Configuration for the remote repository -->
-    <repository.url>http://repart.csi.it/artifactory/maven2</repository.url>
-
+    <!-- <repository.url>http://repart.csi.it/artifactory/maven2</repository.url> -->
+    <repository.url>https://repo.maven.apache.org/maven2</repository.url>
     <!-- Dependencies configuration -->
     <dependencies.version.commons-lang>2.6</dependencies.version.commons-lang>
-    <dependencies.version.commons-text>1.8</dependencies.version.commons-text>
-    <dependencies.version.gson>2.8.1</dependencies.version.gson>
+    <dependencies.version.commons-io>2.5</dependencies.version.commons-io>
+    <dependencies.version.commons-text>1.10.0</dependencies.version.commons-text>
+    <dependencies.version.gson>2.8.9</dependencies.version.gson>
     <dependencies.version.gson-fire>1.8.0</dependencies.version.gson-fire>
     <dependencies.version.javax-cache-api>1.0.0</dependencies.version.javax-cache-api>
-    <dependencies.version.jaxb-api>2.3.1</dependencies.version.jaxb-api>
+    <dependencies.version.jaxb-api>2.4.0-b180830.0359</dependencies.version.jaxb-api>
     <dependencies.version.jaxws-api>2.3.1</dependencies.version.jaxws-api>
     <dependencies.version.jboss.bom>17.0.0.Final</dependencies.version.jboss.bom>
     <dependencies.version.jee>8.0.1</dependencies.version.jee>
-    <dependencies.version.joda-time>2.3</dependencies.version.joda-time>
+    <dependencies.version.joda-time>2.9.7</dependencies.version.joda-time>
     <dependencies.version.jws-api>1.1</dependencies.version.jws-api>
-    <dependencies.version.log4j>2.13.3</dependencies.version.log4j>
+    <dependencies.version.log4j>2.17.0</dependencies.version.log4j>
     <dependencies.version.mapstruct>1.4.1.Final</dependencies.version.mapstruct>
     <dependencies.version.okhttp>2.7.5</dependencies.version.okhttp>
-    <dependencies.version.postgresql>9.4-1201-jdbc4</dependencies.version.postgresql>
+    <dependencies.version.postgresql>42.7.3</dependencies.version.postgresql>
     <dependencies.version.shrinkwrap-resolver-bom>2.1.1</dependencies.version.shrinkwrap-resolver-bom>
     <dependencies.version.swagger-core>1.5.18</dependencies.version.swagger-core>
     <dependencies.version.threetenbp>1.3.5</dependencies.version.threetenbp>
-    <dependencies.version.httpclient>4.5.12</dependencies.version.httpclient>
+    <dependencies.version.httpclient>4.5.13</dependencies.version.httpclient>
 
     <!-- Module configuration -->
     <module.ear.context-root.angular>/cpass</module.ear.context-root.angular>
+	<module.ear.context-root.exposed>/exposed</module.ear.context-root.exposed>
     <module.ear.context-root.rest>/rest</module.ear.context-root.rest>
 
     <!-- Plugin configuration -->
@@ -74,17 +75,21 @@
     <plugin.version.surefire>2.22.1</plugin.version.surefire>
     <plugin.version.war>3.2.2</plugin.version.war>
     <plugin.version.wildfly.maven>2.0.0.Final</plugin.version.wildfly.maven>
-    <plugin.version.xjc>3.3.0</plugin.version.xjc>
+    <plugin.version.xjc>3.3.10</plugin.version.xjc>
   </properties>
 
   <modules>
     <module>lib</module>
+    <module>integ-hr</module>
     <module>integ-siac</module>
     <module>integ-stilo</module>
     <module>integ-notier</module>
+    <module>integ-acta</module>
+    <module>integ-sicraweb</module>
     <module>ejb</module>
     <module>web</module>
     <module>angular</module>
+	<module>exposed</module>
     <module>ear</module>
     <module>tar</module>
   </modules>
@@ -102,6 +107,25 @@
       <dependency>
         <groupId>${project.groupId}</groupId>
         <artifactId>cpassbe-integ-siac</artifactId>
+        <version>${revision}</version>
+        <type>ejb</type>
+      </dependency>
+       
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>cpassbe-integ-hr</artifactId>
+        <version>${revision}</version>
+        <type>ejb</type>
+      </dependency> 
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>cpassbe-integ-sicraweb</artifactId>
+        <version>${revision}</version>
+        <type>ejb</type>
+      </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>cpassbe-integ-acta</artifactId>
         <version>${revision}</version>
         <type>ejb</type>
       </dependency>
@@ -140,6 +164,14 @@
         <type>war</type>
         <scope>compile</scope>
       </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>cpassbe-exposed</artifactId>
+        <version>${revision}</version>
+        <type>war</type>
+        <scope>compile</scope>
+      </dependency>
+
       <!-- Define the version of the EAR so that we don't need to repeat ourselves in every module -->
       <dependency>
         <groupId>${project.groupId}</groupId>
@@ -386,7 +418,7 @@
       <url>${repository.url}</url>
     </repository>
     <repository>
-      <snapshots></snapshots>
+      <snapshots/>
       <id>snapshots</id>
       <name>maven2</name>
       <url>${repository.url}</url>
@@ -403,7 +435,7 @@
       <url>${repository.url}</url>
     </pluginRepository>
     <pluginRepository>
-      <snapshots></snapshots>
+      <snapshots/>
       <id>snapshots</id>
       <name>maven2</name>
       <url>${repository.url}</url>
@@ -427,9 +459,15 @@
       </properties>
     </profile>
     <profile>
-      <id>dev-int-01</id>
+      <id>dev-coto-01</id>
       <properties>
-        <build.profile.id>dev-int-01</build.profile.id>
+        <build.profile.id>dev-coto-01</build.profile.id>
+      </properties>
+    </profile>
+    <profile>
+      <id>dev-mult-01</id>
+      <properties>
+        <build.profile.id>dev-mult-01</build.profile.id>
       </properties>
     </profile>
     <profile>
@@ -445,9 +483,15 @@
       </properties>
     </profile>
     <profile>
-      <id>test-int-01</id>
+      <id>test-coto-01</id>
       <properties>
-        <build.profile.id>test-int-01</build.profile.id>
+        <build.profile.id>test-coto-01</build.profile.id>
+      </properties>
+    </profile>
+    <profile>
+      <id>test-mult-01</id>
+      <properties>
+        <build.profile.id>test-mult-01</build.profile.id>
       </properties>
     </profile>
     <profile>
@@ -457,15 +501,21 @@
       </properties>
     </profile>
     <profile>
-      <id>prod-int-01</id>
+      <id>prod-mult-01</id>
       <properties>
-        <build.profile.id>prod-int-01</build.profile.id>
+        <build.profile.id>prod-mult-01</build.profile.id>
       </properties>
     </profile>
     <profile>
       <id>prod-cmto-01</id>
       <properties>
         <build.profile.id>prod-cmto-01</build.profile.id>
+      </properties>
+    </profile>
+    <profile>
+      <id>prod-coto-01</id>
+      <properties>
+        <build.profile.id>prod-coto-01</build.profile.id>
       </properties>
     </profile>
     <profile>
@@ -653,7 +703,11 @@
               <excludes>
                 <exclude>main/angular/**/*</exclude>
                 <exclude>main/java/it/csi/siac/**/*</exclude>
+                <exclude>main/java/it/csi/hr/**/*</exclude>
+                <exclude>main/java/it/csi/acta/**/*</exclude>
+                <exclude>main/java/it/csi/sicraweb/**/*</exclude>
                 <exclude>main/java/it/eng/auriga/**/*</exclude>
+                <exclude>main/java/org/**/*</exclude>
               </excludes>
             </configuration>
           </plugin>

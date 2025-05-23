@@ -13,8 +13,6 @@
  **********************************************/
 package it.csi.cpass.cpassbe.web.business.be.api;
 
-import java.util.UUID;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -29,6 +27,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 import it.csi.cpass.cpassbe.lib.dto.Elaborazione;
+import it.csi.cpass.cpassbe.web.util.annotation.LoadSettore;
 
 
 
@@ -59,13 +58,13 @@ public interface ElaborazioneApi {
     */
 	/**
 	 * Posts an Elaborazione
-	 * @param utElaborazione 
+	 * @param utElaborazione
 	 * @param securityContext the security context
 	 * @param httpHeaders the HTTP headers
 	 * @param httpRequest the HTTP request
 	 * @return the response
 	 */
-	
+
 	@POST
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response postElaborazione(
@@ -87,6 +86,7 @@ public interface ElaborazioneApi {
 
 	@PUT
 	@Path("{id}")
+	@LoadSettore
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response putElaborazioneById(
 			@PathParam("id") Integer id,
@@ -94,7 +94,7 @@ public interface ElaborazioneApi {
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
-	
+
 	/**
 	 * Gets an Elaborazione by its entity
 	 * @param id the entity id
@@ -105,6 +105,7 @@ public interface ElaborazioneApi {
 	 */
 	@GET
 	@Path("by-entity/{entityId}")
+	@LoadSettore
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response getElaborazioniByEntity(
 			@PathParam("entityId") String id,
@@ -113,6 +114,16 @@ public interface ElaborazioneApi {
 			@Context HttpServletRequest httpRequest);
 
 
+	@GET
+	@Path("by-entity/{entityId}/tipo-messaggio/{tipo}")
+	@LoadSettore
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response getMessaggiByUltimaElaborazione(
+			@PathParam("entityId") String id,
+			@PathParam("tipo") String tipo,
+			@Context SecurityContext securityContext,
+			@Context HttpHeaders httpHeaders,
+			@Context HttpServletRequest httpRequest);
 	/**
 	 * Gets an Elaborazione by its id
 	 * @param id the id

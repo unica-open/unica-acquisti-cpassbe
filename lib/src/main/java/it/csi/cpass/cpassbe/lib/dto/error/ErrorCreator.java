@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -19,7 +19,7 @@ import it.csi.cpass.cpassbe.lib.dto.ApiError;
  * An error creator
  */
 public interface ErrorCreator {
-	
+
 	/** Prefix for grouped properties */
 	public static final String GROUP = "group.";
 
@@ -35,7 +35,7 @@ public interface ErrorCreator {
 	 * @return the message
 	 */
 	public String getMessage();
-	
+
 	/**
 	 * @return the type
 	 */
@@ -51,7 +51,7 @@ public interface ErrorCreator {
 		// TODO: lanciare eccezione?
 		Map<String, Object> paramsMap = new HashMap<>();
 		Map<String, Object> groupParamsMap = new HashMap<>();
-		
+
 		for(int i = 0; i < params.length; i += 2) {
 			String paramName = (String) params[i];
 			if (paramName.startsWith(GROUP)) {
@@ -60,7 +60,7 @@ public interface ErrorCreator {
 				paramsMap.put(paramName, params[i + 1]);
 			}
 		}
-		
+
 		ApiError apiError = new ApiError();
 		apiError.setCode(getCode());
 		apiError.setType(getType());

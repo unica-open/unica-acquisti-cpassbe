@@ -25,7 +25,7 @@ public class WebFileHolder {
 	private byte[] attachment;
 	@FormParam("idEnte")
 	private String idEnte;
-	
+
 	/**
 	 * @return the attachment
 	 */

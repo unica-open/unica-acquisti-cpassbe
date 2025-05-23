@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -15,14 +15,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import it.csi.cpass.cpassbe.ejb.entity.ord.evasione.CpassTOrdSubimpegnoEvasione;
-import it.csi.cpass.cpassbe.ejb.mapper.SettoreMapper;
-import it.csi.cpass.cpassbe.ejb.mapper.StatoMapper;
 import it.csi.cpass.cpassbe.ejb.mapper.StringMapper;
 import it.csi.cpass.cpassbe.ejb.mapper.SubImpegnoMapper;
-import it.csi.cpass.cpassbe.ejb.mapper.ord.DestinatarioOrdineMapper;
-import it.csi.cpass.cpassbe.ejb.mapper.ord.StatoElOrdineMapper;
 import it.csi.cpass.cpassbe.ejb.mapper.ord.SubimpegnoOrdineMapper;
-import it.csi.cpass.cpassbe.lib.dto.ord.StatoElOrdine;
 import it.csi.cpass.cpassbe.lib.dto.ord.evasione.SubimpegnoEvasione;
 import it.csi.cpass.cpassbe.lib.mapper.BaseMapperInterface;
 
@@ -34,8 +29,8 @@ public interface SubimpegnoEvasioneMapper extends BaseMapperInterface<Subimpegno
 	@Mapping(source = "cpassTOrdSubimpegnoOrdine", target = "subimpegnoOrdine")
 	@Mapping(source = "cpassTSubimpegno", target = "subimpegno")
 	@Mapping(source = "cpassDOrdCausaleSospensioneEvasione", target = "causaleSospensioneEvasione")
-	
-	
+
+
 	SubimpegnoEvasione toModel(CpassTOrdSubimpegnoEvasione entity);
 
 	@Override

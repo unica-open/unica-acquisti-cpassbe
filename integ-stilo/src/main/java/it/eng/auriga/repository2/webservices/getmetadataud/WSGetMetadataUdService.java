@@ -2,6 +2,7 @@
 package it.eng.auriga.repository2.webservices.getmetadataud;
 
 import java.net.URL;
+
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 import javax.xml.ws.WebEndpoint;

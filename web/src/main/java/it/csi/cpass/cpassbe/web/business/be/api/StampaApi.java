@@ -27,6 +27,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 import it.csi.cpass.cpassbe.ejb.util.mime.MimeTypeContainer.MimeType;
+import it.csi.cpass.cpassbe.web.util.annotation.LoadSettore;
 
 
 /**
@@ -34,6 +35,7 @@ import it.csi.cpass.cpassbe.ejb.util.mime.MimeTypeContainer.MimeType;
  */
 @Path("stampa")
 @Produces({MediaType.APPLICATION_JSON})
+@LoadSettore
 public interface StampaApi {
 	/**
 	 * Stampa
@@ -47,12 +49,34 @@ public interface StampaApi {
 	 */
 	@POST
 	@Path("{nome-stampa}/{format-file}")
-	@Produces({MimeType.EXCEL_WORKBOOK, MimeType.PDF})
+	@Produces({MimeType.EXCEL_WORKBOOK,MimeType.EXCEL_SPREADSHEET, MimeType.PDF, MimeType.ZIP})
 	public Response stampa(
 			@PathParam("nome-stampa") String nomeStampa,
 			@PathParam("format-file") String formatFile,
 			List<String> param,
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
-			@Context HttpServletRequest httpRequest);	
+			@Context HttpServletRequest httpRequest);
+
+	/**
+	 * Stampa
+	 * @param nomeStampa the nome stampa
+	 * @param formatFile the format file
+	 * @param param the param
+	 * @param securityContext the security context
+	 * @param httpHeaders the HTTP headers
+	 * @param httpRequest the HTTP request
+	 * @return the response
+	 */
+	@POST
+	@Path("withname/{logic-name}/{file-name}/{format-file}")
+	@Produces({MimeType.EXCEL_WORKBOOK,MimeType.EXCEL_SPREADSHEET, MimeType.PDF, MimeType.ZIP})
+	public Response printWithName(
+			@PathParam("logic-name")  String logicName,
+			@PathParam("file-name")   String fileName,
+			@PathParam("format-file") String formatFile,
+			List<String> param,
+			@Context SecurityContext securityContext,
+			@Context HttpHeaders httpHeaders,
+			@Context HttpServletRequest httpRequest);
 }

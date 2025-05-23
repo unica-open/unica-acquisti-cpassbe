@@ -44,10 +44,10 @@ public class ProgrammaApiServiceImpl extends BaseRestServiceImpl implements Prog
 	public Response postProgramma(Programma programma, SecurityContext securityContext, HttpHeaders httpHeaders, @Context HttpServletRequest httpRequest) {
 		return invoke(() -> programmaFacade.postProgramma(programma));
 	}
-	
+
 	@Override
-	public Response postProgrammaCopia(Boolean soloControlli, Programma programma, SecurityContext securityContext, HttpHeaders httpHeaders, @Context HttpServletRequest httpRequest) {
-		return invoke(() -> programmaFacade.postProgrammaCopia(programma, soloControlli));
+	public Response postProgrammaCopia(Boolean soloControlli,String statoCopia, Programma programma, SecurityContext securityContext, HttpHeaders httpHeaders, @Context HttpServletRequest httpRequest) {
+		return invoke(() -> programmaFacade.postProgrammaCopia(programma, soloControlli,statoCopia));
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class ProgrammaApiServiceImpl extends BaseRestServiceImpl implements Prog
 			HttpServletRequest httpRequest) {
 		return invoke(() -> programmaFacade.putProgrammaStatoRiportaInBozzaById(id, programma));
 	}
-	
+
 	@Override
 	public Response getProgrammiBySettore(UUID settoreId, Boolean soloValidi ,SecurityContext securityContext, HttpHeaders httpHeaders, HttpServletRequest httpRequest) {
 		return invoke(() -> programmaFacade.getProgrammiBySettore(settoreId, soloValidi));
@@ -84,19 +84,20 @@ public class ProgrammaApiServiceImpl extends BaseRestServiceImpl implements Prog
 	public Response getProgrammiBySettoreAndStato(UUID settoreId, String statoCode, SecurityContext securityContext,HttpHeaders httpHeaders, HttpServletRequest httpRequest) {
 		return invoke(() -> programmaFacade.getProgrammiBySettoreAndStato(settoreId, statoCode));
 	}
+	/*
 	@Override
 	public Response getUltimiProgrammiBySettoreAndStato(UUID settoreId, String statoCode,SecurityContext securityContext, HttpHeaders httpHeaders, HttpServletRequest httpRequest) {
 		return invoke(() -> programmaFacade.getUltimiProgrammiBySettoreAndStato(settoreId, statoCode));
-	}	
+	}*/
 	@Override
 	public Response getProgrammiTrasmissioneMIT(SecurityContext securityContext, HttpHeaders httpHeaders,
 			HttpServletRequest httpRequest) {
 		return invoke(() -> programmaFacade.getProgrammiTrasmissioneMIT());
 	}
-	
+
 	@Override
-	public Response putTrasmettiProgrammaById(UUID idProgramma, UUID idUtente, String modalitaInvio, SecurityContext securityContext, HttpHeaders httpHeaders,HttpServletRequest httpRequest) {
-		return invoke(() -> programmaFacade.putTrasmettiProgrammaById(idProgramma, idUtente, modalitaInvio));
+	public Response putTrasmettiProgramma(Programma programma, UUID idUtente, String modalitaInvio, SecurityContext securityContext, HttpHeaders httpHeaders,HttpServletRequest httpRequest) {
+		return invoke(() -> programmaFacade.putTrasmettiProgramma(programma, idUtente, modalitaInvio));
 	}
-	
+
 }

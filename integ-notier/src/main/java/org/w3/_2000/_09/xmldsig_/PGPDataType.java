@@ -2,9 +2,9 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - INTEGRATION submodule - NotiER
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2021 CSI Piemonte
  * %%
- * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
+ * SPDX-FileCopyrightText: Copyright 2019 - 2021 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
  * =========================LICENSE_END==================================
  */
@@ -13,6 +13,7 @@ package org.w3._2000._09.xmldsig_;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -20,6 +21,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlElementRefs;
 import javax.xml.bind.annotation.XmlType;
+
 import org.w3c.dom.Element;
 
 
@@ -69,8 +71,8 @@ public class PGPDataType {
      * <p>
      * Questa proprietà "catch-all" viene recuperata per il seguente motivo: 
      * Il nome di campo "PGPKeyPacket" è usato da due diverse parti di uno schema. Vedere: 
-     * riga 230 di file:/D:/workspace-cpass/cpassbe/integ-notier/src/main/resources/peppol/xsd/common/UBL-xmldsig-core-schema-2.1.xsd
-     * riga 225 di file:/D:/workspace-cpass/cpassbe/integ-notier/src/main/resources/peppol/xsd/common/UBL-xmldsig-core-schema-2.1.xsd
+     * riga 218 di http://www.w3.org/TR/2002/REC-xmldsig-core-20020212/xmldsig-core-schema.xsd
+     * riga 213 di http://www.w3.org/TR/2002/REC-xmldsig-core-20020212/xmldsig-core-schema.xsd
      * <p>
      * Per eliminare questa proprietà, applicare una personalizzazione della proprietà a una 
      * delle seguenti due dichiarazioni per modificarne il nome: 

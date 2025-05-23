@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -25,20 +25,17 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import it.csi.cpass.cpassbe.ejb.entity.CpassDAliquoteIva;
+import it.csi.cpass.cpassbe.ejb.entity.CpassDOggettiSpesa;
+import it.csi.cpass.cpassbe.ejb.entity.CpassDStato;
 import it.csi.cpass.cpassbe.ejb.entity.CpassTListinoFornitore;
 import it.csi.cpass.cpassbe.ejb.entity.base.BaseAuditedEntity;
-import it.csi.cpass.cpassbe.ejb.entity.ord.CpassDOggettiSpesa;
-import it.csi.cpass.cpassbe.ejb.entity.ord.CpassDStatoElOrdine;
 import it.csi.cpass.cpassbe.ejb.entity.ord.CpassTOrdRigaOrdine;
-import it.csi.cpass.cpassbe.ejb.entity.ord.evasione.CpassTOrdDestinatarioEvasione;
-import it.csi.cpass.cpassbe.ejb.entity.ord.evasione.CpassTOrdDocumentoTrasportoRiga;
-import it.csi.cpass.cpassbe.ejb.entity.ord.evasione.CpassTOrdImpegnoEvasione;
 import it.csi.cpass.cpassbe.lib.util.uuid.UuidUtils;
 
 
 /**
  * The persistent class for the cpass_t_ord_riga_evasione database table.
- * 
+ *
  */
 @Entity
 @Table(name="cpass_t_ord_riga_evasione")
@@ -55,11 +52,16 @@ public class CpassTOrdRigaEvasione  extends BaseAuditedEntity<UUID> implements S
 	@Column(name="importo_totale")
 	private BigDecimal importoTotale;
 
+	@Column(name="quantita_evasa")
+	private BigDecimal quantitaEvasa;
 
 	@Column(name="prezzo_unitario")
 	private BigDecimal prezzoUnitario;
 
 	private Integer progressivo;
+
+	@Column(name="note")
+	private String note;
 
 	//bi-directional many-to-one association to CpassTOrdImpegnoEvasione
 	@OneToMany(mappedBy="cpassTOrdRigaEvasione")
@@ -75,15 +77,10 @@ public class CpassTOrdRigaEvasione  extends BaseAuditedEntity<UUID> implements S
 	@JoinColumn(name="oggetti_spesa_id")
 	private CpassDOggettiSpesa cpassDOggettiSpesa;
 
-	//bi-directional many-to-one association to CpassDStatoElOrdine
+	//bi-directional many-to-one association to CpassDStato
 	@ManyToOne
-	@JoinColumn(name="stato_el_ordine_id")
-	private CpassDStatoElOrdine cpassDStatoElOrdine;
-
-	//bi-directional many-to-one association to CpassTDocumentoTrasportoRiga
-	@ManyToOne
-	@JoinColumn(name="documento_trasporto_riga_id")
-	private CpassTOrdDocumentoTrasportoRiga cpassTDocumentoTrasportoRiga;
+	@JoinColumn(name="stato_id")
+	private CpassDStato cpassDStato;
 
 	//bi-directional many-to-one association to CpassTListinoFornitore
 	@ManyToOne
@@ -111,7 +108,7 @@ public class CpassTOrdRigaEvasione  extends BaseAuditedEntity<UUID> implements S
 		this.rigaEvasioneId = rigaEvasioneId;
 	}
 
-		public BigDecimal getImportoTotale() {
+	public BigDecimal getImportoTotale() {
 		return this.importoTotale;
 	}
 
@@ -134,6 +131,14 @@ public class CpassTOrdRigaEvasione  extends BaseAuditedEntity<UUID> implements S
 
 	public void setProgressivo(Integer progressivo) {
 		this.progressivo = progressivo;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
 	}
 
 	public List<CpassTOrdImpegnoEvasione> getCpassTOrdImpegnoEvasiones() {
@@ -174,24 +179,23 @@ public class CpassTOrdRigaEvasione  extends BaseAuditedEntity<UUID> implements S
 		this.cpassDOggettiSpesa = cpassDOggettiSpesa;
 	}
 
-	public CpassDStatoElOrdine getCpassDStatoElOrdine() {
-		return this.cpassDStatoElOrdine;
-	}
-
-	public void setCpassDStatoElOrdine(CpassDStatoElOrdine cpassDStatoElOrdine) {
-		this.cpassDStatoElOrdine = cpassDStatoElOrdine;
-	}
-
-	public CpassTOrdDocumentoTrasportoRiga getCpassTDocumentoTrasportoRiga() {
-		return this.cpassTDocumentoTrasportoRiga;
-	}
-
-	public void setCpassTDocumentoTrasportoRiga(CpassTOrdDocumentoTrasportoRiga cpassTDocumentoTrasportoRiga) {
-		this.cpassTDocumentoTrasportoRiga = cpassTDocumentoTrasportoRiga;
-	}
 
 	public CpassTListinoFornitore getCpassTListinoFornitore() {
 		return this.cpassTListinoFornitore;
+	}
+
+	/**
+	 * @return the cpassDStato
+	 */
+	public CpassDStato getCpassDStato() {
+		return cpassDStato;
+	}
+
+	/**
+	 * @param cpassDStato the cpassDStato to set
+	 */
+	public void setCpassDStato(CpassDStato cpassDStato) {
+		this.cpassDStato = cpassDStato;
 	}
 
 	public void setCpassTListinoFornitore(CpassTListinoFornitore cpassTListinoFornitore) {
@@ -212,6 +216,14 @@ public class CpassTOrdRigaEvasione  extends BaseAuditedEntity<UUID> implements S
 
 	public void setCpassTOrdRigaOrdine(CpassTOrdRigaOrdine cpassTOrdRigaOrdine) {
 		this.cpassTOrdRigaOrdine = cpassTOrdRigaOrdine;
+	}
+
+	public BigDecimal getQuantitaEvasa() {
+		return quantitaEvasa;
+	}
+
+	public void setQuantitaEvasa(BigDecimal quantitaEvasa) {
+		this.quantitaEvasa = quantitaEvasa;
 	}
 
 	@Override

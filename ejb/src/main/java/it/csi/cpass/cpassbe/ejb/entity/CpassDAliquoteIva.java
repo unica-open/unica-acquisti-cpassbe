@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -11,22 +11,27 @@
 package it.csi.cpass.cpassbe.ejb.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
-
-import it.csi.cpass.cpassbe.ejb.entity.base.BaseAuditedEntity;
-import it.csi.cpass.cpassbe.ejb.entity.base.BaseEntity;
-import it.csi.cpass.cpassbe.ejb.entity.ord.CpassDOggettiSpesa;
-import it.csi.cpass.cpassbe.ejb.entity.ord.CpassTOrdRigaOrdine;
-
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import it.csi.cpass.cpassbe.ejb.entity.base.BaseAuditedEntity;
+import it.csi.cpass.cpassbe.ejb.entity.ord.CpassTOrdRigaOrdine;
 
 
 /**
  * The persistent class for the cpass_d_aliquote_iva database table.
- * 
+ *
  */
 @Entity
 @Table(name="cpass_d_aliquote_iva")
@@ -54,12 +59,12 @@ public class CpassDAliquoteIva extends BaseAuditedEntity<Integer> implements Ser
 	/** The data modifica. */
 	@Column(name="data_validita_fine")
 	private Date dataValiditaFine;
-	
+
 	/** The data modifica. */
 	@Column(name="data_validita_inizio")
 	private Date dataValiditaInizio;
-	
-	
+
+
 	//bi-directional many-to-one association to CpassDOggettiSpesa
 	@OneToMany(mappedBy="cpassDAliquoteIva")
 	private List<CpassDOggettiSpesa> cpassDOggettiSpesas;
@@ -155,7 +160,7 @@ public class CpassDAliquoteIva extends BaseAuditedEntity<Integer> implements Ser
 		return cpassTOrdRigaOrdine;
 	}
 
-	
+
 	/**
 	 * @return the dataValiditaFine
 	 */

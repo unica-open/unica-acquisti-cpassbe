@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -11,32 +11,36 @@
 package it.csi.cpass.cpassbe.ejb.entity.view;
 
 import java.io.Serializable;
-import javax.persistence.*;
-
-import it.csi.cpass.cpassbe.ejb.entity.base.BaseEntity;
-
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+
+import it.csi.cpass.cpassbe.ejb.entity.base.BaseEntity;
+
 
 /**
  * The persistent class for the cpass_v_riepilogo_fattura_evasione database table.
- * 
+ *
  */
 @Entity
 @Table(name="cpass_v_riepilogo_fattura_evasione")
 @NamedQuery(name="CpassVRiepilogoFatturaEvasione.findAll", query="SELECT c FROM CpassVRiepilogoFatturaEvasione c")
-public class CpassVRiepilogoFatturaEvasione implements Serializable, BaseEntity<Long> {	
+public class CpassVRiepilogoFatturaEvasione implements Serializable, BaseEntity<Long> {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name="riepilogo_fattura_evasione_id")
 	private Long riepilogoFatturaEvasioneId;
-		
+
 	@Column(name="testata_evasione_id")
 	private UUID testataEvasioneId;
-	
+
 	@Column(name="impegno_anno")
 	private Integer impegnoAnno;
 
@@ -58,13 +62,13 @@ public class CpassVRiepilogoFatturaEvasione implements Serializable, BaseEntity<
 
 	@Column(name="causale_sospensione_codice")
 	private String causaleSospensioneCodice;
-	
+
 	@Column(name="causale_sospensione_descrizione")
 	private String causaleSospensioneDescrizione;
-	
+
 	@Column(name="data_sospensione")
 	private Date dataSospensione;
-	
+
 	public CpassVRiepilogoFatturaEvasione() {
 	}
 
@@ -124,7 +128,7 @@ public class CpassVRiepilogoFatturaEvasione implements Serializable, BaseEntity<
 		this.subimpegnoNumero = subimpegnoNumero;
 	}
 
-	
+
 	/**
 	 * @return the riepilogoFatturaEvasioneId
 	 */
@@ -153,7 +157,7 @@ public class CpassVRiepilogoFatturaEvasione implements Serializable, BaseEntity<
 		this.testataEvasioneId = testataEvasioneId;
 	}
 
-	
+
 	/**
 	 * @return the causaleSospensioneCodice
 	 */

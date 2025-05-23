@@ -2,13 +2,15 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
  * =========================LICENSE_END==================================
  */
 package it.csi.cpass.cpassbe.ejb.business.be.service.impl.ordine;
+
+import java.util.List;
 
 import it.csi.cpass.cpassbe.ejb.business.be.dad.ImpegnoDad;
 import it.csi.cpass.cpassbe.ejb.business.be.service.impl.base.BaseService;
@@ -19,11 +21,11 @@ import it.csi.cpass.cpassbe.lib.dto.Impegno;
 
 public class GetImpegnoByChiaveLogicaService extends BaseService<GetImpegnoByChiaveLogicaRequest, GetImpegnoByChiaveLogicaResponse> {
 
-	private ImpegnoDad impegnoDad;
+	private final ImpegnoDad impegnoDad;
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param configurationHelper the configuration helper
 	 * @param testataOrdineDad    the testataOrdine DAD
 	 */
@@ -41,8 +43,11 @@ public class GetImpegnoByChiaveLogicaService extends BaseService<GetImpegnoByChi
 
 	@Override
 	protected void execute() {
-		Impegno impegno = impegnoDad.getImpegnoByChiaveLogica(request.getImpegno().getAnnoEsercizio(),request.getImpegno().getAnno(),request.getImpegno().getNumero(),request.getImpegno().getEnte().getId());
-		response.setImpegno(impegno);
+		final List<Impegno> impegno = impegnoDad.getImpegnoByChiaveLogica(request.getImpegno().getAnnoEsercizio(),request.getImpegno().getAnno(),request.getImpegno().getNumero(),request.getImpegno().getEnte().getId());
+		if(!impegno.isEmpty()) {
+			response.setImpegno(impegno.get(0));
+		}
+
 	}
 
 }

@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -15,7 +15,7 @@ import java.io.Serializable;
 /**
  * The Class Ufficio.
  */
-public class Ufficio extends BaseDto<Long> implements Serializable {
+public class Ufficio extends BaseDto<Integer> implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -24,22 +24,26 @@ public class Ufficio extends BaseDto<Long> implements Serializable {
 	/** The descrizione. */
 	private String descrizione;
 
+	private String idNotier;
+
+	private Ente ente;
+
 	/** Default constructor */
 	public Ufficio() {
 	}
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param id the id
 	 */
-	public Ufficio(Long id) {
+	public Ufficio(Integer id) {
 		super(id);
 	}
 
 	/**
 	 * Gets the codice.
-	 * 
+	 *
 	 * @return the codice
 	 */
 	public String getCodice() {
@@ -48,7 +52,7 @@ public class Ufficio extends BaseDto<Long> implements Serializable {
 
 	/**
 	 * Sets the codice.
-	 * 
+	 *
 	 * @param codice the new codice
 	 */
 	public void setCodice(String codice) {
@@ -57,7 +61,7 @@ public class Ufficio extends BaseDto<Long> implements Serializable {
 
 	/**
 	 * Gets the descrizione.
-	 * 
+	 *
 	 * @return the descrizione
 	 */
 	public String getDescrizione() {
@@ -66,11 +70,41 @@ public class Ufficio extends BaseDto<Long> implements Serializable {
 
 	/**
 	 * Sets the descrizione.
-	 * 
+	 *
 	 * @param descrizione the new descrizione
 	 */
 	public void setDescrizione(String descrizione) {
 		this.descrizione = descrizione;
+	}
+
+
+	/**
+	 * @return the idNotier
+	 */
+	public String getIdNotier() {
+		return idNotier;
+	}
+
+	/**
+	 * @param idNotier the idNotier to set
+	 */
+	public void setIdNotier(String idNotier) {
+		this.idNotier = idNotier;
+	}
+
+
+	/**
+	 * @return the ente
+	 */
+	public Ente getEnte() {
+		return ente;
+	}
+
+	/**
+	 * @param ente the ente to set
+	 */
+	public void setEnte(Ente ente) {
+		this.ente = ente;
 	}
 
 	@Override
@@ -78,6 +112,7 @@ public class Ufficio extends BaseDto<Long> implements Serializable {
 		return new StringBuilder()
 				.append("Ufficio [codice=").append(codice)
 				.append(", descrizione=").append(descrizione)
+				.append(", idNotier=").append(idNotier)
 				.append(", id=").append(id)
 				.append("]")
 				.toString();

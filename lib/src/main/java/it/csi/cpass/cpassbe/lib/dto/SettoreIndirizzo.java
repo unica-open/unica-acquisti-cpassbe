@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -12,11 +12,15 @@ package it.csi.cpass.cpassbe.lib.dto;
 
 import java.io.Serializable;
 
-public class SettoreIndirizzo extends BaseAuditedDto<Long> implements Serializable {
+import it.csi.cpass.cpassbe.lib.dto.mag.Magazzino;
+
+
+public class SettoreIndirizzo extends BaseAuditedDto<Integer> implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
+	private String descrizione;
 	private String indirizzo;
 	private String numCivico;
 	private String localita;
@@ -26,6 +30,10 @@ public class SettoreIndirizzo extends BaseAuditedDto<Long> implements Serializab
 	private String email;
 	private String telefono;
 	private Settore settore;
+	private String indirizzoCodice;
+	private Boolean principale;
+	private Boolean esternoEnte;
+	private Magazzino magazzino;
 
 	/** Default constructor */
 	public SettoreIndirizzo() {}
@@ -34,8 +42,17 @@ public class SettoreIndirizzo extends BaseAuditedDto<Long> implements Serializab
 	 * Constructor
 	 * @param id the id
 	 */
-	public SettoreIndirizzo(Long id) {
+	public SettoreIndirizzo(Integer id) {
 		super(id);
+	}
+
+
+	public String getDescrizione() {
+		return descrizione;
+	}
+
+	public void setDescrizione(String descrizione) {
+		this.descrizione = descrizione;
 	}
 
 	public String getIndirizzo() {
@@ -109,4 +126,61 @@ public class SettoreIndirizzo extends BaseAuditedDto<Long> implements Serializab
 	public void setSettore(Settore settore) {
 		this.settore = settore;
 	}
+
+	/**
+	 * @return the indirizzoCodice
+	 */
+	public String getIndirizzoCodice() {
+		return indirizzoCodice;
+	}
+
+	/**
+	 * @param codice the indirizzoCodice to set
+	 */
+	public void setIndirizzoCodice(String indirizzoCodice) {
+		this.indirizzoCodice = indirizzoCodice;
+	}
+
+	/**
+	 * @return the principale
+	 */
+	public Boolean getPrincipale() {
+		return principale;
+	}
+
+	/**
+	 * @param principale the principale to set
+	 */
+	public void setPrincipale(Boolean principale) {
+		this.principale = principale;
+	}
+
+	/**
+	 * @return the esternoEnte
+	 */
+	public Boolean getEsternoEnte() {
+		return esternoEnte;
+	}
+
+	/**
+	 * @param esternoEnte the esternoEnte to set
+	 */
+	public void setEsternoEnte(Boolean esternoEnte) {
+		this.esternoEnte = esternoEnte;
+	}
+
+	/**
+	 * @return the magazzino
+	 */
+	public Magazzino getMagazzino() {
+		return magazzino;
+	}
+
+	/**
+	 * @param magazzino the magazzino to set
+	 */
+	public void setMagazzino(Magazzino magazzino) {
+		this.magazzino = magazzino;
+	}
+
 }

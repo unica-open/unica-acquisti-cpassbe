@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -30,7 +30,7 @@ import it.csi.cpass.cpassbe.lib.util.soap.DefaultHandlerResolver;
  * Base external services helper implementation
  */
 public abstract class BaseHelperImpl implements BaseHelper {
-	
+
 	/** The logger */
 	protected final LogUtil log = new LogUtil(getClass());
 
@@ -46,7 +46,7 @@ public abstract class BaseHelperImpl implements BaseHelper {
 			}
 		}
 	}
-	
+
 	/**
 	 * Checks whether all the required parameters have been set
 	 * @param params the params
@@ -59,7 +59,7 @@ public abstract class BaseHelperImpl implements BaseHelper {
 			}
 		}
 	}
-	
+
 	/**
 	 * Gets the parameter
 	 * @param params the params
@@ -69,7 +69,7 @@ public abstract class BaseHelperImpl implements BaseHelper {
 	protected String getParameter(Map<String, String> params, ConfigurationParam param) {
 		return params.get(param.getParamName());
 	}
-	
+
 	/**
 	 * Adds the handler resolvers
 	 * @param params the params
@@ -79,7 +79,7 @@ public abstract class BaseHelperImpl implements BaseHelper {
 		final Level level = Level.INFO;
 		service.setHandlerResolver(new DefaultHandlerResolver(level));
 	}
-	
+
 	/**
 	 * Transforms the paged list SIAC-like to paged list CPASS-like
 	 * @param <A> the SIAC type
@@ -103,7 +103,7 @@ public abstract class BaseHelperImpl implements BaseHelper {
 		content.setTotalPages((long) Math.ceil((double)content.getTotalElements() / size));
 		return content;
 	}
-	
+
 	protected <A> PagedList<A> toPagedList(List<A> list, Integer total, int page, int size) {
 		PagedList<A> content = new PagedListImpl<>(list);
 		content.setCurrentPage(page);
@@ -111,5 +111,5 @@ public abstract class BaseHelperImpl implements BaseHelper {
 		content.setTotalPages((long) Math.ceil((double) content.getTotalElements() / size));
 		return content;
 	}
-	
+
 }

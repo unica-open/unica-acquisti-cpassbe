@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -17,10 +17,10 @@ public class Sort {
 
 	private String field;
 	private Direction order = Direction.ASC;
-	
+
 	/** Default constructor */
 	public Sort() {}
-	
+
 	/**
 	 * Constructor
 	 * @param field the field
@@ -29,7 +29,7 @@ public class Sort {
 	public Sort(String field, String order) {
 		this(field, Direction.byString(order));
 	}
-	
+
 	/**
 	 * Constructor
 	 * @param field the field
@@ -39,7 +39,7 @@ public class Sort {
 		this.field = field;
 		this.order = order;
 	}
-	
+
 	/**
 	 * @return the field
 	 */

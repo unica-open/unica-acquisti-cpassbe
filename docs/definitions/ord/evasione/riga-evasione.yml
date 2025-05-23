@@ -33,7 +33,7 @@ RigaEvasione:
       $ref: '#/definitions/ListinoFornitore'
     oggettiSpesa:
       type: object
-      $ref: '#/definitions/OggettiSpesa'
+      $ref: '#/definitions/Ods'
     optlock:
       type: string
       format: uuid
@@ -44,9 +44,9 @@ RigaEvasione:
     rigaOrdine:
       type: object
       $ref: '#/definitions/RigaOrdine'
-    statoElOrdine:
+    stato:
       type: object
-      $ref: '#/definitions/StatoElOrdine'
+      $ref: '#/definitions/Stato'
     totaleEvaso:
       type: number
     utenteCancellazione:
@@ -55,3 +55,8 @@ RigaEvasione:
       type: string
     utenteModifica:
       type: string
+    note:
+      type: string
+    quantitaEvasa:
+      type: number
+

@@ -7,6 +7,7 @@ import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.bind.annotation.XmlSeeAlso;
+
 import it.csi.siac.documenti.svc._1.RicercaDocumentoEntrataResponse;
 import it.csi.siac.documenti.svc._1.RicercaDocumentoSpesaResponse;
 import it.csi.siac.documenti.svc._1.RicercaProvvisoriDiCassaResponse;

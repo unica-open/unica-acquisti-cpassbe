@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -39,7 +39,7 @@ public class LogUtil {
 		logger = LogManager.getLogger(clazz);
 		category = clazz.getSimpleName();
 	}
-	
+
 	/**
 	 * Constructor
 	 * @param category the category to be logged
@@ -73,7 +73,7 @@ public class LogUtil {
 	public void info(String methodName, Object message) {
 		log(methodName, Level.INFO, message, null);
 	}
-	
+
 	/**
 	 * Log at WARN level
 	 * @param methodName the method name
@@ -82,7 +82,7 @@ public class LogUtil {
 	public void warn(String methodName, Object message) {
 		log(methodName, Level.WARN, message, null);
 	}
-	
+
 	/**
 	 * Log at WARN level
 	 * @param methodName the method name
@@ -92,7 +92,7 @@ public class LogUtil {
 	public void warn(String methodName, Object message, Throwable t) {
 		log(methodName, Level.WARN, message, t);
 	}
-	
+
 	/**
 	 * Log at ERROR level
 	 * @param methodName the method name
@@ -101,7 +101,7 @@ public class LogUtil {
 	public void error(String methodName, Object message) {
 		log(methodName, Level.ERROR, message, null);
 	}
-	
+
 	/**
 	 * Log at ERROR level
 	 * @param methodName the method name
@@ -111,7 +111,7 @@ public class LogUtil {
 	public void error(String methodName, Object message, Throwable t) {
 		log(methodName, Level.ERROR, message, t);
 	}
-	
+
 	/**
 	 * Log at FATAL level
 	 * @param methodName the method name

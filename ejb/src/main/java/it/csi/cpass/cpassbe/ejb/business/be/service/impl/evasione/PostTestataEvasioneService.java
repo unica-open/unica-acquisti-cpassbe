@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -11,7 +11,6 @@
 package it.csi.cpass.cpassbe.ejb.business.be.service.impl.evasione;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
@@ -27,21 +26,23 @@ import it.csi.cpass.cpassbe.ejb.business.be.dad.RigaOrdineDad;
 import it.csi.cpass.cpassbe.ejb.business.be.dad.SettoreDad;
 import it.csi.cpass.cpassbe.ejb.business.be.dad.SubimpegnoEvasioneDad;
 import it.csi.cpass.cpassbe.ejb.business.be.dad.TestataEvasioneDad;
-import it.csi.cpass.cpassbe.ejb.business.be.service.UtilityImpegni;
 import it.csi.cpass.cpassbe.ejb.business.be.service.impl.base.BaseService;
 import it.csi.cpass.cpassbe.ejb.business.be.service.request.evasione.PostTestataEvasioneRequest;
 import it.csi.cpass.cpassbe.ejb.business.be.service.response.evasione.PostTestataEvasioneResponse;
+import it.csi.cpass.cpassbe.ejb.business.be.utility.UtilityEvasione;
+import it.csi.cpass.cpassbe.ejb.business.be.utility.UtilityImpegni;
 import it.csi.cpass.cpassbe.ejb.util.ConstantsCPassStato;
-import it.csi.cpass.cpassbe.ejb.util.ConstantsCPassStatoElOrdine;
+import it.csi.cpass.cpassbe.ejb.util.ConstantsCPassStato.StatoEvasioneEnum;
 import it.csi.cpass.cpassbe.ejb.util.ConstantsDecodifiche;
 import it.csi.cpass.cpassbe.ejb.util.conf.ConfigurationHelper;
 import it.csi.cpass.cpassbe.lib.dto.Impegno;
 import it.csi.cpass.cpassbe.lib.dto.Settore;
+import it.csi.cpass.cpassbe.lib.dto.Stato;
 import it.csi.cpass.cpassbe.lib.dto.Subimpegno;
+import it.csi.cpass.cpassbe.lib.dto.Ufficio;
 import it.csi.cpass.cpassbe.lib.dto.ord.Destinatario;
 import it.csi.cpass.cpassbe.lib.dto.ord.ImpegnoOrdine;
 import it.csi.cpass.cpassbe.lib.dto.ord.RigaOrdine;
-import it.csi.cpass.cpassbe.lib.dto.ord.StatoElOrdine;
 import it.csi.cpass.cpassbe.lib.dto.ord.SubimpegnoOrdine;
 import it.csi.cpass.cpassbe.lib.dto.ord.evasione.DestinatarioEvasione;
 import it.csi.cpass.cpassbe.lib.dto.ord.evasione.ImpegnoEvasione;
@@ -69,9 +70,10 @@ public class PostTestataEvasioneService extends BaseService<PostTestataEvasioneR
 	private final SettoreDad settoreDad;
 	private SalvaEvasione salvaEvasione;
 
+
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param configurationHelper
 	 * @param testataEvasioneDad
 	 * @param destinatarioEvasioneDad
@@ -106,67 +108,47 @@ public class PostTestataEvasioneService extends BaseService<PostTestataEvasioneR
 	@Override
 	protected void checkServiceParams() {
 		salvaEvasione = request.getSalvaEvasione();
-		checkNotNull(salvaEvasione, "salvaEvasione", true);
+		checkNotNull(salvaEvasione, "salvaEvasione", Boolean.TRUE);
 	}
 
 	@Override
 	protected void execute() {
-		TestataEvasione testataEvasione = salvaEvasione.getTestataEvasione();
 
+		TestataEvasione testataEvasione = salvaEvasione.getTestataEvasione();
 		// testata
-		testataEvasione.setStato(isEntityPresent(
-				() -> decodificaDad.getStato(ConstantsCPassStato.StatoEnum.BOZZA.getCostante(), ConstantsCPassStato.TipoEnum.EVASIONE.getCostante()), "stato"));
+		testataEvasione.setStato(isEntityPresent(() -> decodificaDad.getStatoOpt(StatoEvasioneEnum.BOZZA.getCostante(), ConstantsCPassStato.TipoStatoEnum.EVASIONE.getCostante()), "stato"));
 		testataEvasione.setTipoEvasione(decodificaDad.getTipoEvasioneByCodice(ConstantsDecodifiche.TipoEvasioneEnum.MANUALE.getCodice()));
 
 		BigDecimal totaleConIva = new BigDecimal(0);
-		for (RigaEvasione rigaEvasione : salvaEvasione.getListEvasione()) {
+		for (final RigaEvasione rigaEvasione : salvaEvasione.getListEvasione()) {
 			if (rigaEvasione.getImportoTotale().doubleValue() > 0) {
 				totaleConIva = totaleConIva.add(rigaEvasione.getImportoTotale());
 			}
 		}
+
 		testataEvasione.setTotaleConIva(totaleConIva);
-
 		testataEvasione = testataEvasioneDad.saveTestataEvasione(testataEvasione);
-		testataEvasioneDad.flush();
-
-		Hashtable<UUID, Destinatario> hstDestinatarioOrdine = new Hashtable<UUID, Destinatario>();
+		final Hashtable<UUID, Destinatario> hstDestinatarioOrdine = new Hashtable<>();
 		hstDestinatarioOrdine.clear();
 
 		// righe evasione
-		Hashtable<UUID, DestinatarioEvasione> hstDestinatarioEvasione = new Hashtable<>();
+		final Hashtable<UUID, DestinatarioEvasione> hstDestinatarioEvasione = new Hashtable<>();
 		hstDestinatarioEvasione.clear();
 
+		UUID idRigaOrdine = null;
 		for (RigaEvasione rigaEvasione : salvaEvasione.getListEvasione()) {
-			if (rigaEvasione.getImportoTotale().doubleValue() > 0) {
+			if ((rigaEvasione.getQuantitaEvasa() == null && rigaEvasione.getImportoTotale().doubleValue() > 0 ) || (rigaEvasione.getQuantitaEvasa() != null && rigaEvasione.getQuantitaEvasa().doubleValue() > 0 )) {
 
 				// riga ordine
-				UUID idRigaOrdine = rigaEvasione.getRigaOrdine().getId();
+				idRigaOrdine = rigaEvasione.getRigaOrdine().getId();
 				RigaOrdine rigaOrdine = rigaOrdineDad.findOne(idRigaOrdine);
 
 				// destinatario
 				DestinatarioEvasione destinatarioEvasione = hstDestinatarioEvasione.get(rigaOrdine.getDestinatario().getId());
 				if (destinatarioEvasione == null) {
-					destinatarioEvasione = new DestinatarioEvasione();
-					destinatarioEvasione.setTestataEvasione(testataEvasione);
-					destinatarioEvasione.setDestinatarioOrdine(rigaOrdine.getDestinatario());
-					destinatarioEvasione.setStatoElOrdine(
-							decodificaDad.getStatoElOrdine(ConstantsCPassStatoElOrdine.StatoEnum.DESTINATARIO_EVASIONE_DA_FATTURARE.getCostante(),
-									ConstantsCPassStatoElOrdine.TipoEnum.DESTINATARIO_EVASIONE.getCostante()));
-
-					// settore del destinatario
-					Settore settoreDestinatario = rigaOrdine.getDestinatario().getSettore();
-					destinatarioEvasione.setSettore(settoreDestinatario);
-					destinatarioEvasione.setIndirizzo(settoreDestinatario.getIndirizzo());
-					destinatarioEvasione.setNumCivico(settoreDestinatario.getNumCivico());
-					destinatarioEvasione.setLocalita(settoreDestinatario.getLocalita());
-					destinatarioEvasione.setCap(settoreDestinatario.getCap());
-					destinatarioEvasione.setProvincia(settoreDestinatario.getProvincia());
-					destinatarioEvasione.setContatto("");
-					destinatarioEvasione.setEmail("");
-					destinatarioEvasione.setTelefono(settoreDestinatario.getTelefono());
+					destinatarioEvasione = UtilityEvasione.creaDestinatarioEvasione(testataEvasione, rigaOrdine, decodificaDad);
 
 					destinatarioEvasione = destinatarioEvasioneDad.saveDestinatarioEvasione(destinatarioEvasione);
-					destinatarioEvasioneDad.flush();
 					hstDestinatarioEvasione.put(rigaOrdine.getDestinatario().getId(), destinatarioEvasione);
 				}
 
@@ -176,133 +158,74 @@ public class PostTestataEvasioneService extends BaseService<PostTestataEvasioneR
 				rigaEvasione.setDestinatarioEvasione(destinatarioEvasione);
 				rigaEvasione.setAliquoteIva(rigaOrdine.getAliquoteIva());
 				rigaEvasione.setOggettiSpesa(rigaOrdine.getOds());
-				rigaEvasione.setStatoElOrdine(decodificaDad.getStatoElOrdine(ConstantsCPassStatoElOrdine.StatoEnum.RIGA_EVASIONE_DA_FATTURARE.getCostante(),ConstantsCPassStatoElOrdine.TipoEnum.RIGA_EVASIONE.getCostante()));
+				rigaEvasione.setStato(decodificaDad.getStato(ConstantsCPassStato.StatoOrdineEvasioneEnum.RIGA_EVASIONE_DA_FATTURARE.getCostante(),ConstantsCPassStato.TipoStatoEnum.RIGA_EVASIONE.getCostante()));
 				rigaEvasione.setListinoFornitore(rigaOrdine.getListinoFornitore());
-
 				rigaEvasione = rigaEvasioneDad.saveRigaEvasione(rigaEvasione);
-				rigaEvasioneDad.flush();
 
 				// impegni
-				Settore settore = settoreDad.findById(testataEvasione.getSettore().getId());
-				UUID enteId = settore.getEnte().getId();
+				final Settore settore = settoreDad.findById(testataEvasione.getSettore().getId());
+				final UUID enteId = settore.getEnte().getId();
 
 				// List<Impegno> impegnos = impegnoDad.getImpegniByRiga(rigaOrdine.getId());
-				List<ImpegnoOrdine> impegnoOrdines = impegnoDad.getImpegnoOrdineByRiga(rigaOrdine.getId());
+				final List<ImpegnoOrdine> impegnoOrdines = impegnoDad.getImpegnoOrdineByRiga(rigaOrdine.getId());
 				if (impegnoOrdines != null && impegnoOrdines.size() == 1) {
-					ImpegnoOrdine impegnoOrdine = impegnoOrdines.get(0);
+					final ImpegnoOrdine impegnoOrdine = impegnoOrdines.get(0);
 
 					// 2.9 Verifica impegni/subimpegni ribaltati
-					Impegno impegno = UtilityImpegni.verificaImpegniRibaltati(impegnoDad, enteId, impegnoOrdine);
+					final Impegno impegno = UtilityImpegni.verificaImpegniRibaltati(impegnoDad, enteId, impegnoOrdine);
 					if (impegno != null) {
 
-						ImpegnoEvasione impegnoEvasione = new ImpegnoEvasione();
-						impegnoEvasione.setRigaEvasione(rigaEvasione);
-						impegnoEvasione.setImpegno(impegno);
-						impegnoEvasione.setImpegnoOrdine(impegnoOrdine);
+						ImpegnoEvasione impegnoEvasione = UtilityEvasione.creaImpegnoEvasione(rigaEvasione, impegno, impegnoOrdine);
 
-						Calendar calendar = Calendar.getInstance();
-						int yearCurrent = calendar.get(Calendar.YEAR);
-						if (impegnoOrdine.getImpegnoAnnoEsercizio() < yearCurrent) {
-							impegnoEvasione.setImpegnoAnnoEsercizio(impegnoOrdine.getImpegno().getAnnoEsercizio());
-						} else {
-							impegnoEvasione.setImpegnoAnnoEsercizio(impegnoOrdine.getImpegnoAnnoEsercizio());
-						}
-						impegnoEvasione.setImpegnoAnno(impegnoOrdine.getImpegnoAnno());
-						impegnoEvasione.setImpegnoNumero(impegnoOrdine.getImpegnoNumero());
-
-						impegnoEvasione.setImportoRipartito(rigaEvasione.getImportoTotale());
-						impegnoEvasione.setImportoLiquidato(new BigDecimal(0));
-						impegnoEvasione.setImportoSospeso(new BigDecimal(0));
-
-						List<SubimpegnoOrdine> subimpegnoOrdines = impegnoDad.getSubimpegnoOrdineByImpegnoOrdineId(impegnoOrdine.getId());
+						final List<SubimpegnoOrdine> subimpegnoOrdines = impegnoDad.getSubimpegnoOrdineByImpegnoOrdineId(impegnoOrdine.getId());
 						if (subimpegnoOrdines == null) {
 							impegnoEvasione = impegnoEvasioneDad.saveImpegnoEvasione(impegnoEvasione);
-							impegnoEvasioneDad.flush();
-
 						} else if (subimpegnoOrdines.size() == 1) {
-							SubimpegnoOrdine subimpegnoOrdine = subimpegnoOrdines.get(0);
+							final SubimpegnoOrdine subimpegnoOrdine = subimpegnoOrdines.get(0);
 
 							// 2.9 Verifica impegni/subimpegni ribaltati
-							Subimpegno subimpegno = UtilityImpegni.verificaSubimpegniRibaltati(impegnoDad, enteId, subimpegnoOrdine);
+							final Subimpegno subimpegno = UtilityImpegni.verificaSubimpegniRibaltati(impegnoDad, enteId, subimpegnoOrdine);
 							if (subimpegno != null) {
 								impegnoEvasione = impegnoEvasioneDad.saveImpegnoEvasione(impegnoEvasione);
-								impegnoEvasioneDad.flush();
 
-								SubimpegnoEvasione subimpegnoEvasione = new SubimpegnoEvasione();
-								subimpegnoEvasione.setImpegnoEvasione(impegnoEvasione);
-								subimpegnoEvasione.setImpegnoAnnoEsercizio(impegnoEvasione.getImpegnoAnnoEsercizio());
-								subimpegnoEvasione.setImpegnoAnno(impegnoEvasione.getImpegnoAnno());
-								subimpegnoEvasione.setImpegnoNumero(impegnoEvasione.getImpegnoNumero());
-
-								subimpegnoEvasione.setSubimpegnoAnno(subimpegnoOrdine.getSubimpegnoAnno());
-								subimpegnoEvasione.setSubimpegnoNumero(subimpegnoOrdine.getSubimpegnoNumero());
-
-								subimpegnoEvasione.setImportoRipartito(rigaEvasione.getImportoTotale());
-								subimpegnoEvasione.setImportoSospeso(new BigDecimal(0));
-								subimpegnoEvasione.setImportoLiquidato(new BigDecimal(0));
-								subimpegnoEvasione.setSubimpegno(subimpegno);
-
-								subimpegnoEvasione.setSubimpegnoOrdine(subimpegnoOrdine);
-
+								SubimpegnoEvasione subimpegnoEvasione = UtilityEvasione.creaSubimpegnoEvasione(impegnoEvasione, subimpegnoOrdine, subimpegno, rigaEvasione);
 								subimpegnoEvasione = subimpegnoEvasioneDad.insert(subimpegnoEvasione);
-								subimpegnoEvasioneDad.flush();
 							}
 						}
 					}
 				}
 
 				// Determinazione dello stato da assegnare alla riga d’ordine
-				String codiceStatoRigaOrdine = ConstantsCPassStatoElOrdine.StatoEnum.RIGA_ORDINE_EVASA_PARZIALMENTE.getCostante();
-				if (calcoloTotaleEvadibileRigaOrdine(rigaOrdine).compareTo(new BigDecimal(0)) == 0) {
-					codiceStatoRigaOrdine = ConstantsCPassStatoElOrdine.StatoEnum.RIGA_ORDINE_EVASA_TOTALMENTE.getCostante();
-				}
-
-				StatoElOrdine statoElOrdineRigaOrdine = decodificaDad.getStatoElOrdine(codiceStatoRigaOrdine,ConstantsCPassStatoElOrdine.TipoEnum.RIGA_ORDINE.getCostante());
-				rigaOrdine.setStatoElOrdine(statoElOrdineRigaOrdine);
+				final Stato statoRigaOrdine =UtilityEvasione.getStatoRigaOrdine(rigaOrdine, rigaEvasioneDad, decodificaDad);
+				rigaOrdine.setStato(statoRigaOrdine);
 				rigaOrdine = rigaOrdineDad.updateRigaOrdine(rigaOrdine);
 
-				Destinatario destinatarioOrdine = rigaOrdine.getDestinatario();
+				final Destinatario destinatarioOrdine = rigaOrdine.getDestinatario();
 				hstDestinatarioOrdine.put(destinatarioOrdine.getId(), destinatarioOrdine);
 			}
 		}
 
 		// Determinazione dello stato da assegnare al destinatario d’ordine
-		Enumeration<UUID> enumDestinatarioOrdine = hstDestinatarioOrdine.keys();
+		final Enumeration<UUID> enumDestinatarioOrdine = hstDestinatarioOrdine.keys();
 		while (enumDestinatarioOrdine.hasMoreElements()) {
-			UUID idDestinatario = enumDestinatarioOrdine.nextElement();
+			final UUID idDestinatario = enumDestinatarioOrdine.nextElement();
 			Destinatario destinatarioOrdine = hstDestinatarioOrdine.get(idDestinatario);
-
-			boolean bEvasoTotalmente = true;
-			List<RigaOrdine> rigaOrdines = rigaOrdineDad.getRigheByDestinatario(idDestinatario);
-			for (RigaOrdine rigaOrdine : rigaOrdines) {
-				if (rigaOrdine.getStatoElOrdine() == null || !rigaOrdine.getStatoElOrdine().getCodice()
-						.equals(ConstantsCPassStatoElOrdine.StatoEnum.RIGA_ORDINE_EVASA_TOTALMENTE.getCostante())) {
-					bEvasoTotalmente = false;
-				}
-			}
-
-			String codiceStatoDestinatarioOrdine = ConstantsCPassStatoElOrdine.StatoEnum.DEST_ORDINE_EVASO_PARZIALMENTE.getCostante();
-			if (bEvasoTotalmente) {
-				codiceStatoDestinatarioOrdine = ConstantsCPassStatoElOrdine.StatoEnum.DEST_ORDINE_EVASO_TOTALMENTE.getCostante();
-			}
-
-			StatoElOrdine statoElOrdineDestinatarioOrdine = decodificaDad.getStatoElOrdine(codiceStatoDestinatarioOrdine,
-					ConstantsCPassStatoElOrdine.TipoEnum.DEST_ORDINE.getCostante());
-			destinatarioOrdine.setStatoElOrdine(statoElOrdineDestinatarioOrdine);
+			final List<RigaOrdine> rigaOrdines = rigaOrdineDad.getRigheByDestinatario(idDestinatario);
+			final Stato statoDestinatarioOrdine = UtilityEvasione.getStatoDestinatarioOrdine(rigaOrdines, decodificaDad);
+			destinatarioOrdine.setStato(statoDestinatarioOrdine);
 			destinatarioOrdine = destinatarioOrdineDad.updateDestinatario(destinatarioOrdine);
 		}
 
+		// 	CPASS-584
+		//
+		if(idRigaOrdine !=null) {
+			//UUID testataOrdineId = rigaOrdineDad.findOne(idRigaOrdine).getDestinatario().getTestataOrdine().getId();
+			//TestataOrdine testataOrdine = testataOrdineDad.getTestataOrdine(testataOrdineId).get();
+			final Ufficio ufficio = rigaOrdineDad.findOne(idRigaOrdine).getDestinatario().getTestataOrdine().getUfficio();
+			testataEvasione.setUfficio(ufficio);
+			testataEvasione = testataEvasioneDad.updateTestataEvasione(testataEvasione);
+		}
 		response.setTestataEvasione(testataEvasione);
-	}
-
-	private BigDecimal calcoloTotaleEvadibileRigaOrdine(RigaOrdine rigaOrdine) {
-//		TOTALE EVADIBILE = CPASS_T_ORD_RIGA_ORDINE.importo_totale – 
-//				∑(CPASS_T_ORD_EVASIONE_RIGA.importo_totale per:
-//				•	CPASS_T_ORD_RIGA_ EVASIONE.riga_ordine_id = CPASS_T_ORD_RIGA_ORDINE.riga_ordine_id
-//				•	CPASS_T_ORD_RIGA_ EVASIONE.stato_id <> CPASS_D_STATO_EL_ORDINE.id corrispondente a ‘DISABBINATA’ 
-
-		BigDecimal importoTotaleRigheEvasione = rigaEvasioneDad.calcolaTotale(rigaOrdine.getId());
-		return rigaOrdine.getImportoTotale().subtract(importoTotaleRigheEvasione);
 	}
 
 }

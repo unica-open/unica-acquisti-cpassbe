@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -28,10 +28,10 @@ import it.csi.cpass.cpassbe.ejb.util.cache.CacheKey;
 @Startup
 @Singleton
 public class CacheHelper {
-	
+
 	/** The cache implementation */
 	private final Cache<CacheKey, Object> cache = new CacheImpl<>();
-	
+
 	/**
 	 * After construction
 	 */
@@ -81,7 +81,44 @@ public class CacheHelper {
 		}
 		return result;
 	}
-	
+
+	/*
+	Noncompliant Code Example
+
+	private String color = "red";
+
+	private void doSomething(){
+	  synchronized(color) {  // Noncompliant; lock is actually on object instance "red" referred to by the color variable
+	    //...
+	    color = "green"; // other threads now allowed into this block
+	    // ...
+	  }
+	  synchronized(new Object()) { // Noncompliant this is a no-op.
+	     // ...
+	  }
+	}
+
+	Compliant Solution
+
+	private String color = "red";
+	private final Object lockObj = new Object();
+
+	private void doSomething(){
+	  synchronized(lockObj) {
+	    //...
+	    color = "green";
+	    // ...
+	  }
+	}
+	 */
+
+
+
+
+
+
+
+
 	/**
 	 * Removes an element from cache
 	 * @param key the cache key
@@ -91,7 +128,7 @@ public class CacheHelper {
 	public boolean remove(CacheKey key) {
 		return cache.remove(key);
 	}
-	
+
 	/**
 	 * Clears the cache
 	 */

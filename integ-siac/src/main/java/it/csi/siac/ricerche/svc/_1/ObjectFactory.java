@@ -5,6 +5,7 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlElementDecl;
 import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
+
 import it.csi.siac.documenti.svc._1.RicercaDocumentoEntrataResponse;
 import it.csi.siac.documenti.svc._1.RicercaDocumentoSpesaResponse;
 import it.csi.siac.documenti.svc._1.RicercaProvvisoriDiCassaResponse;

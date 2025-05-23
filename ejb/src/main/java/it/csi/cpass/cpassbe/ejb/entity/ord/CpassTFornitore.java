@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -10,29 +10,33 @@
  */
 package it.csi.cpass.cpassbe.ejb.entity.ord;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import it.csi.cpass.cpassbe.ejb.entity.CpassTEnte;
 import it.csi.cpass.cpassbe.ejb.entity.CpassTListinoFornitore;
-import it.csi.cpass.cpassbe.ejb.entity.base.BaseEntity;
+import it.csi.cpass.cpassbe.ejb.entity.base.BaseAuditedEntity;
 import it.csi.cpass.cpassbe.lib.util.uuid.UuidUtils;
 
 /**
  * The persistent class for the cpass_t_fornitore database table.
- * 
+ *
  */
 @Entity
 @Table(name = "cpass_t_fornitore")
 @NamedQuery(name = "CpassTFornitore.findAll", query = "SELECT c FROM CpassTFornitore c")
-public class CpassTFornitore implements BaseEntity<UUID> {
+public class CpassTFornitore extends BaseAuditedEntity<UUID> implements Serializable {
 	private static final long serialVersionUID = 1L;
 	/** The UUID namespace */
 	public static final UUID NAMESPACE = UuidUtils.generateUUIDv5FromNamespaceAndString(UuidUtils.NAMESPACE_OID, "cpass_t_fornitore");
@@ -75,17 +79,21 @@ public class CpassTFornitore implements BaseEntity<UUID> {
 
 	private String stato;
 
-	@Column(name = "cod_destinatario")
-	private String codDestinatario;
+	//@Column(name = "cod_destinatario")
+	//private String codDestinatario;
 
 	//bi-directional many-to-one association to CpassTListinoFornitore
 	@OneToMany(mappedBy="cpassTFornitore")
 	private List<CpassTListinoFornitore> cpassTListinoFornitores;
-		
+
 	@Transient
 	private List<String> codiciFornitoriCollegati;
-		
-	
+
+	@ManyToOne
+	@JoinColumn(name="ente_id")
+	private CpassTEnte cpassTEnte;
+
+
 	public CpassTFornitore() {
 	}
 
@@ -225,21 +233,7 @@ public class CpassTFornitore implements BaseEntity<UUID> {
 		this.codice = codice;
 	}
 
-	/**
-	 * @return the codDestinatario
-	 */
-	public String getCodDestinatario() {
-		return codDestinatario;
-	}
 
-	/**
-	 * @param codDestinatario the codDestinatario to set
-	 */
-	public void setCodDestinatario(String codDestinatario) {
-		this.codDestinatario = codDestinatario;
-	}
-
-	
 	/**
 	 * @return the cpassTListinoFornitores
 	 */
@@ -253,8 +247,8 @@ public class CpassTFornitore implements BaseEntity<UUID> {
 	public void setCpassTListinoFornitores(List<CpassTListinoFornitore> cpassTListinoFornitores) {
 		this.cpassTListinoFornitores = cpassTListinoFornitores;
 	}
-	
-	
+
+
 
 	public List<String> getCodiciFornitoriCollegati() {
 		return codiciFornitoriCollegati;
@@ -264,9 +258,30 @@ public class CpassTFornitore implements BaseEntity<UUID> {
 		this.codiciFornitoriCollegati = codiciFornitoriCollegati;
 	}
 
+
+	/**
+	 * @return the cpassTEnte
+	 */
+	public CpassTEnte getCpassTEnte() {
+		return cpassTEnte;
+	}
+
+	/**
+	 * @param cpassTEnte the cpassTEnte to set
+	 */
+	public void setCpassTEnte(CpassTEnte cpassTEnte) {
+		this.cpassTEnte = cpassTEnte;
+	}
+
 	@Override
 	public void initId() {
-		this.fornitoreId = UuidUtils.generateUUIDv5FromNamespaceAndString(NAMESPACE, codiceFiscale + "|" + codiceFiscaleEstero);
+		//if(codiceFiscaleEstero==null) {
+		//codiceFiscaleEstero = "";
+		//}
+		//this.fornitoreId = UuidUtils.generateUUIDv5FromNamespaceAndString(NAMESPACE, cpassTEnte.getId()+"|"+ codice + "|" + codiceFiscale + "|" + codiceFiscaleEstero+"|" + partitaIva);
+		this.fornitoreId = UuidUtils.generateUUIDv5FromNamespaceAndString(NAMESPACE, cpassTEnte.getId()+"|"+ codice + "|" + codiceFiscale + "|" + codiceFiscaleEstero+"|" + partitaIva);
 	}
 
 }
+
+

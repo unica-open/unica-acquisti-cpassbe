@@ -7,3 +7,5 @@ Ruolo:
       type: string
     descrizione:
       type: string
+    selezionabileDaProcedura:
+      type: string    

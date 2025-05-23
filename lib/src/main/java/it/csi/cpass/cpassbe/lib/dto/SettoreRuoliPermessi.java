@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -23,7 +23,7 @@ public class SettoreRuoliPermessi implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 
-	private Settore settore;	
+	private Settore settore;
 	private List<Ruolo> listRuoli = new ArrayList<>(); // aggiungere su yml
 	private List<Permesso> listPermessi = new ArrayList<>(); // aggiungere su yml
 
@@ -47,9 +47,9 @@ public class SettoreRuoliPermessi implements Serializable {
 	public List<Permesso> getListPermessi() {
 		return this.listPermessi = listPermessi != null ? listPermessi : new ArrayList<>();
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param listPermessi
 	 */
 	public void setListPermessi(List<Permesso> listPermessi) {
@@ -57,7 +57,7 @@ public class SettoreRuoliPermessi implements Serializable {
 	}
 
 
-	
+
 	/**
 	 * @return the settore
 	 */

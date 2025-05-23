@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -20,15 +20,17 @@ public class PostProgrammaCopiaRequest implements BaseRequest {
 
 	private final Programma programma;
 	private final Boolean soloControlli;
+	private final String  statoCopia;
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param programma the programma
 	 */
-	public PostProgrammaCopiaRequest(Programma programma, Boolean soloControlli) {
+	public PostProgrammaCopiaRequest(Programma programma, Boolean soloControlli, String  statoCopia) {
 		this.programma = programma;
 		this.soloControlli = soloControlli;
+		this.statoCopia = statoCopia;
 	}
 
 	/**
@@ -43,6 +45,13 @@ public class PostProgrammaCopiaRequest implements BaseRequest {
 	 */
 	public Boolean getSoloControlli() {
 		return soloControlli;
+	}
+
+	/**
+	 * @return the statoCopia
+	 */
+	public String getStatoCopia() {
+		return statoCopia;
 	}
 
 }

@@ -11,7 +11,7 @@
 		<xs:sequence>
 			<xs:element name="ErrorContext" type="xs:string" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>Indica il contesto, ovvero la funzione/libreria/procedura in cui si è verificato l'errore che ha dato esito "Fallito" al Web Service.</xs:documentation>
+					<xs:documentation>Indica il contesto, ovvero la funzione/libreria/procedura in cui si e verificato l'errore che ha dato esito "Fallito" al Web Service.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="ErrorNumber" type="xs:integer" minOccurs="0"/>

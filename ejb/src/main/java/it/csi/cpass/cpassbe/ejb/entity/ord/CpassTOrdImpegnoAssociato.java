@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -29,7 +29,7 @@ import it.csi.cpass.cpassbe.lib.util.uuid.UuidUtils;
 
 /**
  * The persistent class for the cpass_t_ord_impegno_ordine database table.
- * 
+ *
  */
 @Entity
 @Table(name="cpass_t_ord_impegno_associato")
@@ -38,7 +38,7 @@ public class CpassTOrdImpegnoAssociato extends BaseAuditedEntity<UUID> implement
 	private static final long serialVersionUID = 1L;
 	/** The UUID namespace */
 	public static final UUID NAMESPACE = UuidUtils.generateUUIDv5FromNamespaceAndString(UuidUtils.NAMESPACE_OID, "cpass_t_ord_impegno_associato");
-	
+
 	@Id
 	@Column(name="impegno_associato_id")
 	private UUID impegnoAssociatoId;
@@ -181,7 +181,7 @@ public class CpassTOrdImpegnoAssociato extends BaseAuditedEntity<UUID> implement
 
 		return cpassTOrdSubimpegnoAssociato;
 	}
-	
+
 
 	@Override
 	public UUID getId() {
@@ -197,6 +197,6 @@ public class CpassTOrdImpegnoAssociato extends BaseAuditedEntity<UUID> implement
 	public void initId() {
 		this.impegnoAssociatoId = UuidUtils.generateUUIDv5FromNamespaceAndString(NAMESPACE, cpassTOrdTestataOrdine.getId()+"|"+ impegnoAnno+"|"+ impegnoAnnoEsercizio+"|"+ impegnoNumero);
 	}
-	
+
 
 }

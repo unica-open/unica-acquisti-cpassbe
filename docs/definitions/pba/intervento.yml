@@ -1,125 +1,187 @@
 Intervento:
   type: object
   properties:
-    id:
-      type: string
-      format: uuid
-    cui:
-      type: string
-    annoAvvio:
-      type: integer
-    cup:
-      type: string
-    lottoFunzionale:
-      type: boolean
-    esenteCup:
-      type: boolean      
-    durataMesi:
-      type: integer
-    nuovoAffidamento:
-      type: boolean
-    interventoCopiaTipo:
-      type: string
-    interventoImportiCopiaTipo:
-      type: string
-    flagCuiNonGenerato:
-      type: boolean
-    motivazioneNonRiproposto:
-      type: string
-    descrizioneAcquisto:
-      type: string
-    ausa:
-      type: object
-      $ref: '#/definitions/Ausa'
-    utenteRup:
-      type: object
-      $ref: '#/definitions/Utente'
-    ricompresoCui:
-      type: string
-    interventoCopia:
-      type: object
-      $ref: '#/definitions/Intervento'
-    settoreInterventi:
-      type: object
-      $ref: '#/definitions/SettoreInterventi'
-    settore:
-      type: object
-      $ref: '#/definitions/Settore'
-    cpv:
-      type: object
-      $ref: '#/definitions/Cpv'
-    programma:
-      type: object
-      $ref: '#/definitions/Programma'
-    nuts:
-      type: object
-      $ref: '#/definitions/Nuts'
-    priorita:
-      type: object
-      $ref: '#/definitions/Priorita'
-    modalitaAffidamento:
-      type: object
-      $ref: '#/definitions/ModalitaAffidamento'
-    stato:
-      type: object
-      $ref: '#/definitions/Stato'
     acquistoVariato:
       type: object
       $ref: '#/definitions/AcquistoVariato'
-    ricompresoTipo:
-      type: object
-      $ref: '#/definitions/RicompresoTipo'
-    listInterventoImporti:
-      type: array
-      items:
-        $ref: '#/definitions/InterventoImporti'
-    listCpv:
-      type: array
-      items:
-        $ref: '#/definitions/Cpv'
-    listInterventoAltriDati:
-      type: array
-      items:
-        $ref: '#/definitions/InterventoAltriDati'
-    listMetadatiFunzione:
-      type: array
-      items:
-        $ref: '#/definitions/MetadatiFunzione'
-    risorsaIdCapitalePrivato:
+    annoAvvio:
       type: integer
-    dataCreazione:
+    ausa:
+      type: object
+      $ref: '#/definitions/Ausa'
+    avviato:
+      type: boolean
+    capofila:
+      type: boolean
+    cpv:
+      type: object
+      $ref: '#/definitions/Cpv'
+    cui:
+      type: string
+    cup:
+      type: string
+    dataAvviato:
       type: string
       format: date-time
-    utenteCreazione:
-      type: string
-    dataModifica:
-      type: string
-      format: date-time
-    utenteModifica:
-      type: string
     dataCancellazione:
       type: string
       format: date-time
-    utenteCancellazione:
-      type: string
-    optlock:
-      type: string
-      format: uuid
-    dataVisto:
+    dataCreazione:
       type: string
       format: date-time
-    dataValidazione:
+    dataModifica:
       type: string
       format: date-time
     dataRifiuto:
       type: string
       format: date-time
-    utenteVisto:
+    dataValidazione:
+      type: string
+      format: date-time
+    dataVisto:
+      type: string
+      format: date-time
+    dataVistoRagioneria:
+      type: string
+      format: date-time
+    descrizioneAcquisto:
+      type: string
+    durataMesi:
+      type: integer
+    elementiDipendenti:
+      type: boolean
+    esenteCup:
+      type: integer
+    flagCuiNonGenerato:
+      type: integer
+    descrizioneUltimoStato:
+      type: string 
+    id:
+      type: string
+      format: uuid
+    interventoCapofila:
+      type: object
+      $ref: '#/definitions/Intervento'
+    interventoCopia:
+      type: object
+      $ref: '#/definitions/Intervento'
+    interventoCopiaTipo:
+      type: string
+    interventoImportiCopiaTipo:
+      type: string
+    listCpv:
+      type: array
+      items:  
+        $ref: '#/definitions/Cpv'
+    listInterventoAltriDati:
+      type: array
+      items:  
+        $ref: '#/definitions/InterventoAltriDati'
+    listInterventoImporti:
+      type: array
+      items:  
+        $ref: '#/definitions/InterventoImporti'
+    listMetadatiFunzione:
+      type: array
+      items:  
+        $ref: '#/definitions/MetadatiFunzione'
+    lottoFunzionale:
+      type: boolean
+    modalitaAffidamento:
+      type: object
+      $ref: '#/definitions/ModalitaAffidamento'
+    motivazioneNonRiproposto:
+      type: string
+    motivazioneRifiutoRagioneria:
+      type: string
+    motivazioneRifiuto:
+      type: string
+    motivazioneRiportaInBozza:
+      type: string      
+    nuovoAffidamento:
+      type: integer
+    nuts:
+      type: object
+      $ref: '#/definitions/Nuts'
+    optlock:
+      type: string
+      format: uuid
+    priorita:
+      type: object
+      $ref: '#/definitions/Priorita'
+    programma:
+      type: object
+      $ref: '#/definitions/Programma'
+    ricompresoCui:
+      type: string
+    ricompresoTipo:
+      type: object
+      $ref: '#/definitions/RicompresoTipo'
+    risorsaIdCapitalePrivato:
+      type: integer
+    selNonRip:
+      type: string
+    settore:
+      type: object
+      $ref: '#/definitions/Settore'
+    settoreInterventi:
+      type: object
+      $ref: '#/definitions/SettoreInterventi'
+    statiInterventos:
+      type: array
+      items:  
+        $ref: '#/definitions/StatiIntervento'
+    stato:
+      type: object
+      $ref: '#/definitions/Stato'
+    statoXStorico:
+      type: string
+    storicoInterventoRups:
+      type: array
+      items:  
+        $ref: '#/definitions/StoricoInterventoRup'
+    utenteAvviato:
+      type: object
+      $ref: '#/definitions/Utente'
+    utenteCancellazione:
+      type: string
+    utenteCreazione:
+      type: string
+    utenteModifica:
+      type: string
+    utenteRifiuto:
+      type: object
+      $ref: '#/definitions/Utente'
+    utenteRup:
       type: object
       $ref: '#/definitions/Utente'
     utenteValidazione:
       type: object
       $ref: '#/definitions/Utente'
-    utenteRifiuto:
+    utenteVisto:
       type: object
       $ref: '#/definitions/Utente'
+    utenteVistoRagioneria:
+      type: object
+      $ref: '#/definitions/Utente'
+    versioneDefinitiva:
+      type: boolean
+    versioneDefinitivaStr:
+      type: string
+    esenteIva:
+      type: string  
+    vistoRagioneria:
+      type: boolean
+    vistoRagioneriaStr:
+      type: string
+    tipoProceduraPba:
+      type: object
+      $ref: '#/definitions/TipoProceduraPba'
+    interventoCigs:
+      type: array
+      items:  
+        $ref: '#/definitions/InterventoCig'
+    presenteInAltroProgramma:
+      type: boolean
+    presenteInAltroProgrammaFuturo:
+      type: boolean

@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -25,27 +25,30 @@ import it.csi.cpass.cpassbe.ejb.util.jpa.JpaQueryHelper;
 
 @ApplicationScoped
 public class CpassTOrdDestinatarioEvasioneDaoImpl extends BaseAuditedEntityDaoImpl<UUID, CpassTOrdDestinatarioEvasione> implements CpassTOrdDestinatarioEvasioneDao {
-	
+
 	@Override
 	public List<CpassTOrdDestinatarioEvasione> findByTestataEvasione(UUID testataEvasioneId) {
-		Map<String, Object> params = new HashMap<>();
-		StringBuilder jpql = new StringBuilder()
-			.append(" FROM CpassTOrdDestinatarioEvasione dest ")
-			.append(" WHERE dest.dataCancellazione IS NULL ");
+		final Map<String, Object> params = new HashMap<>();
+		final StringBuilder jpql = new StringBuilder()
+				.append(" FROM CpassTOrdDestinatarioEvasione dest ")
+				.append(" WHERE dest.dataCancellazione IS NULL ");
 		JpaQueryHelper.andFieldEquals(jpql, params, "dest.cpassTOrdTestataEvasione.testataEvasioneId", "testataEvasioneId", testataEvasioneId);
-		TypedQuery<CpassTOrdDestinatarioEvasione> query = composeTypedQuery(jpql, params);
+		final TypedQuery<CpassTOrdDestinatarioEvasione> query = composeTypedQuery(jpql, params);
 		return query.getResultList();
 	}
 
 	@Override
 	public List<CpassTOrdDestinatarioEvasione> findByIdDestinatarioOrdine(UUID idDestinatarioOrdine) {
-		Map<String, Object> params = new HashMap<>();
-		StringBuilder jpql = new StringBuilder()
+		final Map<String, Object> params = new HashMap<>();
+		final StringBuilder jpql = new StringBuilder()
 				.append(" FROM CpassTOrdDestinatarioEvasione dest ")
-				.append(" WHERE dest.dataCancellazione IS NULL ");
+				.append(" WHERE dest.dataCancellazione IS NULL ")
+				.append(" AND dest.cpassDStato.statoCodice != 'ANN' ");
+
 		JpaQueryHelper.andFieldEquals(jpql, params, "dest.cpassTOrdDestinatarioOrdine.destinatarioId", "destinatarioId", idDestinatarioOrdine);
-		TypedQuery<CpassTOrdDestinatarioEvasione> query = composeTypedQuery(jpql, params);
+
+		final TypedQuery<CpassTOrdDestinatarioEvasione> query = composeTypedQuery(jpql, params);
 		return query.getResultList();
 	}
-	
+
 }

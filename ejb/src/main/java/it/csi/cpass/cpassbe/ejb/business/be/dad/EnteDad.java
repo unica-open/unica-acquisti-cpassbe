@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -21,7 +21,7 @@ import it.csi.cpass.cpassbe.ejb.mapper.CpassMappers;
 import it.csi.cpass.cpassbe.lib.dto.Ente;
 
 /**
- * Data Access Delegate for interventos
+ * Data Access Delegate for Ente
  */
 @ApplicationScoped
 public class EnteDad extends BaseDad {
@@ -37,5 +37,21 @@ public class EnteDad extends BaseDad {
 		return cpassTEnteDao.findOne(uuid).map(CpassMappers.ENTE::toModel);
 	}
 
+	/**
+	 * Find by codice fiscale
+	 * @param codiceFiscale the codiceFiscale
+	 * @return the model instance
+	 */
+	public Optional<Ente> getEnteByCodiceFiscale(String codiceFiscale){
+		return cpassTEnteDao.findByCodiceFiscale(codiceFiscale).map(CpassMappers.ENTE::toModel);
+	}
+	/**
+	 * 
+	 * @param code
+	 * @return
+	 */
+	public Optional<Ente> getEnteByCodice(String code) {
+		return cpassTEnteDao.getEnteByCodice(code).map(CpassMappers.ENTE::toModel);
+	}
 
 }

@@ -1,0 +1,124 @@
+/common/ricerca/oggetti-spesa:
+  post:
+    operationId: getRicercaOggettiSpesa
+    description: Restituisce gli oggetti di spesa presenti a sistema.
+    produces:
+      - application/json
+    tags:
+      - common
+    parameters:
+      - $ref: '#/parameters/offsetParam'
+      - $ref: '#/parameters/limitParam'
+      - $ref: '#/parameters/sortParam'
+      - $ref: '#/parameters/directionParam'
+      - in: body
+        name: oggettiSpesa
+        required: true
+        schema:
+          $ref: '#/definitions/Ods'
+    responses:
+      '200':
+        description: Ods registrati su sistema.
+        schema:
+          $ref: '#/definitions/PagedResponseOds'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/common/oggetti-spesa/{id}:
+  get:
+    operationId: getOggettiSpesaById
+    description: Restituisce l'ods per id.
+    produces:
+      - application/json
+    tags:
+      - common
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: integer
+        description: L'id dell'ods.
+    responses:
+      '200':
+        description: L'ods registrato su sistema per dato id.
+        schema:
+          $ref: '#/definitions/Ods'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/common/inserisci/oggetti-spesa:          
+  post:
+    operationId: postOggettiSpesa
+    description: Inserisce un Ods su sistema.
+    produces:
+      - application/json
+    tags:
+      - common
+    parameters:
+      - in: body
+        name: ods
+        required: true
+        schema:
+          $ref: '#/definitions/Ods'
+    responses:
+      '200':
+        description: ods registrato.
+        schema:
+          $ref: '#/definitions/Ods'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/common/modifica/oggetti-spesa:  
+  put:
+    operationId: putOggettiSpesa
+    description: Aggiorna ods.
+    produces:
+      - application/json
+    tags:
+      - common
+    parameters:
+      - in: body
+        name: ods
+        required: true
+        schema:
+          $ref: '#/definitions/Ods'
+    responses:
+      '200':
+        description: L'Ods aggiornato.
+        schema:
+          $ref: '#/definitions/Ods'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/common/cancella/oggetti-spesa/{id}/controllo/{controllo}:          
+  delete:
+    operationId: delOggettiSpesa
+    description: Cancella l'utente per id.
+    produces:
+      - application/json
+    tags:
+      - common
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: integer
+        description: L'id ods.
+      - in: path
+        name: controllo
+        required: true
+        type: string
+        description: controllo su cancellazione.        
+    responses:
+      '200':
+        description: Lo status dell'operazione.
+        schema:
+          type: string
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'        

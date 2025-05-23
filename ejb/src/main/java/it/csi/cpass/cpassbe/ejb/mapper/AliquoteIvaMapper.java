@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -40,7 +40,7 @@ public interface AliquoteIvaMapper extends BaseMapperInterface<AliquoteIva, Cpas
 	List<AliquoteIva> toModels(Collection<CpassDAliquoteIva> entities);
 
 	@Override
-	@InheritInverseConfiguration(name="toModel")
+	@InheritInverseConfiguration(name = "toModel")
 	CpassDAliquoteIva toEntity(AliquoteIva model);
 
 	@Override
@@ -48,23 +48,3 @@ public interface AliquoteIvaMapper extends BaseMapperInterface<AliquoteIva, Cpas
 	List<CpassDAliquoteIva> toEntities(Collection<AliquoteIva> models);
 
 }
-
-/*
-@Override
-@Mapping(source = "statoCodice", target = "codice")
-@Mapping(source = "statoDescrizione", target = "descrizione")
-@Mapping(source = "statoTipo", target = "tipo")
-StatoElOrdine toModel(CpassDStatoElOrdine entity);
-
-@Override
-@IterableMapping(elementTargetType = StatoElOrdine.class)
-List<StatoElOrdine> toModels(Collection<CpassDStatoElOrdine> entities);
-
-@Override
-@InheritInverseConfiguration(name="toModel")
-CpassDStatoElOrdine toEntity(StatoElOrdine model);
-
-@Override
-@IterableMapping(elementTargetType = CpassDStatoElOrdine.class)
-List<CpassDStatoElOrdine> toEntities(Collection<StatoElOrdine> models);
-*/

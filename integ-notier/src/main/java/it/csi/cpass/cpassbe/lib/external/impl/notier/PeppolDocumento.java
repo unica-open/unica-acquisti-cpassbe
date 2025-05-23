@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - INTEGRATION submodule - NotiER
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -16,15 +16,16 @@ import java.util.Date;
 import java.util.Map;
 
 import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.apache.commons.lang3.StringUtils;
 
+import it.csi.cpass.cpassbe.lib.dto.SettoreIndirizzo;
 import it.csi.cpass.cpassbe.lib.dto.ord.Destinatario;
 import it.csi.cpass.cpassbe.lib.dto.ord.RigaOrdine;
 import it.csi.cpass.cpassbe.lib.dto.ord.TestataOrdine;
+import it.csi.cpass.cpassbe.lib.dto.ord.nso.Documento;
+import it.csi.cpass.cpassbe.lib.dto.ord.nso.TipoOrdineNSO;
 import it.csi.cpass.cpassbe.lib.external.dto.RigheOrdineConTotali;
-import it.csi.cpass.cpassbe.lib.external.impl.notier.NSOHelperImpl.TIPO_ORDINE;
 import it.csi.cpass.cpassbe.lib.external.itf.ConfigurationParam;
 import it.csi.cpass.cpassbe.lib.util.serialization.JAXBUtility;
 import it.csi.cpass.cpassbe.lib.utils.NotiERConfigurationParams;
@@ -54,16 +55,15 @@ import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_2.TaxC
 import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_2.TaxSchemeType;
 import oasis.names.specification.ubl.schema.xsd.commonaggregatecomponents_2.TaxTotalType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_2.AllowanceChargeReasonCodeType;
-import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_2.AllowanceTotalAmountType;
+import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_2.AllowanceChargeReasonType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_2.AmountType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_2.BaseAmountType;
-import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_2.BaseQuantityType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_2.ChargeIndicatorType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_2.CityNameType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_2.CompanyIDType;
+import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_2.CountrySubentityType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_2.CustomerReferenceType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_2.CustomizationIDType;
-import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_2.DescriptionType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_2.DocumentCurrencyCodeType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_2.DocumentTypeType;
 import oasis.names.specification.ubl.schema.xsd.commonbasiccomponents_2.ElectronicMailType;
@@ -96,8 +96,14 @@ public class PeppolDocumento {
 
 	private static final String EUR = "EUR";
 
-	public static String getXmlDocumento(TIPO_ORDINE tipoOrdine, TestataOrdine testataOrdine, Destinatario destinatarioOrdine,
-			RigheOrdineConTotali righeOrdineConTotali, int maxProgressivoInvio, Map<String, String> params) throws DatatypeConfigurationException {
+	public static Documento getXmlDocumento(TipoOrdineNSO tipoOrdineNSO, TestataOrdine testataOrdine, Destinatario destinatarioOrdine,
+			RigheOrdineConTotali righeOrdineConTotali, int maxProgressivoInvio, Map<String, String> params, SettoreIndirizzo indirizzoPrincipaleSettoreEmittente) throws DatatypeConfigurationException {
+		
+		Documento documento = new Documento();
+		String orderDocumentReferenceId = null;
+		String orderId = null;
+		Date issueDate = null;
+		
 		OrderType orderType = new OrderType();
 
 		String customizationID = getParameter(params, NotiERConfigurationParams.NSO_CUSTOMIZATION_ID);
@@ -110,87 +116,121 @@ public class PeppolDocumento {
 		profileIDType.setValue(profileID);
 		orderType.setProfileID(profileIDType);
 
-		orderType.setID(PeppolXmlUtils.getIDType(getOrderId(testataOrdine, destinatarioOrdine, maxProgressivoInvio)));
+		boolean unicoDestinatario = isUnicoDestinatario(getParameter(params, NotiERConfigurationParams.NSO_UNICO_DESTINATARIO));
+		orderId = PeppolXmlUtils.getOrderId(testataOrdine, destinatarioOrdine, maxProgressivoInvio, unicoDestinatario);
+		orderType.setID(PeppolXmlUtils.getIDType(orderId));
 
 		IssueDateType issueDateType = new IssueDateType();
-		issueDateType.setValue(getDeterminazioneDataInvioNSO(destinatarioOrdine));
+		if (unicoDestinatario)
+			issueDate = getDeterminazioneDataInvioNSO(destinatarioOrdine);
+		else
+			issueDate = getDeterminazioneDataInvioNSO(righeOrdineConTotali.getRigaOrdines().get(0).getDestinatario());
+		issueDateType.setValue(PeppolXmlUtils.getXMLGregorianCalendar(issueDate));
 		orderType.setIssueDate(issueDateType);
 
 		OrderTypeCodeType orderTypeCodeType = new OrderTypeCodeType();
+		orderTypeCodeType.setListID("UNCL1001"); // da esempio ricevuto in assistenza
 		orderTypeCodeType.setValue("220");
 		orderType.setOrderTypeCode(orderTypeCodeType);
 
-		NoteType noteType = new NoteType();
-		noteType.setValue(testataOrdine.getDescrizione());
-		orderType.getNote().add(noteType);
+		if(!StringUtils.isBlank(testataOrdine.getDescrizione())) {
+			NoteType noteType = new NoteType();
+			noteType.setValue(testataOrdine.getDescrizione());
+			orderType.getNote().add(noteType);
+		}
 
 		DocumentCurrencyCodeType documentCurrencyCodeType = new DocumentCurrencyCodeType();
+		documentCurrencyCodeType.setListID("ISO4217");
 		documentCurrencyCodeType.setValue(EUR);
 		orderType.setDocumentCurrencyCode(documentCurrencyCodeType);
 
 		orderType.setCustomerReference(getCustomerReference(testataOrdine, destinatarioOrdine));
 
-		EndDateType endDateType = null;
 		if (testataOrdine.getDataScadenza() != null) {
-			endDateType = new EndDateType();
+			EndDateType endDateType = new EndDateType();
 			endDateType.setValue(PeppolXmlUtils.getXMLGregorianCalendar(testataOrdine.getDataScadenza()));
+			PeriodType periodType = new PeriodType();
+			periodType.setEndDate(endDateType);
+			orderType.getValidityPeriod().add(periodType);
 		}
-		PeriodType periodType = new PeriodType();
-		periodType.setEndDate(endDateType);
-		orderType.getValidityPeriod().add(periodType);
-
-		orderType.getOrderDocumentReference().add(getDeterminazioneTagOrderDocumentReference(tipoOrdine, testataOrdine, destinatarioOrdine, maxProgressivoInvio));
-
-		DocumentReferenceType documentReferenceType = new DocumentReferenceType();
-		documentReferenceType.setID(PeppolXmlUtils.getIDType(testataOrdine.getProvvedimento().getAnno() + "/" + testataOrdine.getProvvedimento().getNumero()));
-		DocumentTypeType documentTypeType = new DocumentTypeType();
-		documentTypeType.setValue("Delibera");
-		documentReferenceType.setDocumentType(documentTypeType);
-		orderType.getAdditionalDocumentReference().add(documentReferenceType);
-
+		
+		if (!tipoOrdineNSO.equals(TipoOrdineNSO.INIZIALE)) {
+			DocumentReferenceType documentReferenceType = new DocumentReferenceType();
+			orderDocumentReferenceId = getOrderDocumentReferenceId(tipoOrdineNSO, orderId, issueDate, testataOrdine.getUfficio().getCodice());
+			documentReferenceType.setID(PeppolXmlUtils.getIDType(orderDocumentReferenceId));
+			orderType.getOrderDocumentReference().add(documentReferenceType);
+		}
+		
+		DocumentReferenceType drt = new DocumentReferenceType();
+		if (!StringUtils.isBlank(testataOrdine.getCig())) {
+			drt.setID(PeppolXmlUtils.getIDType(testataOrdine.getCig()));
+		} else {
+			drt.setID(PeppolXmlUtils.getIDType(testataOrdine.getMotiviEsclusioneCig().getCodiceNso()));
+		}
+		orderType.setOriginatorDocumentReference(drt);
+		
+		if (testataOrdine.getProvvedimento() != null) {
+			DocumentReferenceType documentReferenceType = new DocumentReferenceType();
+			documentReferenceType.setID(PeppolXmlUtils.getIDType(testataOrdine.getProvvedimento().getAnno() + "/" + testataOrdine.getProvvedimento().getNumero()));
+			DocumentTypeType documentTypeType = new DocumentTypeType();
+//			documentTypeType.setValue("Delibera");
+			documentTypeType.setValue(testataOrdine.getProvvedimento().getProvvedimentoTipo().getDescrizione());
+			documentReferenceType.setDocumentType(documentTypeType);
+			orderType.getAdditionalDocumentReference().add(documentReferenceType);
+		}
 		ContractType contractType = new ContractType();
-		contractType.setID(PeppolXmlUtils.getIDType("TOBD"));
+		contractType.setID(PeppolXmlUtils.getIDType(testataOrdine.getTipoProceduraOrd().getDescrizione() + " - " + testataOrdine.getNumeroProcedura()));
 		orderType.getContract().add(contractType);
 
-		setBuyerCustomerParty(orderType, testataOrdine);
+//		if (unicoDestinatario)
+		setBuyerCustomerParty(orderType, testataOrdine, indirizzoPrincipaleSettoreEmittente);
 		setSellerSupplierParty(orderType, testataOrdine);
-		setDelivery(orderType, testataOrdine, destinatarioOrdine);
-		setTotali(orderType, righeOrdineConTotali);
+		setDelivery(orderType, testataOrdine, destinatarioOrdine, unicoDestinatario);
+		if (!tipoOrdineNSO.equals(TipoOrdineNSO.REVOCA))
+			setTotali(orderType, righeOrdineConTotali);
 
-		for (RigaOrdine rigaOrdine : righeOrdineConTotali.getRigaOrdines()) {
-			setOrderLine(tipoOrdine, orderType, rigaOrdine);
+		
+		/* TODO N.B. Nel caso di ordine iniziale o ordine sostitutivo, questa sezione si ripete per ogni riga d’ordine presente in CPASS_T_ORD_ORDINE_RIGA.
+		Nel caso di ordine di revoca, invece c’è una sola sezione OrderLine, che per comodità viene riportata nel paragrafo 4.3.1.6Sezione OrderLine per un ordine di revoca*/
+		
+		if (tipoOrdineNSO.equals(TipoOrdineNSO.INIZIALE) || tipoOrdineNSO.equals(TipoOrdineNSO.SOSTITUTIVO)) {
+			int lineItemId = 1;  
+			for (RigaOrdine rigaOrdine : righeOrdineConTotali.getRigaOrdines()) {
+				setOrderLine(tipoOrdineNSO, orderType, rigaOrdine, unicoDestinatario, lineItemId);
+				lineItemId++;
+			}
+		}
+		else if (tipoOrdineNSO.equals(TipoOrdineNSO.REVOCA)) {
+			setOrderLineRevoca(tipoOrdineNSO,orderType,righeOrdineConTotali.getRigaOrdines().get(0));
 		}
 
-		return JAXBUtility.marshall(orderType);
+		documento.setXml(JAXBUtility.marshall(orderType));
+		documento.setOrderId(orderId);
+		documento.setOrderDocumentReferenceId(orderDocumentReferenceId);
+		return documento;
 	}
 
 	private static String getParameter(Map<String, String> params, ConfigurationParam param) {
 		return params.get(param.getParamName());
 	}
 
-	private static String getOrderId(TestataOrdine testataOrdine, Destinatario destinatarioOrdine, int maxProgressivoInvio) {
-		// CPASS_T_ORD_TESTATA_ORDINE.ordine_anno
-		// ||’_’||CPASS_T_ORD_TESTATA_ORDINE.numero||’_’||CPASS_T_ORD_DESTINATARIO_ORDINE.progressivo||’_’||MAX(CPASS_R_ORD_TESTATA_INVIO_NSO.progressivo_invio)
-		// + 1
-		// TODO max da CPASS_R_ORD_TESTATA_INVIO_NSO
-		return testataOrdine.getAnno() + "_" + testataOrdine.getNumero() + "_" + destinatarioOrdine.getProgressivo() + "_" + maxProgressivoInvio;
-	}
 
-	private static XMLGregorianCalendar getDeterminazioneDataInvioNSO(Destinatario destinatarioOrdine) throws DatatypeConfigurationException {
+	private static Date getDeterminazioneDataInvioNSO(Destinatario destinatarioOrdine) throws DatatypeConfigurationException {
 		Date date = null;
 		if (destinatarioOrdine.getDataInvioNso() == null) {
 			date = new Date();
 		} else {
 			date = destinatarioOrdine.getDataInvioNso();
 		}
-		return PeppolXmlUtils.getXMLGregorianCalendar(date);
+		return date;
+//		return PeppolXmlUtils.getXMLGregorianCalendar(date);
 	}
 
 	private static CustomerReferenceType getCustomerReference(TestataOrdine testataOrdine, Destinatario destinatarioOrdine) {
 		String value = null;
 
 		// Se è popolato CPASS_T_ORD_DESTINATARIO_ORDINE.contatto , utilizzare il valore di questo campo,
-		if (!StringUtils.isBlank(destinatarioOrdine.getContatto())) {
+		if (destinatarioOrdine != null && !StringUtils.isBlank(destinatarioOrdine.getContatto())) {
 			value = destinatarioOrdine.getContatto();
 		}
 
@@ -209,32 +249,21 @@ public class PeppolDocumento {
 		return customerReferenceType;
 	}
 
-	private static DocumentReferenceType getDeterminazioneTagOrderDocumentReference(TIPO_ORDINE tipoOrdine, TestataOrdine testataOrdine,
-			Destinatario destinatarioOrdine, int maxProgressivoInvio) {
-		String value = null;
-		if (TIPO_ORDINE.INIZIALE.equals(tipoOrdine)) {
-			value = "";
-		} else {
-			// es. 2020_432_2_3#2018-01-0#B9GAQ#Revised
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-			String statoOrdine = null;
-			if (TIPO_ORDINE.REVOCA.equals(tipoOrdine)) {
-				statoOrdine = "Cancelled";
-			} else if (TIPO_ORDINE.SOSTITUTIVO.equals(tipoOrdine)) {
-				statoOrdine = "Revised";
-			}
-			value = getOrderId(testataOrdine, destinatarioOrdine, maxProgressivoInvio) + "#" + sdf.format(destinatarioOrdine.getDataInvioNso()) + "#"
-					+ testataOrdine.getUfficio().getCodice() + "#" + statoOrdine;
+	private static String getOrderDocumentReferenceId(TipoOrdineNSO tipoOrdineNSO, String orderId, Date issueDate, String endPointId) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String statoOrdine = null;
+		if (tipoOrdineNSO.equals(TipoOrdineNSO.REVOCA)) {
+			statoOrdine = "Cancelled";
+		} else if (tipoOrdineNSO.equals(TipoOrdineNSO.SOSTITUTIVO)) {
+			statoOrdine = "Revised";
 		}
-
-		DocumentReferenceType documentReferenceType = new DocumentReferenceType();
-		documentReferenceType.setID(PeppolXmlUtils.getIDType(value));
-
-		return documentReferenceType;
+//		String value = PeppolXmlUtils.getOrderId(testataOrdine, destinatarioOrdine, maxProgressivoInvio,unicoDestinatario) + "#" + sdf.format(destinatarioOrdine.getDataInvioNso()) + "#"
+//				+ testataOrdine.getUfficio().getCodice() + "#" + statoOrdine;
+		String value = orderId + "#" + sdf.format(issueDate) + "#"+ endPointId + "#" + statoOrdine;
+		return value;
 	}
 
-	private static void setBuyerCustomerParty(OrderType orderType, TestataOrdine testataOrdine) {
+	private static void setBuyerCustomerParty(OrderType orderType, TestataOrdine testataOrdine, SettoreIndirizzo indirizzoPrincipaleSettoreEmittente) {
 		// BuyerCustomerParty
 		// Party
 		EndpointIDType endpointIDType = new EndpointIDType();
@@ -248,29 +277,36 @@ public class PeppolDocumento {
 
 		// PostalAddress
 		StreetNameType streetNameType = new StreetNameType();
-		streetNameType.setValue(testataOrdine.getSettore().getIndirizzo() + "," + testataOrdine.getSettore().getNumCivico());
+		streetNameType.setValue(indirizzoPrincipaleSettoreEmittente.getIndirizzo() + "," + indirizzoPrincipaleSettoreEmittente.getNumCivico());
 
 		CityNameType cityNameType = new CityNameType();
-		cityNameType.setValue(testataOrdine.getSettore().getLocalita());
+		cityNameType.setValue(indirizzoPrincipaleSettoreEmittente.getLocalita());
 
 		PostalZoneType postalZoneType = new PostalZoneType();
-		postalZoneType.setValue(testataOrdine.getSettore().getCap());
-
+		postalZoneType.setValue(indirizzoPrincipaleSettoreEmittente.getCap());
+		
+		CountrySubentityType countrySubentityType = new CountrySubentityType();
+		countrySubentityType.setValue(indirizzoPrincipaleSettoreEmittente.getProvincia());
+		
 		IdentificationCodeType identificationCodeType = new IdentificationCodeType();
 		identificationCodeType.setValue("IT");
+		identificationCodeType.setListID("ISO3166-1:Alpha2");
 		CountryType countryType = new CountryType();
 		countryType.setIdentificationCode(identificationCodeType);
 
 		AddressType addressType = new AddressType();
 		addressType.setStreetName(streetNameType);
 		addressType.setCityName(cityNameType);
-		addressType.setPostalZone(postalZoneType);
+		if (!StringUtils.isBlank(postalZoneType.getValue()))
+			addressType.setPostalZone(postalZoneType);
+		if (!StringUtils.isBlank(countrySubentityType.getValue()))
+			addressType.setCountrySubentity(countrySubentityType);
 		addressType.setCountry(countryType);
 		partyType.setPostalAddress(addressType);
 
 		// PartyTaxScheme
 		CompanyIDType companyIDType = new CompanyIDType();
-		companyIDType.setValue(testataOrdine.getSettore().getEnte().getCodiceFiscale());
+		companyIDType.setValue("IT" + testataOrdine.getSettore().getEnte().getCodiceFiscale());
 		PartyTaxSchemeType partyTaxSchemeType = new PartyTaxSchemeType();
 		partyTaxSchemeType.setCompanyID(companyIDType);
 		TaxSchemeType taxSchemeType = new TaxSchemeType();
@@ -292,10 +328,11 @@ public class PeppolDocumento {
 
 	private static void setSellerSupplierParty(OrderType orderType, TestataOrdine testataOrdine) {
 		EndpointIDType endpointIDType = new EndpointIDType();
-		endpointIDType.setSchemeID("9906");
 		if (!StringUtils.isBlank(testataOrdine.getFornitore().getPartitaIva())) {
+			endpointIDType.setSchemeID("0211");
 			endpointIDType.setValue("IT" + testataOrdine.getFornitore().getPartitaIva());
 		} else {
+			endpointIDType.setSchemeID("0210");
 			endpointIDType.setValue("IT" + testataOrdine.getFornitore().getCodiceFiscale());
 		}
 
@@ -320,15 +357,21 @@ public class PeppolDocumento {
 		PostalZoneType postalZoneType = new PostalZoneType();
 		postalZoneType.setValue(testataOrdine.getFornitore().getCap());
 
+		CountrySubentityType countrySubentityType = new CountrySubentityType();
+		countrySubentityType.setValue(testataOrdine.getFornitore().getProvincia());
+
 		IdentificationCodeType identificationCodeType = new IdentificationCodeType();
 		identificationCodeType.setValue("IT");
+//		identificationCodeType.setListID("ISO3166-1:Alpha2");
 		CountryType countryType = new CountryType();
 		countryType.setIdentificationCode(identificationCodeType);
 
 		AddressType addressType = new AddressType();
 		addressType.setStreetName(streetNameType);
 		addressType.setCityName(cityNameType);
-		addressType.setPostalZone(postalZoneType);
+		if (postalZoneType.getValue()!=null)
+			addressType.setPostalZone(postalZoneType);
+		addressType.setCountrySubentity(countrySubentityType);
 		addressType.setCountry(countryType);
 		partyType.setPostalAddress(addressType);
 
@@ -343,43 +386,52 @@ public class PeppolDocumento {
 		orderType.setSellerSupplierParty(supplierPartyType);
 	}
 
-	private static void setDelivery(OrderType orderType, TestataOrdine testataOrdine, Destinatario destinatarioOrdine) throws DatatypeConfigurationException {
-		// inzio - DeliveryLocation
-		StreetNameType streetNameType = new StreetNameType();
-		streetNameType.setValue(destinatarioOrdine.getIndirizzo() + "," + destinatarioOrdine.getNumCivico());
-
-		CityNameType cityNameType = new CityNameType();
-		cityNameType.setValue(destinatarioOrdine.getLocalita());
-
-		PostalZoneType postalZoneType = new PostalZoneType();
-		postalZoneType.setValue(destinatarioOrdine.getCap());
-
-		IdentificationCodeType identificationCodeType = new IdentificationCodeType();
-		identificationCodeType.setValue("IT");
-		CountryType countryType = new CountryType();
-		countryType.setIdentificationCode(identificationCodeType);
-
-		AddressType addressType = new AddressType();
-		addressType.setStreetName(streetNameType);
-		addressType.setCityName(cityNameType);
-		addressType.setPostalZone(postalZoneType);
-		addressType.setCountry(countryType);
-
-		LocationType locationType = new LocationType();
-		locationType.setAddress(addressType);
-		// fine - DeliveryLocation
-
+	private static void setDelivery(OrderType orderType, TestataOrdine testataOrdine, Destinatario destinatarioOrdine, boolean unicoDestinatario) throws DatatypeConfigurationException {
+		DeliveryType deliveryType = new DeliveryType();
+		
+		if (unicoDestinatario) {
+			// inzio - DeliveryLocation
+			StreetNameType streetNameType = new StreetNameType();
+			streetNameType.setValue(destinatarioOrdine.getIndirizzo() + "," + destinatarioOrdine.getNumCivico());
+	
+			CityNameType cityNameType = new CityNameType();
+			cityNameType.setValue(destinatarioOrdine.getLocalita());
+	
+			PostalZoneType postalZoneType = new PostalZoneType();
+			postalZoneType.setValue(destinatarioOrdine.getCap());
+	
+			IdentificationCodeType identificationCodeType = new IdentificationCodeType();
+			identificationCodeType.setValue("IT");
+	//		identificationCodeType.setListID("ISO3166-1:Alpha2");
+			CountryType countryType = new CountryType();
+			countryType.setIdentificationCode(identificationCodeType);
+	
+			AddressType addressType = new AddressType();
+			addressType.setStreetName(streetNameType);
+			addressType.setCityName(cityNameType);
+			if (postalZoneType.getValue()!=null)
+				addressType.setPostalZone(postalZoneType);
+			addressType.setCountry(countryType);
+	
+			LocationType locationType = new LocationType();
+			locationType.setID(PeppolXmlUtils.getIDType("" + destinatarioOrdine.getProgressivo()));
+			locationType.setAddress(addressType);
+			// fine - DeliveryLocation
+			deliveryType.setDeliveryLocation(locationType);
+		}
 		// inizio periodType
 		StartDateType startDateType = null;
-		if (testataOrdine.getConsegnaDataDa() != null) {
-			startDateType = new StartDateType();
-			startDateType.setValue(PeppolXmlUtils.getXMLGregorianCalendar(testataOrdine.getConsegnaDataDa()));
-		}
-
 		EndDateType endDateType = null;
+
 		if (testataOrdine.getConsegnaDataA() != null) {
 			endDateType = new EndDateType();
+			startDateType = new StartDateType();
 			endDateType.setValue(PeppolXmlUtils.getXMLGregorianCalendar(testataOrdine.getConsegnaDataA()));
+			startDateType.setValue(PeppolXmlUtils.getXMLGregorianCalendar(testataOrdine.getConsegnaDataA())); // se endDate è valorizzato startDate deve essere valorizzato, eventualmente se presente è sovrascritto con dataConsegnaDa 
+		}
+
+		if (testataOrdine.getConsegnaDataDa() != null) {
+			startDateType.setValue(PeppolXmlUtils.getXMLGregorianCalendar(testataOrdine.getConsegnaDataDa()));
 		}
 
 		PeriodType periodType = new PeriodType();
@@ -387,39 +439,46 @@ public class PeppolDocumento {
 		periodType.setEndDate(endDateType);
 		// fine periodType
 
-		// inizio DeliveryParty
-		String destinatarioSettore = destinatarioOrdine.getSettore().getCodice() + "-" + destinatarioOrdine.getSettore().getDescrizione();
-		PartyNameType partyNameType = new PartyNameType();
-		partyNameType.setName(PeppolXmlUtils.getNameType(destinatarioSettore));
-		PartyType partyType = new PartyType();
-		partyType.getPartyName().add(partyNameType);
+		if (unicoDestinatario) {
+			// inizio DeliveryParty
+			String destinatarioSettore = destinatarioOrdine.getSettore().getCodice() + " - " + destinatarioOrdine.getSettore().getDescrizione();
+			PartyNameType partyNameType = new PartyNameType();
+			partyNameType.setName(PeppolXmlUtils.getNameType(destinatarioSettore));
+			PartyType partyType = new PartyType();
+			partyType.getPartyName().add(partyNameType);
+	
+			if (!StringUtils.isBlank(destinatarioOrdine.getContatto()) || !StringUtils.isBlank(destinatarioOrdine.getTelefono()) || !StringUtils.isBlank(destinatarioOrdine.getEmail())) {
+				ContactType contactType = new ContactType();
+				if (!StringUtils.isBlank(destinatarioOrdine.getContatto()))
+					contactType.setName(PeppolXmlUtils.getNameType(destinatarioOrdine.getContatto()));
+		
+				if (!StringUtils.isBlank(destinatarioOrdine.getTelefono())) {
+					TelephoneType telephoneType = new TelephoneType();
+					telephoneType.setValue(destinatarioOrdine.getTelefono());
+					contactType.setTelephone(telephoneType);
+				}
+				if (!StringUtils.isBlank(destinatarioOrdine.getEmail())) {
+					ElectronicMailType electronicMailType = new ElectronicMailType();
+					electronicMailType.setValue(destinatarioOrdine.getEmail());
+					contactType.setElectronicMail(electronicMailType);
+				}
+				partyType.setContact(contactType);
+			}
+			// fine DeliveryParty
+			deliveryType.setDeliveryParty(partyType);
+		}
 
-		ContactType contactType = new ContactType();
-		contactType.setName(PeppolXmlUtils.getNameType(destinatarioOrdine.getContatto()));
+		if(periodType.getStartDate()!=null || periodType.getEndDate()!=null)
+			deliveryType.setRequestedDeliveryPeriod(periodType);
 
-		TelephoneType telephoneType = new TelephoneType();
-		telephoneType.setValue(destinatarioOrdine.getTelefono());
-		contactType.setTelephone(telephoneType);
-
-		ElectronicMailType electronicMailType = new ElectronicMailType();
-		electronicMailType.setValue(destinatarioOrdine.getEmail());
-		contactType.setElectronicMail(electronicMailType);
-
-		partyType.setContact(contactType);
-		// fine DeliveryParty
-
-		DeliveryType deliveryType = new DeliveryType();
-		deliveryType.setDeliveryLocation(locationType);
-		deliveryType.setRequestedDeliveryPeriod(periodType);
-		deliveryType.setDeliveryParty(partyType);
-
-		orderType.getDelivery().add(deliveryType);
+		if (deliveryType.getDeliveryLocation()!=null || deliveryType.getDeliveryParty()!=null || deliveryType.getRequestedDeliveryPeriod()!=null)
+			orderType.getDelivery().add(deliveryType);
 	}
 
 	private static void setTotali(OrderType orderType, RigheOrdineConTotali righeOrdineConTotali) {
 		TaxAmountType taxAmountType = new TaxAmountType();
 		taxAmountType.setCurrencyID(EUR);
-		taxAmountType.setValue(righeOrdineConTotali.taxAmount);
+		taxAmountType.setValue(PeppolXmlUtils.getBigDecimalRound(righeOrdineConTotali.taxAmount));
 
 		TaxTotalType taxTotalType = new TaxTotalType();
 		taxTotalType.setTaxAmount(taxAmountType);
@@ -428,27 +487,27 @@ public class PeppolDocumento {
 
 		LineExtensionAmountType lineExtensionAmountType = new LineExtensionAmountType();
 		lineExtensionAmountType.setCurrencyID(EUR);
-		lineExtensionAmountType.setValue(righeOrdineConTotali.lineExtensionAmount);
+		lineExtensionAmountType.setValue(PeppolXmlUtils.getBigDecimalRound(righeOrdineConTotali.lineExtensionAmount));
 
-		AllowanceTotalAmountType allowanceTotalAmountType = new AllowanceTotalAmountType();
-		allowanceTotalAmountType.setCurrencyID(EUR);
-		allowanceTotalAmountType.setValue(righeOrdineConTotali.allowanceTotalAmount);
+//		AllowanceTotalAmountType allowanceTotalAmountType = new AllowanceTotalAmountType();
+//		allowanceTotalAmountType.setCurrencyID(EUR);
+//		allowanceTotalAmountType.setValue(PeppolXmlUtils.getBigDecimalRound(righeOrdineConTotali.allowanceTotalAmount));
 
 		TaxExclusiveAmountType taxExclusiveAmountType = new TaxExclusiveAmountType();
 		taxExclusiveAmountType.setCurrencyID(EUR);
-		taxExclusiveAmountType.setValue(righeOrdineConTotali.taxExclusiveAmount);
+		taxExclusiveAmountType.setValue(PeppolXmlUtils.getBigDecimalRound(righeOrdineConTotali.taxExclusiveAmount));
 
 		TaxInclusiveAmountType taxInclusiveAmountType = new TaxInclusiveAmountType();
 		taxInclusiveAmountType.setCurrencyID(EUR);
-		taxInclusiveAmountType.setValue(righeOrdineConTotali.taxInclusiveAmount);
-
+		taxInclusiveAmountType.setValue(PeppolXmlUtils.getBigDecimalRound(righeOrdineConTotali.taxInclusiveAmount));
+		
 		PayableAmountType payableAmountType = new PayableAmountType();
 		payableAmountType.setCurrencyID(EUR);
-		payableAmountType.setValue(righeOrdineConTotali.payableAmount);
+		payableAmountType.setValue(PeppolXmlUtils.getBigDecimalRound(righeOrdineConTotali.payableAmount));
 
 		MonetaryTotalType monetaryTotalType = new MonetaryTotalType();
 		monetaryTotalType.setLineExtensionAmount(lineExtensionAmountType);
-		monetaryTotalType.setAllowanceTotalAmount(allowanceTotalAmountType);
+//		monetaryTotalType.setAllowanceTotalAmount(allowanceTotalAmountType);
 		monetaryTotalType.setTaxExclusiveAmount(taxExclusiveAmountType);
 		monetaryTotalType.setTaxInclusiveAmount(taxInclusiveAmountType);
 		monetaryTotalType.setPayableAmount(payableAmountType);
@@ -456,24 +515,59 @@ public class PeppolDocumento {
 		orderType.setAnticipatedMonetaryTotal(monetaryTotalType);
 	}
 
-	private static void setOrderLine(TIPO_ORDINE tipoOrdine, OrderType orderType, RigaOrdine rigaOrdine) {
+	private static void setOrderLine(TipoOrdineNSO tipoOrdineNSO, OrderType orderType, RigaOrdine rigaOrdine, boolean unicoDestinatario, int lineItemId)  throws DatatypeConfigurationException{
 		NoteType noteType = new NoteType();
 		noteType.setValue(rigaOrdine.getNote());
 
 		LineItemType lineItemType = new LineItemType();
-		lineItemType.setID(PeppolXmlUtils.getIDType("" + rigaOrdine.getProgressivo()));
+//		lineItemType.setID(PeppolXmlUtils.getIDType("" + rigaOrdine.getProgressivo()));
+		lineItemType.setID(PeppolXmlUtils.getIDType("" + lineItemId)); // l'id è un progressivo univo all'interno del documento, non è possibile usare il progressivo della riga che si ripete per destinatario differente
 
 		// Vedi algoritmo 3.3.1.4 Quantità linea d’ordine
-		lineItemType.setQuantity(getQuantitaLineaOrdine(tipoOrdine, rigaOrdine));
+		lineItemType.setQuantity(getQuantitaLineaOrdine(tipoOrdineNSO, rigaOrdine));
 
 		LineExtensionAmountType lineExtensionAmountType = new LineExtensionAmountType();
-		lineExtensionAmountType.setValue(rigaOrdine.getPrezzoUnitario().multiply(rigaOrdine.getQuantita()));
+		lineExtensionAmountType.setValue(PeppolXmlUtils.getBigDecimalRound(rigaOrdine.getImportoNetto()));
 		lineExtensionAmountType.setCurrencyID(EUR);
 		lineItemType.setLineExtensionAmount(lineExtensionAmountType);
 
 		PartialDeliveryIndicatorType partialDeliveryIndicatorType = new PartialDeliveryIndicatorType();
 		partialDeliveryIndicatorType.setValue(rigaOrdine.getConsegnaParziale() == null ? false : rigaOrdine.getConsegnaParziale().booleanValue());
 		lineItemType.setPartialDeliveryIndicator(partialDeliveryIndicatorType);
+		
+		
+		if (!unicoDestinatario) {
+//			DeliveryTermsType deliveryTermsType = new DeliveryTermsType();
+			DeliveryType deliveryType = new DeliveryType();
+			
+			// ID
+			String codiceFiscaleEnte = rigaOrdine.getDestinatario().getSettore().getEnte().getCodiceFiscale();
+			deliveryType.setID(PeppolXmlUtils.getIDType(codiceFiscaleEnte + "-" + rigaOrdine.getDestinatario().getIndirizzoCodice()));
+
+			// RequestedDeliveryPeriod
+			StartDateType startDateType = new StartDateType();
+			EndDateType endDateType = null;
+			Date consegnaDataDa = rigaOrdine.getDestinatario().getTestataOrdine().getConsegnaDataDa();
+			Date consegnaDataA = rigaOrdine.getDestinatario().getTestataOrdine().getConsegnaDataA();
+			
+			if (consegnaDataDa == null && consegnaDataA == null)
+				startDateType.setValue(PeppolXmlUtils.getXMLGregorianCalendar(new Date()));
+			else if (consegnaDataDa != null) {
+				startDateType.setValue(PeppolXmlUtils.getXMLGregorianCalendar(consegnaDataDa));
+			}
+			if (consegnaDataA != null) {
+				endDateType = new EndDateType();
+				endDateType.setValue(PeppolXmlUtils.getXMLGregorianCalendar(consegnaDataA));
+			}
+
+			PeriodType periodType = new PeriodType();
+			periodType.setStartDate(startDateType);
+			if (endDateType!=null)
+				periodType.setEndDate(endDateType);
+			deliveryType.setRequestedDeliveryPeriod(periodType);
+			
+			lineItemType.getDelivery().add(deliveryType);
+		}
 
 		// La sezione è presente solo se CPASS_T_ORD_RIGA_ORDINE.percentuale_sconto è valorizzato
 		if (rigaOrdine.getPercentualeSconto() != null && rigaOrdine.getPercentualeSconto().compareTo(new BigDecimal(0)) != 0) {
@@ -481,20 +575,27 @@ public class PeppolDocumento {
 			chargeIndicatorType.setValue(false);
 
 			AllowanceChargeReasonCodeType allowanceChargeReasonCodeType = new AllowanceChargeReasonCodeType();
-			allowanceChargeReasonCodeType.setValue("Sconto 1");
+			allowanceChargeReasonCodeType.setValue("104");
+
+			AllowanceChargeReasonType allowanceChargeReasonType = new AllowanceChargeReasonType();
+			allowanceChargeReasonType.setValue("Sconto 1");
 
 			MultiplierFactorNumericType multiplierFactorNumericType = new MultiplierFactorNumericType();
-			multiplierFactorNumericType.setValue(rigaOrdine.getPercentualeSconto().divide(new BigDecimal(100)));
+//			multiplierFactorNumericType.setValue(rigaOrdine.getPercentualeSconto().divide(new BigDecimal(100)));
+			multiplierFactorNumericType.setValue(rigaOrdine.getPercentualeSconto());
 
 			AmountType amountType = new AmountType();
-			amountType.setValue(rigaOrdine.getImportoSconto());
-
+			amountType.setValue(PeppolXmlUtils.getBigDecimalRound(rigaOrdine.getImportoSconto()));
+			amountType.setCurrencyID(EUR);
+			
 			BaseAmountType baseAmountType = new BaseAmountType();
-			baseAmountType.setValue(rigaOrdine.getPrezzoUnitario().multiply(rigaOrdine.getQuantita()));
+			baseAmountType.setValue(PeppolXmlUtils.getBigDecimalRound(rigaOrdine.getPrezzoUnitario().multiply(rigaOrdine.getQuantita())));
+			baseAmountType.setCurrencyID(EUR);
 
 			AllowanceChargeType allowanceChargeType = new AllowanceChargeType();
 			allowanceChargeType.setChargeIndicator(chargeIndicatorType);
 			allowanceChargeType.setAllowanceChargeReasonCode(allowanceChargeReasonCodeType);
+			allowanceChargeType.getAllowanceChargeReason().add(allowanceChargeReasonType);
 			allowanceChargeType.setMultiplierFactorNumeric(multiplierFactorNumericType);
 			allowanceChargeType.setAmount(amountType);
 			allowanceChargeType.setBaseAmount(baseAmountType);
@@ -503,25 +604,31 @@ public class PeppolDocumento {
 		}
 
 		// La sezione è presente solo se CPASS_T_ORD_RIGA_ORDINE.percentuale_sconto2 è valorizzato
-		if (rigaOrdine.getPercentualeSconto() != null && rigaOrdine.getPercentualeSconto().compareTo(new BigDecimal(0)) != 0) {
+		if (rigaOrdine.getPercentualeSconto2() != null && rigaOrdine.getPercentualeSconto2().compareTo(new BigDecimal(0)) != 0) {
 			ChargeIndicatorType chargeIndicatorType = new ChargeIndicatorType();
 			chargeIndicatorType.setValue(false);
 
 			AllowanceChargeReasonCodeType allowanceChargeReasonCodeType = new AllowanceChargeReasonCodeType();
-			allowanceChargeReasonCodeType.setValue("Sconto 2");
-
+			allowanceChargeReasonCodeType.setValue("104");
+			
+			AllowanceChargeReasonType allowanceChargeReasonType = new AllowanceChargeReasonType();
+			allowanceChargeReasonType.setValue("Sconto 2");
+			
 			MultiplierFactorNumericType multiplierFactorNumericType = new MultiplierFactorNumericType();
-			multiplierFactorNumericType.setValue(rigaOrdine.getPercentualeSconto2().divide(new BigDecimal(100)));
+			multiplierFactorNumericType.setValue(rigaOrdine.getPercentualeSconto2());
 
 			AmountType amountType = new AmountType();
-			amountType.setValue(rigaOrdine.getImportoSconto2());
+			amountType.setValue(PeppolXmlUtils.getBigDecimalRound(rigaOrdine.getImportoSconto2()));
+			amountType.setCurrencyID(EUR);
 
 			BaseAmountType baseAmountType = new BaseAmountType();
-			baseAmountType.setValue(rigaOrdine.getPrezzoUnitario().multiply(rigaOrdine.getQuantita()));
+			baseAmountType.setValue(PeppolXmlUtils.getBigDecimalRound((rigaOrdine.getPrezzoUnitario().multiply(rigaOrdine.getQuantita())).subtract(rigaOrdine.getImportoSconto())));
+			baseAmountType.setCurrencyID(EUR);
 
 			AllowanceChargeType allowanceChargeType = new AllowanceChargeType();
 			allowanceChargeType.setChargeIndicator(chargeIndicatorType);
 			allowanceChargeType.setAllowanceChargeReasonCode(allowanceChargeReasonCodeType);
+			allowanceChargeType.getAllowanceChargeReason().add(allowanceChargeReasonType);
 			allowanceChargeType.setMultiplierFactorNumeric(multiplierFactorNumericType);
 			allowanceChargeType.setAmount(amountType);
 			allowanceChargeType.setBaseAmount(baseAmountType);
@@ -531,28 +638,27 @@ public class PeppolDocumento {
 
 		// price
 		PriceAmountType priceAmountType = new PriceAmountType();
-		priceAmountType.setValue(rigaOrdine.getPrezzoUnitario());
+		priceAmountType.setValue(PeppolXmlUtils.getBigDecimalRound(rigaOrdine.getPrezzoUnitario(), 5));
+		priceAmountType.setCurrencyID(EUR);
 
-		BaseQuantityType baseQuantityType = new BaseQuantityType();
-		baseQuantityType.setValue(rigaOrdine.getQuantita());
+//		BaseQuantityType baseQuantityType = new BaseQuantityType();
+//		baseQuantityType.setValue(rigaOrdine.getQuantita());
 
 		PriceType priceType = new PriceType();
 		priceType.setPriceAmount(priceAmountType);
-		priceType.setBaseQuantity(baseQuantityType);
+//		priceType.setBaseQuantity(baseQuantityType);
 		lineItemType.setPrice(priceType);
 
 		// item
-		DescriptionType descriptionType = new DescriptionType();
-		descriptionType.setValue(rigaOrdine.getOds().getDescrizione());
+//		DescriptionType descriptionType = new DescriptionType();
+//		descriptionType.setValue(rigaOrdine.getOds().getDescrizione());
 
 		ItemIdentificationType buyersItemIdentificationType = new ItemIdentificationType();
 		buyersItemIdentificationType.setID(PeppolXmlUtils.getIDType(rigaOrdine.getOds().getCodice()));
 
 		ItemIdentificationType sellersItemIdentificationType = null;
-		if (rigaOrdine.getListinoFornitore() != null) {
-			sellersItemIdentificationType = new ItemIdentificationType();
-			sellersItemIdentificationType.setID(PeppolXmlUtils.getIDType(rigaOrdine.getListinoFornitore().getCodiceOds()));
-		}
+		sellersItemIdentificationType = new ItemIdentificationType();
+		sellersItemIdentificationType.setID(PeppolXmlUtils.getIDType(rigaOrdine.getListinoFornitore().getCodiceOds()));
 
 		CommodityClassificationType commodityClassificationType = new CommodityClassificationType();
 		// Vedere algoritmo 3.3.1.5 Tag CommodityClassification/ItemClassificationCode
@@ -570,7 +676,8 @@ public class PeppolDocumento {
 		taxCategoryType.setTaxScheme(taxSchemeType);
 
 		ItemType itemType = new ItemType();
-		itemType.getDescription().add(descriptionType);
+		itemType.setName(PeppolXmlUtils.getNameType(rigaOrdine.getOds().getDescrizione()));
+//		itemType.getDescription().add(descriptionType);
 		itemType.setBuyersItemIdentification(buyersItemIdentificationType);
 		itemType.setSellersItemIdentification(sellersItemIdentificationType);
 		itemType.getCommodityClassification().add(commodityClassificationType);
@@ -578,19 +685,38 @@ public class PeppolDocumento {
 		lineItemType.setItem(itemType);
 
 		OrderLineType orderLineType = new OrderLineType();
-		orderLineType.getNote().add(noteType);
+		if (!StringUtils.isBlank(noteType.getValue()))
+			orderLineType.getNote().add(noteType);
 		orderLineType.setLineItem(lineItemType);
 
 		orderType.getOrderLine().add(orderLineType);
 	}
+	
+	private static void setOrderLineRevoca (TipoOrdineNSO tipoOrdineNSO, OrderType orderType, RigaOrdine rigaOrdine) {
 
-	private static QuantityType getQuantitaLineaOrdine(TIPO_ORDINE tipoOrdine, RigaOrdine rigaOrdine) {
+		LineItemType lineItemType = new LineItemType();
+
+		ItemType itemType = new ItemType();
+		itemType.setName(PeppolXmlUtils.getNameType("NA"));
+
+		lineItemType.setItem(itemType);
+		lineItemType.setID(PeppolXmlUtils.getIDType("NA"));
+		// Vedi algoritmo 3.3.1.4 Quantità linea d’ordine
+		lineItemType.setQuantity(getQuantitaLineaOrdine(tipoOrdineNSO, rigaOrdine));
+
+		OrderLineType orderLineType = new OrderLineType();
+		orderLineType.setLineItem(lineItemType);
+		orderType.getOrderLine().add(orderLineType);
+		
+	}
+
+	private static QuantityType getQuantitaLineaOrdine(TipoOrdineNSO tipoOrdineNSO, RigaOrdine rigaOrdine) {
 		QuantityType quantityType = new QuantityType();
 		quantityType.setUnitCode(rigaOrdine.getUnitaMisura().getCodice());
 
-		if (tipoOrdine.equals(TIPO_ORDINE.INIZIALE) || tipoOrdine.equals(TIPO_ORDINE.SOSTITUTIVO)) {
+		if (tipoOrdineNSO.equals(TipoOrdineNSO.INIZIALE) || tipoOrdineNSO.equals(TipoOrdineNSO.SOSTITUTIVO)) {
 			quantityType.setValue(rigaOrdine.getQuantita());
-		} else if (tipoOrdine.equals(TIPO_ORDINE.REVOCA)) {
+		} else if (tipoOrdineNSO.equals(TipoOrdineNSO.REVOCA)) {
 			quantityType.setValue(new BigDecimal(0));
 		}
 
@@ -600,9 +726,12 @@ public class PeppolDocumento {
 	private static ItemClassificationCodeType getCommodityClassificationItemClassificationCode(RigaOrdine rigaOrdine) {
 		ItemClassificationCodeType itemClassificationCodeType = new ItemClassificationCodeType();
 		itemClassificationCodeType.setListID("STI");
-		itemClassificationCodeType.setListVersionID("19.0501");
+		itemClassificationCodeType.setListVersionID("19.0501");// eventualmente provare ad impostare a UNCL7143
 		itemClassificationCodeType.setValue(rigaOrdine.getOds().getCpv().getCodice());
 		return itemClassificationCodeType;
 	}
 
+	private static boolean isUnicoDestinatario(String unicoDestinatario) {
+		return unicoDestinatario.equalsIgnoreCase("TRUE");
+	}
 }

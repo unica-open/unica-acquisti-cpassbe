@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="urn:FdeWSAppjDocumentiGateway" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="urn:FdeWSAppjDocumentiGateway" xmlns:intf="urn:FdeWSAppjDocumentiGateway" xmlns:tns1="http://messages.library.saga.it" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <schema targetNamespace="urn:FdeWSAppjDocumentiGateway" xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://messages.library.saga.it"/>
+      <complexType abstract="true" name="baseRequest">
+        <sequence>
+          <element maxOccurs="1" minOccurs="0" name="annoBilancio" type="xsd:int"/>
+          <element maxOccurs="1" minOccurs="0" name="codiceEnte" type="xsd:string"/>
+          <element maxOccurs="1" minOccurs="0" name="codiceFruitore" type="xsd:string"/>
+        </sequence>
+      </complexType>
+      <complexType name="stato">
+        <complexContent>
+          <extension base="impl:entitaCodificataBase">
+            <sequence/>
+          </extension>
+        </complexContent>
+      </complexType>
+      <complexType abstract="true" name="entitaBase">
+        <sequence>
+          <element maxOccurs="1" minOccurs="0" name="codice" type="xsd:string"/>
+          <element maxOccurs="1" minOccurs="0" name="stato" type="impl:stato"/>
+        </sequence>
+      </complexType>
+      <complexType abstract="true" name="entitaCodificataBase">
+        <complexContent>
+          <extension base="impl:entitaBase">
+            <sequence>
+              <element maxOccurs="1" minOccurs="0" name="descrizione" type="xsd:string"/>
+            </sequence>
+          </extension>
+        </complexContent>
+      </complexType>
+      <complexType abstract="true" name="messaggioBase">
+        <complexContent>
+          <extension base="impl:entitaCodificataBase">
+            <sequence/>
+          </extension>
+        </complexContent>
+      </complexType>
+      <complexType name="messaggio">
+        <complexContent>
+          <extension base="impl:messaggioBase">
+            <sequence/>
+          </extension>
+        </complexContent>
+      </complexType>
+      <complexType name="elaboraDocumento">
+        <complexContent>
+          <extension base="impl:baseRequest">
+            <sequence>
+              <element maxOccurs="1" minOccurs="0" name="codiceTipoDocumento" type="xsd:string"/>
+              <element maxOccurs="1" minOccurs="0" name="contenutoDocumento" type="xsd:string"/>
+              <element maxOccurs="1" minOccurs="0" name="messaggio" nillable="true" type="impl:messaggio"/>
+            </sequence>
+          </extension>
+        </complexContent>
+      </complexType>
+      <element name="elaboraDocumento" type="impl:elaboraDocumento"/>
+      <complexType name="ente">
+        <complexContent>
+          <extension base="impl:entitaCodificataBase">
+            <sequence/>
+          </extension>
+        </complexContent>
+      </complexType>
+      <complexType name="errore">
+        <complexContent>
+          <extension base="impl:messaggioBase">
+            <sequence/>
+          </extension>
+        </complexContent>
+      </complexType>
+      <simpleType name="esito">
+        <restriction base="xsd:string">
+          <enumeration value="SUCCESSO"/>
+          <enumeration value="FALLIMENTO"/>
+        </restriction>
+      </simpleType>
+      <complexType abstract="true" name="baseResponse">
+        <sequence>
+          <element maxOccurs="1" minOccurs="0" name="ente" type="impl:ente"/>
+          <element maxOccurs="unbounded" minOccurs="0" name="errori" nillable="true" type="impl:errore"/>
+          <element maxOccurs="1" minOccurs="0" name="esito" type="impl:esito"/>
+          <element maxOccurs="unbounded" minOccurs="0" name="messaggi" nillable="true" type="impl:messaggio"/>
+        </sequence>
+      </complexType>
+      <complexType name="elaboraDocumentoResponse">
+        <complexContent>
+          <extension base="impl:baseResponse">
+            <sequence>
+              <element maxOccurs="1" minOccurs="0" name="responseElaborazione" type="xsd:string"/>
+            </sequence>
+          </extension>
+        </complexContent>
+      </complexType>
+      <element name="elaboraDocumentoResponse" type="impl:elaboraDocumentoResponse"/>
+      <complexType name="ArrayOf_xsd_anyType">
+        <sequence>
+          <element maxOccurs="unbounded" minOccurs="0" name="item" type="xsd:anyType"/>
+        </sequence>
+      </complexType>
+      <element name="fault" type="tns1:SagaException"/>
+    </schema>
+    <schema elementFormDefault="qualified" targetNamespace="http://messages.library.saga.it" xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="urn:FdeWSAppjDocumentiGateway"/>
+      <complexType name="MsgDACContainer">
+        <sequence>
+          <element name="error" type="xsd:boolean"/>
+          <element name="ignore" type="xsd:boolean"/>
+          <element name="information" type="xsd:boolean"/>
+          <element name="messageContainer" nillable="true" type="tns1:MsgDACContainer"/>
+          <element name="messages" nillable="true" type="impl:ArrayOf_xsd_anyType"/>
+          <element name="messagesCount" type="xsd:int"/>
+          <element name="messagesSorted" nillable="true" type="impl:ArrayOf_xsd_anyType"/>
+          <element name="numberMessages" type="xsd:int"/>
+          <element name="originatorException" nillable="true" type="tns1:SagaException"/>
+          <element name="sagaException" nillable="true" type="tns1:SagaException"/>
+          <element name="type" type="xsd:int"/>
+          <element name="viewed" type="xsd:boolean"/>
+          <element name="warning" type="xsd:boolean"/>
+        </sequence>
+      </complexType>
+      <complexType name="SagaException">
+        <sequence>
+          <element name="message" nillable="true" type="xsd:string"/>
+          <element name="messageContainer" nillable="true" type="tns1:MsgDACContainer"/>
+        </sequence>
+      </complexType>
+    </schema>
+  </wsdl:types>
+  <wsdl:message name="SagaException">
+    <wsdl:part element="impl:fault" name="fault"/>
+  </wsdl:message>
+  <wsdl:message name="elaboraDocumentoResponse">
+    <wsdl:part element="impl:elaboraDocumentoResponse" name="elaboraDocumentoResponse"/>
+  </wsdl:message>
+  <wsdl:message name="elaboraDocumentoRequest">
+    <wsdl:part element="impl:elaboraDocumento" name="elaboraDocumento"/>
+  </wsdl:message>
+  <wsdl:portType name="FdeWSAppjDocumentiGateway">
+    <wsdl:operation name="elaboraDocumento" parameterOrder="elaboraDocumento">
+      <wsdl:input message="impl:elaboraDocumentoRequest" name="elaboraDocumentoRequest"/>
+      <wsdl:output message="impl:elaboraDocumentoResponse" name="elaboraDocumentoResponse"/>
+      <wsdl:fault message="impl:SagaException" name="SagaException"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="FdeWSAppjDocumentiGatewaySoapBinding" type="impl:FdeWSAppjDocumentiGateway">
+    <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="elaboraDocumento">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="elaboraDocumentoRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="elaboraDocumentoResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="SagaException">
+        <wsdlsoap:fault name="SagaException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="FdeWSAppjDocumentiGatewayService">
+    <wsdl:port binding="impl:FdeWSAppjDocumentiGatewaySoapBinding" name="FdeWSAppjDocumentiGateway">
+      <wsdlsoap:address location="http://api-ent.ecosis.csi.it:80/api/SIMEL2_FdeWSAppjDocumentiGateway/1.0"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

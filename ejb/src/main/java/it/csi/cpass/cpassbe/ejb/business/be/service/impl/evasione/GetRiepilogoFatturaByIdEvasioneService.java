@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -21,11 +21,11 @@ import it.csi.cpass.cpassbe.lib.dto.ord.evasione.RiepilogoFatturaEvasione;
 
 public class GetRiepilogoFatturaByIdEvasioneService extends BaseService<GetRiepilogoFatturaByIdEvasioneRequest, GetRiepilogoFatturaByIdEvasioneResponse> {
 
-	private TestataEvasioneDad testataEvasioneDad;
+	private final TestataEvasioneDad testataEvasioneDad;
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param configurationHelper the configuration helper
 	 * @param testataOrdineDad    the testataOrdine DAD
 	 */
@@ -41,7 +41,7 @@ public class GetRiepilogoFatturaByIdEvasioneService extends BaseService<GetRiepi
 
 	@Override
 	protected void execute() {
-		List<RiepilogoFatturaEvasione> listaRiepilogoFatturaEvasione = testataEvasioneDad.getRiepilogoFatturaByIdEvasione(request.getId());
+		final List<RiepilogoFatturaEvasione> listaRiepilogoFatturaEvasione = testataEvasioneDad.getRiepilogoFatturaByIdEvasione(request.getId());
 		response.setListaRiepilogoFatturaEvasione(listaRiepilogoFatturaEvasione);
 	}
 

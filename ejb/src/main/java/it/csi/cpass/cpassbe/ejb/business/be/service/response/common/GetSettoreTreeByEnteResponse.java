@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -14,38 +14,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.csi.cpass.cpassbe.ejb.business.be.service.response.base.BaseGetResponse;
-import it.csi.cpass.cpassbe.lib.dto.Settore;
+import it.csi.cpass.cpassbe.lib.dto.VSettore;
 
 /**
  * The Class GetSettoreTreeByEnteResponse.
  */
-public class GetSettoreTreeByEnteResponse extends BaseGetResponse<List<Settore>> {
+public class GetSettoreTreeByEnteResponse extends BaseGetResponse<List<VSettore>> {
 
 	/** The Settore. */
-	private List<Settore> settores = new ArrayList<>();
+	private List<VSettore> settores = new ArrayList<>();
 
 	/**
 	 * @return the settores
 	 */
-	public List<Settore> getSettores() {
+	public List<VSettore> getSettores() {
 		return settores;
 	}
 
 	/**
 	 * @param ufficios the ufficios to set
 	 */
-	public void setSettores(List<Settore> settores) {
+	public void setSettores(List<VSettore> settores) {
 		this.settores = settores;
 	}
 
 	@Override
-	protected List<Settore> getEntity() {
+	protected List<VSettore> getEntity() {
 		return settores;
 	}
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		builder.append("GetSettoreTreeByEnteResponse [settores=").append(settores).append(", apiErrors=").append(getApiErrors()).append("]");
 		return builder.toString();
 	}

@@ -1,16 +1,9 @@
-//
-// Questo file è stato generato dall'architettura JavaTM per XML Binding (JAXB) Reference Implementation, v2.3.2 
-// Vedere <a href="https://javaee.github.io/jaxb-v2/">https://javaee.github.io/jaxb-v2/</a> 
-// Qualsiasi modifica a questo file andrà persa durante la ricompilazione dello schema di origine. 
-// Generato il: 2020.05.26 alle 03:23:29 PM CEST 
-//
-
 
 package it.eng.auriga.repository2.model.outputdatiud;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -29,7 +22,6 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="IdDoc" type="{http://www.w3.org/2001/XMLSchema}integer"/&gt;
  *         &lt;element name="TipoDocAllegato" type="{}OggDiTabDiSistemaType" minOccurs="0"/&gt;
  *         &lt;element name="DesAllegato" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *         &lt;element name="OriginaleCartaceo" type="{}FlagSiNoType" minOccurs="0"/&gt;
@@ -46,7 +38,6 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AllegatoUDType", propOrder = {
-    "idDoc",
     "tipoDocAllegato",
     "desAllegato",
     "originaleCartaceo",
@@ -56,8 +47,6 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class AllegatoUDType {
 
-    @XmlElement(name = "IdDoc", required = true)
-    protected BigInteger idDoc;
     @XmlElement(name = "TipoDocAllegato")
     protected OggDiTabDiSistemaType tipoDocAllegato;
     @XmlElement(name = "DesAllegato")
@@ -70,30 +59,6 @@ public class AllegatoUDType {
     protected VersioneElettronicaType versioneElettronica;
     @XmlElement(name = "AttributoAddAlleg")
     protected List<AttributoAddizionaleType> attributoAddAlleg;
-
-    /**
-     * Recupera il valore della proprietà idDoc.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getIdDoc() {
-        return idDoc;
-    }
-
-    /**
-     * Imposta il valore della proprietà idDoc.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setIdDoc(BigInteger value) {
-        this.idDoc = value;
-    }
 
     /**
      * Recupera il valore della proprietà tipoDocAllegato.

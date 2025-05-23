@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -40,7 +40,7 @@ public abstract class BaseFacade {
 	@Resource private SessionContext sessionContext;
 	/** Logger */
 	protected final LogUtil log = new LogUtil(getClass());
-	
+
 	/**
 	 * Executes the service
 	 * @param <Q> the request type
@@ -52,7 +52,7 @@ public abstract class BaseFacade {
 	 */
 	@Deprecated
 	protected <Q extends BaseRequest, R extends BaseResponse> Response executeServiceWithResponse(Q request, BaseService<Q, R> service) {
-		R res = executeService(request, service);
+		final R res = executeService(request, service);
 		return res.composeResponse();
 	}
 

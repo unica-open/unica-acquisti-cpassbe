@@ -1,0 +1,146 @@
+/bo/settore:
+  post:
+    operationId: postSettore
+    description: inserisce il settore per id.
+    produces:
+      - application/json
+    tags:
+      - settore
+    parameters:
+      - in: body
+        name: settore
+        required: true
+        schema:
+          $ref: '#/definitions/Settore'
+    responses:
+      '200':
+        description: Settore aggiornato.
+        schema:
+          $ref: '#/definitions/Settore'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError' 
+/bo/settore/{id}:
+  get:
+    operationId: getSettoreById
+    description: Restituisce il settore per id.
+    produces:
+      - application/json
+    tags:
+      - settore
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id del settore.
+    responses:
+      '200':
+        description: settore registrato su sistema per dato id.
+        schema:
+          $ref: '#/definitions/Settore'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+  put:
+    operationId: putSettore
+    description: Aggiorna il settore per id.
+    produces:
+      - application/json
+    tags:
+      - settore
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id del settore.
+      - in: body
+        name: settore
+        required: true
+        schema:
+          $ref: '#/definitions/Settore'
+    responses:
+      '200':
+        description: Settore aggiornato.
+        schema:
+          $ref: '#/definitions/Settore'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/bo/settore/sezioni/settore/{id}:
+  get:
+    operationId: getSezioniBySettoreById
+    description: Restituisce le sezioni per id settore.
+    produces:
+      - application/json
+    tags:
+      - settore
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id del settore.
+    responses:
+      '200':
+        description: settore registrato su sistema per dato id.
+        schema:
+          type: array
+          items:        
+            $ref: '#/definitions/Sezione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/bo/settore/cdc:
+  get:
+    operationId: getCdcValidi
+    description: Restituisce i cdc validi.
+    produces:
+      - application/json
+    tags:
+      - settore
+    responses:
+      '200':
+        description: cdc validi.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Cdc'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/bo/settore/cdc/settore/{id-settore}:
+  get:
+    operationId: getCdcBySettore
+    description: Restituisce i cdc validi dato un settore.
+    produces:
+      - application/json
+    tags:
+      - settore
+    parameters:
+      - in: path
+        name: id-settore
+        required: true
+        type: string
+        format: uuid
+        description: L'id del settore.      
+    responses:
+      '200':
+        description: cdc validi.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Cdc'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'  

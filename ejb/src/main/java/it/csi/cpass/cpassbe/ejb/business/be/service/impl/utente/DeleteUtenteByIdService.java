@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -14,6 +14,7 @@ import it.csi.cpass.cpassbe.ejb.business.be.dad.UtenteDad;
 import it.csi.cpass.cpassbe.ejb.business.be.service.request.utente.DeleteUtenteByIdRequest;
 import it.csi.cpass.cpassbe.ejb.business.be.service.response.utente.DeleteUtenteByIdResponse;
 import it.csi.cpass.cpassbe.ejb.util.conf.ConfigurationHelper;
+import it.csi.cpass.cpassbe.lib.util.threadlocal.CpassThreadLocalContainer;
 
 /**
  * Deletes an utente by its id
@@ -36,6 +37,7 @@ public class DeleteUtenteByIdService extends BaseUtenteService<DeleteUtenteByIdR
 
 	@Override
 	protected void execute() {
+		CpassThreadLocalContainer.UTENTE_CONNESSO.get();
 		utenteDad.deleteUtente(request.getId());
 	}
 

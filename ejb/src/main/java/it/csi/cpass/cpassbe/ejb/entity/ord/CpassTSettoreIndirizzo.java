@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -11,7 +11,6 @@
 package it.csi.cpass.cpassbe.ejb.entity.ord;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,7 +25,7 @@ import javax.persistence.Table;
 
 import it.csi.cpass.cpassbe.ejb.entity.CpassTSettore;
 import it.csi.cpass.cpassbe.ejb.entity.base.BaseAuditedEntity;
-import it.csi.cpass.cpassbe.ejb.entity.base.BaseEntity;
+import it.csi.cpass.cpassbe.ejb.entity.mag.CpassTMagMagazzino;
 
 
 /**
@@ -64,12 +63,22 @@ public class CpassTSettoreIndirizzo extends BaseAuditedEntity<Integer> implement
 	private String provincia;
 
 	private String telefono;
+	@ManyToOne
+	@JoinColumn(name="magazzino_id")
+	private CpassTMagMagazzino cpassTMagMagazzino;
+
+	@Column(name="esterno_ente")
+	private Boolean esternoEnte;
 
 	//bi-directional many-to-one association to CpassTSettore
 	@ManyToOne
 	@JoinColumn(name="settore_id")
 	private CpassTSettore cpassTSettore;
 
+	@Column(name="settore_indirizzo_codice")
+	private String settoreIndirizzoCodice;
+
+	private Boolean principale;
 
 	public Integer getSettoreIndirizzoId() {
 		return this.settoreIndirizzoId;
@@ -159,6 +168,36 @@ public class CpassTSettoreIndirizzo extends BaseAuditedEntity<Integer> implement
 		this.cpassTSettore = cpassTSettore;
 	}
 
+
+	/**
+	 * @return the settoreIndirizzoCodice
+	 */
+	public String getSettoreIndirizzoCodice() {
+		return settoreIndirizzoCodice;
+	}
+
+	/**
+	 * @param settoreIndirizzoCodice the settoreIndirizzoCodice to set
+	 */
+	public void setSettoreIndirizzoCodice(String settoreIndirizzoCodice) {
+		this.settoreIndirizzoCodice = settoreIndirizzoCodice;
+	}
+
+
+	/**
+	 * @return the principale
+	 */
+	public Boolean getPrincipale() {
+		return principale;
+	}
+
+	/**
+	 * @param principale the principale to set
+	 */
+	public void setPrincipale(Boolean principale) {
+		this.principale = principale;
+	}
+
 	@Override
 	public Integer getId() {
 		return settoreIndirizzoId;
@@ -167,6 +206,34 @@ public class CpassTSettoreIndirizzo extends BaseAuditedEntity<Integer> implement
 	@Override
 	public void setId(Integer id) {
 		settoreIndirizzoId =id;
+	}
+
+	/**
+	 * @return the cpassTMagMagazzino
+	 */
+	public CpassTMagMagazzino getCpassTMagMagazzino() {
+		return cpassTMagMagazzino;
+	}
+
+	/**
+	 * @param cpassTMagMagazzino the cpassTMagMagazzino to set
+	 */
+	public void setCpassTMagMagazzino(CpassTMagMagazzino cpassTMagMagazzino) {
+		this.cpassTMagMagazzino = cpassTMagMagazzino;
+	}
+
+	/**
+	 * @return the esternoEnte
+	 */
+	public Boolean getEsternoEnte() {
+		return esternoEnte;
+	}
+
+	/**
+	 * @param esternoEnte the esternoEnte to set
+	 */
+	public void setEsternoEnte(Boolean esternoEnte) {
+		this.esternoEnte = esternoEnte;
 	}
 
 }

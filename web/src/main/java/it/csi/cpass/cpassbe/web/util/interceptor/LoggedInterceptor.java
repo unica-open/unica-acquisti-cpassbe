@@ -52,7 +52,7 @@ public class LoggedInterceptor implements Serializable {
 		LogUtil log = new LogUtil(targetClass);
 		long initTime = System.currentTimeMillis();
 		long endTime = initTime;
-		
+
 		try {
 			log.trace(methodName, () -> "[REQ " + requestId + "] Start");
 			Object response = invocationContext.proceed();
@@ -70,7 +70,7 @@ public class LoggedInterceptor implements Serializable {
 			long finalEndTime = endTime;
 			log.trace(methodName, () -> "[REQ " + requestId + "] Elapsed time: " + (finalEndTime - initTime) + " ms");
 		}
-		
+
 	}
 	/**
 	 * Retrieves and formats the input parameters

@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -10,7 +10,9 @@
  */
 package it.csi.cpass.cpassbe.ejb.business.be.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -38,7 +40,7 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 	protected final Class<T> clazz;
 	/** The logger */
 	protected final LogUtil log = new LogUtil(getClass());
-	
+
 	/**
 	 * Default constructor
 	 */
@@ -77,10 +79,10 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 			throw new IllegalArgumentException("The JPQL string must be set");
 		}
 		log.trace(methodName, () -> traceSql(jpql, params));
-		TypedQuery<E> query = entityManager.createQuery(jpql.toString(), entityClass);
+		final TypedQuery<E> query = entityManager.createQuery(jpql.toString(), entityClass);
 		return replaceParams(query, params);
 	}
-	
+
 	/**
 	 * Composes a typed query
 	 * @param jpql the JPQL to compose the query for
@@ -103,7 +105,7 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 			throw new IllegalArgumentException("The JPQL string must be set");
 		}
 		log.trace(methodName, () -> traceSql(jpql, params));
-		Query query = entityManager.createQuery(jpql.toString());
+		final Query query = entityManager.createQuery(jpql.toString());
 		return replaceParams(query, params);
 	}
 
@@ -119,7 +121,7 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 			throw new IllegalArgumentException("The SQL string must be set");
 		}
 		log.trace(methodName, () -> traceSql(sql, params));
-		Query query = entityManager.createNativeQuery(sql.toString());
+		final Query query = entityManager.createNativeQuery(sql.toString());
 		return replaceParams(query, params);
 	}
 
@@ -137,10 +139,10 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 			throw new IllegalArgumentException("The SQL string must be set");
 		}
 		log.trace(methodName, () -> traceSql(sql, params));
-		Query query = entityManager.createNativeQuery(sql.toString(), entityClass);
+		final Query query = entityManager.createNativeQuery(sql.toString(), entityClass);
 		return replaceParams(query, params);
 	}
-	
+
 	/**
 	 * Composes a "typed" native query
 	 * @param sql the JPQL to compose the query for
@@ -162,12 +164,12 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 			return query;
 		}
 		return params.entrySet()
-			.stream()
-			.reduce(
-				query,
-				(acc, entry) -> acc.setParameter(entry.getKey(), entry.getValue()),
-				// Useless parameter, leaked from ParallelStream
-				(acc1, acc2) -> acc1);
+				.stream()
+				.reduce(
+						query,
+						(acc, entry) -> acc.setParameter(entry.getKey(), entry.getValue()),
+						// Useless parameter, leaked from ParallelStream
+						(acc1, acc2) -> acc1);
 	}
 	/**
 	 * Replaces the parameters in a typed query
@@ -180,12 +182,12 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 			return query;
 		}
 		return params.entrySet()
-			.stream()
-			.reduce(
-				query,
-				(acc, entry) -> acc.setParameter(entry.getKey(), entry.getValue()),
-				// Useless parameter, leaked from ParallelStream
-				(acc1, acc2) -> acc1);
+				.stream()
+				.reduce(
+						query,
+						(acc, entry) -> acc.setParameter(entry.getKey(), entry.getValue()),
+						// Useless parameter, leaked from ParallelStream
+						(acc1, acc2) -> acc1);
 	}
 
 	/**
@@ -194,25 +196,29 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 	 * @param jpql the jpql to execute
 	 * @param params the parameters
 	 * @param page the page number
-	 * @param size the page size
+	 * @param size the page size if size < 0 return count if size > 0 return paginated data if size = 0 return All
 	 * @param entityClass the entity class
 	 * @return the page
 	 */
 	protected <E> Page<E> getPagedResult(CharSequence jpql, Map<String, Object> params, int page, int size, Class<E> entityClass) {
-		Query qn = composeQuery(getCountQuery(jpql), params);
-		long count = ((Number) qn.getSingleResult()).longValue();
+		final Query qn = composeQuery(getCountQuery(jpql.toString()), params);
+		final long count = ((Number) qn.getSingleResult()).longValue();
 		if(count == 0) {
 			return new PageImpl<>(0);
 		}
 
-		TypedQuery<E> query = composeTypedQuery(jpql, params, entityClass);
+		if(size < 0) {
+			return new PageImpl<>(count, new ArrayList<>());
+		}
+
+		final TypedQuery<E> query = composeTypedQuery(jpql, params, entityClass);
 		if(size > 0) {
 			query.setFirstResult(page * size);
 			query.setMaxResults(size);
 		}
 		return new PageImpl<>(count, query.getResultList());
 	}
-	
+
 	/**
 	 * Retrieves a paged result
 	 * @param jpql the jpql to execute
@@ -230,6 +236,7 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 	 * @param jpql the JPQL
 	 * @return the query
 	 */
+	/*
 	public String getCountQuery(final CharSequence jpql) {
 		final String jpqlString = jpql.toString();
 		String upperJpqlString = jpqlString.toUpperCase();
@@ -244,6 +251,38 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 		}
 		return String.format("SELECT COUNT(*) %s", innerQuery);
 	}
+	 */
+	//private String getDistinctCountQuery(final String jpql) {
+	public String getCountQuery(final String jpql) {
+		String jpqlCountContent = "*";
+		final String upperCaseJpql = jpql.toUpperCase(Locale.ITALIAN);
+
+		final int distinctIndex = upperCaseJpql.indexOf("DISTINCT");
+		final int fromIndex = upperCaseJpql.indexOf("FROM");
+		final int commaIndex = upperCaseJpql.indexOf(",");
+
+		// TODO: verificare la gestione con la versione di Hibernate presente nell'applicativo. Magari ora funziona...
+		// Se ho la distinct, la distinct e' PRIMA del primo from e ho virgole nella distinct
+		if(distinctIndex != -1 && distinctIndex < fromIndex && commaIndex != -1 && commaIndex < fromIndex) {
+			// La versione migliore sarebbe quella di racchiudere la query originaria in una sotto-query. Ma Hibernate non lo supporta
+			// Cfr. https://docs.jboss.org/hibernate/orm/4.3/manual/en-US/html/ch16.html#queryhql-subqueries
+			throw new UnsupportedOperationException("COUNT Query per una distinct a parametri multipli non supportata da Hibernate.");
+		}
+
+		String jpqlCount = jpql.substring(fromIndex);
+
+		// Se ho la distinct, la distinct e' PRIMA del primo from e non ho virgole nella distinct
+		if(distinctIndex > -1 && distinctIndex < fromIndex) {
+			// Injetto il dato in distinct
+			jpqlCountContent = jpql.substring(distinctIndex, fromIndex);
+		}
+
+		final int toIndex = jpqlCount.toUpperCase(Locale.ITALIAN).lastIndexOf("ORDER BY");
+		if (toIndex != -1) {
+			jpqlCount = jpqlCount.substring(0, toIndex);
+		}
+		return String.format("SELECT COUNT(%s) %s", jpqlCountContent, jpqlCount);
+	}
 
 
 	/**
@@ -257,21 +296,22 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 	 * @return the page
 	 */
 	protected <E> Page<E> getNativePagedResult(CharSequence sql, Map<String, Object> params, int page, int size, Class<E> entityClass) {
-		Query qn = composeQuery(getCountQuery(sql), params);
-		long count = ((Number) qn.getSingleResult()).longValue();
+		final Query qn = composeQuery(getCountQuery(sql.toString()), params);
+		final long count = ((Number) qn.getSingleResult()).longValue();
 		if(count == 0) {
 			return new PageImpl<>(0);
 		}
 
-		Query query = composeTypedNativeQuery(sql, params, entityClass);
+		final Query query = composeTypedNativeQuery(sql, params, entityClass);
 		query.setFirstResult(page * size);
 		query.setMaxResults(size);
 
 		@SuppressWarnings("unchecked")
+		final
 		List<E> resultList = query.getResultList();
 		return new PageImpl<>(count, resultList);
 	}
-	
+
 	/**
 	 * Retrieves a native paged result
 	 * @param sql the sql to execute
@@ -297,9 +337,9 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 			return;
 		}
 		jpql.append(sorts
-			.stream()
-			.map(s -> s.getField() + " " + s.getOrder().name())
-			.collect(Collectors.joining(", ")));
+				.stream()
+				.map(s -> s.getField() + " " + s.getOrder().name())
+				.collect(Collectors.joining(", ")));
 	}
 
 	/**

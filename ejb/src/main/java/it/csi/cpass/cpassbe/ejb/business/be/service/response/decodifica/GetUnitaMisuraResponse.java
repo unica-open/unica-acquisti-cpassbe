@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -17,7 +17,7 @@ import it.csi.cpass.cpassbe.ejb.business.be.service.response.base.BaseGetRespons
 import it.csi.cpass.cpassbe.lib.dto.UnitaMisura;
 
 /**
- * The Class GetStatoElOrdineByTipoResponse.
+ * The Class GetUnitaMisuraResponse.
  */
 public class GetUnitaMisuraResponse extends BaseGetResponse<List<UnitaMisura>> {
 
@@ -25,15 +25,13 @@ public class GetUnitaMisuraResponse extends BaseGetResponse<List<UnitaMisura>> {
 	private List<UnitaMisura> um = new ArrayList<>();
 
 	/**
-	 * @return the statoElOrdines
+	 * @return the UnitaMisura
 	 */
 	public List<UnitaMisura> getUnitaMisura() {
 		return um;
 	}
 
-	/**
-	 * @param tipoProceduras the tipoProceduras to set
-	 */
+
 	public void setUnitaMisura(List<UnitaMisura> um) {
 		this.um = um;
 	}
@@ -45,7 +43,7 @@ public class GetUnitaMisuraResponse extends BaseGetResponse<List<UnitaMisura>> {
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		builder.append("GetAliquoteIvaResponse [UnitaMisura=").append(um).append(", apiErrors=").append(getApiErrors()).append("]");
 		return builder.toString();
 	}

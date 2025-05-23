@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - INTEGRATION submodule - SIAC
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -29,7 +29,7 @@ import it.csi.siac.documenti.svc._1.ElaboraDocumentoAsyncResponse;
 public class InvioQuoteDocumentoHelperImpl extends BaseSiacHelperImpl implements InvioQuoteDocumentoHelper {
 
 	@Override
-	public ExternalServiceResponseWrapper<Integer> postInvioQuoteDocumento(Map<String, String> params, InvioQuoteDocumento invioQuoteDocumento) {
+	public ExternalServiceResponseWrapper<String> postInvioQuoteDocumento(Map<String, String> params, InvioQuoteDocumento invioQuoteDocumento) {
 		final String methodName = "postInvioQuoteDocumento";
 
 		checkBaseParameters(params);
@@ -41,10 +41,10 @@ public class InvioQuoteDocumentoHelperImpl extends BaseSiacHelperImpl implements
 		ElaboraDocumento reqElaboraDocumentoAsync = composeRequest(params, invioQuoteDocumento);
 		ElaboraDocumentoAsyncResponse elaboraDocumentoAsyncResponse = documentiService.elaboraDocumentoAsync(reqElaboraDocumentoAsync);
 
-		ExternalServiceResponseWrapper<Integer> response = initResponse(methodName, elaboraDocumentoAsyncResponse);
+		ExternalServiceResponseWrapper<String> response = initResponse(methodName, elaboraDocumentoAsyncResponse);
 
 		if (response.isSuccess() && elaboraDocumentoAsyncResponse.getIdOperazioneAsincrona() != null) {
-			response.setResponse(elaboraDocumentoAsyncResponse.getIdOperazioneAsincrona());
+			response.setResponse(String.valueOf(elaboraDocumentoAsyncResponse.getIdOperazioneAsincrona()));
 		}
 
 		if (!response.isSuccess() && response.getMessages() != null && response.getMessages().size() > 0) {
@@ -58,6 +58,7 @@ public class InvioQuoteDocumentoHelperImpl extends BaseSiacHelperImpl implements
 
 		Calendar calendar = Calendar.getInstance();
 		int annoCorrente = calendar.get(Calendar.YEAR);
+		
 		req.setAnnoBilancio(annoCorrente);
 
 		req.setCodiceEnte(getParameter(params, SiacConfigurationParams.CODICE_ENTE));

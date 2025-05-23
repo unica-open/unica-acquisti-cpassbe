@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -11,25 +11,33 @@
 package it.csi.cpass.cpassbe.ejb.entity.pba;
 
 import java.io.Serializable;
-import javax.persistence.*;
-
-import it.csi.cpass.cpassbe.ejb.entity.CpassDCpv;
-import it.csi.cpass.cpassbe.ejb.entity.base.BaseEntity;
-import it.csi.cpass.cpassbe.lib.util.uuid.UuidUtils;
 import java.math.BigDecimal;
 import java.util.UUID;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+
+import it.csi.cpass.cpassbe.ejb.entity.CpassDCpv;
+import it.csi.cpass.cpassbe.ejb.entity.CpassDMotiviEsclusioneCig;
+import it.csi.cpass.cpassbe.ejb.entity.base.BaseEntity;
+import it.csi.cpass.cpassbe.lib.util.uuid.UuidUtils;
 
 
 /**
  * The persistent class for the cpass_t_pba_intervento_altri_dati database table.
- * 
+ *
  */
 @Entity
 @Table(name="cpass_t_pba_intervento_altri_dati")
 @NamedQuery(name="CpassTPbaInterventoAltriDati.findAll", query="SELECT c FROM CpassTPbaInterventoAltriDati c")
 public class CpassTPbaInterventoAltriDati implements Serializable, BaseEntity<UUID> {
-	
-	
+
+
 	private static final long serialVersionUID = 1L;
 
 	/**  The UUID namespace. */
@@ -50,6 +58,9 @@ public class CpassTPbaInterventoAltriDati implements Serializable, BaseEntity<UU
 
 	@Column(name="iva_secondo_anno")
 	private BigDecimal ivaSecondoAnno;
+
+	@Column(name="iva_terzo_anno")
+	private BigDecimal ivaTerzoAnno;
 
 	private String note;
 
@@ -83,6 +94,10 @@ public class CpassTPbaInterventoAltriDati implements Serializable, BaseEntity<UU
 
 	private String oggettoverdi;
 
+	@Column(name="fondi_pnrr")
+	private Boolean fondiPnrr;
+
+
 	//bi-directional many-to-one association to CpassDCpv
 	@ManyToOne
 	@JoinColumn(name="cpv_mat_ric_id")
@@ -103,21 +118,26 @@ public class CpassTPbaInterventoAltriDati implements Serializable, BaseEntity<UU
 	@JoinColumn(name="tipo_acquisto_verdi_id")
 	private CpassDPbaTipoAcquisto cpassDPbaTipoAcquistoVerdi;
 
-	
-	
+
+
 	////////////////////////
-	
+
 	//bi-directional many-to-one association to CpassTPbaIntervento
 	@ManyToOne
 	@JoinColumn(name="intervento_id")
 	private CpassTPbaIntervento cpassTPbaIntervento;
+
+	//bi-directional many-to-one association to CpassDMotiviEsclusioneCig
+	@ManyToOne
+	@JoinColumn(name="motivi_esclusione_id")
+	private CpassDMotiviEsclusioneCig cpassDMotiviEsclusioneCig;
 
 	public CpassTPbaInterventoAltriDati() {
 	}
 
 
 
-	
+
 	/**
 	 * @return the interventoAltriDatiId
 	 */
@@ -418,7 +438,7 @@ public class CpassTPbaInterventoAltriDati implements Serializable, BaseEntity<UU
 		this.cpassDCpvMatRic = cpassDCpvMatRic;
 	}
 
-	
+
 
 	/**
 	 * @return the cpassDCpvVerdi
@@ -475,6 +495,66 @@ public class CpassTPbaInterventoAltriDati implements Serializable, BaseEntity<UU
 	 */
 	public void setCpassDPbaTipoAcquistoVerdi(CpassDPbaTipoAcquisto cpassDPbaTipoAcquistoVerdi) {
 		this.cpassDPbaTipoAcquistoVerdi = cpassDPbaTipoAcquistoVerdi;
+	}
+
+
+
+
+	/**
+	 * @return the fondiPnrr
+	 */
+	public Boolean getFondiPnrr() {
+		return fondiPnrr;
+	}
+
+
+
+
+	/**
+	 * @param fondiPnrr the fondiPnrr to set
+	 */
+	public void setFondiPnrr(Boolean fondiPnrr) {
+		this.fondiPnrr = fondiPnrr;
+	}
+
+
+
+
+	/**
+	 * @return the cpassDMotiviEsclusioneCig
+	 */
+	public CpassDMotiviEsclusioneCig getCpassDMotiviEsclusioneCig() {
+		return cpassDMotiviEsclusioneCig;
+	}
+
+
+
+
+	/**
+	 * @param cpassDMotiviEsclusioneCig the cpassDMotiviEsclusioneCig to set
+	 */
+	public void setCpassDMotiviEsclusioneCig(CpassDMotiviEsclusioneCig cpassDMotiviEsclusioneCig) {
+		this.cpassDMotiviEsclusioneCig = cpassDMotiviEsclusioneCig;
+	}
+
+
+
+
+	/**
+	 * @return the ivaTerzoAnno
+	 */
+	public BigDecimal getIvaTerzoAnno() {
+		return ivaTerzoAnno;
+	}
+
+
+
+
+	/**
+	 * @param ivaTerzoAnno the ivaTerzoAnno to set
+	 */
+	public void setIvaTerzoAnno(BigDecimal ivaTerzoAnno) {
+		this.ivaTerzoAnno = ivaTerzoAnno;
 	}
 
 

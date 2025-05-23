@@ -1,9 +1,42 @@
 DocumentoTrasportoRiga:
   type: object
   properties:
+    codiceListinoFornitore:
+      type: string
     documentoTrasporto:
       type: object
       $ref: '#/definitions/DocumentoTrasporto'
     id:
+      type: integer
+    motivoQtaInevasa:
       type: string
-      format: uuid
+    noteFornitore:
+      type: string
+    ordineData:
+      type: string
+      format: date-time
+    ordineNsoId:
+      type: string
+    ordineTipo:
+      type: string
+    progressivoRigaId:
+      type: string
+    progressivoRigaOrdineEvasa:
+      type: string
+    qtaEvasa:
+      type: integer
+    qtaInevasa:
+      type: integer
+    rigaOrdine:
+      type: object
+      $ref: '#/definitions/RigaOrdine'
+    rigaEvasione:
+      type: object
+      $ref: '#/definitions/RigaEvasione'
+    testataOrdine:
+      type: object
+      $ref: '#/definitions/TestataOrdine'
+    unitaMisura:
+      type: string
+    qtaEvadibile:
+      type: number

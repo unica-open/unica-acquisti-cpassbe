@@ -1,0 +1,311 @@
+/bo/upload/regole-smistamento-rms/csv:
+  post:
+    operationId: postUploadCsvRegoleSmistamentoRms
+    description: inserisce rregole smistamnento rms
+    consumes:
+      - multipart/form-data
+    produces:
+      - application/json
+    tags:
+      - bo
+    parameters:
+      - in: formData
+        name: idEnte
+        type: string
+      - in: formData
+        name: sostituisciRegola
+        type: boolean
+      - in: formData
+        name: separatore
+        type: string
+      - in: formData
+        name: attachment
+        type: file
+    responses:
+      '200':
+        description: regolesmistamento rms.
+        schema:
+          $ref: '#/definitions/WebSmistamentoRmsFileHolder'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'  
+/bo/smistamento-manuale-rms:               
+  put:
+    operationId: putSmistamentoManualeRms
+    description: Aggiorna la rms per id.
+    produces:
+      - application/json
+    tags:
+      - bo
+    parameters:
+      - in: body
+        name: smistamentoManualeRms
+        required: true
+        schema:
+          $ref: '#/definitions/SmistamentoManualeRms'
+    responses:
+      '200':
+        description: SmistamentoManualeRms aggiornata.
+        schema:
+          $ref: '#/definitions/SmistamentoManualeRms'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'          
+/bo/riattiva-funzioni-gestione:               
+  put:
+    operationId: putRiattivazioneFunzioniGestione
+    description: Riattivazione Funzioni Gestione.
+    produces:
+      - application/json
+    tags:
+      - bo
+    responses:
+      '200':
+        description: riattivazioni funzioni aggiornate.
+        schema:
+          $ref: '#/definitions/Elaborazione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/bo/cancella-ordini-bozza:             
+  put:
+    operationId: putCancellaOrdiniBozza
+    description: Cancella tutti gli ordini in bozza.
+    produces:
+      - application/json
+    tags:
+      - bo
+    responses:
+      '200':
+        description: Cancellazione ordini in bozza.
+        schema:
+          $ref: '#/definitions/Elaborazione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/bo/annulla-ordini-confermati:          
+  put:
+    operationId: putAnnullaOrdiniConfermati
+    description: Annulla tutti gli ordini confermati.
+    produces:
+      - application/json
+    tags:
+      - bo
+    responses:
+      '200':
+        description: Annullo ordini confermati.
+        schema:
+          $ref: '#/definitions/Elaborazione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/bo/disattiva-funzioni-gestione:       
+  put:
+    operationId: putDisattivaFunzioniGestione
+    description: Disattivazione funzioni gestione.
+    produces:
+      - application/json
+    tags:
+      - bo
+    responses:
+      '200':
+        description: Disattivazione funzioni gestione.
+        schema:
+          $ref: '#/definitions/Elaborazione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/bo/upload/aggiornamento-ods/csv:
+  post:
+    operationId: postUploadCsvAggiornamentoOds
+    description: aggiorna regole smistamnento rms
+    consumes:
+      - multipart/form-data
+    produces:
+      - application/json
+    tags:
+      - bo
+    parameters:
+      - in: formData
+        name: idEnte
+        type: string
+      - in: formData
+        name: separatore
+        type: string
+      - in: formData
+        name: attachment
+        type: file
+    responses:
+      '200':
+        description: regolesmistamento rms.
+        schema:
+          $ref: '#/definitions/WebSmistamentoRmsFileHolder'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/bo/inserimento-avvisi:
+  post:
+    operationId: postAvviso
+    description: Crea un avviso
+    produces:
+      - application/json
+    tags:
+      - bo
+    parameters:
+      - in: body
+        name: notifica
+        required: true
+        schema:
+          $ref: '#/definitions/Notifica'
+    responses:
+      '200':
+        description: Avviso creato.
+        schema:
+          $ref: '#/definitions/Notifica'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/bo/gestione-permessi:
+   get:
+    operationId: getPermessiDaGestire
+    description: Restituisce i permessi da gestire da sistema
+    produces:
+      - application/json
+    tags:
+      - bo
+    parameters:
+      - $ref: '#/parameters/offsetParam'
+      - $ref: '#/parameters/limitParam'
+      - $ref: '#/parameters/sortParam'
+      - $ref: '#/parameters/directionParam'
+    responses:
+      '200':
+        description: Permessi da gestire
+        schema:
+          $ref: '#/definitions/PagedResponseRuoloPermesso'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/bo/gestione-permessi-list-attivi:
+   get:
+    operationId: getGestioneRuoloPermessoList
+    description: Restituisce i permessi da gestire da sistema
+    produces:
+      - application/json
+    tags:
+      - bo
+    responses:
+      '200':
+        description: interventi registrati su sistema per dato id.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/RuoloPermesso'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/bo/gestione-permessi-list-non-attivi:
+   get:
+    operationId: getGestioneRuoloPermessoNonAttiviList
+    description: Restituisce i permessi da gestire da sistema
+    produces:
+      - application/json
+    tags:
+      - bo
+    responses:
+      '200':
+        description: interventi registrati su sistema per dato id.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/RuoloPermesso'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/bo/gestione-permessi-non-attivi:
+   get:
+    operationId: getPermessiDaGestireNonAttivi
+    description: Restituisce i permessi da gestire da sistema
+    produces:
+      - application/json
+    tags:
+      - bo
+    parameters:
+      - $ref: '#/parameters/offsetParam'
+      - $ref: '#/parameters/limitParam'
+      - $ref: '#/parameters/sortParam'
+      - $ref: '#/parameters/directionParam'
+    responses:
+      '200':
+        description: Permessi da gestire
+        schema:
+          $ref: '#/definitions/PagedResponseModuloRuoloPermesso'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/bo/gestione-permessi/modifica-attivi:          
+   put:
+    operationId: putGestionePermessiAttivi
+    description: Modifica stato di una o più RighaRms su sistema.
+    produces:
+      - application/json
+    tags:
+      - bo
+    parameters:
+      - in: body
+        name: ruoloPermesso
+        required: true
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/RuoloPermesso'   
+    responses:
+      '200':
+        description: riga rms registrato.
+        schema:
+          type: array
+          items:
+          $ref: '#/definitions/RuoloPermesso'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/bo/gestione-permessi/modifica-non-attivi:          
+   put:
+    operationId: putGestionePermessiNonAttivi
+    description: Modifica stato di una o più RighaRms su sistema.
+    produces:
+      - application/json
+    tags:
+      - bo
+    parameters:
+      - in: body
+        name: ruoloPermessoNonAttiviList
+        required: true
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/ModuloRuoloPermesso'         
+    responses:
+      '200':
+        description: riga rms registrato.
+        schema:
+          type: array
+          items:
+          $ref: '#/definitions/RuoloPermesso'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'

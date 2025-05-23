@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -36,6 +36,7 @@ public enum ConfigurationValue {
 	// REPORT
 	/** The report endpoint. */
 	REPORT_ENDPOINT("report.endpoint"),
+	REPORT_MULTI_ENDPOINT("report.multi.endpoint"),
 
 	// APPLICATION
 	/** The application-wide debug mode */
@@ -50,6 +51,10 @@ public enum ConfigurationValue {
 	AUTHFILTER_IRIDE_COOKIENAME("authfilter.iride.cookieName"),
 	/** AUTH - IRIDE file name */
 	AUTHFILTER_IRIDE_FILENAME("authfilter.iride.fileName"),
+	/** SHIBBOLETH */
+	LOGOUT_SHIBBOLETH_SSO_URL("logout.shibbolethSSOURL"),
+
+
 	;
 
 	/** The property name. */

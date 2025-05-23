@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -39,9 +39,9 @@ public class ConfigurationHelper {
 		}
 		initialized = true;
 		Optional.ofNullable(servletContext.getResourcePaths("/WEB-INF/classes/configuration"))
-			.orElseGet(HashSet<String>::new)
-			.stream()
-			.forEach(file -> loadPropertyFile(servletContext, file));
+		.orElseGet(HashSet<String>::new)
+		.stream()
+		.forEach(file -> loadPropertyFile(servletContext, file));
 	}
 
 	/**
@@ -52,9 +52,9 @@ public class ConfigurationHelper {
 	private void loadPropertyFile(ServletContext servletContext, String fileName) {
 		try(InputStream applicationPropertiesStream = servletContext.getResourceAsStream(fileName)) {
 			properties.load(applicationPropertiesStream);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			throw new IllegalStateException("Properties file \"" + fileName + "\" cannot be loaded");
-		} catch (NullPointerException npe) {
+		} catch (final NullPointerException npe) {
 			// Ignore
 		}
 	}

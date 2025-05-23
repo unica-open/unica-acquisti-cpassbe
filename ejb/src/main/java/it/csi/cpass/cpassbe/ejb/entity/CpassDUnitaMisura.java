@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -25,13 +25,12 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import it.csi.cpass.cpassbe.ejb.entity.base.BaseAuditedEntity;
-import it.csi.cpass.cpassbe.ejb.entity.ord.CpassDOggettiSpesa;
 import it.csi.cpass.cpassbe.ejb.entity.ord.CpassTOrdRigaOrdine;
 
 
 /**
  * The persistent class for the cpass_d_unita_misura database table.
- * 
+ *
  */
 @Entity
 @Table(name="cpass_d_unita_misura")
@@ -65,11 +64,11 @@ public class CpassDUnitaMisura extends BaseAuditedEntity<Integer> implements Ser
 	/** The data modifica. */
 	@Column(name="data_validita_fine")
 	private Date dataValiditaFine;
-	
+
 	/** The data modifica. */
 	@Column(name="data_validita_inizio")
 	private Date dataValiditaInizio;
-	
+
 	public CpassDUnitaMisura() {
 	}
 
@@ -149,7 +148,7 @@ public class CpassDUnitaMisura extends BaseAuditedEntity<Integer> implements Ser
 		return cpassTOrdRigaOrdine;
 	}
 
-	
+
 	/**
 	 * @return the dataValiditaFine
 	 */
@@ -186,7 +185,7 @@ public class CpassDUnitaMisura extends BaseAuditedEntity<Integer> implements Ser
 	@Override
 	public void setId(Integer id) {
 		unitaMisuraId = id;
-		
+
 	}
 
 }

@@ -1,0 +1,14 @@
+ProvvedimentoTipo:
+  type: object
+  properties:
+    codice:
+      type: string
+    descrizione:
+      type: string
+    id:
+      type: string
+      format: uuid
+    provvedimentos:
+      type: array
+      items:  
+        $ref: '#/definitions/Provvedimento'

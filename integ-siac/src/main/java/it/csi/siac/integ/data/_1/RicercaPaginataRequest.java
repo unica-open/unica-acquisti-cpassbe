@@ -5,6 +5,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
+
 import it.csi.siac.ricerche.svc._1.BaseRicercaDocumento;
 import it.csi.siac.ricerche.svc._1.RicercaCapitolo;
 import it.csi.siac.ricerche.svc._1.RicercaLiquidazione;

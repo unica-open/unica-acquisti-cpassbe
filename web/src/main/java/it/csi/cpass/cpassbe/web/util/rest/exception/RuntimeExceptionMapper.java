@@ -31,7 +31,7 @@ public class RuntimeExceptionMapper implements ExceptionMapper<RuntimeException>
 	@Inject protected ConfigurationHelper configurationHelper;
 	/** The servlet response */
 	@Context protected HttpServletResponse httpServletResponse;
-	
+
 	@Override
 	public Response toResponse(RuntimeException exception) {
 		ExceptionMapperHelper emh = new ExceptionMapperHelper(configurationHelper, httpServletResponse, 500);

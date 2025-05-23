@@ -1,0 +1,7 @@
+WebScaricoMepaFileHolder:
+  type: object
+  properties:
+    idEnte:
+      type: string
+    attachment:
+      type: file

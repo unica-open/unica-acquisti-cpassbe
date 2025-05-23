@@ -23,9 +23,6 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
 import it.csi.cpass.cpassbe.ejb.business.be.facade.CommonFacade;
 import it.csi.cpass.cpassbe.ejb.util.ElaborazioneTipoEnum;
 import it.csi.cpass.cpassbe.lib.dto.DocumentoSpesa;
@@ -33,13 +30,13 @@ import it.csi.cpass.cpassbe.lib.dto.Elaborazione;
 import it.csi.cpass.cpassbe.lib.dto.Fornitore;
 import it.csi.cpass.cpassbe.lib.dto.ListinoFornitore;
 import it.csi.cpass.cpassbe.lib.dto.MetadatiFunzione;
+import it.csi.cpass.cpassbe.lib.dto.Ods;
 import it.csi.cpass.cpassbe.lib.dto.Settore;
-import it.csi.cpass.cpassbe.lib.util.serialization.JsonUtility;
 import it.csi.cpass.cpassbe.web.business.be.api.CommonApi;
 import it.csi.cpass.cpassbe.web.util.annotation.Logged;
 
 /**
- * Implementation for DecodificaApi
+ * Implementation for CommonApiServiceImpl
  */
 @Logged
 public class CommonApiServiceImpl extends BaseRestServiceImpl implements CommonApi {
@@ -53,14 +50,13 @@ public class CommonApiServiceImpl extends BaseRestServiceImpl implements CommonA
 	}
 
 	@Override
-	public Response getSettoreTreeByEnte(UUID enteId, SecurityContext securityContext, HttpHeaders httpHeaders, HttpServletRequest httpRequest) {
-		return invoke(() -> commonFacade.getSettoreTreeByEnte(enteId));
+	public Response getSettoreTreeByEnte(UUID enteId, String codSettoreRadice,String validita, SecurityContext securityContext, HttpHeaders httpHeaders, HttpServletRequest httpRequest) {
+		return invoke(() -> commonFacade.getSettoreTreeByEnte(enteId, codSettoreRadice,validita));
 	}
 
 	@Override
-	public Response postRicercaSettore(Integer page, Integer limit, String sort, String direction, Settore settore, SecurityContext securityContext,
-			HttpHeaders httpHeaders, @Context HttpServletRequest httpRequest) {
-		return invoke(() -> commonFacade.postRicercaSettore(page, limit, sort, direction, settore));
+	public Response postRicercaSettore(UUID idSettoreRadice, Integer page, Integer limit, String sort, String direction, Settore settore, SecurityContext securityContext, HttpHeaders httpHeaders, @Context HttpServletRequest httpRequest) {
+		return invoke(() -> commonFacade.postRicercaSettore(page, limit, sort, direction, settore, idSettoreRadice));
 	}
 
 	@Override
@@ -135,5 +131,75 @@ public class CommonApiServiceImpl extends BaseRestServiceImpl implements CommonA
 	public Response getOrdinamentoByModuloFunzioneTipo(String modulo, String funzione, String tipo,List<MetadatiFunzione> listMetadatiFunzione, SecurityContext securityContext, HttpHeaders httpHeaders,HttpServletRequest httpRequest) {
 		return invoke(() -> commonFacade.getOrdinamentoByModuloFunzioneTipo( modulo,  funzione,  tipo,listMetadatiFunzione));
 	}
+
+
+	@Override
+	public Response isSettoreRiorganizzato(UUID idSettorePrecedente, UUID idSettoreAttuale,SecurityContext securityContext, HttpHeaders httpHeaders, HttpServletRequest httpRequest) {
+		return invoke(() -> commonFacade.isSettoreRiorganizzato(idSettorePrecedente,  idSettoreAttuale));
+	}
+
+	@Override
+	public Response checkCompatibilitaSettori(UUID idSettoreEmittente, String codiceStrutturaProponente, UUID idSettoreDetermina, SecurityContext securityContext,
+			HttpHeaders httpHeaders, HttpServletRequest httpRequest) {
+				return invoke(() -> commonFacade.checkCompatibilitaSettori(idSettoreEmittente,idSettoreDetermina,codiceStrutturaProponente));
+	}
+
+	@Override
+	public Response getRicercaParametro(String chiave, SecurityContext securityContext,
+			HttpHeaders httpHeaders, HttpServletRequest httpRequest) {
+		return invoke(() -> commonFacade.getRicercaParametro(chiave));
+	}
+
+	@Override
+	public Response getEnteById(UUID id, SecurityContext securityContext, HttpHeaders httpHeaders, HttpServletRequest httpRequest) {
+		return invoke(() ->commonFacade.getEnteById(id));
+	}
+
+	@Override
+	public Response getUfficiValidiByEnte( SecurityContext securityContext, HttpHeaders httpHeaders,HttpServletRequest httpRequest) {
+		return invoke(() -> commonFacade.getUfficiValidiByEnte());
+	}
+
+	@Override
+	public Response getGestioneCampi(SecurityContext securityContext, HttpHeaders httpHeaders,HttpServletRequest httpRequest) {
+		return invoke(() -> commonFacade.getGestioneCampi());
+	}
+
+	@Override
+	public Response postOggettiSpesa(Ods ods, SecurityContext securityContext, HttpHeaders httpHeaders,HttpServletRequest httpRequest) {
+		return invoke(() -> commonFacade.postOggettiSpesa(ods));
+	}
+
+	@Override
+	public Response getRicercaOggettiSpesa(Integer page, Integer limit, String sort, String direction, Ods oggettiSpesa, SecurityContext securityContext, HttpHeaders httpHeaders, @Context HttpServletRequest httpRequest) {
+		return invoke(() -> commonFacade.getRicercaOggettiSpesa(page, limit, sort, direction, oggettiSpesa));
+	}
+
+	@Override
+	public Response putOggettiSpesa(Ods ods, SecurityContext securityContext, HttpHeaders httpHeaders,HttpServletRequest httpRequest) {
+		return invoke(() -> commonFacade.putOggettiSpesa( ods));
+	}
+
+	@Override
+	public Response delOggettiSpesa(Integer id,String controllo, SecurityContext securityContext, HttpHeaders httpHeaders,HttpServletRequest httpRequest) {
+		return invoke(() -> commonFacade.delOggettiSpesa(id,controllo));
+	}
+
+	@Override
+	public Response getOggettiSpesaById(Integer id, SecurityContext securityContext, HttpHeaders httpHeaders,HttpServletRequest httpRequest) {
+		return invoke(() -> commonFacade.getOggettiSpesaById(id));
+
+	}
+
+	@Override
+	public Response getCaricaTabelleDaTrasmettere(String idProgramma, SecurityContext securityContext, HttpHeaders httpHeaders,HttpServletRequest httpRequest) {
+		return invoke(() -> commonFacade.putCaricaTabelleDaTrasmettere(idProgramma));
+	}
+
+	@Override
+	public Response getToken(Integer numeroToken,Integer numSec, SecurityContext securityContext, HttpHeaders httpHeaders,HttpServletRequest httpRequest) {
+		return invoke(() -> commonFacade.getToken(numeroToken,numSec));
+	}
+
 
 }

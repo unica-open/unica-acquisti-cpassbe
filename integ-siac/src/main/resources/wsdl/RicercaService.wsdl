@@ -1390,7 +1390,7 @@
   </wsdl:binding>
   <wsdl:service name="RicercaService">
     <wsdl:port binding="tns:RicercaServiceSoapBinding" name="RicercaServicePort">
-      <soap:address location="http://tst-api-ent.ecosis.csi.it:80/api/BILANCIO_contabilia_ricercaService/1.0"/>
+      <soap:address location="${siac-location-ricerca}"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

@@ -18,7 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-import it.csi.cpass.cpassbe.ejb.util.CpassThreadLocalContainer;
+import it.csi.cpass.cpassbe.lib.util.threadlocal.CpassThreadLocalContainer;
 
 /**
  * Thread local handling filter

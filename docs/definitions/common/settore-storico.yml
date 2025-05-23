@@ -1,0 +1,27 @@
+SettoreStorico:
+  type: object
+  properties:
+    dataValiditaFine:
+      type: string
+      format: date-time
+    dataValiditaInizio:
+      type: string
+      format: date-time
+    ente:
+      type: object
+      $ref: '#/definitions/Ente'
+    id:
+      type: string
+      format: uuid
+    note:
+      type: string
+    settoreAttuale:
+      type: object
+      $ref: '#/definitions/Settore'
+    settoreCodiceAttuale:
+      type: string
+    settoreCodiceStorico:
+      type: string
+    settoreStorico:
+      type: object
+      $ref: '#/definitions/Settore'

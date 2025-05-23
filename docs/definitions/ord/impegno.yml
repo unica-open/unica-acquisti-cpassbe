@@ -29,7 +29,7 @@ Impegno:
     annoProvvedimento:
       type: integer
     numeroProvvedimento:
-      type: integer
+      type: string
     settoreProvvedimento:
       type: string
     disponibile:

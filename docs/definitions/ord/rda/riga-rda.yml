@@ -1,0 +1,53 @@
+RigaRda:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    dataCancellazione:
+      type: string
+      format: date-time
+    dataCreazione:
+      type: string
+      format: date-time
+    dataModifica:
+      type: string
+      format: date-time
+    ente:
+      type: object
+      $ref: '#/definitions/Ente'
+    note:
+      type: string
+    oggettiSpesa:
+      type: object
+      $ref: '#/definitions/Ods'
+    optlock:
+      type: string
+      format: uuid
+    progressivoRiga:
+      type: integer
+    quantita:
+      type: number
+    quantitaSuRdaDaEvadere:  
+      type: number
+    quantitaResidua:  
+      type: number
+    rigaRms:
+      type: array
+      items:
+        $ref: '#/definitions/RigaRms'     
+    stato:
+      type: object
+      $ref: '#/definitions/Stato'
+    testataRda:
+      type: object
+      $ref: '#/definitions/TestataRda'
+    unitaMisura:
+      type: object
+      $ref: '#/definitions/unitaMisura'
+    utenteCancellazione:
+      type: string
+    utenteCreazione:
+      type: string
+    utenteModifica:
+      type: string

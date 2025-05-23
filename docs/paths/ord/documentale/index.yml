@@ -1,0 +1,151 @@
+/documentale/ordine/ricerca-prot-origin/{anno-orig}/{numero-orig}:
+  get:
+    operationId: getProtocolloOrigineByAnnoNum
+    description: Restituisce il protocollo  per anno e numero origine.
+    produces:
+      - application/json
+    tags:
+      - documentale
+    parameters:
+      - in: path
+        name: anno-orig
+        required: true
+        type: integer
+        description: L'anno orig del protocollo.
+      - in: path
+        name: numero-orig
+        required: true
+        type: string
+        description: Il numero orig del protocollo.
+    responses:
+      '200':
+        description: il protocollo ordine registrato su sistema per dati anno e numero.
+        schema:
+          $ref: '#/definitions/ProtocolloOrdine'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/documentale/ordine/ricerca-struttura-aggregativa-indice-classificazione:
+  post:
+    operationId: getStrutturaAggregativaXIndiceclassificazioneEstesa
+    description: Restituisce il protocollo  per anno e numero origine.
+    produces:
+      - application/json
+    tags:
+      - documentale
+    parameters:
+      - in: body
+        name: protocolloOrdine
+        required: true
+        schema:
+          $ref: '#/definitions/ProtocolloOrdine'
+    responses:
+      '200':
+        description: il protocollo ordine registrato su sistema per indice classificazione esteso.
+        schema:
+          $ref: '#/definitions/ProtocolloOrdine'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/documentale/ordine/ricerca-struttura-aggregativa-struttura-aggregativa:
+  post:
+    operationId: getStrutturaAggregativaXStrutturaAggregativa
+    description: Restituisce il protocollo  per struttura aggregativa.
+    produces:
+      - application/json
+    tags:
+      - documentale
+    parameters:
+      - in: body
+        name: protocolloOrdine
+        required: true
+        schema:
+          $ref: '#/definitions/ProtocolloOrdine'
+    responses:
+      '200':
+        description: il protocollo ordine registrato su sistema per struttura aggregativa.
+        schema:
+          $ref: '#/definitions/ProtocolloOrdine'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'                    
+/documentale/ordine/archivia-ordine/{testata-ordine-id}:
+  get:
+    operationId: getArchiviaOrdine
+    description: archivia l'ordine in oggetto
+    produces:
+      - application/json
+    tags:
+      - documentale
+    parameters:
+      - in: path
+        name: testata-ordine-id
+        required: true
+        type: string
+        format: uuid
+        description: id testata ordine.
+    responses:
+      '200':
+        description: true archiviato
+        schema:
+          type: boolean
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/documentale/ordine/verifica-archiviazione-ordine/{testata-ordine-id}:
+  get:
+    operationId: getVerificaArchiviazioneOrdine
+    description: verifica archiviazione l'ordine in oggetto
+    produces:
+      - application/json
+    tags:
+      - documentale
+    parameters:
+      - in: path
+        name: testata-ordine-id
+        required: true
+        type: string
+        format: uuid
+        description: id testata ordine.
+    responses:
+      '200':
+        description: true archiviato
+        schema:
+          type: boolean
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError' 
+/documentale/ordine/protocolla-ordine/{testata-ordine-id}:
+  put:
+    operationId: protocollaOrdine
+    description: protocolla l'ordine in oggetto
+    produces:
+      - application/json
+    tags:
+      - documentale
+    parameters:
+      - in: path
+        name: testata-ordine-id
+        required: true
+        type: string
+        format: uuid
+        description: id testata ordine.
+      - in: body
+        name: testataOrdine
+        required: true
+        schema:
+          $ref: '#/definitions/TestataOrdine'
+    responses:
+      '200':
+        description: true protocollato
+        schema:
+          type: boolean
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'                    

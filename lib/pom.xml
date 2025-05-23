@@ -13,6 +13,16 @@
   <name>CPASS BackEnd - LIB submodule</name>
 
   <dependencies>
+	<dependency>
+		<groupId>com.opencsv</groupId>
+		<artifactId>opencsv</artifactId>
+		<version>5.3</version>
+	</dependency>
+
+  	<dependency>
+  		<groupId>commons-io</groupId>
+  		<artifactId>commons-io</artifactId>
+  	</dependency>
 
     <dependency>
       <groupId>javax</groupId>
@@ -85,6 +95,58 @@
         </plugins>
       </build>
     </profile>
+    
+    
+    <!-- Invoke via ./mvnw clean generate-sources package -P generate-adapters -->
+		<profile>
+			<id>generate-adapters</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-clean-plugin</artifactId>
+						<version>${plugin.version.clean}</version>
+						<configuration>
+							<filesets>
+								<fileset>
+									<directory>${project.basedir}/src/main/java/eu/peppol</directory>
+									<directory>${project.basedir}/src/main/java/oasis</directory>
+									<directory>${project.basedir}/src/main/java/un</directory>
+								</fileset>
+							</filesets>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.cxf</groupId>
+						<artifactId>cxf-xjc-plugin</artifactId>
+						<version>${plugin.version.xjc}</version>
+						<executions>
+							<execution>
+								<id>xjc</id>
+								<phase>generate-sources</phase>
+								<goals>
+									<goal>xsdtojava</goal>
+								</goals>
+								<configuration>
+									<sourceRoot>${project.basedir}/src/main/java</sourceRoot>
+									<xsdOptions>
+										<xsdOption>
+											<xsd>${basedir}/src/main/resources/peppol/xsd/maindoc/UBL-DespatchAdvice-2.1.xsd</xsd>
+											<extensionArgs>-no-header</extensionArgs>
+											<!-- <packagename>it.notier.model.inviodocumento.request</packagename> -->
+										</xsdOption>
+										<xsdOption>
+											<extensionArgs>-no-header</extensionArgs>
+											<xsd>${basedir}/src/main/resources/peppol/xsd/maindoc/UBL-Order-2.1.xsd</xsd>
+										</xsdOption>
+									</xsdOptions>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
   </profiles>
 
 </project>

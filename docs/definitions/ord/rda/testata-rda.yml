@@ -1,0 +1,58 @@
+TestataRda:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    anno:
+      type: integer
+    dataAutorizzazione:
+      type: string
+      format: date-time
+    dataCancellazione:
+      type: string
+      format: date-time
+    dataCreazione:
+      type: string
+      format: date-time
+    dataModifica:
+      type: string
+      format: date-time
+    descrizione:
+      type: string
+    ente:
+      type: object
+      $ref: '#/definitions/Ente'
+    note:
+      type: string
+    numero:
+      type: integer
+    optlock:
+      type: string
+      format: uuid
+    settoreEmittente:
+      type: object
+      $ref: '#/definitions/Settore'
+    stato:
+      type: object
+      $ref: '#/definitions/Stato'
+    ufficio:
+      type: object
+      $ref: '#/definitions/Ufficio'
+    utenteCompilatore:
+      type: object
+      $ref: '#/definitions/Utente'
+    utenteCancellazione:
+      type: string
+    utenteCreazione:
+      type: string
+    utenteModifica:
+      type: string
+    rigaRda:
+      type: array
+      items:
+        $ref: '#/definitions/RigaRda'
+    testataOrdines:
+      type: array
+      items:
+        $ref: '#/definitions/TestataOrdine'

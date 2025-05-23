@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -39,8 +39,9 @@ public interface ElaborazioneMapper extends BaseMapperInterface<Elaborazione, Cp
 	@Mapping(source = "cpassTElaborazioneMessaggios", target = "listaMessaggi")
 	@Mapping(source = "cpassTElaborazioneParametros", target = "listaParametri")
 	@Mapping(source = "cpassDElaborazioneTipo", target = "elaborazioneTipo")
+	@Mapping(source = "cpassTEnte", target = "ente")
 	@Mapping(source = "elaborazione_id_esterno", target = "idEsterno")
-	
+
 	Elaborazione toModel(CpassTElaborazione entity);
 
 	@Override

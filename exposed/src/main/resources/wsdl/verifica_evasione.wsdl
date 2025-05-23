@@ -1,0 +1,84 @@
+<wsdl:definitions xmlns:ns1="http://cxf.apache.org/bindings/xformat" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://cpass.csi.it/cpassbe/data/verificaevasione" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="WsImplService" targetNamespace="http://cpass.csi.it/cpassbe/data/verificaevasione">
+	<wsdl:types>
+		<xs:schema xmlns:tns="http://cpass.csi.it/cpassbe/data/verificaevasione" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://cpass.csi.it/cpassbe/data/verificaevasione">
+			<xs:element name="VerificaInput" type="tns:evasioni"/>
+			<xs:element name="VerificaOutput" type="tns:esitoServizio"/>
+			<xs:complexType name="evasioni">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="annoDocumento" type="xs:string"/>
+					<xs:element minOccurs="0" name="codiceFornitore" type="xs:int"/>
+					<xs:element minOccurs="0" name="codiceFruitore" type="xs:string"/>
+					<xs:element minOccurs="0" name="codiceFiscaleEnte" type="xs:string"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="impegni" nillable="true" type="tns:impegno"/>
+					<xs:element minOccurs="0" name="numeroDocumento" type="xs:string"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="ordini" nillable="true" type="xs:string"/>
+					<xs:element minOccurs="0" name="tipoDocumento" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="impegno">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="annoImpegno" type="xs:string"/>
+					<xs:element minOccurs="0" name="importoQuota" type="xs:decimal"/>
+					<xs:element minOccurs="0" name="numeroImpegno" type="xs:int"/>
+					<xs:element minOccurs="0" name="annoSubimpegno" type="xs:int"/>
+					<xs:element minOccurs="0" name="numeroPrenotazione" type="xs:int"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="esitoServizio">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="codiceErrore" type="xs:string"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="errori" nillable="true" type="xs:string"/>
+					<xs:element minOccurs="0" name="esito" type="tns:esito"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:simpleType name="esito">
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="OK"/>
+					<xs:enumeration value="KO"/>
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:element name="verificaEvasione" type="tns:verificaEvasione"/>
+			<xs:complexType name="verificaEvasione">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="evasioni" type="tns:evasioni"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element name="verificaEvasioneResponse" type="tns:verificaEvasioneResponse"/>
+			<xs:complexType name="verificaEvasioneResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="tns:esitoServizio"/>
+				</xs:sequence>
+			</xs:complexType>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="verificaEvasioneResponse">
+		<wsdl:part element="tns:verificaEvasioneResponse" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="verificaEvasione">
+		<wsdl:part element="tns:verificaEvasione" name="parameters"/>
+	</wsdl:message>
+	<wsdl:portType name="WSInterface">
+		<wsdl:operation name="verificaEvasione">
+			<wsdl:input message="tns:verificaEvasione" name="verificaEvasione"/>
+			<wsdl:output message="tns:verificaEvasioneResponse" name="verificaEvasioneResponse"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="WsImplServiceSoapBinding" type="tns:WSInterface">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="verificaEvasione">
+			<soap:operation soapAction="" style="document"/>
+			<wsdl:input name="verificaEvasione">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="verificaEvasioneResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="WsImplService">
+		<wsdl:port binding="tns:WsImplServiceSoapBinding" name="WsImplPort">
+			<!-- <soap:address location="http://tst-api-ent.ecosis.csi.it:80/api/BILANCIO_PROCUREMENT_CMTO_VerificaEvasione/1.0"/>-->
+			<soap:address location="http://localhost:8080/exposed/verificaEvasione"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

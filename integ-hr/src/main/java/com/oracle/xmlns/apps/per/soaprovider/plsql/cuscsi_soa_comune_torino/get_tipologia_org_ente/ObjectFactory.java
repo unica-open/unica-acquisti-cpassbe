@@ -1,0 +1,221 @@
+
+package com.oracle.xmlns.apps.per.soaprovider.plsql.cuscsi_soa_comune_torino.get_tipologia_org_ente;
+
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.annotation.XmlElementDecl;
+import javax.xml.bind.annotation.XmlRegistry;
+import javax.xml.namespace.QName;
+
+
+/**
+ * This object contains factory methods for each 
+ * Java content interface and Java element interface 
+ * generated in the com.oracle.xmlns.apps.per.soaprovider.plsql.cuscsi_soa_comune_torino.get_tipologia_org_ente package. 
+ * &lt;p&gt;An ObjectFactory allows you to programatically 
+ * construct new instances of the Java representation 
+ * for XML content. The Java representation of XML 
+ * content can consist of schema derived interfaces 
+ * and classes representing the binding of schema 
+ * type definitions, element declarations and model 
+ * groups.  Factory methods for each of these are 
+ * provided in this class.
+ * 
+ */
+@XmlRegistry
+public class ObjectFactory {
+
+    private final static QName _InputParametersPDATAESTRAZIONE_QNAME = new QName("http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_comune_torino/get_tipologia_org_ente/", "P_DATA_ESTRAZIONE");
+    private final static QName _OutputParametersCUSCSISOACOMUNETORINO24GET_QNAME = new QName("http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_comune_torino/get_tipologia_org_ente/", "CUSCSI_SOA_COMUNE_TORINO-24GET_");
+    private final static QName _OutputParametersOPCODTIPOLOGIA_QNAME = new QName("http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_comune_torino/get_tipologia_org_ente/", "OP_COD_TIPOLOGIA");
+    private final static QName _OutputParametersOPDESTIPOLOGIA_QNAME = new QName("http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_comune_torino/get_tipologia_org_ente/", "OP_DES_TIPOLOGIA");
+    private final static QName _OutputParametersOPDATAINIZIO_QNAME = new QName("http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_comune_torino/get_tipologia_org_ente/", "OP_DATA_INIZIO");
+    private final static QName _OutputParametersOPDATAFINE_QNAME = new QName("http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_comune_torino/get_tipologia_org_ente/", "OP_DATA_FINE");
+    private final static QName _OutputParametersOPMSGDATA_QNAME = new QName("http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_comune_torino/get_tipologia_org_ente/", "OP_MSG_DATA");
+    private final static QName _APPSCUSCSISOACOMUNX5117455X5X2CODTIPOLOGIA_QNAME = new QName("http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_comune_torino/get_tipologia_org_ente/", "COD_TIPOLOGIA");
+    private final static QName _APPSCUSCSISOACOMUNX5117455X5X2DESTIPOLOGIA_QNAME = new QName("http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_comune_torino/get_tipologia_org_ente/", "DES_TIPOLOGIA");
+    private final static QName _APPSCUSCSISOACOMUNX5117455X5X2DATAINIZIO_QNAME = new QName("http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_comune_torino/get_tipologia_org_ente/", "DATA_INIZIO");
+    private final static QName _APPSCUSCSISOACOMUNX5117455X5X2DATAFINE_QNAME = new QName("http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_comune_torino/get_tipologia_org_ente/", "DATA_FINE");
+
+    /**
+     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.oracle.xmlns.apps.per.soaprovider.plsql.cuscsi_soa_comune_torino.get_tipologia_org_ente
+     * 
+     */
+    public ObjectFactory() {
+    }
+
+    /**
+     * Create an instance of {@link InputParameters }
+     * 
+     */
+    public InputParameters createInputParameters() {
+        return new InputParameters();
+    }
+
+    /**
+     * Create an instance of {@link OutputParameters }
+     * 
+     */
+    public OutputParameters createOutputParameters() {
+        return new OutputParameters();
+    }
+
+    /**
+     * Create an instance of {@link APPSCUSCSISOACOMUNX5117455X5X1 }
+     * 
+     */
+    public APPSCUSCSISOACOMUNX5117455X5X1 createAPPSCUSCSISOACOMUNX5117455X5X1() {
+        return new APPSCUSCSISOACOMUNX5117455X5X1();
+    }
+
+    /**
+     * Create an instance of {@link APPSCUSCSISOACOMUNX5117455X5X2 }
+     * 
+     */
+    public APPSCUSCSISOACOMUNX5117455X5X2 createAPPSCUSCSISOACOMUNX5117455X5X2() {
+        return new APPSCUSCSISOACOMUNX5117455X5X2();
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_comune_torino/get_tipologia_org_ente/", name = "P_DATA_ESTRAZIONE", scope = InputParameters.class)
+    public JAXBElement<String> createInputParametersPDATAESTRAZIONE(String value) {
+        return new JAXBElement<String>(_InputParametersPDATAESTRAZIONE_QNAME, String.class, InputParameters.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link APPSCUSCSISOACOMUNX5117455X5X1 }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link APPSCUSCSISOACOMUNX5117455X5X1 }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_comune_torino/get_tipologia_org_ente/", name = "CUSCSI_SOA_COMUNE_TORINO-24GET_", scope = OutputParameters.class)
+    public JAXBElement<APPSCUSCSISOACOMUNX5117455X5X1> createOutputParametersCUSCSISOACOMUNETORINO24GET(APPSCUSCSISOACOMUNX5117455X5X1 value) {
+        return new JAXBElement<APPSCUSCSISOACOMUNX5117455X5X1>(_OutputParametersCUSCSISOACOMUNETORINO24GET_QNAME, APPSCUSCSISOACOMUNX5117455X5X1 .class, OutputParameters.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_comune_torino/get_tipologia_org_ente/", name = "OP_COD_TIPOLOGIA", scope = OutputParameters.class)
+    public JAXBElement<String> createOutputParametersOPCODTIPOLOGIA(String value) {
+        return new JAXBElement<String>(_OutputParametersOPCODTIPOLOGIA_QNAME, String.class, OutputParameters.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_comune_torino/get_tipologia_org_ente/", name = "OP_DES_TIPOLOGIA", scope = OutputParameters.class)
+    public JAXBElement<String> createOutputParametersOPDESTIPOLOGIA(String value) {
+        return new JAXBElement<String>(_OutputParametersOPDESTIPOLOGIA_QNAME, String.class, OutputParameters.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_comune_torino/get_tipologia_org_ente/", name = "OP_DATA_INIZIO", scope = OutputParameters.class)
+    public JAXBElement<String> createOutputParametersOPDATAINIZIO(String value) {
+        return new JAXBElement<String>(_OutputParametersOPDATAINIZIO_QNAME, String.class, OutputParameters.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_comune_torino/get_tipologia_org_ente/", name = "OP_DATA_FINE", scope = OutputParameters.class)
+    public JAXBElement<String> createOutputParametersOPDATAFINE(String value) {
+        return new JAXBElement<String>(_OutputParametersOPDATAFINE_QNAME, String.class, OutputParameters.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_comune_torino/get_tipologia_org_ente/", name = "OP_MSG_DATA", scope = OutputParameters.class)
+    public JAXBElement<String> createOutputParametersOPMSGDATA(String value) {
+        return new JAXBElement<String>(_OutputParametersOPMSGDATA_QNAME, String.class, OutputParameters.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_comune_torino/get_tipologia_org_ente/", name = "COD_TIPOLOGIA", scope = APPSCUSCSISOACOMUNX5117455X5X2 .class)
+    public JAXBElement<String> createAPPSCUSCSISOACOMUNX5117455X5X2CODTIPOLOGIA(String value) {
+        return new JAXBElement<String>(_APPSCUSCSISOACOMUNX5117455X5X2CODTIPOLOGIA_QNAME, String.class, APPSCUSCSISOACOMUNX5117455X5X2 .class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_comune_torino/get_tipologia_org_ente/", name = "DES_TIPOLOGIA", scope = APPSCUSCSISOACOMUNX5117455X5X2 .class)
+    public JAXBElement<String> createAPPSCUSCSISOACOMUNX5117455X5X2DESTIPOLOGIA(String value) {
+        return new JAXBElement<String>(_APPSCUSCSISOACOMUNX5117455X5X2DESTIPOLOGIA_QNAME, String.class, APPSCUSCSISOACOMUNX5117455X5X2 .class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_comune_torino/get_tipologia_org_ente/", name = "DATA_INIZIO", scope = APPSCUSCSISOACOMUNX5117455X5X2 .class)
+    public JAXBElement<String> createAPPSCUSCSISOACOMUNX5117455X5X2DATAINIZIO(String value) {
+        return new JAXBElement<String>(_APPSCUSCSISOACOMUNX5117455X5X2DATAINIZIO_QNAME, String.class, APPSCUSCSISOACOMUNX5117455X5X2 .class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link String }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://xmlns.oracle.com/apps/per/soaprovider/plsql/cuscsi_soa_comune_torino/get_tipologia_org_ente/", name = "DATA_FINE", scope = APPSCUSCSISOACOMUNX5117455X5X2 .class)
+    public JAXBElement<String> createAPPSCUSCSISOACOMUNX5117455X5X2DATAFINE(String value) {
+        return new JAXBElement<String>(_APPSCUSCSISOACOMUNX5117455X5X2DATAFINE_QNAME, String.class, APPSCUSCSISOACOMUNX5117455X5X2 .class, value);
+    }
+
+}

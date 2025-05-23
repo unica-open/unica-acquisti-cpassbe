@@ -1,0 +1,20 @@
+ScaricoMepaXml:
+  type: object
+  properties:
+    scaricoMepaTestata:
+      type: object
+      $ref: '#/definitions/ScaricoMepaTestata'
+    fileXml:
+      type: string
+    pathFile:
+      type: string
+    dataSpostamento:
+      type: string
+      format: date-time
+    id:
+      type: string
+      format: uuid
+    optlock:
+      type: string
+      format: uuid
+    

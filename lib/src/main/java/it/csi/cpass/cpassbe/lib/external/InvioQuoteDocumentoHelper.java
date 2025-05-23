@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -21,6 +21,6 @@ import it.csi.cpass.cpassbe.lib.external.res.ExternalServiceResponseWrapper;
  */
 public interface InvioQuoteDocumentoHelper extends BaseHelper {
 
-	ExternalServiceResponseWrapper<Integer> postInvioQuoteDocumento(Map<String, String> params, InvioQuoteDocumento invioQuoteDocumento);
+	ExternalServiceResponseWrapper<String> postInvioQuoteDocumento(Map<String, String> params, InvioQuoteDocumento invioQuoteDocumento);
 
 }

@@ -30,3 +30,8 @@ Cpv:
       type: array
       items:
         $ref: '#/definitions/Cpv'
+    oggettiSpesa:
+      type: array
+      items:
+        $ref: '#/definitions/Ods'
+        

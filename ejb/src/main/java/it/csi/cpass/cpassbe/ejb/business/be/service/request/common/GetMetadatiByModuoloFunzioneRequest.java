@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -16,8 +16,8 @@ import it.csi.cpass.cpassbe.ejb.business.be.service.request.base.BaseRequest;
  * The Class GetMetadatiByModuoloFunzioneRequest.
  */
 public class GetMetadatiByModuoloFunzioneRequest implements BaseRequest {
-	private String modulo;
-	private String funzione;
+	private final String modulo;
+	private final String funzione;
 
 	public GetMetadatiByModuoloFunzioneRequest(String modulo, String funzione) {
 		this.modulo = modulo;
@@ -35,5 +35,5 @@ public class GetMetadatiByModuoloFunzioneRequest implements BaseRequest {
 	public String getFunzione() {
 		return funzione;
 	}
-	
+
 }

@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -24,7 +24,7 @@ import it.csi.cpass.cpassbe.lib.dto.pba.StoricoInterventoRup;
  */
 public class GetStoricoRupsByInterventoIdService extends BaseService<GetStoricoRupsByInterventoIdRequest, GetStoricoRupsByInterventoIdResponse> {
 
-    private InterventoDad interventoDad;
+	private final InterventoDad interventoDad;
 	public GetStoricoRupsByInterventoIdService(ConfigurationHelper configurationHelper, InterventoDad interventoDad) {
 		super(configurationHelper);
 		this.interventoDad = interventoDad;
@@ -32,12 +32,12 @@ public class GetStoricoRupsByInterventoIdService extends BaseService<GetStoricoR
 
 	@Override
 	protected void checkServiceParams() {
-		checkNotNull(request.getIdIntervento(), "id");		
+		checkNotNull(request.getIdIntervento(), "id");
 	}
 
 	@Override
 	protected void execute() {
-		List<StoricoInterventoRup> lista = interventoDad.getStoricoRupsByInterventoIdService(request.getIdIntervento());
+		final List<StoricoInterventoRup> lista = interventoDad.getStoricoRupsByInterventoIdService(request.getIdIntervento());
 		response.setInterventoStoricoRup(lista);
 	}
 

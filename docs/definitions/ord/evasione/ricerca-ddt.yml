@@ -1,0 +1,20 @@
+RicercaDdt:
+  type: object
+  properties:
+    ordineNumero:
+      type: integer
+    ordineAnno:
+      type: integer
+    statoDdt:
+      type: object
+      $ref: '#/definitions/Stato'
+    dataConsegna:
+      type: string
+      format: date-time
+    fornitore:
+      type: object
+      $ref: '#/definitions/Fornitore'
+    idSettore:
+      type: string
+      format: uuid
+

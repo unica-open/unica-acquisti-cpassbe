@@ -2,11 +2,13 @@
 package it.csi.siac.ricerche.data._1;
 
 import java.math.BigDecimal;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.datatype.XMLGregorianCalendar;
+
 import it.csi.siac.integ.data._1.EntitaCodificataBase;
 import it.csi.siac.integ.data._1.SiNoEnum;
 import it.csi.siac.integ.data._1.TipoProvvisorioDiCassa;

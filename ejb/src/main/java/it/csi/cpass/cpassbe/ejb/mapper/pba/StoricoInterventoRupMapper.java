@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -49,7 +49,7 @@ public interface StoricoInterventoRupMapper extends BaseMapperInterface<StoricoI
 	@Mapping(source = "cpassTUtente", target = "utente")
 	@Mapping(source = "dataStoricizzazione", target = "dataStoricizzazione")
 	StoricoInterventoRup toModelMinimal(CpassRPbaStoricoInterventoRup entity);
-	
+
 	@Override
 	@IterableMapping(elementTargetType = StoricoInterventoRup.class)
 	List<StoricoInterventoRup> toModels(Collection<CpassRPbaStoricoInterventoRup> entities);

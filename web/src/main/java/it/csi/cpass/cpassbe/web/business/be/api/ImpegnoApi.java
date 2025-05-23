@@ -23,6 +23,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 import it.csi.cpass.cpassbe.lib.dto.Impegno;
+import it.csi.cpass.cpassbe.lib.dto.Subimpegno;
+import it.csi.cpass.cpassbe.web.util.annotation.LoadSettore;
 
 /**
  * API interface for /impegno path
@@ -34,5 +36,13 @@ public interface ImpegnoApi {
 	@POST
 	@Path("ricerca/impegno-chiave-logica")
 	@Produces({MediaType.APPLICATION_JSON})
+	@LoadSettore
 	public Response postRicercaImpegnoByChiaveLogica(Impegno impegno, SecurityContext securityContext, HttpHeaders httpHeaders, HttpServletRequest httpRequest);
+
+	@POST
+	@Path("ricerca/sub-impegno-chiave-logica")
+	@Produces({MediaType.APPLICATION_JSON})
+	@LoadSettore
+	public Response postRicercaSubimpegnoByChiaveLogica(Subimpegno subimpegno, SecurityContext securityContext, HttpHeaders httpHeaders, HttpServletRequest httpRequest);
+
 }

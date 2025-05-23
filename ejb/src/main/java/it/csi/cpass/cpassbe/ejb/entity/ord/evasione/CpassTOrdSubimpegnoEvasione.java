@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -11,22 +11,27 @@
 package it.csi.cpass.cpassbe.ejb.entity.ord.evasione;
 
 import java.io.Serializable;
-import javax.persistence.*;
-
-import it.csi.cpass.cpassbe.ejb.entity.CpassTSubimpegno;
-import it.csi.cpass.cpassbe.ejb.entity.base.BaseAuditedEntity;
-import it.csi.cpass.cpassbe.ejb.entity.ord.CpassTOrdSubimpegnoOrdine;
-import it.csi.cpass.cpassbe.ejb.entity.ord.evasione.CpassTOrdImpegnoEvasione;
-import it.csi.cpass.cpassbe.lib.util.uuid.UuidUtils;
-
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+
+import it.csi.cpass.cpassbe.ejb.entity.CpassTSubimpegno;
+import it.csi.cpass.cpassbe.ejb.entity.base.BaseAuditedEntity;
+import it.csi.cpass.cpassbe.ejb.entity.ord.CpassTOrdSubimpegnoOrdine;
+import it.csi.cpass.cpassbe.lib.util.uuid.UuidUtils;
+
 
 /**
  * The persistent class for the cpass_t_ord_subimpegno_evasione database table.
- * 
+ *
  */
 @Entity
 @Table(name="cpass_t_ord_subimpegno_evasione")
@@ -71,7 +76,7 @@ public class CpassTOrdSubimpegnoEvasione extends BaseAuditedEntity<UUID> impleme
 	@ManyToOne
 	@JoinColumn(name = "causale_sospensione_id")
 	private CpassDOrdCausaleSospensioneEvasione cpassDOrdCausaleSospensioneEvasione;
-	
+
 	//bi-directional many-to-one association to CpassTOrdImpegnoEvasione
 	@ManyToOne
 	@JoinColumn(name="impegno_evasione_id")
@@ -159,7 +164,7 @@ public class CpassTOrdSubimpegnoEvasione extends BaseAuditedEntity<UUID> impleme
 		this.importoSospeso = importoSospeso;
 	}
 
-	
+
 
 	/**
 	 * @return the importoLiquidato

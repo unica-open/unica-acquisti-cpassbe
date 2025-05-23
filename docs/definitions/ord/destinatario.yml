@@ -26,17 +26,22 @@ Destinatario:
     statoNso:
       type: object
       $ref: '#/definitions/StatoNso'
+    indirizzoCodice:
+      type: string
     telefono:
       type: string
-    statoElOrdine:
+    stato:
       type: object
-      $ref: '#/definitions/StatoElOrdine'
+      $ref: '#/definitions/Stato'
     testataOrdine:
       type: object
       $ref: '#/definitions/TestataOrdine'
     settore:
       type: object
       $ref: '#/definitions/Settore'
+    settoreIndirizzo:
+      type: object
+      $ref: '#/definitions/SettoreIndirizzo'
     optlock:
       type: string
       format: uuid

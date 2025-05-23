@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="SubjectRegistryService" targetNamespace="subjectregistryservice.acaris.acta.doqui.it" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:common="common.acaris.acta.doqui.it" xmlns:tns="subjectregistryservice.acaris.acta.doqui.it" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:subjectregistry="subjectregistryservice.acaris.acta.doqui.it" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">  
+<wsdl:types>
+<xsd:schema targetNamespace="common.acaris.acta.doqui.it">
+<xsd:include schemaLocation="http://tst-applogic.reteunitaria.piemonte.it/actasrv/subjectregistryWS?xsd=ACARIS-Common.xsd"/>
+</xsd:schema>
+<xsd:schema targetNamespace="subjectregistryservice.acaris.acta.doqui.it">
+<xsd:include schemaLocation="http://tst-applogic.reteunitaria.piemonte.it/actasrv/subjectregistryWS?xsd=ACARIS-SubjectRegistry.xsd"/>
+<xsd:include schemaLocation="http://tst-applogic.reteunitaria.piemonte.it/actasrv/subjectregistryWS?xsd=ACARIS-SubjectRegistryMessaging.xsd"/>
+</xsd:schema>
+</wsdl:types>
+<wsdl:message name="getPropertiesMassiveResponse">
+<wsdl:part element="common:getPropertiesMassiveResponse" name="output"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="acarisException">
+<wsdl:part element="common:acarisFault" name="fault"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="updatePropertiesRequest">
+<wsdl:part element="tns:updateProperties" name="input"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="getPropertiesRequest">
+<wsdl:part element="tns:getProperties" name="input"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="queryRequest">
+<wsdl:part element="common:query" name="input"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="creaIndirizzoRequest">
+<wsdl:part element="tns:creaIndirizzo" name="input"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="ricercaSoggettoDaFonteEsternaResponse">
+<wsdl:part element="tns:ricercaSoggettoDaFonteEsternaResponse" name="output"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="creaIndirizzoResponse">
+<wsdl:part element="tns:creaIndirizzoResponse" name="output"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="creaCategoriaAnagraficaRequest">
+<wsdl:part element="tns:creaCategoriaAnagrafica" name="input"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="queryResponse">
+<wsdl:part element="common:queryResponse" name="output"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="creaSoggettoResponse">
+<wsdl:part element="tns:creaSoggettoResponse" name="output"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="getPropertiesResponse">
+<wsdl:part element="tns:getPropertiesResponse" name="output"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="updatePropertiesResponse">
+<wsdl:part element="tns:updatePropertiesResponse" name="output"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="ricercaSoggettoDaFonteEsternaRequest">
+<wsdl:part element="tns:ricercaSoggettoDaFonteEsterna" name="input"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="getPropertiesMassiveRequest">
+<wsdl:part element="common:getPropertiesMassive" name="input"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="creaCategoriaAnagraficaResponse">
+<wsdl:part element="tns:creaCategoriaAnagraficaResponse" name="output"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="ricercaSoggettoRequest">
+<wsdl:part element="tns:ricercaSoggetto" name="input"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="creaSoggettoRequest">
+<wsdl:part element="tns:creaSoggetto" name="input"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="ricercaSoggettoResponse">
+<wsdl:part element="tns:ricercaSoggettoResponse" name="output"> </wsdl:part>
+</wsdl:message>
+<wsdl:portType name="SubjectRegistryServicePort">
+<wsdl:operation name="creaSoggetto">
+<wsdl:input message="tns:creaSoggettoRequest"> </wsdl:input>
+<wsdl:output message="tns:creaSoggettoResponse"> </wsdl:output>
+<wsdl:fault message="tns:acarisException" name="creaSoggettoFault"> </wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="ricercaSoggetto">
+<wsdl:input message="tns:ricercaSoggettoRequest"> </wsdl:input>
+<wsdl:output message="tns:ricercaSoggettoResponse"> </wsdl:output>
+<wsdl:fault message="tns:acarisException" name="ricercaSoggettoFault"> </wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="ricercaSoggettoDaFonteEsterna">
+<wsdl:input message="tns:ricercaSoggettoDaFonteEsternaRequest"> </wsdl:input>
+<wsdl:output message="tns:ricercaSoggettoDaFonteEsternaResponse"> </wsdl:output>
+<wsdl:fault message="tns:acarisException" name="ricercaSoggettoDaFonteEsternaFault"> </wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="getProperties">
+<wsdl:input message="tns:getPropertiesRequest"> </wsdl:input>
+<wsdl:output message="tns:getPropertiesResponse"> </wsdl:output>
+<wsdl:fault message="tns:acarisException" name="getPropertiesFault"> </wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="updateProperties">
+<wsdl:input message="tns:updatePropertiesRequest"> </wsdl:input>
+<wsdl:output message="tns:updatePropertiesResponse"> </wsdl:output>
+<wsdl:fault message="tns:acarisException" name="updatePropertiesFault"> </wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="query">
+<wsdl:input message="tns:queryRequest"> </wsdl:input>
+<wsdl:output message="tns:queryResponse"> </wsdl:output>
+<wsdl:fault message="tns:acarisException" name="queryFault"> </wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="getPropertiesMassive">
+<wsdl:input message="tns:getPropertiesMassiveRequest"> </wsdl:input>
+<wsdl:output message="tns:getPropertiesMassiveResponse"> </wsdl:output>
+<wsdl:fault message="tns:acarisException" name="getPropertiesMassiveFault"> </wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="creaIndirizzo">
+<wsdl:input message="tns:creaIndirizzoRequest"> </wsdl:input>
+<wsdl:output message="tns:creaIndirizzoResponse"> </wsdl:output>
+<wsdl:fault message="tns:acarisException" name="creaIndirizzoFault"> </wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="creaCategoriaAnagrafica">
+<wsdl:input message="tns:creaCategoriaAnagraficaRequest"> </wsdl:input>
+<wsdl:output message="tns:creaCategoriaAnagraficaResponse"> </wsdl:output>
+<wsdl:fault message="tns:acarisException" name="creaCategoriaAnagraficaFault"> </wsdl:fault>
+</wsdl:operation>
+</wsdl:portType>
+<wsdl:binding name="SubjectRegistryServiceBinding" type="tns:SubjectRegistryServicePort">
+<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+<wsdl:operation name="creaSoggetto">
+<soap:operation/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="creaSoggettoFault">
+<soap:fault name="creaSoggettoFault" use="literal"/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="ricercaSoggetto">
+<soap:operation/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="ricercaSoggettoFault">
+<soap:fault name="ricercaSoggettoFault" use="literal"/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="ricercaSoggettoDaFonteEsterna">
+<soap:operation/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="ricercaSoggettoDaFonteEsternaFault">
+<soap:fault name="ricercaSoggettoDaFonteEsternaFault" use="literal"/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="getProperties">
+<soap:operation/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="getPropertiesFault">
+<soap:fault name="getPropertiesFault" use="literal"/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="updateProperties">
+<soap:operation/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="updatePropertiesFault">
+<soap:fault name="updatePropertiesFault" use="literal"/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="query">
+<soap:operation/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="queryFault">
+<soap:fault name="queryFault" use="literal"/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="getPropertiesMassive">
+<soap:operation/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="getPropertiesMassiveFault">
+<soap:fault name="getPropertiesMassiveFault" use="literal"/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="creaIndirizzo">
+<soap:operation/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="creaIndirizzoFault">
+<soap:fault name="creaIndirizzoFault" use="literal"/>
+</wsdl:fault>
+</wsdl:operation>
+<wsdl:operation name="creaCategoriaAnagrafica">
+<soap:operation/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+<wsdl:fault name="creaCategoriaAnagraficaFault">
+<soap:fault name="creaCategoriaAnagraficaFault" use="literal"/>
+</wsdl:fault>
+</wsdl:operation>
+</wsdl:binding>
+<wsdl:service name="SubjectRegistryService">
+<wsdl:port binding="tns:SubjectRegistryServiceBinding" name="SubjectRegistryServicePort">
+<!--<soap:address location="http://tst-applogic.reteunitaria.piemonte.it/actasrv/subjectregistryWS"/>-->
+<soap:address location="${acta-location}/subjectregistryWS"></soap:address>
+<soap:address location="https://api-piemonte.csi.it/documentale/acaris-backoffice-rp03/v1"/>
+<soap:address location="http://api-piemonte.ecosis.csi.it/documentale/acaris-test-subregistry/v1"/>
+
+
+
+</wsdl:port>
+</wsdl:service>
+</wsdl:definitions>

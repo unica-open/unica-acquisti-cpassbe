@@ -1,0 +1,15 @@
+MotiviEsclusioneCig:
+  type: object
+  properties:
+    codiceNso:
+      type: string
+    codiceSiope:
+      type: string
+    descrizione:
+      type: string
+    id:
+      type: integer
+    testataOrdines:
+      type: array
+      items:  
+        $ref: '#/definitions/TestataOrdine'

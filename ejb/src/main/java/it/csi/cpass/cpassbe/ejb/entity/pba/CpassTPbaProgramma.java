@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -57,23 +57,23 @@ public class CpassTPbaProgramma extends BaseAuditedEntity<UUID> implements Seria
 	/** The programmaDescrizione. */
 	@Column(name="programma_descrizione")
 	private String programmaDescrizione;
-	
+
 	/** The programma numeroProvvedimento. */
 	@Column(name="numero_provvedimento", nullable=false)
-	private Integer numeroProvvedimento;
+	private String numeroProvvedimento;
 
 	/** The descrizioneProvvedimento. */
 	@Column(name="descrizione_provvedimento", nullable=false)
 	private String descrizioneProvvedimento;
-	
+
 	/** The dataProvvedimento. */
 	@Column(name="data_provvedimento", nullable=false)
 	private Date dataProvvedimento;
-	
+
 	/** The dataPubblicazione. */
 	@Column(name="data_pubblicazione", nullable=false)
 	private Date dataPubblicazione;
-	
+
 	/** The url. */
 	@Column(name="url", nullable=false)
 	private String url ;
@@ -84,11 +84,11 @@ public class CpassTPbaProgramma extends BaseAuditedEntity<UUID> implements Seria
 	/** The programma_codice_mit. */
 	@Column(name="programma_codice_mit", nullable=false)
 	private String programmaCodiceMit ;
-	
+
 	/** The dataApprovazione. */
 	@Column(name="data_approvazione")
 	private Date dataApprovazione;
-	
+
 	/**
 	 * @return the programmaDescrizione
 	 */
@@ -129,8 +129,13 @@ public class CpassTPbaProgramma extends BaseAuditedEntity<UUID> implements Seria
 	/** The url. */
 	@Column(name="id_ricevuto_mit")
 	private Long idRicevutoMit ;
-	
-	
+
+	@Column(name="data_trasmissione_mit")
+	private Date dataTrasmissioneMit;
+
+	@Column(name="anno_fine_programma")
+	private Integer annoFineProgramma;
+
 	/**
 	 * Gets the programma id.
 	 *
@@ -185,7 +190,7 @@ public class CpassTPbaProgramma extends BaseAuditedEntity<UUID> implements Seria
 		this.cpassTPbaInterventos = cpassTPbaInterventos;
 	}
 
-	
+
 	/**
 	 * @return the idRicevutoMit
 	 */
@@ -258,7 +263,7 @@ public class CpassTPbaProgramma extends BaseAuditedEntity<UUID> implements Seria
 		this.cpassDStato = cpassDStato;
 	}
 
-	
+
 	/**
 	 * @return the serialversionuid
 	 */
@@ -266,18 +271,18 @@ public class CpassTPbaProgramma extends BaseAuditedEntity<UUID> implements Seria
 		return serialVersionUID;
 	}
 
-	
+
 	/**
 	 * @return the numeroProvvedimento
 	 */
-	public Integer getNumeroProvvedimento() {
+	public String getNumeroProvvedimento() {
 		return numeroProvvedimento;
 	}
 
 	/**
 	 * @param numeroProvvedimento the numeroProvvedimento to set
 	 */
-	public void setNumeroProvvedimento(Integer numeroProvvedimento) {
+	public void setNumeroProvvedimento(String numeroProvvedimento) {
 		this.numeroProvvedimento = numeroProvvedimento;
 	}
 
@@ -330,7 +335,7 @@ public class CpassTPbaProgramma extends BaseAuditedEntity<UUID> implements Seria
 		return url;
 	}
 
-	
+
 	/**
 	 * @return the cpassTUtenteReferente
 	 */
@@ -352,7 +357,7 @@ public class CpassTPbaProgramma extends BaseAuditedEntity<UUID> implements Seria
 		this.url = url;
 	}
 
-	
+
 	@Override
 	public UUID getId() {
 		return programmaId;
@@ -377,7 +382,7 @@ public class CpassTPbaProgramma extends BaseAuditedEntity<UUID> implements Seria
 		this.programmaVersione = programmaVersione;
 	}
 
-	
+
 	/**
 	 * @return the programmaCodiceMit
 	 */
@@ -392,7 +397,7 @@ public class CpassTPbaProgramma extends BaseAuditedEntity<UUID> implements Seria
 		this.programmaCodiceMit = programmaCodiceMit;
 	}
 
-	
+
 	/**
 	 * @return the dataApprovazione
 	 */
@@ -407,10 +412,45 @@ public class CpassTPbaProgramma extends BaseAuditedEntity<UUID> implements Seria
 		this.dataApprovazione = dataApprovazione;
 	}
 
+
+
+	/**
+	 * @return the dataTrasmissioneMit
+	 */
+	public Date getDataTrasmissioneMit() {
+		return dataTrasmissioneMit;
+	}
+
+	/**
+	 * @param dataTrasmissioneMit the dataTrasmissioneMit to set
+	 */
+	public void setDataTrasmissioneMit(Date dataTrasmissioneMit) {
+		this.dataTrasmissioneMit = dataTrasmissioneMit;
+	}
+
+	/**
+	 * @return the annoFineProgramma
+	 */
+	public Integer getAnnoFineProgramma() {
+		return annoFineProgramma;
+	}
+
+	/**
+	 * @param annoFineProgramma the annoFineProgramma to set
+	 */
+	public void setAnnoFineProgramma(Integer annoFineProgramma) {
+		this.annoFineProgramma = annoFineProgramma;
+	}
+
+	/**
+	 * @return the durataProgramma
+	 */
+
 	@Override
 	public void initId() {
 		if(cpassTEnte != null && cpassTEnte.getEnteId() != null) {
-			this.programmaId = UuidUtils.generateUUIDv5FromNamespaceAndString(NAMESPACE, cpassTEnte.getId().toString() + "_" + programmaAnno + "_"+programmaVersione);
+			this.programmaId = UuidUtils.generateUUIDv5FromNamespaceAndString(NAMESPACE, cpassTEnte.getId().toString() + "_" + programmaAnno + "_" + annoFineProgramma + "_" + programmaVersione);
 		}
 	}
+
 }

@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -24,7 +24,8 @@ public class PostUploadCsvRequest implements BaseRequest {
 	private Integer annoProgramma;
 	private Integer versioneProgramma;
 	//utente_referente_id da aggiungere
-    private String utenteReferenteCf;
+	private String utenteReferenteCf;
+	private String separatore;
 
 	private UUID idEnte;
 	private byte[] attachmentInterventi;
@@ -37,8 +38,11 @@ public class PostUploadCsvRequest implements BaseRequest {
 	 */
 	public PostUploadCsvRequest(FileHolder file) {
 		this.annoProgramma = Integer.valueOf(file.getAnnoProgramma());
+		this.separatore = file.getSeparatore();
+
 		this.versioneProgramma = Integer.valueOf(file.getVersioneProgramma());
 		this.utenteReferenteCf = file.getUtenteReferenteCf();
+
 		this.idEnte = file.getIdEnte();
 		this.attachmentInterventi=file.getAttachment();
 		this.attachmentImportiInterventi=file.getAttachment2();
@@ -141,6 +145,33 @@ public class PostUploadCsvRequest implements BaseRequest {
 	public void setAttachmentImportiInterventi(byte[] attachmentImportiInterventi) {
 		this.attachmentImportiInterventi = attachmentImportiInterventi;
 	}
-	
-	
+
+
+
+	/**
+	 * @return the separatore
+	 */
+	public String getSeparatore() {
+		return separatore;
+	}
+
+
+
+	/**
+	 * @param separatore the separatore to set
+	 */
+	public void setSeparatore(String separatore) {
+		this.separatore = separatore;
+	}
+
+
+
+	/**
+	 * @param idEnte the idEnte to set
+	 */
+	public void setIdEnte(UUID idEnte) {
+		this.idEnte = idEnte;
+	}
+
+
 }

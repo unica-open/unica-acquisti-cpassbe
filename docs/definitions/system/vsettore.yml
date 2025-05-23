@@ -1,0 +1,36 @@
+Vsettore:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    codice:
+      type: string
+    descrizione:
+      type: string
+    ente:
+      type: object
+      $ref: '#/definitions/Ente'
+    tipoSettore:
+      type: object
+      $ref: '#/definitions/TipoSettore'
+    utenteSettoreDefault:
+      type: boolean
+    rup:
+      type: object
+      $ref: '#/definitions/Utente'
+    idPadre:
+      type: string
+      format: uuid
+    livello:
+      type: integer
+    listSettore:
+      type: array
+      items:
+        $ref: '#/definitions/Settore'
+    dataCreazione:
+      type: string
+      format: date-time
+    dataCancellazione:
+      type: string
+      format: date-time

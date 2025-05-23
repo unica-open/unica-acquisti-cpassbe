@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -30,7 +30,7 @@ import it.csi.cpass.cpassbe.lib.mapper.BaseMapperInterface;
 @Mapper
 public interface ParametroStampaMapper extends BaseMapperInterface<ParametroStampa, CpassTParametroStampa> {
 
-	@Override	
+	@Override
 	@Mapping(source = "modulo", target = "modulo")
 	@Mapping(source = "nomeStampa", target = "nomeStampa")
 	@Mapping(source = "fileNameTemplate", target = "fileNameTemplate")
@@ -40,7 +40,7 @@ public interface ParametroStampaMapper extends BaseMapperInterface<ParametroStam
 	@Mapping(source = "note", target = "note")
 	@Mapping(source = "procedureUtilizzate", target = "procedureUtilizzate")
 	@Mapping(source = "formatoStampa", target = "formatoStampa")
-	
+
 	ParametroStampa toModel(CpassTParametroStampa entity);
 
 	@Override

@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -10,6 +10,8 @@
  */
 package it.csi.cpass.cpassbe.ejb.business.be.service.impl.programma;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import it.csi.cpass.cpassbe.ejb.business.be.dad.ProgrammaDad;
@@ -28,7 +30,7 @@ public class GetProgrammiBySettoreAndStatoService extends BaseProgrammaService<G
 	/**
 	 * Constructor
 	 * @param configurationHelper the configuration helper
-	 * @param programmaDad 
+	 * @param programmaDad
 	 */
 	public GetProgrammiBySettoreAndStatoService(ConfigurationHelper configurationHelper, ProgrammaDad programmaDad) {
 		super(configurationHelper, programmaDad);
@@ -41,7 +43,10 @@ public class GetProgrammiBySettoreAndStatoService extends BaseProgrammaService<G
 
 	@Override
 	protected void execute() {
-		List<Programma> programmi = programmaDad.getProgrammiBySettoreAndStato(request.getSettoreId(), request.getStatoCode() );
+		final String[] strings = request.getStatoCode().split(",");
+
+		final List<String>  listaStatoCodice = new ArrayList<>(Arrays.asList(strings));
+		final List<Programma> programmi = programmaDad.getProgrammiBySettoreAndStato(request.getSettoreId(), listaStatoCodice );
 		response.setProgrammi(programmi);
 	}
 

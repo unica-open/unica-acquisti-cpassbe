@@ -17,3 +17,29 @@
         description: Errore generico.
         schema:
           $ref: '#/definitions/ApiError'
+/decodifica/tipo-ordine-no-type/{noTypeCode}:
+  get:
+    operationId: getListaTipoOrdineExcludeCode
+    description: Restituisce i TipoOrdine registrati su sistema escludendo il codice indicato.
+    produces:
+      - application/json
+    tags:
+      - decodifica
+    parameters:
+      - in: path
+        name: noTypeCode
+        required: true
+        type: string
+        description: codice da escludere.      
+    responses:
+      '200':
+        description: TipoOrdine registrati su sistema.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/TipoOrdine'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+          

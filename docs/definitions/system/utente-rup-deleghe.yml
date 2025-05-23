@@ -1,0 +1,18 @@
+UtenteRupDeleghe:
+  type: object
+  properties:
+    id:
+      type: integer
+    utenteRup:
+      type: object
+      $ref: '#/definitions/Utente'
+    utenteRupDelegato:
+      type: object
+      $ref: '#/definitions/Utente'
+    dataValiditaFine:
+      type: string
+      format: date-time
+    dataValiditaInizio:
+      type: string
+      format: date-time
+

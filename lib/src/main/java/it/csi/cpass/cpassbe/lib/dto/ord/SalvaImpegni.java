@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -17,7 +17,7 @@ import it.csi.cpass.cpassbe.lib.dto.Impegno;
 
 public class SalvaImpegni implements Serializable {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 2822901832886152626L;
 	private TestataOrdine testataOrdine;
@@ -80,5 +80,5 @@ public class SalvaImpegni implements Serializable {
 	public void setIgnoreWarnings(Boolean ignoreWarnings) {
 		this.ignoreWarnings = ignoreWarnings;
 	}
-	
+
 }

@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -55,10 +55,10 @@ public class CpassDOrdStatoNso implements Serializable, BaseEntity<Integer> {
 	@Column(name="stato_nso_tipo", nullable=false, length=200)
 	private String statoNsoTipo;
 
-//	/** The cpass T interventos. */
-//	//bi-directional many-to-one association to CpassTPbaIntervento
-//	@OneToMany(mappedBy="cpassDStato")
-//	private List<CpassTPbaIntervento> cpassTPbaInterventos;
+	//	/** The cpass T interventos. */
+	//	//bi-directional many-to-one association to CpassTPbaIntervento
+	//	@OneToMany(mappedBy="cpassDStato")
+	//	private List<CpassTPbaIntervento> cpassTPbaInterventos;
 
 	/**
 	 * Gets the stato id.
@@ -137,18 +137,18 @@ public class CpassDOrdStatoNso implements Serializable, BaseEntity<Integer> {
 	 *
 	 * @return the cpass T interventos
 	 */
-//	public List<CpassTPbaIntervento> getCpassTPbaInterventos() {
-//		return this.cpassTPbaInterventos;
-//	}
+	//	public List<CpassTPbaIntervento> getCpassTPbaInterventos() {
+	//		return this.cpassTPbaInterventos;
+	//	}
 
 	/**
 	 * Sets the cpass T interventos.
 	 *
 	 * @param cpassTPbaInterventos the new cpass T interventos
 	 */
-//	public void setCpassTPbaInterventos(List<CpassTPbaIntervento> cpassTPbaInterventos) {
-//		this.cpassTPbaInterventos = cpassTPbaInterventos;
-//	}
+	//	public void setCpassTPbaInterventos(List<CpassTPbaIntervento> cpassTPbaInterventos) {
+	//		this.cpassTPbaInterventos = cpassTPbaInterventos;
+	//	}
 
 	/**
 	 * Adds the cpass T intervento.
@@ -156,12 +156,12 @@ public class CpassDOrdStatoNso implements Serializable, BaseEntity<Integer> {
 	 * @param cpassTPbaIntervento the cpass T intervento
 	 * @return the cpass T intervento
 	 */
-//	public CpassTPbaIntervento addCpassTPbaIntervento(CpassTPbaIntervento cpassTPbaIntervento) {
-//		getCpassTPbaInterventos().add(cpassTPbaIntervento);
-//		cpassTPbaIntervento.setCpassDStato(this);
-//
-//		return cpassTPbaIntervento;
-//	}
+	//	public CpassTPbaIntervento addCpassTPbaIntervento(CpassTPbaIntervento cpassTPbaIntervento) {
+	//		getCpassTPbaInterventos().add(cpassTPbaIntervento);
+	//		cpassTPbaIntervento.setCpassDStato(this);
+	//
+	//		return cpassTPbaIntervento;
+	//	}
 
 	/**
 	 * Removes the cpass T intervento.
@@ -169,12 +169,12 @@ public class CpassDOrdStatoNso implements Serializable, BaseEntity<Integer> {
 	 * @param cpassTPbaIntervento the cpass T intervento
 	 * @return the cpass T intervento
 	 */
-//	public CpassTPbaIntervento removeCpassTPbaIntervento(CpassTPbaIntervento cpassTPbaIntervento) {
-//		getCpassTPbaInterventos().remove(cpassTPbaIntervento);
-//		cpassTPbaIntervento.setCpassDStato(null);
-//
-//		return cpassTPbaIntervento;
-//	}
+	//	public CpassTPbaIntervento removeCpassTPbaIntervento(CpassTPbaIntervento cpassTPbaIntervento) {
+	//		getCpassTPbaInterventos().remove(cpassTPbaIntervento);
+	//		cpassTPbaIntervento.setCpassDStato(null);
+	//
+	//		return cpassTPbaIntervento;
+	//	}
 
 	@Override
 	public Integer getId() {

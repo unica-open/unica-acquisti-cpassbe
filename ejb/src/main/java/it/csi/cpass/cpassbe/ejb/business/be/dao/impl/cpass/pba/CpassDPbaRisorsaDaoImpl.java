@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -30,16 +30,16 @@ public class CpassDPbaRisorsaDaoImpl extends BaseEntityDaoImpl<Integer, CpassDPb
 
 	@Override
 	public List<CpassDPbaRisorsa> getRisorseByTipo(String tipo) {
-		Map<String, Object> params = new HashMap<>();
-		StringBuilder jpql = new StringBuilder();
+		final Map<String, Object> params = new HashMap<>();
+		final StringBuilder jpql = new StringBuilder();
 		jpql.append(" FROM CpassDPbaRisorsa risorsa  ");
 		jpql.append(" WHERE 1=1 ");
 
 		JpaQueryHelper.andFieldEquals(jpql, params, "risorsa.risorsaTipo", "tipo", tipo);
 
 		jpql.append(" ORDER BY risorsa.risorsaTipo, risorsa.risorsaOrdinamento, risorsa.risorsaId ");
-		
-		TypedQuery<CpassDPbaRisorsa> query = composeTypedQuery(jpql, params);
+
+		final TypedQuery<CpassDPbaRisorsa> query = composeTypedQuery(jpql, params);
 		return query.getResultList();
 	}
 }

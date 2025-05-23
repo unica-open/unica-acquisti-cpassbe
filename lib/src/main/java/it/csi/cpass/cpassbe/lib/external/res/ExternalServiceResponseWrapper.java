@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -13,6 +13,8 @@ package it.csi.cpass.cpassbe.lib.external.res;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.csi.cpass.cpassbe.lib.external.dto.Errore;
+
 /**
  * Wrapper for external service invocation response
  * @param <R> the wrapped response data type
@@ -22,6 +24,7 @@ public class ExternalServiceResponseWrapper<R> {
 	private boolean success;
 	private List<String> errors = new ArrayList<>();
 	private List<String> messages = new ArrayList<>();
+	private List<Errore> errori = new ArrayList<>();
 	private R response;
 
 	/**
@@ -88,4 +91,19 @@ public class ExternalServiceResponseWrapper<R> {
 	public boolean addMessage(String message) {
 		return this.messages.add(message);
 	}
+	/**
+	 * @return the errori
+	 */
+	public List<Errore> getErrori() {
+		return errori;
+	}
+	/**
+	 * @param errori the errori to set
+	 */
+	public void setErrori(List<Errore> errori) {
+		this.errori = errori;
+	}
+
+
 }
+

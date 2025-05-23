@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -16,8 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
@@ -39,10 +37,10 @@ import it.csi.cpass.cpassbe.lib.util.log.LogUtil;
  */
 @ApplicationScoped
 public class ExternalHelperLookup {
-	
+
 	@Inject private SystemDad systemDad;
 	private static final LogUtil LOG = new LogUtil(ExternalHelperLookup.class);
-	
+
 	/**
 	 * Retrieves the helper for a given class, for the default configuration
 	 * @param <H> the helper class
@@ -50,18 +48,10 @@ public class ExternalHelperLookup {
 	 * @return the implementor
 	 */
 	public <H extends BaseHelper> ExternalServiceResolveWrapper<H> lookup(Class<H> clazz) {
-		if(clazz == null) {
-			throw new IllegalArgumentException("Helper class must be set");
-		}
-		String tmp = clazz.getSimpleName();
-		int helperIndex = tmp.indexOf("Helper");
-		if(helperIndex == -1) {
-			throw new IllegalArgumentException("Helper class must have a name of the form <Service>Helper");
-		}
-		String configurationReference = StringHelper.toKebabCase(tmp.substring(0, helperIndex)).toUpperCase();
-		return lookup(clazz, configurationReference);
+		final String configurationReference = extractedConfigurationReference(clazz);
+		return lookup(clazz, configurationReference,null);
 	}
-	
+
 	/**
 	 * Retrieves the helper for a given class, for a given configuration
 	 * @param <H> the helper class
@@ -70,11 +60,38 @@ public class ExternalHelperLookup {
 	 * @return the implementor
 	 */
 	public <H extends BaseHelper> ExternalServiceResolveWrapper<H> lookup(Class<H> clazz, String configurationReference) {
+		return lookup( clazz, configurationReference, null);
+	}
+
+	/**
+	 *
+	 * @param <H>
+	 * @param clazz
+	 * @param enteId
+	 * @return
+	 */
+	public <H extends BaseHelper> ExternalServiceResolveWrapper<H> lookup(Class<H> clazz,  UUID enteId) {
 		final String methodName = "lookup";
+		final String configurationReference = extractedConfigurationReference(clazz);
 		LOG.info(methodName, "Lookup of class " + clazz.getName() + " via configuration " + configurationReference);
-		//TODO estrarre enteId da ThreadLocal enteId
-		UUID enteId = null;	
 		return lookup( clazz, configurationReference, enteId);
+	}
+
+	/**
+	 * @param <H>
+	 * @param clazz
+	 * @return
+	 */
+	protected <H extends BaseHelper> String extractedConfigurationReference(Class<H> clazz) {
+		if(clazz == null) {
+			throw new IllegalArgumentException("Helper class must be set");
+		}
+		final String tmp = clazz.getSimpleName();
+		final int helperIndex = tmp.indexOf("Helper");
+		if(helperIndex < 0) {
+			throw new IllegalArgumentException("Helper class must have a name of the form <Service>Helper");
+		}
+		return StringHelper.toKebabCase(tmp.substring(0, helperIndex)).toUpperCase();
 	}
 
 	/**
@@ -86,21 +103,21 @@ public class ExternalHelperLookup {
 	 */
 	public <H extends BaseHelper> ExternalServiceResolveWrapper<H> lookup(Class<H> clazz, String configurationReference, UUID enteId) {
 		final String methodName = "lookup";
-		LOG.info(methodName, "Lookup of class " + clazz.getName() + " via configuration " + configurationReference);	
-		List<Parametro> parameters = systemDad.getParametriList(null, configurationReference, null, enteId);
-		Parametro implementor = parameters.stream()
+		LOG.info(methodName, "Lookup of class " + clazz.getName() + " via configuration " + configurationReference+ " enteId " + enteId);
+		final List<Parametro> parameters = systemDad.getParametriList(null, configurationReference, null, enteId);
+		final Parametro implementor = parameters.stream()
 				.filter(BaseExternalConfigurationParams.IMPLEMENTOR::isParametroEqual)
 				.findFirst()
 				.orElseThrow(() -> new IllegalArgumentException("No implementor of " + clazz.getName() + " for reference " + configurationReference));
-		
+
 		LOG.trace(methodName, () -> "Implementor found to be equal to " + implementor.getValore());
 		// Extract parameters by ambiente
-		Map<String, String> params = extractParameters(parameters, implementor , enteId);
-		
-		H instance = instantiate(clazz, configurationReference, params);
+		final Map<String, String> params = extractParameters(parameters, implementor , enteId);
+
+		final H instance = instantiate(clazz, configurationReference, params);
 		return new ExternalServiceResolveWrapper<>(instance, params);
 	}
-	
+
 	/**
 	 * Extraction of the parameters.
 	 * <p>The proposed order is as follows:
@@ -117,29 +134,29 @@ public class ExternalHelperLookup {
 	private Map<String, String> extractParameters(List<Parametro> parameters, Parametro implementor , UUID enteId) {
 		final String methodName = "extractParameters";
 
-		
-		
-		String ambiente = implementor.getValore().toUpperCase();
+
+
+		final String ambiente = implementor.getValore().toUpperCase();
 		// Read transversal data
-		Map<String, String> params = new HashMap<>();
+		final Map<String, String> params = new HashMap<>();
 		// Parameter order: parameters by configuration -> parameters by ambiente -> parameters by configuration+ambiente
 		//TODO gestire il filtro successivo per ente_id
-		List<Parametro> parametersByAmbiente = systemDad.getParametriList(null, "EXT", ambiente , enteId);
-		
-		
+		final List<Parametro> parametersByAmbiente = systemDad.getParametriList(null, "EXT", ambiente , enteId);
+
+
 		parameters.stream()
-			.filter(p -> p.getAmbiente() == null || p.getAmbiente().isEmpty())
-			.forEach(p -> params.put(p.getChiave(), p.getValore()));
+		.filter(p -> p.getAmbiente() == null || p.getAmbiente().isEmpty())
+		.forEach(p -> params.put(p.getChiave(), p.getValore()));
 		parametersByAmbiente.stream()
-			.forEach(p -> params.put(p.getChiave(), p.getValore()));
+		.forEach(p -> params.put(p.getChiave(), p.getValore()));
 		parameters.stream()
-			.filter(p -> p.getAmbiente() != null && ambiente.equals(p.getAmbiente()))
-			.forEach(p -> params.put(p.getChiave(), p.getValore()));
-		
+		.filter(p -> p.getAmbiente() != null && ambiente.equals(p.getAmbiente()))
+		.forEach(p -> params.put(p.getChiave(), p.getValore()));
+
 		LOG.trace(methodName, () -> "Parameters found: " + params);
 		return params;
 	}
-	
+
 	/**
 	 * Instantiation of the helper
 	 * @param <H> the helper type
@@ -148,7 +165,7 @@ public class ExternalHelperLookup {
 	 * @param params the parameters
 	 * @return the implementor instance
 	 */
-	
+
 	private <H extends BaseHelper> H instantiate(Class<H> clazz, String configurationReference, Map<String, String> params) {
 		if(params.containsKey(BaseExternalConfigurationParams.IMPLEMENTOR_EJB_NAME.getParamName())) {
 			return lookupByEJB(clazz, configurationReference, params.get(BaseExternalConfigurationParams.IMPLEMENTOR_EJB_NAME.getParamName()));
@@ -157,14 +174,14 @@ public class ExternalHelperLookup {
 			return lookupByCDI(clazz, configurationReference, params.get(BaseExternalConfigurationParams.IMPLEMENTOR_CDI_NAME.getParamName()));
 		}
 		if(params.containsKey(BaseExternalConfigurationParams.IMPLEMENTOR_POJO_NAME.getParamName())) {
-			String className = params.get(BaseExternalConfigurationParams.IMPLEMENTOR_POJO_NAME.getParamName());
+			final String className = params.get(BaseExternalConfigurationParams.IMPLEMENTOR_POJO_NAME.getParamName());
 			return lookupByPOJO(clazz, configurationReference, className);
 		}
 		// Fallback: construct base implementor class name
-		String className = composeImplementorClassName(clazz, params.get(BaseExternalConfigurationParams.IMPLEMENTOR.getParamName()));
+		final String className = composeImplementorClassName(clazz, params.get(BaseExternalConfigurationParams.IMPLEMENTOR.getParamName()));
 		return lookupByPOJO(clazz, configurationReference, className);
 	}
-	
+
 	/**
 	 * Lookup of the EJB via its JNDI name
 	 * @param <H> the helper type
@@ -177,7 +194,7 @@ public class ExternalHelperLookup {
 		final String methodName = "lookupByEJB";
 		try {
 			return InitialContext.doLookup(ejbName);
-		} catch (NamingException e) {
+		} catch (final NamingException e) {
 			LOG.error(methodName, "NamingException in lookup. Parameters: class = " + clazz + " - configurationReference = " + configurationReference);
 			throw new IllegalArgumentException("Cannot lookup EJB implementor " + clazz.getCanonicalName() + " for reference " + configurationReference
 					+ ". Searched EJB name is " + ejbName, e);
@@ -193,8 +210,8 @@ public class ExternalHelperLookup {
 	 * @return the implementor instance
 	 */
 	private <H extends BaseHelper> H lookupByCDI(Class<H> clazz, String configurationReference, String cdiName) {
-		Instance<H> instance = CDI.current().select(clazz, new ExternalServiceImpl.Literal(cdiName));
-		
+		final Instance<H> instance = CDI.current().select(clazz, new ExternalServiceImpl.Literal(cdiName));
+
 		if(instance.isUnsatisfied()) {
 			throw new IllegalArgumentException("Cannot find CDI implementor of " + clazz.getCanonicalName() + " for reference " + configurationReference
 					+ ". Searched CDI name is " + cdiName);
@@ -211,17 +228,17 @@ public class ExternalHelperLookup {
 		final String methodName = "lookupByPOJO";
 		LOG.debug(methodName, () -> "Implementor class name is " + className);
 		try {
-			Class<? extends H> implClass = (Class<? extends H>) Class.forName(className);
-			Constructor<? extends H> constructor = implClass.getConstructor();
+			final Class<? extends H> implClass = (Class<? extends H>) Class.forName(className);
+			final Constructor<? extends H> constructor = implClass.getConstructor();
 			return constructor.newInstance();
-		} catch (ClassNotFoundException e) {
+		} catch (final ClassNotFoundException e) {
 			LOG.error(methodName, "ClassNotFoundException in lookup. Parameters: class = " + clazz + " - configurationReference = " + configurationReference);
 			throw new IllegalArgumentException("Cannot find implementor class of " + clazz.getCanonicalName() + " for reference " + configurationReference
 					+ ". Searched class is " + className, e);
-		} catch (NoSuchMethodException e) {
+		} catch (final NoSuchMethodException e) {
 			LOG.error(methodName, "NoSuchMethodException in lookup. Parameters: class = " + clazz + " - configurationReference = " + configurationReference);
 			throw new IllegalArgumentException("Cannot find empty constructor for class " + className, e);
-		} catch (SecurityException e) {
+		} catch (final SecurityException e) {
 			LOG.error(methodName, "SecurityException in lookup. Parameters: class = " + clazz + " - configurationReference = " + configurationReference);
 			throw new IllegalArgumentException("Security exception in initializing class " + className, e);
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {

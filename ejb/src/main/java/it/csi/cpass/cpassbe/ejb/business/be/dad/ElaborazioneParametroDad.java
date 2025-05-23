@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -31,7 +31,7 @@ public class ElaborazioneParametroDad extends BaseDad {
 
 	/**
 	 * Inserts the elaborazioneParametro
-	 * 
+	 *
 	 * @param elaborazioneParametro the ElaborazioneParametro
 	 * @return the model instance
 	 */
@@ -39,19 +39,20 @@ public class ElaborazioneParametroDad extends BaseDad {
 	public ElaborazioneParametro saveElaborazioneParametro(ElaborazioneParametro elaborazioneParametro) {
 		CpassTElaborazioneParametro cpassTElaborazioneParametro = CpassMappers.ELABORAZIONE_PARAMETRO.toEntity(elaborazioneParametro);
 		cpassTElaborazioneParametro = cpassTElaborazioneParametroDao.insert(cpassTElaborazioneParametro);
+		cpassTElaborazioneParametroDao.flush();
 		elaborazioneParametro.setId(cpassTElaborazioneParametro.getId());
 		return elaborazioneParametro;
 	}
 
 	/**
 	 * Updates the elaborazioneParametro
-	 * 
+	 *
 	 * @param elaborazioneParametro the ElaborazioneParametro
 	 * @return the model instance
 	 */
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public ElaborazioneParametro updateElaborazioneParametro(ElaborazioneParametro elaborazioneParametro) {
-		CpassTElaborazioneParametro cpassTElaborazioneParametro = CpassMappers.ELABORAZIONE_PARAMETRO.toEntity(elaborazioneParametro);
+		final CpassTElaborazioneParametro cpassTElaborazioneParametro = CpassMappers.ELABORAZIONE_PARAMETRO.toEntity(elaborazioneParametro);
 		cpassTElaborazioneParametroDao.update(cpassTElaborazioneParametro);
 		return elaborazioneParametro;
 	}
@@ -64,9 +65,7 @@ public class ElaborazioneParametroDad extends BaseDad {
 	 */
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public ElaborazioneParametro getParametro(Integer elaborazioneId, String chiave) {
-		CpassTElaborazioneParametro entity = cpassTElaborazioneParametroDao.getParametro(elaborazioneId, chiave);
+		final CpassTElaborazioneParametro entity = cpassTElaborazioneParametroDao.getParametro(elaborazioneId, chiave);
 		return CpassMappers.ELABORAZIONE_PARAMETRO.toModel(entity);
 	}
-	
-	
 }

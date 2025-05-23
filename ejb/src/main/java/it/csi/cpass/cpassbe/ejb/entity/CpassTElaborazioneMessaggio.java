@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -46,11 +46,11 @@ public class CpassTElaborazioneMessaggio implements Serializable, BaseEntity<Int
 
 	@Column(name="elaborazione_messaggio_tipo")
 	private String elaborazioneMessaggioTipo;
-	
+
 	@Column(name="elaborazione_messaggio_code")
 	private String elaborazioneMessaggioCode;
-	
-	@Column(name="elaborazione_messaggio_descrizione") 
+
+	@Column(name="elaborazione_messaggio_descrizione")
 	private String elaborazioneMessaggioDescrizione;
 
 	//bi-directional many-to-one association to CpassTElaborazione

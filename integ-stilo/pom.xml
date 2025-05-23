@@ -16,6 +16,10 @@
   </properties>
 
   <dependencies>
+  <dependency>
+  		<groupId>commons-io</groupId>
+  		<artifactId>commons-io</artifactId>
+  	</dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>cpassbe-lib</artifactId>
@@ -100,7 +104,7 @@
       </build>
     </profile>
 
-    <!-- Invoke via ./mvnw clean generate-sources package -P generate-adapters -->
+    <!-- Invoke via ./mvnw clean generate-sources package -P generate-adapters -pl integ-stilo -->
     <profile>
       <id>generate-adapters</id>
       <build>
@@ -123,11 +127,12 @@
             <executions>
               <!-- To allow the use of a given binding file, there must be up to one WSDL file for execution (or else the WSDL file should be patched) -->
               <execution>
-                <id>ricerca-service</id>
+                <id>documenti-service</id>
                 <phase>generate-sources</phase>
                 <goals>
                   <goal>wsimport</goal>
                 </goals>
+                
                 <configuration>
                   <bindingFiles>
                     <bindingFile>${project.basedir}/src/main/resources/wsdl/jaxws-bindings.xml</bindingFile>
@@ -142,7 +147,53 @@
                   </wsdlFiles>
                   <wsdlLocation>/wsdl/WSGetMetadataUd.wsdl</wsdlLocation>
                 </configuration>
+                
               </execution>
+              
+              <execution>
+                <id>ricerca-service</id>
+                <phase>generate-sources</phase>
+                <goals>
+                  <goal>wsimport</goal>
+                </goals>
+                
+                <configuration>
+                  <bindingFiles>
+                    <bindingFile>${project.basedir}/src/main/resources/wsdl/jaxws-bindings.xml</bindingFile>
+                  </bindingFiles>
+                  <sourceDestDir>${project.basedir}/src/main/java</sourceDestDir>
+                  <vmArgs>
+                    <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                  </vmArgs>
+                  <wsdlDirectory>${project.basedir}/src/main/resources/wsdl</wsdlDirectory>
+                  <wsdlFiles>
+                    <wsdlFile>WSTrovaDocFolder.wsdl</wsdlFile>
+                  </wsdlFiles>
+                  <wsdlLocation>/wsdl/WSTrovaDocFolder.wsdl</wsdlLocation>
+                </configuration>              
+              </execution>
+              <execution>
+                <id>ricerca-atto-service</id>
+                <phase>generate-sources</phase>
+                <goals>
+                  <goal>wsimport</goal>
+                </goals>              
+                <configuration>
+                  <bindingFiles>
+                    <bindingFile>${project.basedir}/src/main/resources/wsdl/jaxws-bindings.xml</bindingFile>
+                  </bindingFiles>
+                  <sourceDestDir>${project.basedir}/src/main/java</sourceDestDir>
+                  <vmArgs>
+                    <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+                  </vmArgs>
+                  <wsdlDirectory>${project.basedir}/src/main/resources/wsdl</wsdlDirectory>
+                  <wsdlFiles>
+                    <wsdlFile>WSGetAttoPerAcquisti.wsdl</wsdlFile>
+                  </wsdlFiles>
+                  <wsdlLocation>/wsdl/WSGetAttoPerAcquisti.wsdl</wsdlLocation>
+                </configuration>              
+              </execution>
+              
             </executions>
           </plugin>
           <plugin>
@@ -159,16 +210,39 @@
                   <sourceRoot>${project.basedir}/src/main/java</sourceRoot>
                   <xsdOptions>
                     <xsdOption>
-                      <xsd>${basedir}/src/main/resources/wsdl/EstremiXIdentificazioneUD.xsd</xsd>
+                      <xsd>${project.basedir}/src/main/resources/wsdl/EstremiXIdentificazioneUD.xsd</xsd>
+                      <extensionArgs>-no-header</extensionArgs>
                       <packagename>it.eng.auriga.repository2.model.identificazioneud</packagename>
                     </xsdOption>
                     <xsdOption>
-                      <xsd>${basedir}/src/main/resources/wsdl/BaseOutput_WS.xsd</xsd>
+                      <xsd>${project.basedir}/src/main/resources/wsdl/BaseOutput_WS.xsd</xsd>
+                      <extensionArgs>-no-header</extensionArgs>
                       <packagename>it.eng.auriga.repository2.model.baseoutput</packagename>
                     </xsdOption>
                     <xsdOption>
-                      <xsd>${basedir}/src/main/resources/wsdl/Output_DatiUD.xsd</xsd>
+                      <xsd>${project.basedir}/src/main/resources/wsdl/Output_DatiUD.xsd</xsd>
+                      <extensionArgs>-no-header</extensionArgs>
                       <packagename>it.eng.auriga.repository2.model.outputdatiud</packagename>
+                    </xsdOption>
+                    <xsdOption>
+                      <xsd>${project.basedir}/src/main/resources/wsdl/TrovaDocFolder.xsd</xsd>
+                      <extensionArgs>-no-header</extensionArgs>
+                      <packagename>it.eng.auriga.repository2.model.searchoutput</packagename>
+                    </xsdOption>
+                    <xsdOption>
+                      <xsd>${project.basedir}/src/main/resources/wsdl/SearchOutput_STD.xsd</xsd>
+                      <extensionArgs>-no-header</extensionArgs>
+                      <packagename>it.eng.auriga.repository2.model.searchoutput</packagename>
+                    </xsdOption>
+                    <xsdOption>
+                      <xsd>${project.basedir}/src/main/resources/wsdl/RequestGetAttoPerAcquisti.xsd</xsd>
+                      <extensionArgs>-no-header</extensionArgs>
+                      <packagename>it.eng.auriga.repository2.model.searchoutput</packagename>
+                    </xsdOption>                    
+                    <xsdOption>
+                      <xsd>${project.basedir}/src/main/resources/wsdl/ResponseGetAttoPerAcquisti.xsd</xsd>
+                      <extensionArgs>-no-header</extensionArgs>
+                      <packagename>it.eng.auriga.repository2.model.searchoutput</packagename>
                     </xsdOption>
                   </xsdOptions>
                 </configuration>

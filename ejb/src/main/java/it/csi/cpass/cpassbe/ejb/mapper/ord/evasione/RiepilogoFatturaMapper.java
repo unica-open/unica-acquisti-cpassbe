@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -32,10 +32,10 @@ public abstract class RiepilogoFatturaMapper implements BaseMapperInterface<Riep
 		if (entity == null) {
 			return null;
 		}
-		RiepilogoFatturaEvasione vo = new RiepilogoFatturaEvasione();		
-		vo.setId(entity.getId());		
-		vo.setRiepilogoFatturaEvasioneId(entity.getRiepilogoFatturaEvasioneId());		
-		vo.setTestataEvasioneId(entity.getTestataEvasioneId());		
+		final RiepilogoFatturaEvasione vo = new RiepilogoFatturaEvasione();
+		vo.setId(entity.getId());
+		vo.setRiepilogoFatturaEvasioneId(entity.getRiepilogoFatturaEvasioneId());
+		vo.setTestataEvasioneId(entity.getTestataEvasioneId());
 		vo.setImpegnoAnno(entity.getImpegnoAnno());
 		vo.setImpegnoAnnoEsercizio(entity.getImpegnoAnnoEsercizio());
 		vo.setImpegnoNumero(entity.getImpegnoNumero());
@@ -57,14 +57,14 @@ public abstract class RiepilogoFatturaMapper implements BaseMapperInterface<Riep
 	@IterableMapping(elementTargetType = CpassVRiepilogoFatturaEvasione.class)
 	public abstract List<CpassVRiepilogoFatturaEvasione> toEntities(Collection<RiepilogoFatturaEvasione> models);
 
-	
+
 	@Override
 	public CpassVRiepilogoFatturaEvasione toEntity(RiepilogoFatturaEvasione model) {
 		if (model == null) {
 			return null;
 		}
-		CpassVRiepilogoFatturaEvasione cpassVRiepilogoFatturaEvasione = new CpassVRiepilogoFatturaEvasione();		
-		cpassVRiepilogoFatturaEvasione.setId(model.getRiepilogoFatturaEvasioneId());		
+		final CpassVRiepilogoFatturaEvasione cpassVRiepilogoFatturaEvasione = new CpassVRiepilogoFatturaEvasione();
+		cpassVRiepilogoFatturaEvasione.setId(model.getRiepilogoFatturaEvasioneId());
 		return cpassVRiepilogoFatturaEvasione;
 	}
 }

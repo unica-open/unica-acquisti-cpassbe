@@ -1,0 +1,22 @@
+ConsultazioniRipartizioneEvasione:
+  type: object
+  properties:
+    annoEsercizio:
+      type: integer
+    annoImpegno:
+      type: integer
+    annoSubImpegno:
+      type: integer
+    causaleSospensione:
+      type: string
+    dataSospensione:
+      type: string
+      format: date-time
+    numeroImpegno:
+      type: integer
+    numeroSubImpegno:
+      type: integer
+    ripartito:
+      type: number
+    sospeso:
+      type: number

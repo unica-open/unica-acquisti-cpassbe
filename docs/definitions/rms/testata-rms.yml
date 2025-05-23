@@ -1,0 +1,72 @@
+TestataRms:
+  type: object
+  properties:
+    dataCreazione:
+      type: string
+      format: date-time
+    dataAutorizzazione:
+      type: string
+      format: date-time
+    dataConferma:
+      type: string
+      format: date-time
+    destinatarioCap:
+      type: string
+    destinatarioContatto:
+      type: string
+    destinatarioEmail:
+      type: string
+    sede:
+      type: string
+    destinatarioIndirizzo:
+      type: string
+    destinatarioLocalita:
+      type: string
+    destinatarioNumCivico:
+      type: string
+    destinatarioProvincia:
+      type: string
+    destinatarioTelefono:
+      type: string
+    id:
+      type: string
+      format: uuid
+    note:
+      type: string
+    noteRichiedente:
+      type: string
+    motivoRifiuto:
+      type: string
+    optlock:
+      type: string
+      format: uuid
+    richiestaMagazzino:
+      type: boolean
+    rmsAnno:
+      type: integer
+    rmsDescrizione:
+      type: string
+    rmsNumero:
+      type: integer
+    rigaRms:
+      type: array
+      items:
+        $ref: '#/definitions/RigaRms'
+    stato:
+      type: object
+      $ref: '#/definitions/Stato'
+    ente:
+      type: object
+      $ref: '#/definitions/Ente'
+    settoreDestinatario:
+      type: object
+      $ref: '#/definitions/Settore'
+    settoreEmittente:
+      type: object
+      $ref: '#/definitions/Settore'
+    utente:
+      type: object
+      $ref: '#/definitions/Utente'
+    settoreIndirizzo:
+      type: object
+      $ref: '#/definitions/SettoreIndirizzo'

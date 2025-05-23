@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -26,16 +26,18 @@ public class Ente extends BaseAuditedDto<UUID> implements Serializable {
 	private String codice;
 	/** The codice fiscale. */
 	private String codiceFiscale;
-	private String codiceIpaAmministrazione; 	
-	private String dipartimento; 
-	private String ufficio; 
-	private String regione; 	
-	private String provincia; 
-	private String indirizzo; 	
-	private String telefono; 	
-	private String email; 	
-	private String emailPEC; 
-	
+	private String codiceIpaAmministrazione;
+	private String dipartimento;
+	private String ufficio;
+	private String regione;
+	private String provincia;
+	private String indirizzo;
+	private String telefono;
+	private String email;
+	private String emailPEC;
+	private String pathLogo;
+	private String link;
+
 	/** Default constructor */
 	public Ente() {}
 
@@ -79,7 +81,7 @@ public class Ente extends BaseAuditedDto<UUID> implements Serializable {
 		this.codiceFiscale = codiceFiscale;
 	}
 
-	
+
 	/**
 	 * @return the codiceIpaAmministrazione
 	 */
@@ -206,6 +208,21 @@ public class Ente extends BaseAuditedDto<UUID> implements Serializable {
 		this.emailPEC = emailPEC;
 	}
 
+	public String getPathLogo() {
+		return pathLogo;
+	}
+
+	public void setPathLogo(String pathLogo) {
+		this.pathLogo = pathLogo;
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
+	}
 
 	/**
 	 * @return the codice
@@ -227,15 +244,15 @@ public class Ente extends BaseAuditedDto<UUID> implements Serializable {
 			.append("Ente [denominazione=").append(denominazione)
 			.append(", codice=").append(codice)
 			.append(", codiceFiscale=").append(codiceFiscale)
-			.append(", codiceIpaAmministrazione=").append(codiceIpaAmministrazione)	
+			.append(", codiceIpaAmministrazione=").append(codiceIpaAmministrazione)
 			.append(", dipartimento=").append(dipartimento)
 			.append(", ufficio=").append(ufficio)
-			.append(", regione=").append(regione) 	
-			.append(", provincia=").append(provincia) 
-			.append(", indirizzo=").append(indirizzo) 	
-			.append(", telefono=").append(telefono)	
+			.append(", regione=").append(regione)
+			.append(", provincia=").append(provincia)
+			.append(", indirizzo=").append(indirizzo)
+			.append(", telefono=").append(telefono)
 			.append(", email=").append(email)
-			.append(", emailPEC=").append(emailPEC) 
+			.append(", emailPEC=").append(emailPEC)
 			.append(innerToString())
 			.append("]")
 			.toString();

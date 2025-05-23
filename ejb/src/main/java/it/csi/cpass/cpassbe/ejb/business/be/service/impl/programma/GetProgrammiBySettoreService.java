@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -28,7 +28,7 @@ public class GetProgrammiBySettoreService extends BaseProgrammaService<GetProgra
 	/**
 	 * Constructor
 	 * @param configurationHelper the configuration helper
-	 * @param programmaDad 
+	 * @param programmaDad
 	 */
 	public GetProgrammiBySettoreService(ConfigurationHelper configurationHelper, ProgrammaDad programmaDad) {
 		super(configurationHelper, programmaDad);
@@ -41,7 +41,7 @@ public class GetProgrammiBySettoreService extends BaseProgrammaService<GetProgra
 
 	@Override
 	protected void execute() {
-		List<Programma> programmi = programmaDad.getProgrammiBySettore(request.getSettoreId(), request.getSoloValidi() );
+		final List<Programma> programmi = programmaDad.getProgrammiBySettore(request.getSettoreId(), request.getSoloValidi() );
 		response.setProgrammi(programmi);
 	}
 

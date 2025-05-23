@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -36,13 +36,13 @@ public interface EnteMapper extends BaseMapperInterface<Ente, CpassTEnte> {
 	@Mapping(source = "dipartimento", target = "dipartimento")
 	@Mapping(source = "ufficio", target = "ufficio")
 	@Mapping(source = "regione", target = "regione")
-	@Mapping(source = "provincia", target = "provincia") 
-	@Mapping(source = "indirizzo", target = "indirizzo")	
+	@Mapping(source = "provincia", target = "provincia")
+	@Mapping(source = "indirizzo", target = "indirizzo")
 	@Mapping(source = "telefono", target = "telefono")
 	@Mapping(source = "email", target = "email")
-	@Mapping(source = "emailPEC", target = "emailPEC") 
-	
-	
+	@Mapping(source = "emailpec", target = "emailPEC")
+	@Mapping(source = "pathLogo", target = "pathLogo")
+	@Mapping(source = "link", target = "link")
 	Ente toModel(CpassTEnte entity);
 
 	@Override
@@ -54,10 +54,8 @@ public interface EnteMapper extends BaseMapperInterface<Ente, CpassTEnte> {
 	List<CpassTEnte> toEntities(Collection<Ente> models);
 
 	@Override
-	@InheritInverseConfiguration(name="toModel")
+	@InheritInverseConfiguration(name = "toModel")
 	@Mapping(target = "cpassTPbaProgrammas", ignore = true)
 	CpassTEnte toEntity(Ente model);
-
-
 
 }

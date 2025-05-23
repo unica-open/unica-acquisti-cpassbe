@@ -8,6 +8,8 @@ Programma:
       type: integer
     versione:
       type: integer
+    isUltimoBiennio:      
+      type: boolean
     ente:
       type: object
       $ref: '#/definitions/Ente'
@@ -20,7 +22,7 @@ Programma:
     descrizione:
       type: string
     numeroProvvedimento:
-      type: integer
+      type: string
     descrizioneProvvedimento:
       type: string
     dataProvvedimento:
@@ -39,6 +41,9 @@ Programma:
     dataApprovazione:
       type: string
       format: date-time  
+    dataTrasmissioneMit:
+      type: string
+      format: date-time
     dataCreazione:
       type: string
       format: date-time
@@ -57,3 +62,9 @@ Programma:
     optlock:
       type: string
       format: uuid
+    descrizioneComposta:
+      type: string
+    annoFineProgramma:
+      type: integer
+    durataProgramma:
+      type: integer

@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -16,7 +16,7 @@ import java.util.Date;
 
 public class AliquoteIva  extends BaseAuditedDto<Integer> implements Serializable {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -30,7 +30,7 @@ public class AliquoteIva  extends BaseAuditedDto<Integer> implements Serializabl
 	public AliquoteIva(Integer id) {
 		super(id);
 	}
-	
+
 	private String codice;
 
 	private String descrizione;
@@ -38,11 +38,11 @@ public class AliquoteIva  extends BaseAuditedDto<Integer> implements Serializabl
 	private String codificaPeppol;
 
 	private BigDecimal percentuale;
-	
+
 	private Date dataValiditaFine;
-	
+
 	private Date dataValiditaInizio;
-	
+
 	/**
 	 * @return the codice
 	 */
@@ -99,7 +99,7 @@ public class AliquoteIva  extends BaseAuditedDto<Integer> implements Serializabl
 		this.percentuale = percentuale;
 	}
 
-	
+
 	/**
 	 * @return the dataValiditaFine
 	 */

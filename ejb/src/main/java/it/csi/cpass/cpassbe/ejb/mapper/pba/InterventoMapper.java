@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -20,7 +20,7 @@ import org.mapstruct.Mapping;
 
 import it.csi.cpass.cpassbe.ejb.entity.pba.CpassTPbaIntervento;
 import it.csi.cpass.cpassbe.ejb.mapper.CpvMapper;
-import it.csi.cpass.cpassbe.ejb.mapper.SettoreMapper;
+import it.csi.cpass.cpassbe.ejb.mapper.SettoreCustomMapper;
 import it.csi.cpass.cpassbe.ejb.mapper.StatoMapper;
 import it.csi.cpass.cpassbe.ejb.mapper.StringMapper;
 import it.csi.cpass.cpassbe.ejb.mapper.UtenteMapper;
@@ -33,9 +33,10 @@ import it.csi.cpass.cpassbe.lib.mapper.annotation.TrimmedString;
  * Mapper between Intervento and CpassTPbaIntervento
  */
 @Mapper(uses = {
-	CpvMapper.class, ModalitaAffidamentoMapper.class, NutsMapper.class, PrioritaMapper.class,
-	SettoreInterventiMapper.class, ProgrammaMapper.class, InterventoImportiMinimalMapper.class, UtenteMapper.class,
-	StatoMapper.class, RicompresoTipoMapper.class, AusaMapper.class, AcquistoVariatoMapper.class, StringMapper.class,InterventoAltriDatiMapper.class, SettoreMapper.class
+		CpvMapper.class, ModalitaAffidamentoMapper.class, NutsMapper.class, PrioritaMapper.class,
+		SettoreInterventiMapper.class, ProgrammaMapper.class, InterventoImportiMinimalMapper.class, UtenteMapper.class,
+		StatoMapper.class, RicompresoTipoMapper.class, AusaMapper.class, AcquistoVariatoMapper.class, StringMapper.class,InterventoAltriDatiMapper.class, SettoreCustomMapper.class,
+		TipoProceduraPbaMapper.class,StatiInterventoMapper.class
 })
 public interface InterventoMapper extends BaseMapperInterface<Intervento, CpassTPbaIntervento> {
 
@@ -64,17 +65,24 @@ public interface InterventoMapper extends BaseMapperInterface<Intervento, CpassT
 	@Mapping(source = "interventoCopiaTipo",  target = "interventoCopiaTipo")
 	@Mapping(source = "interventoImportiCopiaTipo",  target = "interventoImportiCopiaTipo")
 	@Mapping(source = "flagCuiNonGenerato",       target = "flagCuiNonGenerato")
-	@Mapping(source = "motivazioneNonRiproposto", target = "motivazioneNonRiproposto")	
+	@Mapping(source = "motivazioneNonRiproposto", target = "motivazioneNonRiproposto")
 	@Mapping(source = "cpassTPbaInterventoCopia", target = "interventoCopia" )
 	@Mapping(source = "cpassTSettore", target = "settore")
-	@Mapping(source = "cpassTPbaInterventoAltriDatis", target = "listInterventoAltriDati")	
+	@Mapping(source = "cpassTPbaInterventoAltriDatis", target = "listInterventoAltriDati")
+	@Mapping(source = "cpassTPbaInterventoCapofila.id", target = "interventoCapofila.id")
 	@Mapping(source = "cpassTUtenteVisto", target = "utenteVisto")
+	@Mapping(source = "cpassTUtenteVistoRagioneria", target = "utenteVistoRagioneria")
 	@Mapping(source = "cpassTUtenteValidazione", target = "utenteValidazione")
-	@Mapping(source = "cpassTUtenteRifiuto", target = "utenteRifiuto")	
+	@Mapping(source = "cpassTUtenteRifiuto",      target = "utenteRifiuto")
+	@Mapping(source = "cpassTUtenteAvviato",      target = "utenteAvviato")
+	@Mapping(source = "cpassDPbaTipoProcedura",   target = "tipoProceduraPba")
+	@Mapping(source = "cpassTPbaInterventoCigs",  target = "interventoCigs")
+	@Mapping(source = "cpassRPbaStatiInterventos", target = "statiInterventos")
 	//@Mapping(source = "cpassRInterventoCpvs.cpassDCpv", target = "listCpv")
 	//@Mapping(source = "cpasslistCpv", target = "listCpv")
+	//@Mapping(source = "esenteIva", target = "esenteIva")
 
-	
+
 	Intervento toModel(CpassTPbaIntervento entity);
 
 	@Override
@@ -84,6 +92,7 @@ public interface InterventoMapper extends BaseMapperInterface<Intervento, CpassT
 	@Override
 	@InheritInverseConfiguration(name="toModel")
 	@Mapping(target = "cpassTPbaInterventoImportis", ignore = true ,qualifiedBy = Minimal.class )
+	@Mapping(target = "cpassTPbaInterventoAltriDatis", ignore = true)
 	CpassTPbaIntervento toEntity(Intervento model);
 
 	@Override
@@ -93,10 +102,10 @@ public interface InterventoMapper extends BaseMapperInterface<Intervento, CpassT
 	CpassTPbaIntervento cloneToEntity(CpassTPbaIntervento entity);
 
 	Intervento cloneToModel(Intervento model);
-/*
+	/*
 	@InheritInverseConfiguration(name="toModel")
 	@Named ("Complete")
 	CpassTPbaIntervento toEntityComplete(Intervento model);
-*/
+	 */
 
 }

@@ -25,31 +25,26 @@
     <dependency>
       <groupId>javax</groupId>
       <artifactId>javaee-api</artifactId>
-      <version>${dependencies.version.jee}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>javax.jws</groupId>
       <artifactId>javax.jws-api</artifactId>
-      <version>${dependencies.version.jws-api}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>javax.xml.ws</groupId>
       <artifactId>jaxws-api</artifactId>
-      <version>${dependencies.version.jaxws-api}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.mapstruct</groupId>
       <artifactId>mapstruct</artifactId>
-      <version>${dependencies.version.mapstruct}</version>
     </dependency>
 	<!-- Apache HttpClient -->
 	<dependency>
 		<groupId>org.apache.httpcomponents</groupId>
 		<artifactId>httpclient</artifactId>
-		<version>${dependencies.version.httpclient}</version>
 	</dependency>
 	<!-- Apache HttpClient Mime -->
 	<dependency>
@@ -73,7 +68,6 @@
     <plugins>
       <plugin>
         <artifactId>maven-ejb-plugin</artifactId>
-        <version>${plugin.version.ejb}</version>
         <configuration>
           <ejbVersion>3.2</ejbVersion>
         </configuration>
@@ -81,7 +75,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>${plugin.version.compiler}</version>
         <configuration>
           <debug>true</debug>
           <debuglevel>lines,vars,source</debuglevel>
@@ -109,7 +102,6 @@
         <plugins>
           <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
-            <version>${plugin.version.surefire}</version>
             <configuration>
               <skip>true</skip>
             </configuration>
@@ -131,9 +123,6 @@
               <filesets>
                 <fileset>
                   <directory>${project.basedir}/src/main/java/it/rer</directory>
-                  <directory>${project.basedir}/src/main/java/eu/peppol</directory>
-                  <directory>${project.basedir}/src/main/java/oasis</directory>
-                  <directory>${project.basedir}/src/main/java/un</directory>
                 </fileset>
               </filesets>
             </configuration>
@@ -152,7 +141,11 @@
                 <configuration>
 					<sourceRoot>${project.basedir}/src/main/java</sourceRoot>
 					<xsdOptions>
-
+						<xsdOption>
+							<xsd>${basedir}/src/main/resources/notier/xsd/NotificaMdn.xsd</xsd>
+							<extensionArgs>-no-header</extensionArgs>
+							<!-- <packagename>it.notier.model.inviodocumento.request</packagename> -->
+						</xsdOption>
 						<xsdOption>
 							<xsd>${basedir}/src/main/resources/notier/xsd/InvioDocumento.xsd</xsd>
 							<extensionArgs>-no-header</extensionArgs>
@@ -163,25 +156,11 @@
 							<extensionArgs>-no-header</extensionArgs>
 							<!-- <packagename>it.notier.model.inviodocumento.request</packagename> -->
 						</xsdOption>
-
 						<xsdOption>
-							<!--
-							<extensionArgs>-XautoNameResolution</extensionArgs>
+							<xsd>${basedir}/src/main/resources/nso/xsd/MessaggiTypes Ver_1_2.xsd</xsd>
 							<extensionArgs>-no-header</extensionArgs>
-							 -->
-							<extensionArgs>-no-header</extensionArgs>
-							<xsd>${basedir}/src/main/resources/peppol/xsd/maindoc/UBL-Order-2.1.xsd</xsd>
-							<!--
-								commentare oggetti uguali in package diversi
-								<packagename>eu.peppol.model.order</packagename>
-							 -->
+							<!-- <packagename>it.notier.model.inviodocumento.request</packagename> -->
 						</xsdOption>
-
-						<!--
-						<xsdOption>
-							<xsd>C:/Users/filip/Dropbox/CPASS/Documentazione Integrazioni/NOTI-ER/Tool_Validazione_PEPPOL-BIS-3.0/PEPPOL-BIS-3.0.4-NSO-4.5-Test/xsd/common/UBL-CommonBasicComponents-2.1.xsd</xsd>
-						</xsdOption>
-						-->
 					</xsdOptions>
 				</configuration>
               </execution>

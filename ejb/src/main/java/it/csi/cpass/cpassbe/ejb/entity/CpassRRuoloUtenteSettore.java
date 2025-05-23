@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -35,9 +35,10 @@ import it.csi.cpass.cpassbe.ejb.entity.base.BaseEntity;
 @Table(name="cpass_r_ruolo_utente_settore")
 @NamedQuery(name="CpassRRuoloUtenteSettore.findAll", query="SELECT c FROM CpassRRuoloUtenteSettore c")
 public class CpassRRuoloUtenteSettore implements Serializable, BaseEntity<Integer> {
-
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 1L;
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -7445092432655689515L;
 
 	/** The ruolo utente settore id. */
 	@Id
@@ -61,12 +62,12 @@ public class CpassRRuoloUtenteSettore implements Serializable, BaseEntity<Intege
 	/** The data validita fine. */
 	@Column(name="data_validita_fine")
 	private Date dataValiditaFine;
-	
+
 	/** The data validita inizio. */
 	@Column(name="data_validita_inizio")
 	private Date dataValiditaInizio;
 
-	
+
 	/**
 	 * Gets the ruolo utente settore id.
 	 *
@@ -121,7 +122,7 @@ public class CpassRRuoloUtenteSettore implements Serializable, BaseEntity<Intege
 		this.cpassRUtenteSettore = cpassRUtenteSettore;
 	}
 
-	
+
 	/**
 	 * @return the dataValiditaFine
 	 */

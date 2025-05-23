@@ -1,0 +1,29 @@
+ConsultazioniRiepilogoAcquisti:
+  type: object
+  properties:
+    ordinatoComplessivo:
+      type: number
+    ordinatoComplessivoSuImpegni:
+      type: number
+    ordinatoComplessivoDisponibile:
+      type: number
+    ordinatoComplessivoSuImpegniResidui:
+      type: number
+    ordinatoComplessivoSuImpegniCompetenza:
+      type: number
+    ordinatoComplessivoSuImpegniAnnoSuccessivo:
+      type: number
+    ordinatoComplessivoDisponibileResidui:
+      type: number
+    ordinatoComplessivoDisponibileCompetenza:
+      type: number
+    ordinatoComplessivoDisponibileAnnoSuccessivo:
+      type: number
+    ordinatoComplessivoAnniPrecedenti:
+      type: number
+    ordinatoComplessivoAnniPrecedentiSuImpegni:
+      type: number
+    ordinatoComplessivoAnniPrecedentiSuImpegniNonLiq:
+      type: number
+    ordinatoComplessivoAnniPrecedentiSuImpegniAnnoEsercizio:
+      type: number

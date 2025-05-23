@@ -2,14 +2,13 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
  * =========================LICENSE_END==================================
  */
 package it.csi.cpass.cpassbe.lib.util.oauth;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +25,7 @@ import javax.xml.ws.handler.soap.SOAPMessageContext;
  * @author Marchino Alessandro
  */
 public class OAuth2SOAPHandler implements SOAPHandler<SOAPMessageContext> {
-	
+
 	private final OAuth2Helper oAuth2Helper;
 
 	/**

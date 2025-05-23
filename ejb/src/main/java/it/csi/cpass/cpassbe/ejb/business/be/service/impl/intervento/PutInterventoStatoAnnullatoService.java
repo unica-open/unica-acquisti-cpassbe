@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -10,20 +10,17 @@
  */
 package it.csi.cpass.cpassbe.ejb.business.be.service.impl.intervento;
 
-import java.util.List;
-
 import it.csi.cpass.cpassbe.ejb.business.be.dad.InterventoDad;
 import it.csi.cpass.cpassbe.ejb.business.be.dad.UtenteDad;
 import it.csi.cpass.cpassbe.ejb.business.be.service.request.intervento.PutInterventoStatoAnnullatoRequest;
 import it.csi.cpass.cpassbe.ejb.business.be.service.response.intervento.PutInterventoStatoAnnullatoResponse;
+import it.csi.cpass.cpassbe.ejb.util.ConstantsCPassStato.StatoInterventiEnum;
 import it.csi.cpass.cpassbe.ejb.util.CpassEnum;
-import it.csi.cpass.cpassbe.ejb.util.CpassStatiEnum;
-import it.csi.cpass.cpassbe.ejb.util.CpassThreadLocalContainer;
 import it.csi.cpass.cpassbe.ejb.util.conf.ConfigurationHelper;
-import it.csi.cpass.cpassbe.lib.dto.Ruolo;
 import it.csi.cpass.cpassbe.lib.dto.Utente;
 import it.csi.cpass.cpassbe.lib.dto.error.MsgCpassPba;
 import it.csi.cpass.cpassbe.lib.dto.pba.Intervento;
+import it.csi.cpass.cpassbe.lib.util.threadlocal.CpassThreadLocalContainer;
 
 /**
  * Saves an stato Intervento
@@ -31,8 +28,6 @@ import it.csi.cpass.cpassbe.lib.dto.pba.Intervento;
 public class PutInterventoStatoAnnullatoService extends BaseInterventoService<PutInterventoStatoAnnullatoRequest, PutInterventoStatoAnnullatoResponse> {
 
 	private Intervento intervento;
-	private UtenteDad utenteDad;
-	
 	/**
 	 * Constructor
 	 * @param configurationHelper the configuration helper
@@ -40,36 +35,23 @@ public class PutInterventoStatoAnnullatoService extends BaseInterventoService<Pu
 	 */
 	public PutInterventoStatoAnnullatoService(ConfigurationHelper configurationHelper, InterventoDad interventoDad, UtenteDad utenteDad) {
 		super(configurationHelper, interventoDad);
-		this.utenteDad = utenteDad;
 	}
 
 	@Override
 	protected void checkServiceParams() {
 		intervento = request.getIntervento();
 		checkModel(intervento, "intervento");
-		checkNotNull( intervento.getOptlock(),"opt look");
+		checkNotNull( intervento.getOptlock(),"opt lock");
 	}
 
 	@Override
 	protected void execute() {
-		Intervento interventoAttuale = isEntityPresent(() -> interventoDad.getIntervento(intervento.getId()), "intervento");
-		//TODO inserire il controllo sul fatto che l'utente sia abilitato o meno al cambio stato a seconda dello stato dell'acquisto
-//		Utente utenteConnesso = CpassThreadLocalContainer.UTENTE_CONNESSO.get();
-       
-        // l'intervento deve essere in stato != CANCELLATO
-        checkBusinessCondition(!interventoAttuale.getStato().getCodice().equals(CpassStatiEnum.INT_CANCELLATO.getCostante()), MsgCpassPba.PBAACQE0013.getError());
-        
-		checkOptlock(intervento.getOptlock(), interventoAttuale.getOptlock());
-		interventoDad.updateStatoIntervento(request.getIntervento().getId(),CpassStatiEnum.INT_CANCELLATO.getCostante(), CpassEnum.INTERVENTO.getCostante());
+		final Intervento interventoAttuale = isEntityPresent(() -> interventoDad.getInterventoOpt(intervento.getId()), "intervento");
+		// l'intervento deve essere in stato != CANCELLATO
+		final Utente utente= CpassThreadLocalContainer.UTENTE_CONNESSO.get();
+		checkBusinessCondition(!interventoAttuale.getStato().getCodice().equals(StatoInterventiEnum.CANCELLATO.getCostante()), MsgCpassPba.PBAACQE0013.getError());
+		intervento.setStatoXStorico(StatoInterventiEnum.CANCELLATO.getCostante());
+		interventoDad.updateStatoIntervento(intervento,StatoInterventiEnum.CANCELLATO.getCostante(), CpassEnum.INTERVENTO.getCostante(),utente);
 	}
 
-	private boolean containsRuolo(List<Ruolo> ruoli,String ruoloCode) {
-		boolean ris = false;
-		for(Ruolo ruolo : ruoli) {
-			if (ruolo.getCodice().equals(ruoloCode)){
-				ris = true;
-			}
-		}
-		return ris;
-	}
 }

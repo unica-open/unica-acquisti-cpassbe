@@ -35,3 +35,45 @@
         description: Errore generico.
         schema:
           $ref: '#/definitions/ApiError'
+/stampa/withname/{logic-name}/{file-name}/{format-file}:
+  post:
+    operationId: printWithName
+    description: Restituisce la stampa con nome passato.
+    produces:
+      - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+      - application/pdf
+    tags:
+      - stampa
+    parameters:
+      - in: path
+        name: logic-name
+        required: true
+        type: string
+        description: nome logico della stampa.
+      - in: path
+        name: file-name
+        required: true
+        type: string
+        description: nome della stampa creata.
+      - in: path
+        name: format-file
+        required: false
+        type: string
+        enum: [default, xlsx, pdf]
+        description: Il formato del file.
+      - in: body
+        name: param
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+    responses:
+      '200':
+        description: La stampa.
+        schema:
+          type: file
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'

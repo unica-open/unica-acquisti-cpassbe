@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -11,17 +11,23 @@
 package it.csi.cpass.cpassbe.ejb.entity.ord.evasione;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 import it.csi.cpass.cpassbe.ejb.entity.CpassTEnte;
 import it.csi.cpass.cpassbe.ejb.entity.base.BaseEntity;
 
-import java.sql.Timestamp;
-
 
 /**
  * The persistent class for the cpass_d_ord_causale_sospensione_evasione database table.
- * 
+ *
  */
 @Entity
 @Table(name="cpass_d_ord_causale_sospensione_evasione")
@@ -40,13 +46,13 @@ public class CpassDOrdCausaleSospensioneEvasione implements Serializable, BaseEn
 	private String causaleSospensioneDescrizione;
 
 	@Column(name="data_cancellazione")
-	private Timestamp dataCancellazione;
+	private Date dataCancellazione;
 
 	@Column(name="data_creazione")
-	private Timestamp dataCreazione;
+	private Date dataCreazione;
 
 	@Column(name="data_modifica")
-	private Timestamp dataModifica;
+	private Date dataModifica;
 
 	@Column(name="utente_cancellazione")
 	private String utenteCancellazione;
@@ -61,12 +67,12 @@ public class CpassDOrdCausaleSospensioneEvasione implements Serializable, BaseEn
 	//bi-directional many-to-one association to CpassTEnte
 	@ManyToOne
 	@JoinColumn(name="ente_id")
-	private CpassTEnte cpassTEnte; 
+	private CpassTEnte cpassTEnte;
 
 	public CpassDOrdCausaleSospensioneEvasione() {
 	}
 
-	
+
 	public Integer getCausaleSospensioneId() {
 		return this.causaleSospensioneId;
 	}
@@ -91,27 +97,27 @@ public class CpassDOrdCausaleSospensioneEvasione implements Serializable, BaseEn
 		this.causaleSospensioneDescrizione = causaleSospensioneDescrizione;
 	}
 
-	public Timestamp getDataCancellazione() {
+	public Date getDataCancellazione() {
 		return this.dataCancellazione;
 	}
 
-	public void setDataCancellazione(Timestamp dataCancellazione) {
+	public void setDataCancellazione(Date dataCancellazione) {
 		this.dataCancellazione = dataCancellazione;
 	}
 
-	public Timestamp getDataCreazione() {
+	public Date getDataCreazione() {
 		return this.dataCreazione;
 	}
 
-	public void setDataCreazione(Timestamp dataCreazione) {
+	public void setDataCreazione(Date dataCreazione) {
 		this.dataCreazione = dataCreazione;
 	}
 
-	public Timestamp getDataModifica() {
+	public Date getDataModifica() {
 		return this.dataModifica;
 	}
 
-	public void setDataModifica(Timestamp dataModifica) {
+	public void setDataModifica(Date dataModifica) {
 		this.dataModifica = dataModifica;
 	}
 
@@ -146,7 +152,7 @@ public class CpassDOrdCausaleSospensioneEvasione implements Serializable, BaseEn
 	public void setCpassTEnte(CpassTEnte cpassTEnte) {
 		this.cpassTEnte = cpassTEnte;
 	}
-	
+
 	@Override
 	public Integer getId() {
 		// TODO Auto-generated method stub

@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -20,10 +20,15 @@ import java.util.UUID;
 import it.csi.cpass.cpassbe.lib.dto.BaseAuditedDto;
 import it.csi.cpass.cpassbe.lib.dto.Fornitore;
 import it.csi.cpass.cpassbe.lib.dto.Impegno;
+import it.csi.cpass.cpassbe.lib.dto.MotiviEsclusioneCig;
+import it.csi.cpass.cpassbe.lib.dto.Provvedimento;
 import it.csi.cpass.cpassbe.lib.dto.Settore;
 import it.csi.cpass.cpassbe.lib.dto.Stato;
 import it.csi.cpass.cpassbe.lib.dto.Ufficio;
 import it.csi.cpass.cpassbe.lib.dto.Utente;
+import it.csi.cpass.cpassbe.lib.dto.ord.mepa.ScaricoMepaTestata;
+import it.csi.cpass.cpassbe.lib.dto.ord.rda.TestataRda;
+import it.csi.cpass.cpassbe.lib.dto.pba.SettoreInterventi;
 
 /**
  * The type Testata Ordine
@@ -36,37 +41,29 @@ public class TestataOrdine extends BaseAuditedDto<UUID> implements Serializable 
 	// testata_ordine_id
 
 	private Settore settore; // vedi settore_emittente_id;
-
 	private Ufficio ufficio; // vedi ufficio_id - cpass_t_ufficio
-
 	private Integer anno; // ordine_anno
 	private Integer numero; // ordine_numero
 	private Utente utenteCompilatore;
-
 	private Stato stato; // vedi stato_id
-
 	private Date dataEmissione; // data_emissione
 	private Date dataConferma; // data_conferma
 	private Date dataAutorizzazione; // data_autorizzazione
 	private Date dataScadenza; // data_scadenza
 	private Date dataAnnullamento;
-
+	private Date dataInvioFirma; // data_invio_firma
 	private StatoNso statoNso;
-
 	private String descrizione; // descrizione_acquisto ???
 	private String note; // note
-
 	private TipoOrdine tipoOrdine; // tipo_ordine_id - cpass_d_ord_tipo_ordine
-
 	private Integer lottoAnno; // lotto_anno
 	private Integer lottoNumero; // lotto_numero
-
 	private Fornitore fornitore; // fornitore_id - vedi cpass_t_fornitore
 
 	// oggetto, altra tabella?
 	private Provvedimento provvedimento; // provvedimento_anno, provvedimento_numero
 
-	private TipoProcedura tipoProcedura; // tipo_procedura_id - cpass_d_ord_tipo_procedura
+	private TipoProceduraOrd tipoProceduraOrd; // tipo_procedura_id - cpass_d_ord_tipo_procedura
 	private String numeroProcedura;
 
 	private String consegnaRiferimento; // consegna_riferimento
@@ -78,9 +75,29 @@ public class TestataOrdine extends BaseAuditedDto<UUID> implements Serializable 
 	private BigDecimal totaleConIva;
 	private BigDecimal totaleNoIva;
 
-	private List<Destinatario> listDestinatario = new ArrayList<>();
+	//codice settore provvedimento
+	private String provvedimentoSettore;
+	private String provvedimentoTipo;
+	private String provvedimentoDescrizione;
 
+	private SettoreInterventi tipoAcquisto;
+
+	private List<Destinatario> listDestinatario = new ArrayList<>();
 	private List<Impegno> listImpegno = new ArrayList<>();
+	private Boolean hasOds;
+	private ScaricoMepaTestata scaricoMepaTestata;
+	private String cig;
+	private MotiviEsclusioneCig motiviEsclusioneCig;
+	private List<ProtocolloOrdine> protocolloOrdines;
+	private List<TestataRda> rdas;
+	private List<DocumentiOrdine> documentiOrdines;
+	private Boolean derivato;
+	private Integer annoRda; // ordine_anno
+	private Integer numeroRda; // ordine_numero
+	private Boolean protocollato;
+	private Integer annoProtocollo; // protocollo_anno
+	private String numeroProtocollo; // protocollo_numero
+	private String aoo; // ordine_numero
 
 	/** Default constructor */
 	public TestataOrdine() {
@@ -93,6 +110,15 @@ public class TestataOrdine extends BaseAuditedDto<UUID> implements Serializable 
 	 */
 	public TestataOrdine(UUID id) {
 		super(id);
+	}
+
+
+	public List<ProtocolloOrdine> getProtocolloOrdines() {
+		return protocolloOrdines;
+	}
+
+	public void setProtocolloOrdines(List<ProtocolloOrdine> protocolloOrdines) {
+		this.protocolloOrdines = protocolloOrdines;
 	}
 
 	/**
@@ -222,6 +248,20 @@ public class TestataOrdine extends BaseAuditedDto<UUID> implements Serializable 
 	}
 
 	/**
+	 * @return the dataInvioFirma
+	 */
+	public Date getDataInvioFirma() {
+		return dataInvioFirma;
+	}
+
+	/**
+	 * @param dataInvioFirma the dataInvioFirma to set
+	 */
+	public void setDataInvioFirma(Date dataInvioFirma) {
+		this.dataInvioFirma = dataInvioFirma;
+	}
+
+	/**
 	 * @return the statoNso
 	 */
 	public StatoNso getStatoNso() {
@@ -333,18 +373,28 @@ public class TestataOrdine extends BaseAuditedDto<UUID> implements Serializable 
 		this.provvedimento = provvedimento;
 	}
 
+	public String getProvvedimentoDescrizione() {
+		return provvedimentoDescrizione;
+	}
+
+
+	public void setProvvedimentoDescrizione(String provvedimentoDescrizione) {
+		this.provvedimentoDescrizione = provvedimentoDescrizione;
+	}
+
+
 	/**
 	 * @return the tipoProcedura
 	 */
-	public TipoProcedura getTipoProcedura() {
-		return tipoProcedura;
+	public TipoProceduraOrd getTipoProceduraOrd() {
+		return tipoProceduraOrd;
 	}
 
 	/**
-	 * @param tipoProcedura the tipoProcedura to set
+	 * @param tipoProceduraOrd the tipoProcedura to set
 	 */
-	public void setTipoProcedura(TipoProcedura tipoProcedura) {
-		this.tipoProcedura = tipoProcedura;
+	public void setTipoProceduraOrd(TipoProceduraOrd tipoProceduraOrd) {
+		this.tipoProceduraOrd = tipoProceduraOrd;
 	}
 
 	/**
@@ -473,6 +523,13 @@ public class TestataOrdine extends BaseAuditedDto<UUID> implements Serializable 
 		this.listImpegno = listImpegno;
 	}
 
+	public SettoreInterventi getTipoAcquisto() {
+		return tipoAcquisto;
+	}
+
+	public void setTipoAcquisto(SettoreInterventi tipoAcquisto) {
+		this.tipoAcquisto = tipoAcquisto;
+	}
 	/**
 	 * @return the listDestinatario
 	 */
@@ -528,5 +585,191 @@ public class TestataOrdine extends BaseAuditedDto<UUID> implements Serializable 
 	public void setDataAnnullamento(Date dataAnnullamento) {
 		this.dataAnnullamento = dataAnnullamento;
 	}
-	
+
+
+	public String getProvvedimentoSettore() {
+		return provvedimentoSettore;
+	}
+
+	public void setProvvedimentoSettore(String provvedimentoSettore) {
+		this.provvedimentoSettore = provvedimentoSettore;
+	}
+
+	public String getProvvedimentoTipo() {
+		return provvedimentoTipo;
+	}
+
+	public void setProvvedimentoTipo(String provvedimentoTipo) {
+		this.provvedimentoTipo = provvedimentoTipo;
+	}
+
+	public Boolean getHasOds() {
+		return hasOds;
+	}
+
+	public void setHasOds(Boolean hasOds) {
+		this.hasOds = hasOds;
+	}
+
+	public ScaricoMepaTestata getScaricoMepaTestata() {
+		return scaricoMepaTestata;
+	}
+
+	public void setScaricoMepaTestata(ScaricoMepaTestata scaricoMepaTestata) {
+		this.scaricoMepaTestata = scaricoMepaTestata;
+	}
+
+	/**
+	 * @return the cig
+	 */
+	public String getCig() {
+		return cig;
+	}
+
+	/**
+	 * @param cig the cig to set
+	 */
+	public void setCig(String cig) {
+		this.cig = cig;
+	}
+
+	/**
+	 * @return the motiviEsclusioneCig
+	 */
+	public MotiviEsclusioneCig getMotiviEsclusioneCig() {
+		return motiviEsclusioneCig;
+	}
+
+	/**
+	 * @param motiviEsclusioneCig the motiviEsclusioneCig to set
+	 */
+	public void setMotiviEsclusioneCig(MotiviEsclusioneCig motiviEsclusioneCig) {
+		this.motiviEsclusioneCig = motiviEsclusioneCig;
+	}
+
+	public List<TestataRda> getRdas() {
+		return rdas;
+	}
+
+	public void setRdas(List<TestataRda> rdas) {
+		this.rdas = rdas;
+	}
+
+	/**
+	 * @return the documentiOrdines
+	 */
+	public List<DocumentiOrdine> getDocumentiOrdines() {
+		return documentiOrdines;
+	}
+
+	/**
+	 * @param documentiOrdines the documentiOrdines to set
+	 */
+	public void setDocumentiOrdines(List<DocumentiOrdine> documentiOrdines) {
+		this.documentiOrdines = documentiOrdines;
+	}
+
+	/**
+	 * @return the derivato
+	 */
+	public Boolean getDerivato() {
+		return derivato;
+	}
+
+	/**
+	 * @param derivato the derivato to set
+	 */
+	public void setDerivato(Boolean derivato) {
+		this.derivato = derivato;
+	}
+
+	/**
+	 * @return the annoRda
+	 */
+	public Integer getAnnoRda() {
+		return annoRda;
+	}
+
+	/**
+	 * @param annoRda the annoRda to set
+	 */
+	public void setAnnoRda(Integer annoRda) {
+		this.annoRda = annoRda;
+	}
+
+	/**
+	 * @return the numeroRda
+	 */
+	public Integer getNumeroRda() {
+		return numeroRda;
+	}
+
+	/**
+	 * @param numeroRda the numeroRda to set
+	 */
+	public void setNumeroRda(Integer numeroRda) {
+		this.numeroRda = numeroRda;
+	}
+
+	/**
+	 * @return the protocollato
+	 */
+	public Boolean getProtocollato() {
+		return protocollato;
+	}
+
+	/**
+	 * @param protocollato the protocollato to set
+	 */
+	public void setProtocollato(Boolean protocollato) {
+		this.protocollato = protocollato;
+	}
+
+	/**
+	 * @return the annoProtocollo
+	 */
+	public Integer getAnnoProtocollo() {
+		return annoProtocollo;
+	}
+
+	/**
+	 * @param annoProtocollo the annoProtocollo to set
+	 */
+	public void setAnnoProtocollo(Integer annoProtocollo) {
+		this.annoProtocollo = annoProtocollo;
+	}
+
+	/**
+	 * @return the numeroProtocollo
+	 */
+	public String getNumeroProtocollo() {
+		return numeroProtocollo;
+	}
+
+	/**
+	 * @param numeroProtocollo the numeroProtocollo to set
+	 */
+	public void setNumeroProtocollo(String numeroProtocollo) {
+		this.numeroProtocollo = numeroProtocollo;
+	}
+
+	/**
+	 * @return the aoo
+	 */
+	public String getAoo() {
+		return aoo;
+	}
+
+	/**
+	 * @param aoo the aoo to set
+	 */
+	public void setAoo(String aoo) {
+		this.aoo = aoo;
+	}
+
+
+
+
+
+
 }

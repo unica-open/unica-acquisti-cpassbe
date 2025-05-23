@@ -1,0 +1,9 @@
+RicercaRuoloPermesso:
+  type: object
+  properties:
+    ruolo:
+      type: object
+      $ref: '#/definitions/Ruolo'
+    permesso:
+      type: object
+      $ref: '#/definitions/Permesso'

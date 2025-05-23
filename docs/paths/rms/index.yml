@@ -1,0 +1,310 @@
+/rms/testata:
+  post:
+    operationId: postTestataRms
+    description: Inserisce una testata RMS su sistema.
+    produces:
+      - application/json
+    tags:
+      - rmsApi
+    parameters:
+      - in: body
+        name: testataRms
+        required: true
+        schema:
+          $ref: '#/definitions/TestataRms'
+    responses:
+      '200':
+        description: testata rms registrata.
+        schema:
+          $ref: '#/definitions/TestataRms'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/rms/testata/{idTestataRms}:
+  get:
+    operationId: getTestataRmsById
+    description: Restituisce la testata di una richiesta materiale o servizi
+    produces:
+      - application/json
+    tags:
+      - rmsApi
+    parameters:
+      - in: path
+        name: idTestataRms
+        type: string
+    responses:
+      '200':
+        description: Testata richiesta da caricare
+        schema:
+          $ref: '#/definitions/TestataRms'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+  put:
+    operationId: putTestataRmsById
+    description: Aggiorna la testataRms per id.
+    produces:
+      - application/json
+    tags:
+      - rmsApi
+    parameters:
+      - in: path
+        name: idTestataRms
+        required: true
+        type: string
+        format: uuid
+        description: L'id della testataRms.
+      - in: body
+        name: testataRms
+        required: true
+        schema:
+          $ref: '#/definitions/TestataRms'
+    responses:
+      '200':
+        description: La testataRms aggiornata.
+        schema:
+          $ref: '#/definitions/TestataRms'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+  delete:
+    operationId: deleteRichiestaRmsById
+    description: Cancella la richiesta per id.
+    produces:
+      - application/json
+    tags:
+      - rmsApi
+    parameters:
+      - in: path
+        name: idTestataRms
+        required: true
+        type: string
+        format: uuid
+        description: L'id della richiesta.
+    responses:
+      '200':
+        description: Lo status dell'operazione.
+        schema:
+          type: string
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/rms/testata/riga-rms:
+  post:
+    operationId: postRigaRms
+    description: Inserisce la riga di una testata RMS su sistema.
+    produces:
+      - application/json
+    tags:
+      - rmsApi
+    parameters:
+      - in: body
+        name: rigaRms
+        required: true
+        schema:
+          $ref: '#/definitions/RigaRms'
+    responses:
+      '200':
+        description: testata rms registrato.
+        schema:
+          $ref: '#/definitions/RigaRms'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+  put:
+    operationId: putRigaRms
+    description: Modifica un rigaRms di una testataRms su sistema.
+    produces:
+      - application/json
+    tags:
+      - rmsApi
+    parameters:
+      - in: body
+        name: rigaRms
+        required: true
+        schema:
+          $ref: '#/definitions/RigaRms'
+    responses:
+      '200':
+        description: testata rms registrato.
+        schema:
+          $ref: '#/definitions/RigaRms'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/rms/testata/ricerca/{anno}/{numero}:
+  get:
+    operationId: getRicercaRmsByAnnoENum
+    description: Restituisce la rms per anno e numero.
+    produces:
+      - application/json
+    tags:
+      - rmsApi
+    parameters:
+      - in: path
+        name: anno
+        required: true
+        type: integer
+        description: L'anno della rms.
+      - in: path
+        name: numero
+        required: true
+        type: integer
+        description: Il numero della rms.
+    responses:
+      '200':
+        description: La testataRms registrata su sistema per dati anno e numero.
+        schema:
+          $ref: '#/definitions/TestataRms'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'        
+/rms/testata/{id}/stato/{stato}:
+  put:
+    operationId: putCambioStatoRms
+    description: Modifica stato di una testataRms su sistema.
+    produces:
+      - application/json
+    tags:
+      - rmsApi
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della richiesta.
+      - in: path
+        name: stato
+        required: true
+        type: string
+        description: codice dello stato della richiesta.
+      - in: body
+        name: testataRms
+        required: true
+        schema:
+          $ref: '#/definitions/TestataRms'          
+    responses:
+      '200':
+        description: testata rms registrato.
+        schema:
+          $ref: '#/definitions/TestataRms'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/rms/testata/ricerca:
+  post:
+    operationId: getRicercaRms
+    description: Restituisce le rms registrate su sistema.
+    produces:
+      - application/json
+    tags:
+      - rmsApi
+    parameters:
+      - $ref: '#/parameters/offsetParam'
+      - $ref: '#/parameters/limitParam'
+      - $ref: '#/parameters/sortParam'
+      - $ref: '#/parameters/directionParam'
+      - in: body
+        name: ricercaRms
+        required: true
+        schema:
+          $ref: '#/definitions/RicercaRms'
+    responses:
+      '200':
+        description: Rms registrate su sistema.
+        schema:
+          $ref: '#/definitions/PagedResponseRms'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/rms/testata/riga-rms/{id}:
+  delete:
+    operationId: deleteRigaRms
+    description: Elimina la riga rms di una testata rms presente a sistema.
+    produces:
+      - application/json
+    tags:
+      - rmsApi
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della riga.
+    responses:
+      '200':
+        description: riga rms eliminata.
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/rms/testata/riga-rms/cambio-stato/{stato}:
+  put:
+    operationId: putCambioStatoRigaRms
+    description: Modifica stato di una o più RighaRms su sistema.
+    produces:
+      - application/json
+    tags:
+      - rmsApi
+    parameters:
+      - in: path
+        name: stato
+        required: true
+        type: string
+        description: codice dello stato della richiesta.
+      - in: body
+        name: rigaRmsList
+        required: true
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/RigaRms'        
+    responses:
+      '200':
+        description: riga rms registrato.
+        schema:
+          type: array
+          items:
+          $ref: '#/definitions/RigaRms'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/rms/testata/ricerca-rms-da-smistare:
+  post:
+    operationId: getRicercaRmsDaSmistare
+    description: Restituisce le rms registrate su sistema.
+    produces:
+      - application/json
+    tags:
+      - rmsApi
+    parameters:
+      - $ref: '#/parameters/offsetParam'
+      - $ref: '#/parameters/limitParam'
+      - $ref: '#/parameters/sortParam'
+      - $ref: '#/parameters/directionParam'
+      - in: body
+        name: ricercaRms
+        required: true
+        schema:
+          $ref: '#/definitions/RicercaRmsDaSmistare'
+    responses:
+      '200':
+        description: Rms da smistare registrate su sistema.
+        schema:
+          $ref: '#/definitions/PagedResponseRmsDaSmistare'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'          

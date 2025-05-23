@@ -7,3 +7,12 @@ TipoSettore:
       type: string
     descrizione:
       type: string
+    flagUtilizzabile:
+      type: boolean
+    flagDirezione:
+      type: boolean
+    posizione:
+      type: integer      
+    ente:
+      type: object
+      $ref: '#/definitions/Ente'

@@ -19,3 +19,12 @@ CausaleSospensioneEvasione:
       type: string
     utenteModifica:
       type: string
+    dataCreazione:
+      type: string
+      format: date-time
+    dataCancellazione:
+      type: string
+      format: date-time
+    dataModifica:
+      type: string
+      format: date-time

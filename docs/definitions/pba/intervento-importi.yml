@@ -8,6 +8,8 @@ InterventoImporti:
       type: number
     importoAnnoSecondo:
       type: number
+    importoAnnoTerzo:
+      type: number
     importoAnniSuccessivi:
       type: number
     motivazione:

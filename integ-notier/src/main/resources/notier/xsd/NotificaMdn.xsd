@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsi:schema xmlns:xsi="http://www.w3.org/2001/XMLSchema"
+			xmlns="http://notier.intercenter.rer.it/services/1.0/notificaMDN"
+			targetNamespace="http://notier.intercenter.rer.it/services/1.0/notificaMDN"
+			elementFormDefault="qualified" version="1.1">
+<!-- xmlns="http://notier.intercenter.rer.it/services/1.0/notificaMDN"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://notier.intercenter.rer.it/services/1.0/notificaMDN" -->
+	<xsi:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="http://www.w3.org/TR/2002/REC-xmldsig-core-20020212/xmldsig-core-schema.xsd"/>
+
+	<xsi:element name="NotificaMDN" type="NotificaMDN_Type" />
+	<xsi:complexType name="NotificaMDN_Type">
+		<xsi:sequence>
+			<xsi:element name="Esito" type="Esito_Type" />
+			<xsi:element name="Versione" type="Versione_Type"/>
+		</xsi:sequence>
+		
+	</xsi:complexType>
+	
+	<xsi:simpleType name="Versione_Type">
+		<xsi:restriction base="xsi:string">
+			<xsi:maxLength value="5"/>
+		</xsi:restriction>
+	</xsi:simpleType>
+	
+	<xsi:complexType name="Esito_Type">
+		<xsi:sequence>
+			<xsi:element name="Documento" type="IdentificativoDocumento_Type" />
+			<xsi:element name="EsitoMDN" type="IdentificativoTrasmissione_Type" minOccurs="1"
+						 maxOccurs="1"/>
+			<xsi:element name="EsitoTrasmissione" type="EsitoTrasmissione_Type" />
+		</xsi:sequence>
+	</xsi:complexType>
+
+	<xsi:complexType name="DataOraTransitoDocumento_Type">
+		<xsi:sequence>
+			<xsi:element name="DataInvioSuPeppol" type="Data_Type" minOccurs="0" maxOccurs="1"/>
+			<xsi:element name="OrarioInvioSuPeppol" type="Orario_Type" minOccurs="0" maxOccurs="1"/>
+		</xsi:sequence>
+	</xsi:complexType>
+	
+    <xsi:complexType name="EsitoTrasmissione_Type">
+		<xsi:sequence>
+			<xsi:element name="CodiceEsito" type="CodiceEsito_Type" minOccurs="1"
+					maxOccurs="1" />
+			<xsi:element name="DescrizioneErrore" type="DescrizioneErrore_Type" minOccurs="0"/>
+		</xsi:sequence>
+	</xsi:complexType> 
+
+	<xsi:simpleType name="CodiceEsito_Type">
+		<xsi:restriction base="xsi:string">
+			<xsi:enumeration value="OK">
+				<xsi:annotation>
+					<xsi:documentation>
+						OK
+					</xsi:documentation>
+				</xsi:annotation>
+			</xsi:enumeration>
+			<xsi:enumeration value="KO">
+				<xsi:annotation>
+					<xsi:documentation>
+						KO
+					</xsi:documentation>
+				</xsi:annotation>
+			</xsi:enumeration>
+		</xsi:restriction>
+	</xsi:simpleType>
+	
+	<xsi:simpleType name="DescrizioneErrore_Type">
+		<xsi:restriction base="xsi:string">
+			<xsi:minLength value="0" />
+			<xsi:maxLength value="1000" />
+		</xsi:restriction>
+	</xsi:simpleType> 
+
+	<xsi:complexType name="IdentificativoDocumento_Type">
+		<xsi:sequence>
+			<xsi:element name="Urn" type="Urn_Type" />
+			<xsi:element name="NumeroDocumento" type="NumeroDocumento_Type" />
+			<xsi:element name="RecipientID" type="RecipientID_Type"/>
+			<xsi:element name="DocumentID" type="DocumentID_Type"/>
+			<xsi:element name="RiferimentoTemporale" type="DataOraTransitoDocumento_Type" minOccurs="0" maxOccurs="1"/>
+		</xsi:sequence>
+	</xsi:complexType>
+
+	<xsi:simpleType name="NumeroDocumento_Type">
+		<xsi:restriction base="xsi:string">
+			<xsi:minLength value="0"/>
+			<xsi:maxLength value="50"/>
+		</xsi:restriction>
+	</xsi:simpleType>
+	
+	<xsi:simpleType name="Urn_Type">
+		<xsi:restriction base="xsi:string">
+			<xsi:minLength value="0" />
+			<xsi:maxLength value="256" />
+		</xsi:restriction>
+	</xsi:simpleType>
+
+	<xsi:simpleType name="RecipientID_Type">
+		<xsi:restriction base="xsi:string">
+			<xsi:minLength value="0" />
+			<xsi:maxLength value="256" />
+		</xsi:restriction>
+	</xsi:simpleType>
+	
+	<xsi:simpleType name="DocumentID_Type">
+		<xsi:restriction base="xsi:string">
+			<xsi:minLength value="0" />
+			<xsi:maxLength value="1000" />
+		</xsi:restriction>
+	</xsi:simpleType>
+
+	<xsi:complexType name="IdentificativoTrasmissione_Type">
+		<xsi:sequence>
+			<xsi:element name="TransmissionID" type="TransmissionID_Type" />
+			<xsi:element name="MessageID" type="MessageID_Type"/>
+		</xsi:sequence>
+	</xsi:complexType>
+	
+	<xsi:simpleType name="TransmissionID_Type">
+		<xsi:restriction base="xsi:string">
+			<xsi:minLength value="0" />
+			<xsi:maxLength value="256" />
+		</xsi:restriction>
+	</xsi:simpleType>
+	
+	<xsi:simpleType name="MessageID_Type">
+		<xsi:restriction base="xsi:string">
+			<xsi:minLength value="0" />
+			<xsi:maxLength value="256" />
+		</xsi:restriction>
+	</xsi:simpleType>
+	
+	<xsi:simpleType name="Data_Type">
+		<xsi:restriction base="xsi:string">
+			<xsi:length value="10"/>
+		</xsi:restriction>
+	</xsi:simpleType>
+
+	<xsi:simpleType name="Orario_Type">
+		<xsi:restriction base="xsi:string">
+			<xsi:length value="8"/>
+		</xsi:restriction>
+	</xsi:simpleType>
+	
+</xsi:schema>

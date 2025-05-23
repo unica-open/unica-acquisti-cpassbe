@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -72,7 +72,7 @@ public class CpassRUtenteSettore implements Serializable, BaseEntity<Integer> {
 	/** The data validita fine. */
 	@Column(name="data_validita_fine")
 	private Date dataValiditaFine;
-	
+
 	/** The data validita inizio. */
 	@Column(name="data_validita_inizio")
 	private Date dataValiditaInizio;
@@ -209,8 +209,8 @@ public class CpassRUtenteSettore implements Serializable, BaseEntity<Integer> {
 	public void setCpassTRupUtente(CpassTUtente cpassTRupUtente) {
 		this.cpassTRupUtente = cpassTRupUtente;
 	}
-*/
-	
+	 */
+
 	/**
 	 * @return the dataValiditaFine
 	 */

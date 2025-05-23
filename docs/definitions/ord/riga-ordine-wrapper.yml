@@ -1,0 +1,13 @@
+RigaOrdineWrapper:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    listaWarning:
+      type: array
+      items:  
+        $ref: '#/definitions/ApiError'
+    rigaOrdine:
+      type: object
+      $ref: '#/definitions/RigaOrdine'

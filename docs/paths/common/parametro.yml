@@ -1,0 +1,23 @@
+/common/parametro/ricerca/chiave/{chiave}:
+  get:
+    operationId: getRicercaParametro
+    description: Restituisce un parametro della tabella cpass_t_parametri
+    produces:
+      - application/json
+    tags:
+      - common
+    parameters:
+      - in: path
+        name: chiave
+        required: true
+        type: string
+        description: chiave parametro.
+    responses:
+      '200':
+        description: Restituisce un paraametro.
+        schema:
+          $ref: '#/definitions/Parametro'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'

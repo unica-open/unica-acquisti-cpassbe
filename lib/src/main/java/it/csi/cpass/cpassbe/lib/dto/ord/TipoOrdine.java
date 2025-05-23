@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -12,13 +12,12 @@ package it.csi.cpass.cpassbe.lib.dto.ord;
 
 import java.io.Serializable;
 
-import it.csi.cpass.cpassbe.lib.dto.BaseDto;
+import it.csi.cpass.cpassbe.lib.dto.BaseAuditedDto;
 
 /**
  * The Class TipoOrdine.
  */
-public class TipoOrdine extends BaseDto<Integer> implements Serializable {
-
+public class TipoOrdine extends BaseAuditedDto<Integer> implements Serializable {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	/** The tipologiaDocumentoCodice. */
@@ -26,14 +25,14 @@ public class TipoOrdine extends BaseDto<Integer> implements Serializable {
 	/** The tipologiaDocumentoDescrizione. */
 	private String tipologiaDocumentoDescrizione;
 	private Boolean flagTrasmNso;
-	
+
 	/** Default constructor */
 	public TipoOrdine() {
 	}
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param id the id
 	 */
 	public TipoOrdine(Integer id) {
@@ -68,7 +67,7 @@ public class TipoOrdine extends BaseDto<Integer> implements Serializable {
 		this.tipologiaDocumentoDescrizione = tipologiaDocumentoDescrizione;
 	}
 
-	
+
 	/**
 	 * @return the flagTrasmNso
 	 */

@@ -9,3 +9,6 @@ AcquistoVariato:
       type: string
     descrizioneEstesa:
       type: string
+    controlli:
+      type: string
+      

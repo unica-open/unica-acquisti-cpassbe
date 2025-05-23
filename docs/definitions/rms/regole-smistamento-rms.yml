@@ -1,0 +1,36 @@
+RegoleSmistamentoRms:
+  type: object
+  properties:
+    centroAcquistoCodice:
+      type: string
+    cpvCodice:
+      type: string
+    ente:
+      type: object
+      $ref: '#/definitions/Ente'
+    id:
+      type: string
+      format: uuid
+    livelloCpv:
+      type: integer
+    magazzino:
+      type: object
+      $ref: '#/definitions/Magazzino'
+    magazzinoCodice:
+      type: string
+    oggettiSpesaCodice:
+      type: string
+    regolaCpv:
+      type: string
+    settoreAcquisto:
+      type: object
+      $ref: '#/definitions/Settore'
+    settoreCodice:
+      type: string
+    sezione:
+      type: object
+      $ref: '#/definitions/Sezione'
+    sezioneAcquistoCodice:
+      type: string
+    tuttaLaStruttura:
+      type: integer

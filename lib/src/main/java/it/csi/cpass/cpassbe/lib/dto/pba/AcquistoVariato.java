@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -24,6 +24,8 @@ public class AcquistoVariato extends BaseDto<Integer> implements Serializable {
 	private String codice;
 	private String descrizione;
 	private String descrizioneEstesa;
+	private Boolean acquistiNonRiproposti;
+	private String controlli;
 
 	/** Default constructor */
 	public AcquistoVariato() {}
@@ -76,6 +78,35 @@ public class AcquistoVariato extends BaseDto<Integer> implements Serializable {
 	 */
 	public void setDescrizioneEstesa(String descrizioneEstesa) {
 		this.descrizioneEstesa = descrizioneEstesa;
+	}
+
+	/**
+	 * @return the acquistiNonRiproposti
+	 */
+	public Boolean getAcquistiNonRiproposti() {
+		return acquistiNonRiproposti;
+	}
+
+	/**
+	 * @param acquistiNonRiproposti the acquistiNonRiproposti to set
+	 */
+	public void setAcquistiNonRiproposti(Boolean acquistiNonRiproposti) {
+		this.acquistiNonRiproposti = acquistiNonRiproposti;
+	}
+
+
+	/**
+	 * @return the controlli
+	 */
+	public String getControlli() {
+		return controlli;
+	}
+
+	/**
+	 * @param controlli the controlli to set
+	 */
+	public void setControlli(String controlli) {
+		this.controlli = controlli;
 	}
 
 	@Override

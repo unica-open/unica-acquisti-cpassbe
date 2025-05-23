@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -33,7 +33,7 @@ import it.csi.cpass.cpassbe.lib.util.uuid.UuidUtils;
 
 /**
  * The persistent class for the cpass_t_ord_impegno_evasione database table.
- * 
+ *
  */
 @Entity
 @Table(name="cpass_t_ord_impegno_evasione")
@@ -159,7 +159,7 @@ public class CpassTOrdImpegnoEvasione  extends BaseAuditedEntity<UUID> implement
 		return this.importoLiquidato;
 	}
 
-	
+
 	/**
 	 * @return the importoSospeso
 	 */
@@ -247,5 +247,5 @@ public class CpassTOrdImpegnoEvasione  extends BaseAuditedEntity<UUID> implement
 	public void initId() {
 		this.impegnoEvasioneId = UuidUtils.generateUUIDv5FromNamespaceAndString(NAMESPACE, cpassTOrdRigaEvasione.getId()+"|"+ impegnoProgressivo);
 	}
-	
+
 }

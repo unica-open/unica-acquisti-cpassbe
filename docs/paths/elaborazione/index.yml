@@ -75,3 +75,33 @@
         description: Errore generico.
         schema:
           $ref: '#/definitions/ApiError'
+/elaborazione/by-entity/{entityId}/tipo-messaggio/{tipo}:
+  get:
+    operationId: getMessaggiByUltimaElaborazione
+    description: ottiene una lista di elaborazioni messaggi per id entità e tipo .
+    produces:
+      - application/json
+    tags:
+      - elaborazione
+    parameters:
+      - in: path
+        name: entityId
+        required: true
+        type: string
+        description: L'id dell'entity.
+      - in: path
+        name: tipo
+        required: true
+        type: string
+        description: tipo messaggio.
+    responses:
+      '200':
+        description: Lista di elaborazioni messaggi.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/ElaborazioneMessaggio'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'

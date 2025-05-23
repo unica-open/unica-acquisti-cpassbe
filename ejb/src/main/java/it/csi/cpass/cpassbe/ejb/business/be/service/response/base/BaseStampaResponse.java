@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -50,7 +50,7 @@ public abstract class BaseStampaResponse extends BaseResponse {
 		this.fileNameTemplate = fileNameTemplate;
 	}
 
-	
+
 	/**
 	 * @return the mimeTypeContainer
 	 */
@@ -68,9 +68,9 @@ public abstract class BaseStampaResponse extends BaseResponse {
 	@Override
 	protected Response composeOwnResponse() {
 		return Response
-			.ok(bytes, getMimeTypeContainer().getMimeType())
-			.header("Content-Disposition", "attachment;filename=" + fileNameTemplate + "." + getMimeTypeContainer().getExtension())
-			.build();
+				.ok(bytes, getMimeTypeContainer().getMimeType())
+				.header("Content-Disposition", "attachment;filename=" + fileNameTemplate + "." + getMimeTypeContainer().getExtension())
+				.build();
 	}
 
 }

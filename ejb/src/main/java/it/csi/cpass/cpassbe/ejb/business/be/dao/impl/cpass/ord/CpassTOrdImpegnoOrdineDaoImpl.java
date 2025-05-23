@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -33,14 +33,14 @@ public class CpassTOrdImpegnoOrdineDaoImpl extends BaseAuditedEntityDaoImpl<UUID
 
 	@Override
 	public List<CpassTOrdImpegnoOrdine> getImpegniCollegati(UUID testataOrdineId) {
-		StringBuilder jpql = new StringBuilder();
+		final StringBuilder jpql = new StringBuilder();
 		jpql.append(" FROM CpassTOrdImpegnoOrdine tio ");
 		jpql.append(" WHERE tio.cpassTOrdRigaOrdine.cpassTOrdDestinatario.cpassTOrdTestataOrdine.testataOrdineId = :testataOrdineId ");
 
-		Map<String, Object> params = new HashMap<>();
+		final Map<String, Object> params = new HashMap<>();
 		params.put("testataOrdineId", testataOrdineId);
 
-		TypedQuery<CpassTOrdImpegnoOrdine> query = composeTypedQuery(jpql, params);
+		final TypedQuery<CpassTOrdImpegnoOrdine> query = composeTypedQuery(jpql, params);
 		if (query.getResultList().size() > 0) {
 			return query.getResultList();
 		} else {
@@ -49,16 +49,13 @@ public class CpassTOrdImpegnoOrdineDaoImpl extends BaseAuditedEntityDaoImpl<UUID
 	}
 
 	@Override
-	public BigDecimal calcolaOrdinato(UUID impegnoId, UUID testataOrdineId) {
-		StringBuilder jpql = new StringBuilder();
+	public BigDecimal calcolaOrdinato(UUID impegnoId, Integer impegnoAnnoEsercizio,UUID testataOrdineId) {
+		final StringBuilder jpql = new StringBuilder();
 		jpql.append(" SELECT SUM(ctoio.importo) ");
 		jpql.append(" FROM CpassTOrdImpegnoOrdine ctoio ");
 		jpql.append(" WHERE cpassTImpegno.impegnoId = :impegnoId ");
 		jpql.append(" AND impegnoAnnoEsercizio = :impegnoAnnoEsercizio ");
-//		jpql.append(" AND impegnoAnno = :impegnoAnno ");
-//		jpql.append(" AND impegnoNumero = :impegnoNumero ");
 
-		int annoCorrente = Calendar.getInstance().get(Calendar.YEAR);
 
 		// escludo gli impegni dell'ordine specificato
 		if (testataOrdineId != null) {
@@ -71,17 +68,20 @@ public class CpassTOrdImpegnoOrdineDaoImpl extends BaseAuditedEntityDaoImpl<UUID
 			jpql.append(" ) ");
 		}
 
-		Query q = entityManager.createQuery(jpql.toString());
+		final Query q = entityManager.createQuery(jpql.toString());
 		q.setParameter("impegnoId", impegnoId);
-		q.setParameter("impegnoAnnoEsercizio", annoCorrente);
-//		q.setParameter("impegnoAnno", impegno.getAnno());
-//		q.setParameter("impegnoNumero", impegno.getNumero());
+
+		if(impegnoAnnoEsercizio==null) {
+			q.setParameter("impegnoAnnoEsercizio", Calendar.getInstance().get(Calendar.YEAR));
+		}else {
+			q.setParameter("impegnoAnnoEsercizio", impegnoAnnoEsercizio);
+		}
 
 		if (testataOrdineId != null) {
 			q.setParameter("testataOrdineId", testataOrdineId);
 		}
 
-		Object result = (Object) q.getSingleResult();
+		final Object result = q.getSingleResult();
 		if (result != null) {
 			return (BigDecimal) result;
 		}
@@ -90,24 +90,24 @@ public class CpassTOrdImpegnoOrdineDaoImpl extends BaseAuditedEntityDaoImpl<UUID
 
 	@Override
 	public List<CpassTOrdImpegnoOrdine> getImpegni(UUID rigaOrdineId) {
-		StringBuilder jpql = new StringBuilder();
+		final StringBuilder jpql = new StringBuilder();
 		jpql.append(" FROM CpassTOrdImpegnoOrdine tio ");
 		jpql.append(" WHERE tio.cpassTOrdRigaOrdine.rigaOrdineId = :rigaOrdineId ");
 
-		Map<String, Object> params = new HashMap<>();
+		final Map<String, Object> params = new HashMap<>();
 		params.put("rigaOrdineId", rigaOrdineId);
 
-		TypedQuery<CpassTOrdImpegnoOrdine> query = composeTypedQuery(jpql, params);
+		final TypedQuery<CpassTOrdImpegnoOrdine> query = composeTypedQuery(jpql, params);
 		if (query.getResultList().size() > 0) {
 			return query.getResultList();
 		} else {
 			return null;
 		}
 	}
-	
+
 	@Override
 	public List<CpassTOrdImpegnoOrdine> getImpegniNonPresentiEvasione(UUID rigaOrdineId, UUID rigaEvasioneId) {
-		StringBuilder jpql = new StringBuilder();
+		final StringBuilder jpql = new StringBuilder();
 		jpql.append(" FROM CpassTOrdImpegnoOrdine tio ");
 		jpql.append(" WHERE tio.cpassTOrdRigaOrdine.rigaOrdineId = :rigaOrdineId ");
 
@@ -119,13 +119,13 @@ public class CpassTOrdImpegnoOrdineDaoImpl extends BaseAuditedEntityDaoImpl<UUID
 			jpql.append(" ) ");
 		}
 
-		Map<String, Object> params = new HashMap<>();
+		final Map<String, Object> params = new HashMap<>();
 		params.put("rigaOrdineId", rigaOrdineId);
 		if (rigaEvasioneId != null) {
 			params.put("rigaEvasioneId", rigaEvasioneId);
 		}
 
-		TypedQuery<CpassTOrdImpegnoOrdine> query = composeTypedQuery(jpql, params);
+		final TypedQuery<CpassTOrdImpegnoOrdine> query = composeTypedQuery(jpql, params);
 		if (query.getResultList().size() > 0) {
 			return query.getResultList();
 		} else {
@@ -135,15 +135,71 @@ public class CpassTOrdImpegnoOrdineDaoImpl extends BaseAuditedEntityDaoImpl<UUID
 
 	@Override
 	public void deleteByRiga(UUID rigaOrdineId) {
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		sb.append("DELETE FROM CpassTOrdImpegnoOrdine ");
 		sb.append(" WHERE cpassTOrdRigaOrdine.rigaOrdineId = :rigaOrdineId");
-
-		Map<String, Object> params = new HashMap<>();
+		final Map<String, Object> params = new HashMap<>();
 		params.put("rigaOrdineId", rigaOrdineId);
-
-		Query query = composeQuery(sb, params);
+		final Query query = composeQuery(sb, params);
 		query.executeUpdate();
 	}
+
+
+	@Override
+	public void deleteFromTestataordine(UUID testataOrdineId) {
+		final StringBuilder sb = new StringBuilder();
+		sb.append("delete from cpass_t_ord_impegno_ordine where cpass_t_ord_impegno_ordine.impegno_ordine_id in (select distinct impegno_ordine_id from cpass_v_ordine where cpass_v_ordine.testata_ordine_id = :testataOrdineId  )");
+		final Map<String, Object> params = new HashMap<>();
+		params.put("testataOrdineId", testataOrdineId);
+		final Query query = composeNativeQuery(sb, params);
+		query.executeUpdate();
+	}
+
+
+
+
+
+
+
+	@Override
+	public BigDecimal calcolaOrdinatoImpegno(Integer annoEsercizio, Integer annoImpegno, Integer numeroImpegno,Integer annoEsercizioSuOrdine,UUID enteId) {
+		final StringBuilder jpql = new StringBuilder();
+		jpql.append(" SELECT SUM(ctoio.importo) ");
+		jpql.append(" FROM CpassTOrdImpegnoOrdine ctoio ");
+		jpql.append(" WHERE 1 = 1 ");
+		jpql.append(" AND ctoio.impegnoAnnoEsercizio = :impegnoAnnoEsercizio ");
+		jpql.append(" AND ctoio.impegnoAnno          = :impegnoAnno ");
+		jpql.append(" AND ctoio.impegnoNumero        = :impegnoNumero ");
+		//jpql.append(" AND ctoio.ente.enteId          = :enteId ");
+		final Map<String, Object> params = new HashMap<>();
+		if(annoEsercizioSuOrdine!=null) {
+			jpql.append(" AND ctoio.cpassTOrdRigaOrdine.cpassTOrdDestinatario.cpassTOrdTestataOrdine.ordineAnno = :annoEsercizioSuOrdine ");
+			params.put("annoEsercizioSuOrdine", annoEsercizioSuOrdine);
+		}
+		params.put("impegnoAnnoEsercizio", annoEsercizio);
+		params.put("impegnoAnno", annoImpegno);
+		params.put("impegnoNumero", numeroImpegno);
+		//params.put("enteId", enteId);
+
+		final TypedQuery<BigDecimal> query = composeTypedQuery(jpql, params,BigDecimal.class);
+		if (query.getResultList()!=null && query.getResultList().size() > 0) {
+			return query.getSingleResult() == null ? BigDecimal.ZERO : query.getSingleResult();
+		} else {
+			return BigDecimal.ZERO;
+		}
+
+	}
+
+	@Override
+	public void updateFromTestataordine(UUID testataOrdineId) {
+		final StringBuilder sb = new StringBuilder();
+		sb.append("update cpass_t_ord_impegno_ordine set importo = 0 where impegno_ordine_id in (select distinct impegno_ordine_id from cpass_v_ordine where testata_ordine_id = :testataOrdineId)");
+		final Map<String, Object> params = new HashMap<>();
+		params.put("testataOrdineId", testataOrdineId);
+		final Query query = composeNativeQuery(sb, params);
+		query.executeUpdate();
+	}
+
+
 
 }

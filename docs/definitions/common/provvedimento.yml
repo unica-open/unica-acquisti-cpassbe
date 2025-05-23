@@ -1,0 +1,42 @@
+Provvedimento:
+  type: object
+  properties:
+    anno:
+      type: integer
+    dataCreazione:
+      type: string
+      format: date-time
+    dataModifica:
+      type: string
+      format: date-time
+    dataValiditaFine:
+      type: string
+      format: date-time
+    dataValiditaInizio:
+      type: string
+      format: date-time
+    descrizione:
+      type: string
+    ente:
+      type: object
+      $ref: '#/definitions/Ente'
+    id:
+      type: string
+      format: uuid
+    note:
+      type: string
+    numero:
+      type: string
+    oggetto:
+      type: string
+    provvedimentoTipo:
+      type: object
+      $ref: '#/definitions/ProvvedimentoTipo'
+    settore:
+      type: object
+      $ref: '#/definitions/Settore'
+    cdc:
+      type: object
+      $ref: '#/definitions/Cdc'
+    selected:
+      type: boolean

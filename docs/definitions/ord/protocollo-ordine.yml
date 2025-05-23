@@ -1,0 +1,85 @@
+ProtocolloOrdine:
+  type: object
+  properties:
+    annoProtocollo:
+      type: integer
+    annoProtocolloOrig:
+      type: integer
+    annullato:
+      type: boolean
+    aoo:
+      type: string
+    aooCode:
+      type: string
+    aooActa:
+      type: object
+      $ref: '#/definitions/AooActa'
+    aooOrig:
+      type: string
+    aooOrigCode:
+      type: string      
+    codErrore:
+      type: string
+    dataCancellazione:
+      type: string
+      format: date-time
+    dataCreazione:
+      type: string
+      format: date-time
+    dataModifica:
+      type: string
+      format: date-time
+    dataProtocollo:
+      type: string
+      format: date-time
+    dataProtocolloOrig:
+      type: string
+      format: date-time
+    descErrore:
+      type: string
+    descrizioneProtocollo:
+      type: string
+    descrizioneProtocolloOrig:
+      type: string
+    descrizioneTipoRegistrazione:
+      type: string
+    id:
+      type: string
+      format: uuid
+    numeroProtocollo:
+      type: string
+    numeroProtocolloOrig:
+      type: string
+    optlock:
+      type: string
+      format: uuid
+    strutturaAccessibile:
+      type: boolean
+    testataOrdine:
+      type: object
+      $ref: '#/definitions/TestataOrdine'
+    utenteCancellazione:
+      type: string
+    utenteCreazione:
+      type: string
+    utenteModifica:
+      type: string
+    uuidDocumentoOrdine:
+      type: string
+    uuidDocumentoOrig:
+      type: string
+    uuidRegProtocolloOrdine:
+      type: string
+    uuidRegProtocolloOrig:
+      type: string
+    strutturaAggregativaObjectId:
+      type: string
+    indiceClassificazioneEsteso:
+      type: string
+    voceTitolario:
+      type: string
+    numeroFascicoloDossier:
+      type: string
+    aooDossier:
+      type: string
+      

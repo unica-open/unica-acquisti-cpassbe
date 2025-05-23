@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -16,12 +16,13 @@ import it.csi.cpass.cpassbe.lib.dto.Subimpegno;
 
 public class FiltroImpegni implements Serializable {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 6917368461093667542L;
 	private Subimpegno subimpegno;
 	private TestataOrdine testataOrdine;
 	private String statoImpegno;
+	private Integer annoEsercizio;
 
 	/**
 	 * @return the subimpegno
@@ -64,5 +65,20 @@ public class FiltroImpegni implements Serializable {
 	public void setStatoImpegno(String statoImpegno) {
 		this.statoImpegno = statoImpegno;
 	}
+
+	/**
+	 * @return the annoEsercizio
+	 */
+	public Integer getAnnoEsercizio() {
+		return annoEsercizio;
+	}
+
+	/**
+	 * @param annoEsercizio the annoEsercizio to set
+	 */
+	public void setAnnoEsercizio(Integer annoEsercizio) {
+		this.annoEsercizio = annoEsercizio;
+	}
+
 
 }

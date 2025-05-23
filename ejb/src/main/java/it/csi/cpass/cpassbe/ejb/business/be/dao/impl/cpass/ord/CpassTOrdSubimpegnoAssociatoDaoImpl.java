@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -31,32 +31,32 @@ public class CpassTOrdSubimpegnoAssociatoDaoImpl extends BaseAuditedEntityDaoImp
 
 	@Override
 	public List<CpassTOrdSubimpegnoAssociato> getSubimpegniAssociati(UUID impegnoAssociatoId) {
-		StringBuilder jpql = new StringBuilder();
+		final StringBuilder jpql = new StringBuilder();
 		jpql.append(" FROM CpassTOrdSubimpegnoAssociato ti ");
 		jpql.append(" WHERE ti.cpassTOrdImpegnoAssociato.impegnoAssociatoId = :impegnoAssociatoId ");
 
-		Map<String, Object> params = new HashMap<>();
+		final Map<String, Object> params = new HashMap<>();
 		params.put("impegnoAssociatoId", impegnoAssociatoId);
 
-		TypedQuery<CpassTOrdSubimpegnoAssociato> query = composeTypedQuery(jpql, params);
+		final TypedQuery<CpassTOrdSubimpegnoAssociato> query = composeTypedQuery(jpql, params);
 		if (query.getResultList().size() > 0) {
 			return query.getResultList();
 		} else {
 			return null;
 		}
 	}
-	
+
 	@Override
 	public void deleteByTestataOrdine(UUID testataOrdineId) {
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		sb.append("DELETE FROM CpassTOrdSubimpegnoAssociato ");
 		sb.append(" WHERE cpassTOrdImpegnoAssociato.cpassTOrdTestataOrdine.testataOrdineId = :testataOrdineId");
-		
-		Map<String, Object> params = new HashMap<>();
+
+		final Map<String, Object> params = new HashMap<>();
 		params.put("testataOrdineId", testataOrdineId);
-		
-		Query query = composeQuery(sb, params);
+
+		final Query query = composeQuery(sb, params);
 		query.executeUpdate();
 	}
-	
-}	
+
+}

@@ -1,0 +1,38 @@
+DocumentiOrdine:
+  type: object
+  properties:
+    caricatoDaLocale:
+      type: boolean
+    dataCancellazione:
+      type: string
+      format: date-time
+    dataCreazione:
+      type: string
+      format: date-time
+    dataModifica:
+      type: string
+      format: date-time
+    descrizione:
+      type: string
+    ext:
+      type: string
+    fileDocumento:
+      type: string
+    id:
+      type: integer
+    nomefile:
+      type: string
+    optlock:
+      type: string
+      format: uuid
+    progressivo:
+      type: integer
+    testataOrdine:
+      type: object
+      $ref: '#/definitions/TestataOrdine'
+    utenteCancellazione:
+      type: string
+    utenteCreazione:
+      type: string
+    utenteModifica:
+      type: string

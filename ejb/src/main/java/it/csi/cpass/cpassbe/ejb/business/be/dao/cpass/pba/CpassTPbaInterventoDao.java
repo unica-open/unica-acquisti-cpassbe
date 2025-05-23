@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -17,6 +17,7 @@ import java.util.UUID;
 import it.csi.cpass.cpassbe.ejb.business.be.dao.BaseAuditedEntityDao;
 import it.csi.cpass.cpassbe.ejb.entity.pba.CpassTPbaIntervento;
 import it.csi.cpass.cpassbe.ejb.util.jpa.Page;
+import it.csi.cpass.cpassbe.lib.dto.pba.VIntervento;
 
 /**
  * Data Access Object interface for the entity CpassTPbaIntervento
@@ -30,6 +31,7 @@ public interface CpassTPbaInterventoDao extends BaseAuditedEntityDao<UUID, Cpass
 	 */
 	Optional<CpassTPbaIntervento> findByCUI(String interventoCui, UUID idProgramma, UUID enteId);
 
+	List<CpassTPbaIntervento> findByCUI(String interventoCui, UUID enteId);
 	/**
 	 * Finds a CpassTPbaIntervento by its CUI
 	 * @param cui the intervento cui
@@ -51,7 +53,7 @@ public interface CpassTPbaInterventoDao extends BaseAuditedEntityDao<UUID, Cpass
 	 * @param programmaId the programma id
 	 * @param ausaId the ausa id
 	 * @param interventoRicompresoid the intervento ricompreso id
-	 * @param interventoCopiaId 
+	 * @param interventoCopiaId
 	 * @param settoreInterventiId the settore itnerventi id
 	 * @param cpvId the cpv id
 	 * @param nutId the nut id
@@ -87,7 +89,10 @@ public interface CpassTPbaInterventoDao extends BaseAuditedEntityDao<UUID, Cpass
 			Integer statoId,
 			Integer acquistoVariatoId,
 			Integer ricompresoTipoId,
-			UUID settoreId,
+			List<UUID> settoriId,
+			String acqNonRip,
+			String vefinitivaStr,
+			String vistoRagioneriaStr,
 			UUID enteId,
 			int page,
 			int size,
@@ -95,7 +100,7 @@ public interface CpassTPbaInterventoDao extends BaseAuditedEntityDao<UUID, Cpass
 			String sortDirection,
 			String ordinamento
 			);
-	
+
 	/**
 	 * Gets the intervento by programma stato
 	 * @param idProgramma the id programma
@@ -104,6 +109,24 @@ public interface CpassTPbaInterventoDao extends BaseAuditedEntityDao<UUID, Cpass
 	 * @return the interventos
 	 */
 	List<CpassTPbaIntervento> getInterventoByProgrammaStato(UUID idProgramma, String statoCode, boolean operatoreEqualsStato);
+
+	List<UUID> getInterventoIdByProgrammaStato(UUID idProgramma, String statoCode, boolean operatoreEqualsStato);
+
+	/**
+	 * Gets the intervento by programma stato
+	 * @param idProgramma the id programma
+	 * @param statoCode the stato code
+	 * @param operatoreEqualsStato the operatore equals stato
+	 * @return the interventos
+	 */
+	List<CpassTPbaIntervento> getInterventiBloccantiPerConfermaProgramma(UUID idProgramma);
+
+	/**
+	 *
+	 * @param idProgramma
+	 * @return
+	 */
+	List<UUID> getInterventiBloccantiIdPerConfermaProgramma(UUID idProgramma);
 
 	/**
 	 * Gets the intervento esistente by programma
@@ -121,17 +144,39 @@ public interface CpassTPbaInterventoDao extends BaseAuditedEntityDao<UUID, Cpass
 	 * @param size the size
 	 * @param queryName the query name
 	 * @param sortDirection the sort direction
+	 * @param checkVisibilitaDocumentale
+	 * @param utenteId
+	 * @param settoreId
 	 * @return a page of interventos
 	 */
-	Page<CpassTPbaIntervento> findPaginatedXCopia(UUID programmaIdOld, UUID programmaIdNew, int page, int size, String queryName, String sortDirection);
+	Page<CpassTPbaIntervento> findPaginatedXCopia(UUID programmaIdOld, UUID programmaIdNew,UUID utenteRupId, int page, int size, String queryName, String sortDirection, UUID utenteId, UUID settoreId);
 
 	/**
-	 * 
+	 *
 	 * @param programmaAnnoPrecedente
 	 * @param programmaVersioneMaxPrecedente
 	 * @return
 	 */
 	List<CpassTPbaIntervento> getInterventiNonRiproponibiliByUltimoProgrammaPrecedente(Integer programmaAnnoPrecedente,Integer programmaVersioneMaxPrecedente);
+
+	Integer getMaxProgressivoCUIByChiave(String chiaveCui);
+
+	List<CpassTPbaIntervento> getInterventiByCapofilaId(UUID idCapofila,UUID programmaId);
+
+	List<CpassTPbaIntervento> getInterventiCapofila(UUID programmaId,UUID myIdCapofila, UUID idSettore);
+
+	List<CpassTPbaIntervento> getInterventiByListaId(List<UUID> listaId);
+
+	void deleteByIdIntervento(UUID id);
+
+	List<CpassTPbaIntervento> getInterventiSuprogrammiFuturi(String cui, Integer programmaAnno,UUID enteId);
+
+	List<CpassTPbaIntervento> findInterventiOldByCUI(String cui, Integer annoProgramma, Integer versioneProgramma,UUID enteId);
+
+	//List<InterventoProjection> getRicercaByProgrammaId(UUID programmaId);
+	List<CpassTPbaIntervento> getRicercaByProgrammaId(UUID programmaId);
+
+	List<VIntervento> getRicercaNativaByProgrammaId(UUID programmaId);
 
 
 

@@ -18,7 +18,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 import it.csi.cpass.cpassbe.ejb.business.be.facade.DecodificaFacade;
-import it.csi.cpass.cpassbe.lib.dto.ord.OggettiSpesa;
+import it.csi.cpass.cpassbe.lib.dto.Ods;
 import it.csi.cpass.cpassbe.web.business.be.api.DecodificaApi;
 import it.csi.cpass.cpassbe.web.util.annotation.Logged;
 
@@ -74,21 +74,26 @@ public class DecodificaApiServiceImpl extends BaseRestServiceImpl implements Dec
 	public Response getRicompresoTipos(SecurityContext securityContext, HttpHeaders httpHeaders,HttpServletRequest httpRequest) {
 		return invoke(decodificaFacade::getRicompresoTipos);
 	}
-	
+
 
 	@Override
 	public Response getTipoOrdine(SecurityContext securityContext, HttpHeaders httpHeaders, HttpServletRequest httpRequest) {
 		return invoke(decodificaFacade::getTipoOrdine);
-	}	
-	
-	@Override
-	public Response getTipoProcedura(SecurityContext securityContext, HttpHeaders httpHeaders, HttpServletRequest httpRequest) {
-		return invoke(decodificaFacade::getTipoProcedura);
 	}
 
 	@Override
-	public Response getStatoElOrdineByTipo(String tipo, SecurityContext securityContext, HttpHeaders httpHeaders, HttpServletRequest httpRequest) {
-		return invoke(() -> decodificaFacade.getStatoElOrdineByTipo(tipo));
+	public Response getListaTipoOrdineExcludeCode(String noTypeCode, SecurityContext securityContext, HttpHeaders httpHeaders,HttpServletRequest httpRequest) {
+		return invoke(() -> decodificaFacade.getListaTipoOrdineExcludeCode(noTypeCode));
+	}
+
+	@Override
+	public Response getTipoProceduraOrd(SecurityContext securityContext, HttpHeaders httpHeaders, HttpServletRequest httpRequest) {
+		return invoke(decodificaFacade::getTipoProceduraOrd);
+	}
+
+	@Override
+	public Response getTipoProceduraPba(SecurityContext securityContext, HttpHeaders httpHeaders, HttpServletRequest httpRequest) {
+		return invoke(decodificaFacade::getTipoProceduraPba);
 	}
 
 	@Override
@@ -100,11 +105,12 @@ public class DecodificaApiServiceImpl extends BaseRestServiceImpl implements Dec
 	public Response getUnitaMisura(SecurityContext securityContext, HttpHeaders httpHeaders, HttpServletRequest httpRequest) {
 		return invoke(decodificaFacade::getUnitaMisura);
 	}
-	
+
 	@Override
-	public Response getRicercaOggettiSpesa(Integer page, Integer limit, String sort, String direction, OggettiSpesa oggettiSpesa, SecurityContext securityContext, HttpHeaders httpHeaders, @Context HttpServletRequest httpRequest) {
-		return invoke(() -> decodificaFacade.getRicercaOggettiSpesa(page, limit, sort, direction, oggettiSpesa));
+	public Response getRicercaCpvOggettiSpesa(Integer page, Integer limit, String sort, String direction, Ods ods, SecurityContext securityContext, HttpHeaders httpHeaders, @Context HttpServletRequest httpRequest) {
+		return invoke(() -> decodificaFacade.getRicercaCpvOggettiSpesa(page, limit, sort, direction, ods));
 	}
+
 	@Override
 	public Response getStatoByTipo(String tipo, SecurityContext securityContext, HttpHeaders httpHeaders, HttpServletRequest httpRequest) {
 		return invoke(() -> decodificaFacade.getStatoByTipo(tipo));
@@ -126,5 +132,19 @@ public class DecodificaApiServiceImpl extends BaseRestServiceImpl implements Dec
 	public Response getTipoAcquistos(SecurityContext securityContext, HttpHeaders httpHeaders, HttpServletRequest httpRequest) {
 		return invoke(decodificaFacade::getTipoAcquisto);
 	}
+	@Override
+	public Response getProvvedimentoTipo(SecurityContext securityContext, HttpHeaders httpHeaders,HttpServletRequest httpRequest) {
+		return invoke(decodificaFacade::getProvvedimentoTipo);
+	}
+	@Override
+	public Response getMotiviEsclusioneCig(SecurityContext securityContext, HttpHeaders httpHeaders,HttpServletRequest httpRequest) {
+		return invoke(decodificaFacade::getMotiviEsclusioneCig);
+	}
+
+	@Override
+	public Response getTipoSettore(SecurityContext securityContext, HttpHeaders httpHeaders, @Context HttpServletRequest httpRequest) {
+		return invoke(decodificaFacade::getTipoSettore);
+	}
+
 
 }

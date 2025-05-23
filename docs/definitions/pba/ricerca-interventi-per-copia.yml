@@ -1,0 +1,12 @@
+RicercaInterventiPerCopia:
+  type: object
+  properties:
+    programmaIdOld:
+      type: string
+      format: uuid
+    programmaIdNew:
+      type: string
+      format: uuid
+    utenteRupId:
+      type: string
+      format: uuid

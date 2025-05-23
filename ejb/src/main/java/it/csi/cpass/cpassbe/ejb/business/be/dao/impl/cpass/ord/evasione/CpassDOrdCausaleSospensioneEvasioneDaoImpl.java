@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -27,20 +27,20 @@ public class CpassDOrdCausaleSospensioneEvasioneDaoImpl extends BaseEntityDaoImp
 
 	@Override
 	public List<CpassDOrdCausaleSospensioneEvasione> findAllValide() {
-		Map<String, Object> params = new HashMap<>();
-		Date now = new Date();
+		final Map<String, Object> params = new HashMap<>();
+		final Date now = new Date();
 
-		StringBuilder jpql = new StringBuilder();
+		final StringBuilder jpql = new StringBuilder();
 		jpql.append(" FROM CpassDOrdCausaleSospensioneEvasione cse ");
 		jpql.append(" WHERE (cse.dataCancellazione  IS NULL OR (cse.dataCancellazione IS NOT NULL and cse.dataCancellazione > :now ))");
 		params.put("now", now);
 
-		TypedQuery<CpassDOrdCausaleSospensioneEvasione> query = composeTypedQuery(jpql, params);
-		List<CpassDOrdCausaleSospensioneEvasione> results = query.getResultList();
+		final TypedQuery<CpassDOrdCausaleSospensioneEvasione> query = composeTypedQuery(jpql, params);
+		final List<CpassDOrdCausaleSospensioneEvasione> results = query.getResultList();
 		return results;
 	}
 
-	
-	
-	
+
+
+
 }

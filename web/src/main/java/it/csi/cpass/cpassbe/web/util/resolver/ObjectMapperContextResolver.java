@@ -24,7 +24,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 public class ObjectMapperContextResolver implements ContextResolver<ObjectMapper> {
 
 	private final ObjectMapper mapper;
-	
+
 	/** Default constructor */
 	public ObjectMapperContextResolver() {
 		mapper = new ObjectMapper()

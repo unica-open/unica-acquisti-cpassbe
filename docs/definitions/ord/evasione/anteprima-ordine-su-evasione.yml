@@ -1,0 +1,23 @@
+AnteprimaOrdineSuEvasione:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    anno:
+      type: integer
+    numero:
+      type: integer
+    dataAutorizzazione:
+      type: string
+      format: date-time
+    descrizione:
+      type: string
+    idEvasione:
+      type: string
+      format: uuid
+    totaleConIva:
+      type: number
+    totaleSuEvasione:
+      type: number
+

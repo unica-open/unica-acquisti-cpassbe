@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -29,13 +29,13 @@ import it.csi.cpass.cpassbe.ejb.entity.base.BaseEntity;
 @Entity
 @Table(name="cpass_v_evasione")
 @NamedQuery(name="CpassVEvasione.findAll", query="SELECT c FROM CpassVEvasione c")
-public class CpassVEvasione implements Serializable, BaseEntity<Long> {	
+public class CpassVEvasione implements Serializable, BaseEntity<Long> {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name="evasione_id")
 	private Long evasioneId;
-	
+
 	@Column(name="aliquote_iva_id")
 	private Integer aliquoteIvaId;
 
@@ -99,11 +99,11 @@ public class CpassVEvasione implements Serializable, BaseEntity<Long> {
 	@Column(name="documento_data_consegna")
 	private Date documentoDataConsegna;
 
-	@Column(name="documento_trasporto_id")
-	private Integer documentoTrasportoId;
+	//@Column(name="documento_trasporto_id")
+	//private Integer documentoTrasportoId;
 
-	@Column(name="documento_trasporto_riga_id")
-	private Integer documentoTrasportoRigaId;
+	//@Column(name="documento_trasporto_riga_id")
+	//private Integer documentoTrasportoRigaId;
 
 	private String email;
 
@@ -217,16 +217,11 @@ public class CpassVEvasione implements Serializable, BaseEntity<Long> {
 	@Column(name="settore_destinatario_id")
 	private UUID settoreDestinatarioId;
 
-	@Column(name="sospensione_causale")
-	private String sospensioneCausale;
+	@Column(name="stato_riga_evasione_id")
+	private Integer statoRigaEvasioneId;
 
-	private Boolean sospeso;
-
-	@Column(name="stato_el_ordine_id")
-	private Integer statoElOrdineId;
-
-	@Column(name="stato_el_ordine_id_destinatario")
-	private Integer statoElOrdineIdDestinatario;
+	@Column(name="stato_destinatario_evasione_id")
+	private Integer statoDestinatarioEvasioneId;
 
 	@Column(name="stato_id")
 	private Integer statoId;
@@ -274,7 +269,7 @@ public class CpassVEvasione implements Serializable, BaseEntity<Long> {
 
 	@Column(name="causale_sospensione_codice")
 	private String causaleSospensioneCodice;
-	
+
 	@Column(name="causale_sospensione_descrizione")
 	private String causaleSospensioneDescrizione;
 
@@ -456,7 +451,7 @@ public class CpassVEvasione implements Serializable, BaseEntity<Long> {
 	public void setDocumentoDataConsegna(Date documentoDataConsegna) {
 		this.documentoDataConsegna = documentoDataConsegna;
 	}
-
+	/*
 	public Integer getDocumentoTrasportoId() {
 		return this.documentoTrasportoId;
 	}
@@ -472,7 +467,7 @@ public class CpassVEvasione implements Serializable, BaseEntity<Long> {
 	public void setDocumentoTrasportoRigaId(Integer documentoTrasportoRigaId) {
 		this.documentoTrasportoRigaId = documentoTrasportoRigaId;
 	}
-
+	 */
 	public String getEmail() {
 		return this.email;
 	}
@@ -793,36 +788,34 @@ public class CpassVEvasione implements Serializable, BaseEntity<Long> {
 		this.settoreDestinatarioId = settoreDestinatarioId;
 	}
 
-	public String getSospensioneCausale() {
-		return this.sospensioneCausale;
+
+
+	/**
+	 * @return the statoDestinatarioEvasioneId
+	 */
+	public Integer getStatoDestinatarioEvasioneId() {
+		return statoDestinatarioEvasioneId;
 	}
 
-	public void setSospensioneCausale(String sospensioneCausale) {
-		this.sospensioneCausale = sospensioneCausale;
+	/**
+	 * @return the statoRigaEvasioneId
+	 */
+	public Integer getStatoRigaEvasioneId() {
+		return statoRigaEvasioneId;
 	}
 
-	public Boolean getSospeso() {
-		return this.sospeso;
+	/**
+	 * @param statoRigaEvasioneId the statoRigaEvasioneId to set
+	 */
+	public void setStatoRigaEvasioneId(Integer statoRigaEvasioneId) {
+		this.statoRigaEvasioneId = statoRigaEvasioneId;
 	}
 
-	public void setSospeso(Boolean sospeso) {
-		this.sospeso = sospeso;
-	}
-
-	public Integer getStatoElOrdineId() {
-		return this.statoElOrdineId;
-	}
-
-	public void setStatoElOrdineId(Integer statoElOrdineId) {
-		this.statoElOrdineId = statoElOrdineId;
-	}
-
-	public Integer getStatoElOrdineIdDestinatario() {
-		return this.statoElOrdineIdDestinatario;
-	}
-
-	public void setStatoElOrdineIdDestinatario(Integer statoElOrdineIdDestinatario) {
-		this.statoElOrdineIdDestinatario = statoElOrdineIdDestinatario;
+	/**
+	 * @param statoDestinatarioEvasioneId the statoDestinatarioEvasioneId to set
+	 */
+	public void setStatoDestinatarioEvasioneId(Integer statoDestinatarioEvasioneId) {
+		this.statoDestinatarioEvasioneId = statoDestinatarioEvasioneId;
 	}
 
 	public Integer getStatoId() {
@@ -954,7 +947,7 @@ public class CpassVEvasione implements Serializable, BaseEntity<Long> {
 		this.utenteCompilatoreId = utenteCompilatoreId;
 	}
 
-	
+
 	/**
 	 * @return the causaleSospensioneCodice
 	 */

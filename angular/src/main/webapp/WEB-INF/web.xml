@@ -24,8 +24,26 @@
       <param-name>indexUrl</param-name>
       <param-value>${angularfilter.indexUrl}</param-value>
     </init-param>
+    <init-param>
+      <param-name>logoutUrl</param-name>
+      <param-value>${angularfilter.logoutUrl}</param-value>
+    </init-param>
   </filter>
+  
+  <servlet>
+    <servlet-name>logoutServlet</servlet-name>
+    <servlet-class>it.csi.cpass.cpassbe.angular.util.servlet.LogOutServlet</servlet-class>
+    <init-param>
+      <param-name>logout.shibbolethSSOURL</param-name>
+      <param-value>${logout.shibbolethSSOURL}</param-value>
+    </init-param>
+  </servlet>
 
+  <servlet-mapping>
+    <servlet-name>logoutServlet</servlet-name>
+    <url-pattern>/logout</url-pattern>
+  </servlet-mapping>
+  
   <filter-mapping>
     <filter-name>AngularFilter</filter-name>
     <url-pattern>*</url-pattern>

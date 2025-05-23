@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -16,6 +16,7 @@ import java.util.UUID;
 
 import it.csi.cpass.cpassbe.lib.dto.BaseDto;
 import it.csi.cpass.cpassbe.lib.dto.Cpv;
+import it.csi.cpass.cpassbe.lib.dto.MotiviEsclusioneCig;
 
 public class InterventoAltriDati extends BaseDto<UUID> implements Serializable {
 	private static final long serialVersionUID = 3654685856049539088L;
@@ -25,6 +26,7 @@ public class InterventoAltriDati extends BaseDto<UUID> implements Serializable {
 	private BigDecimal speseSostenute;
 	private BigDecimal ivaPrimoAnno;
 	private BigDecimal ivaSecondoAnno;
+	private BigDecimal ivaTerzoAnno;
 	private BigDecimal ivaAnniSuccessivi;
 	private BigDecimal importoIvaMatRic;
 	private BigDecimal importoIvaVerdi;
@@ -35,15 +37,17 @@ public class InterventoAltriDati extends BaseDto<UUID> implements Serializable {
 	private String normativaRiferimento;
 	private String oggettoMatRic;
 	private String oggettoverdi;
-	private Intervento intervento;	
+	private Intervento intervento;
 	private Cpv cpvMatRic;
 	private Cpv cpvVerdi;
 	private TipoAcquisto tipoAcquistoMatRic;
 	private TipoAcquisto tipoAcquistoVerdi;
+	private Boolean fondiPnrr;
+	private MotiviEsclusioneCig motiviEsclusioneCig;
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param id the id
 	 */
 	public InterventoAltriDati(UUID id) {
@@ -53,7 +57,7 @@ public class InterventoAltriDati extends BaseDto<UUID> implements Serializable {
 	/** Default constructor */
 	public InterventoAltriDati() {}
 
-	
+
 
 	/**
 	 * @return the note
@@ -139,7 +143,7 @@ public class InterventoAltriDati extends BaseDto<UUID> implements Serializable {
 		this.ivaAnniSuccessivi = ivaAnniSuccessivi;
 	}
 
-	
+
 	/**
 	 * @return the importoIvaMatRic
 	 */
@@ -266,7 +270,7 @@ public class InterventoAltriDati extends BaseDto<UUID> implements Serializable {
 		this.oggettoverdi = oggettoverdi;
 	}
 
-	
+
 	/**
 	 * @return the cpvMatRic
 	 */
@@ -323,7 +327,7 @@ public class InterventoAltriDati extends BaseDto<UUID> implements Serializable {
 		this.tipoAcquistoVerdi = tipoAcquistoVerdi;
 	}
 
-	
+
 	/**
 	 * @return the intervento
 	 */
@@ -336,6 +340,51 @@ public class InterventoAltriDati extends BaseDto<UUID> implements Serializable {
 	 */
 	public void setIntervento(Intervento intervento) {
 		this.intervento = intervento;
+	}
+
+
+
+	/**
+	 * @return the fondiPnrr
+	 */
+	public Boolean getFondiPnrr() {
+		return fondiPnrr;
+	}
+
+	/**
+	 * @param fondiPnrr the fondiPnrr to set
+	 */
+	public void setFondiPnrr(Boolean fondiPnrr) {
+		this.fondiPnrr = fondiPnrr;
+	}
+
+	/**
+	 * @return the motiviEsclusioneCig
+	 */
+	public MotiviEsclusioneCig getMotiviEsclusioneCig() {
+		return motiviEsclusioneCig;
+	}
+
+	/**
+	 * @param motiviEsclusioneCig the motiviEsclusioneCig to set
+	 */
+	public void setMotiviEsclusioneCig(MotiviEsclusioneCig motiviEsclusioneCig) {
+		this.motiviEsclusioneCig = motiviEsclusioneCig;
+	}
+
+
+	/**
+	 * @return the ivaTerzoAnno
+	 */
+	public BigDecimal getIvaTerzoAnno() {
+		return ivaTerzoAnno;
+	}
+
+	/**
+	 * @param ivaTerzoAnno the ivaTerzoAnno to set
+	 */
+	public void setIvaTerzoAnno(BigDecimal ivaTerzoAnno) {
+		this.ivaTerzoAnno = ivaTerzoAnno;
 	}
 
 	@Override

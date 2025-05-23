@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -19,12 +19,12 @@ import it.csi.cpass.cpassbe.ejb.business.be.service.response.ordine.DeleteImpegn
 import it.csi.cpass.cpassbe.ejb.util.conf.ConfigurationHelper;
 
 public class DeleteImpegniByRigaService extends BaseService<DeleteImpegniByRigaRequest, DeleteImpegniByRigaResponse> {
-	
+
 	private final ImpegnoDad impegnoDad;
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param configurationHelper the configuration helper
 	 * @param testataOrdineDad    the testataOrdine DAD
 	 * @param decodificaDad       the decodifica DAD
@@ -36,8 +36,8 @@ public class DeleteImpegniByRigaService extends BaseService<DeleteImpegniByRigaR
 
 	@Override
 	protected void checkServiceParams() {
-		UUID idRiga = request.getIdRiga();
-     	checkNotNull(idRiga, "idRiga", true);
+		final UUID idRiga = request.getIdRiga();
+		checkNotNull(idRiga, "idRiga", Boolean.TRUE);
 	}
 
 	@Override

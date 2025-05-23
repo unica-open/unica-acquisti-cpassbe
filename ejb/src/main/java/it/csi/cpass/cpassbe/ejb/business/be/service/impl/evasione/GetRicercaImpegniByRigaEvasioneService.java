@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -17,16 +17,15 @@ import it.csi.cpass.cpassbe.ejb.business.be.service.impl.base.BaseService;
 import it.csi.cpass.cpassbe.ejb.business.be.service.request.evasione.GetRicercaImpegniByRigaEvasioneRequest;
 import it.csi.cpass.cpassbe.ejb.business.be.service.response.evasione.GetRicercaImpegniByRigaEvasioneResponse;
 import it.csi.cpass.cpassbe.ejb.util.conf.ConfigurationHelper;
-import it.csi.cpass.cpassbe.lib.dto.Impegno;
 import it.csi.cpass.cpassbe.lib.dto.ord.evasione.ImpegnoEvasione;
 
 public class GetRicercaImpegniByRigaEvasioneService extends BaseService<GetRicercaImpegniByRigaEvasioneRequest, GetRicercaImpegniByRigaEvasioneResponse> {
 
-	private ImpegnoEvasioneDad impegnoEvasioneDad;
+	private final ImpegnoEvasioneDad impegnoEvasioneDad;
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param configurationHelper the configuration helper
 	 * @param testataOrdineDad    the testataOrdine DAD
 	 */
@@ -42,7 +41,7 @@ public class GetRicercaImpegniByRigaEvasioneService extends BaseService<GetRicer
 
 	@Override
 	protected void execute() {
-		List<ImpegnoEvasione> listImpegno = impegnoEvasioneDad.getImpegniByRigaEvasione(request.getIdRigaEvasione());
+		final List<ImpegnoEvasione> listImpegno = impegnoEvasioneDad.getImpegniByRigaEvasione(request.getIdRigaEvasione());
 		response.setListImpegno(listImpegno);
 	}
 

@@ -13,17 +13,27 @@
         type: string
         format: uuid
         description: id ente.
+      - in: query
+        name: cod-root
+        required: false
+        type: string
+        description: codice del rettore radice dell'alberatura
+      - in: query
+        name: validita
+        required: false
+        type: string
+        description: validita dei settori
     responses:
       '200':
         description: Alberatura Settore per ente.
         schema:
           type: array
           items:
-            $ref: '#/definitions/Settore'
+            $ref: '#/definitions/Vsettore'
       default:
         description: Errore generico.
         schema:
-          $ref: '#/definitions/ApiError'         
+          $ref: '#/definitions/ApiError'
 /common/settore/{id-settore}/parente/{id-settore-parent}:
   get:
     operationId: isMySectorParent

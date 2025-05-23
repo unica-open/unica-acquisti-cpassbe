@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -56,13 +56,13 @@ public class CpassDElaborazioneTipo implements Serializable, BaseEntity<Integer>
 	/** The moduloCodice. */
 	@Column(name="modulo_codice")
 	private String moduloCodice;
-	
-	
+
+
 	/** The cpass T cpassTElaboraziones. */
 	//bi-directional many-to-one association to CpassDElaborazioneTipo
 	@OneToMany(mappedBy="cpassDElaborazioneTipo")
 	private List<CpassTElaborazione> cpassTElaboraziones;
-	
+
 	/**
 	 * @return the elaborazioneTipoId
 	 */
@@ -136,8 +136,8 @@ public class CpassDElaborazioneTipo implements Serializable, BaseEntity<Integer>
 		cpassTElaborazione.setCpassTElaborazione(null)
 		return cpassTElaborazione;
 	}
-*/
-	
+	 */
+
 
 	/**
 	 * @return the moduloCodice
@@ -152,7 +152,7 @@ public class CpassDElaborazioneTipo implements Serializable, BaseEntity<Integer>
 	public void setModuloCodice(String moduloCodice) {
 		this.moduloCodice = moduloCodice;
 	}
-	
+
 	@Override
 	public Integer getId() {
 		return elaborazioneTipoId;

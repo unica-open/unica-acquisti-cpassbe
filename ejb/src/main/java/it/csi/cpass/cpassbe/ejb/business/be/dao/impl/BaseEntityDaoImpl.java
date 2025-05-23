@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -53,40 +53,57 @@ public abstract class BaseEntityDaoImpl<K, T extends BaseEntity<K>> extends Base
 	}
 
 	@Override
+	public Optional<T> findById(K key) {
+		ReflectionHelper.getFieldByAnnotation(this.clazz, EmbeddedId.class);
+		final StringBuilder sb = new StringBuilder()
+				.append("FROM ")
+				.append(clazz.getName())
+				.append(" WHERE ")
+				.append(idField.getName())
+				.append(" = :id ");
+		final Map<String, Object> params = new HashMap<>();
+		params.put("id", key);
+		final TypedQuery<T> query = composeTypedQuery(sb, params);
+		return query.getResultList()
+				.stream()
+				.findFirst();
+	}
+
+	@Override
 	public Optional<T> findOne(K key) {
 		ReflectionHelper.getFieldByAnnotation(this.clazz, EmbeddedId.class);
-		StringBuilder sb = new StringBuilder()
-			.append("FROM ")
-			.append(clazz.getName())
-			.append(" WHERE ")
-			.append(idField.getName())
-			.append(" = :id ");
-		Map<String, Object> params = new HashMap<>();
+		final StringBuilder sb = new StringBuilder()
+				.append("FROM ")
+				.append(clazz.getName())
+				.append(" WHERE ")
+				.append(idField.getName())
+				.append(" = :id ");
+		final Map<String, Object> params = new HashMap<>();
 		params.put("id", key);
-		TypedQuery<T> query = composeTypedQuery(sb, params);
+		final TypedQuery<T> query = composeTypedQuery(sb, params);
 		return query.getResultList()
-			.stream()
-			.findFirst();
+				.stream()
+				.findFirst();
 	}
 
 	@Override
 	public List<T> findAll() {
-		StringBuilder sb = new StringBuilder()
-			.append("FROM ")
-			.append(clazz.getName())
-			.append(" ORDER BY ")
-			.append(idField.getName());
-		TypedQuery<T> query = composeTypedQuery(sb, null);
+		final StringBuilder sb = new StringBuilder()
+				.append("FROM ")
+				.append(clazz.getName())
+				.append(" ORDER BY ")
+				.append(idField.getName());
+		final TypedQuery<T> query = composeTypedQuery(sb, null);
 		return query.getResultList();
 	}
 
 	@Override
 	public Page<T> findAll(int page, int size) {
-		StringBuilder jpql = new StringBuilder()
-			.append("FROM ")
-			.append(clazz.getName())
-			.append(" ORDER BY ")
-			.append(idField.getName());
+		final StringBuilder jpql = new StringBuilder()
+				.append("FROM ")
+				.append(clazz.getName())
+				.append(" ORDER BY ")
+				.append(idField.getName());
 		return getPagedResult(jpql, null, page, size);
 	}
 
@@ -112,22 +129,32 @@ public abstract class BaseEntityDaoImpl<K, T extends BaseEntity<K>> extends Base
 
 	@Override
 	public T saveAndFlush(T entity) {
-		T result = this.save(entity);
+		final T result = this.save(entity);
 		this.flush();
 		return result;
 	}
 
 	@Override
 	public void delete(K key) {
-		StringBuilder sb = new StringBuilder()
+		final StringBuilder sb = new StringBuilder()
 				.append("DELETE FROM ")
 				.append(clazz.getName())
 				.append(" WHERE ")
 				.append(idField.getName())
 				.append(" = :id");
-		Map<String, Object> params = new HashMap<>();
+		final Map<String, Object> params = new HashMap<>();
 		params.put("id", key);
-		Query query = composeQuery(sb, params);
+		final Query query = composeQuery(sb, params);
+		query.executeUpdate();
+	}
+
+	@Override
+	public void deleteAll() {
+		final StringBuilder sb = new StringBuilder()
+				.append("DELETE FROM ")
+				.append(clazz.getName());
+		final Map<String, Object> params = new HashMap<>();
+		final Query query = composeQuery(sb, params);
 		query.executeUpdate();
 	}
 

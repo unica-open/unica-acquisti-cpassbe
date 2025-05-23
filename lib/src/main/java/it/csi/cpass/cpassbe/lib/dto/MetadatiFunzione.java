@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -21,18 +21,18 @@ public class MetadatiFunzione extends BaseDto<Long> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String modulo;
-	
+
 	private String funzione;
-	
+
 	private String chiaveColonna;
-	
+
 	private String descrizioneColonna;
 
 	private Integer ordinamento;
 
 	private Boolean ascendente;
 	//private String stringaSql;
-	
+
 	//private String jpql;
 
 	/**
@@ -63,7 +63,7 @@ public class MetadatiFunzione extends BaseDto<Long> implements Serializable {
 		this.funzione = funzione;
 	}
 
-	
+
 
 	/**
 	 * @return the chiaveColonna
@@ -124,7 +124,7 @@ public class MetadatiFunzione extends BaseDto<Long> implements Serializable {
 
 
 
-	
-	
+
+
 
 }

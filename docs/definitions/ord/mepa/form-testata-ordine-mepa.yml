@@ -1,0 +1,26 @@
+FormTestataOrdineMepa:
+  type: object
+  properties:
+    fornitore:
+      type: object
+      $ref: '#/definitions/Fornitore'
+    provvedimento:
+      type: object
+      $ref: '#/definitions/Provvedimento'
+    tipoProceduraOrd:
+      type: object
+      $ref: '#/definitions/TipoProceduraOrd'
+    numeroProcedura:
+      type: string
+    destinatario:
+      type: object
+      $ref: '#/definitions/Destinatario'
+    righe:
+      type: array
+      items:
+        $ref: '#/definitions/RigaMepaWrapper'
+    cig:
+      type: string
+    motiviEsclusioneCig:
+      type: object
+      $ref: '#/definitions/MotiviEsclusioneCig'

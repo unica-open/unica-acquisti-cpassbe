@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -16,6 +16,7 @@ import java.util.UUID;
 
 import it.csi.cpass.cpassbe.ejb.business.be.dao.BaseAuditedEntityDao;
 import it.csi.cpass.cpassbe.ejb.entity.ord.evasione.CpassTOrdImpegnoEvasione;
+import it.csi.cpass.cpassbe.lib.dto.ord.evasione.RigaEvasione;
 
 /**
  * Data Access Object interface for the entity CpassTOrdImpegnoEvasione
@@ -29,11 +30,15 @@ public interface CpassTOrdImpegnoEvasioneDao extends BaseAuditedEntityDao<UUID, 
 	// public BigDecimal calcolaOrdinato(UUID impegnoId, UUID testataOrdineId);
 
 	List<CpassTOrdImpegnoEvasione> findByIdRigaEvasione(UUID idRigaEvasione);
-	
+
 	List<CpassTOrdImpegnoEvasione> findByIdImpegnoOrdine(UUID impegnoOrdineId);
-	
+
 	BigDecimal calcolaTotaleEvaso(UUID impegnoOrdineId);
-	
-	BigDecimal calcolaTotale(Integer impegnoAnno, Integer impegnoNumero);
-	
+
+	BigDecimal calcolaTotale(Integer impegnoAnno, Integer impegnoNumero,UUID testataEvasioneId);
+
+	List<CpassTOrdImpegnoEvasione> findByIdsRigaEvasioneEImpegno(List<RigaEvasione> rigaEvasiones, Integer impegnoAnno, Integer impegnoNumero);
+
+	BigDecimal calcolaImpegnoEvaso(Integer annoEsercizio, Integer anno, Integer numero,Integer filtroAnnoEsercizio, UUID enteId,Integer statoInContId);
+
 }

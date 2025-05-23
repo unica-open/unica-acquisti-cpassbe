@@ -1,0 +1,29 @@
+/system/audit/{cf}/{azione}:
+  post:
+    operationId: postCsiAudit
+    summary: inserisce in tabella csi audit
+    description: Restituisce una stringa per confermare la disponibilità del backend.
+    produces:
+      - application/json
+    tags:
+      - system
+    parameters:
+    - in: path
+      name: cf
+      required: true
+      type: string
+      description: codice fiscale.
+    - in: path
+      name: azione
+      required: true
+      type: string
+      description: azione mappata.        	  
+    responses:
+      '200':
+        description: ok.
+        schema:
+          type: boolean
+      default:
+        description: Unexpected error
+        schema:
+          type: string

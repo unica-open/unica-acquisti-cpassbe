@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ========================LICENSE_START=================================
+  CPASS BackEnd - INTEGRATION submodule - STILO
+  %%
+  Copyright (C) 2019 - 2023 CSI Piemonte
+  %%
+  SPDX-FileCopyrightText: Copyright 2019 - 2023 | CSI Piemonte
+  SPDX-License-Identifier: EUPL-1.2
+  =========================LICENSE_END==================================
+  -->
+ 
+<TrovaDocFolder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">  
+ <FiltriPrincipali>     
+<TipoOggettiDaCercare>D</TipoOggettiDaCercare> 
+</FiltriPrincipali>   
+<FiltriAvanzati>     
+<TipoDocumento>
+<Decodifica_Nome>Determina dirigenziale</Decodifica_Nome> 
+</TipoDocumento>  
+<RegistrazioneDoc>
+<CategoriaReg>R</CategoriaReg> 
+<AnnoReg>2021</AnnoReg> 
+<NumRegDa>520</NumRegDa> 
+<NumRegA>520</NumRegA> 
+</RegistrazioneDoc>  
+</FiltriAvanzati>  
+</TrovaDocFolder>

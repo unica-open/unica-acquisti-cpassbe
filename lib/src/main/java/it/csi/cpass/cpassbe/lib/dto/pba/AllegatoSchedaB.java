@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -22,7 +22,7 @@ import it.csi.cpass.cpassbe.lib.dto.BaseDto;
 // FIXME: da eliminare quando sostituito da motore di reportistica
 public class AllegatoSchedaB extends BaseDto<Long> implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private String acquistoVariatoCodice;
 	private String acquistoVariatoDescrizione;
 	private String ausa;
@@ -30,12 +30,14 @@ public class AllegatoSchedaB extends BaseDto<Long> implements Serializable {
 	private BigDecimal capPrivatiImportoAnniSuccessivi;
 	private BigDecimal capPrivatiImportoAnnoPrimo;
 	private BigDecimal capPrivatiImportoAnnoSecondo;
+	private BigDecimal capPrivatiImportoAnnoTerzo;
 	private BigDecimal capPrivatiTotaleImporti;
 	private String cpvCodice;
 	private String cpvDescrizione;
 	private BigDecimal importoAnniSuccessivi;
 	private BigDecimal importoAnnoPrimo;
 	private BigDecimal importoAnnoSecondo;
+	private BigDecimal importoAnnoTerzo;
 	private Integer interventoAnnoAvvio;
 	private String interventoCui;
 	private String interventoCup;
@@ -142,6 +144,19 @@ public class AllegatoSchedaB extends BaseDto<Long> implements Serializable {
 	public void setCapPrivatiImportoAnnoSecondo(BigDecimal capPrivatiImportoAnnoSecondo) {
 		this.capPrivatiImportoAnnoSecondo = capPrivatiImportoAnnoSecondo;
 	}
+
+	/**
+	 * @return the capPrivatiImportoAnnoTerzo
+	 */
+	public BigDecimal getCapPrivatiImportoAnnoTerzo() {
+		return capPrivatiImportoAnnoTerzo;
+	}
+	/**
+	 * @param capPrivatiImportoAnnoTerzo the capPrivatiImportoAnnoTerzo to set
+	 */
+	public void setCapPrivatiImportoAnnoTerzo(BigDecimal capPrivatiImportoAnnoTerzo) {
+		this.capPrivatiImportoAnnoTerzo = capPrivatiImportoAnnoTerzo;
+	}
 	/**
 	 * @return the capPrivatiTotaleImporti
 	 */
@@ -213,6 +228,19 @@ public class AllegatoSchedaB extends BaseDto<Long> implements Serializable {
 	 */
 	public void setImportoAnnoSecondo(BigDecimal importoAnnoSecondo) {
 		this.importoAnnoSecondo = importoAnnoSecondo;
+	}
+
+	/**
+	 * @return the importoAnnoTerzo
+	 */
+	public BigDecimal getImportoAnnoTerzo() {
+		return importoAnnoTerzo;
+	}
+	/**
+	 * @param importoAnnoTerzo the importoAnnoTerzo to set
+	 */
+	public void setImportoAnnoTerzo(BigDecimal importoAnnoTerzo) {
+		this.importoAnnoTerzo = importoAnnoTerzo;
 	}
 	/**
 	 * @return the interventoAnnoAvvio

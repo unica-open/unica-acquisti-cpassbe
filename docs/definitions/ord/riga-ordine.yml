@@ -18,6 +18,8 @@ RigaOrdine:
       type: number
     importoDaEvadere:
       type: number
+    quantitaEvadibile:
+      type: number
     percentualeSconto:
       type: number
     percentualeSconto2:
@@ -38,9 +40,9 @@ RigaOrdine:
     ods:
       type: object
       $ref: '#/definitions/Ods'
-    statoElOrdine:
+    stato:
       type: object
-      $ref: '#/definitions/StatoElOrdine'
+      $ref: '#/definitions/Stato'
     unitaMisura:
       type: object
       $ref: '#/definitions/UnitaMisura'
@@ -54,4 +56,7 @@ RigaOrdine:
       type: string
       format: uuid
     note:
-      type: string     
+      type: string
+    tipoAcquisto:
+      type: object
+      $ref: '#/definitions/SettoreInterventi'     

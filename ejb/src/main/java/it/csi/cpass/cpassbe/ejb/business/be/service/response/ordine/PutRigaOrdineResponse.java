@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -17,11 +17,10 @@ import javax.ws.rs.core.Response.Status;
 
 import it.csi.cpass.cpassbe.ejb.business.be.service.response.base.BasePutResponse;
 import it.csi.cpass.cpassbe.lib.dto.ord.RigaOrdine;
-import it.csi.cpass.cpassbe.lib.util.convert.StringHelper;
 import it.csi.cpass.cpassbe.lib.util.serialization.JsonUtility;
 
 public class PutRigaOrdineResponse extends BasePutResponse {
-	
+
 	private RigaOrdine rigaOrdine;
 
 	/**
@@ -41,7 +40,7 @@ public class PutRigaOrdineResponse extends BasePutResponse {
 	@Override
 	protected Response composeOwnResponse() {
 		final String methodName = "composeOwnResponse";
-		String serialized = JsonUtility.serialize(rigaOrdine);
+		final String serialized = JsonUtility.serialize(rigaOrdine);
 		log.debug(methodName, "JSON response: " + serialized);
 		return Response
 				.status(Status.OK)
@@ -49,7 +48,7 @@ public class PutRigaOrdineResponse extends BasePutResponse {
 				.location(URI.create("riga-ordine/" + rigaOrdine.getId()))
 				.build();
 	}
-	
-	
+
+
 
 }

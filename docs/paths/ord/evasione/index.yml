@@ -535,6 +535,11 @@
         type: string
         format: uuid
         description: L'id della testataEvasione.
+      - in: query
+        name: fAuthorize
+        required: false
+        type: boolean
+        description: Posto a true esegue i controlli specifici per l'autorizzazione (esistenza fattura)
       - in: body
         name: controllaEvasione
         required: true
@@ -578,6 +583,35 @@
         description: Errore generico.
         schema:
           $ref: '#/definitions/ApiError'
+/ord/evasione/conferma/{id}:
+  put:
+    operationId: putEvasioneConfermaById
+    description: Autorizza evasione.
+    produces:
+      - application/json
+    tags:
+      - evasione
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della testataEvasione.
+      - in: body
+        name: testataEvasione
+        required: true
+        schema:
+          $ref: '#/definitions/TestataEvasione'
+    responses:
+      '200':
+        description: testata evasione.
+        schema:
+          $ref: '#/definitions/TestataEvasione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
 /ord/evasione/invia-contabilita/{id}:
   put:
     operationId: putEvasioneInviaContabilitaById
@@ -593,11 +627,215 @@
         type: string
         format: uuid
         description: L'id della testataEvasione.
+      - in: query
+        name: bypassControls
+        required: false
+        type: boolean
+        description: flag per bypassare i controlli sulle altre fatture autorizzate
+      - in: query
+        name: saltaVerificaCongruenzaTotali
+        required: false
+        type: boolean
+        description: flag per bypassare i controlli sulla congruenza dei totali
     responses:
       '200':
         description: testata evasione.
         schema:
           $ref: '#/definitions/TestataEvasione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/evasione/collegate-fattura/{id}:
+  get:
+    operationId: getEvasioniCollegatePerFattura
+    description: Restituisce le testate evasioni collegate alla stessa fattura dell'evasione con l'id passato come parametro
+    produces:
+      - application/json
+    tags:
+      - evasione
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: id testata evasione.
+    responses:
+      '200':
+        description: Le altre evasioni collegate alla fattura legata all'evasione con id passato come parametro.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/TestataEvasione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/evasione/documento-trasporto/ricerca:
+  post:
+    operationId: postRicercaDdtEvasione
+    description: Restituisce i ddt per evasione
+    produces:
+      - application/json
+    tags:
+      - evasione
+    parameters:
+      - $ref: '#/parameters/offsetParam'
+      - $ref: '#/parameters/limitParam'
+      - $ref: '#/parameters/sortParam'
+      - $ref: '#/parameters/directionParam'
+      - in: body
+        name: ricercaDDT
+        required: true
+        schema:
+          $ref: '#/definitions/RicercaDdt'
+    responses:
+      '200':
+        description: ddt registrati.
+        schema:
+          $ref: '#/definitions/PagedResponseDocumentoTrasporto'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/evasione/documento-trasporto/scartato/{id}:
+  get:
+    operationId: getElaborazioneDocumentoTrasportoScartatoById
+    description: recupera i messaggi di errore per i documenti di trasporto scartati
+    produces:
+      - application/json
+    tags:
+      - evasione
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: integer
+        description: il despatchAdviseId del Documento di trasporto
+    responses:
+      '200':
+        description: Le elaborazioni collegate al documento di trasporto
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Elaborazione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/evasione/documento-trasporto/ricerca-by-evasione/{idEvasione}:
+  get:
+    operationId: getDocumentoTrasportoByEvasione
+    description: recupera il documento di trasporto dato l'id della testataEvasione
+    produces:
+      - application/json
+    tags:
+      - evasione
+    parameters:
+      - in: path
+        name: idEvasione
+        required: true
+        type: string
+        format: uuid
+        description: L'id della testataEvasione.
+    responses:
+      '200':
+        description: il documento di trasposrto collegato all'evasione
+        schema:
+            $ref: '#/definitions/DocumentoTrasporto'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/evasione/insertFromDT/{idSettore}:
+  post:
+    operationId: postTestataEvasioneFromDocumentoTrasporto
+    description: Inserisce una testata evasione su sistema a partire dal documento di trasporto.
+    produces:
+      - application/json
+    tags:
+      - evasione
+    parameters:
+      - in: path
+        name: idSettore
+        required: true
+        type: string
+        format: uuid
+        description: L'id del settore.
+      - in: body
+        name: documentoTrasporto
+        required: true
+        schema:
+          $ref: '#/definitions/DocumentoTrasporto'
+    responses:
+      '200':
+        description: la TestataEvasione inserita.
+        schema:
+          $ref: '#/definitions/TestataEvasione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/evasione/riga-evasione/{id}/qta-da-evadere/{quaDaEvadere}/totaliCoerenti/{totaliCoerenti}:
+  put:
+    operationId: putRigaEvasioneById
+    description: Aggiorna la riga evasione.
+    produces:
+      - application/json
+    tags:
+      - evasione
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della rigaEvasione.
+      - in: path
+        name: quaDaEvadere
+        required: true
+        type: number
+        description: indica la coerenza dei totali.
+      - in: path
+        name: totaliCoerenti
+        required: false
+        type: string
+        description: indica la coerenza dei totali.
+      - in: body
+        name: rigaEvasione
+        required: true
+        schema:
+          $ref: '#/definitions/RigaEvasione'
+    responses:
+      '200':
+        description: La rigaEvasione aggiornata.
+        schema:
+          $ref: '#/definitions/RigaEvasione'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/evasione/destinatario-evasione/controllo/{id-destinatario-evasione}:
+  get:
+    operationId: getControlloSettoreAttivoSuDestinatario
+    description: controlla che il settore associato al destinatario sia attivo
+    produces:
+      - application/json
+    tags:
+      - evasione
+    parameters:
+      - in: path
+        name: id-destinatario-evasione
+        required: true
+        type: string
+        format: uuid
+        description: L'id del destinatario evasione.
+    responses:
+      '200':
+        description: controllo stato evasione.
+        schema:
+          $ref: 'string'
       default:
         description: Errore generico.
         schema:

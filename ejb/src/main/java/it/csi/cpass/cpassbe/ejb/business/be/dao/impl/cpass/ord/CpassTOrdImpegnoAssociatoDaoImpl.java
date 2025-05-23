@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -31,15 +31,15 @@ public class CpassTOrdImpegnoAssociatoDaoImpl extends BaseAuditedEntityDaoImpl<U
 
 	@Override
 	public List<CpassTOrdImpegnoAssociato> getImpegniAssociati(UUID testataOrdineId) {
-		StringBuilder jpql = new StringBuilder();
+		final StringBuilder jpql = new StringBuilder();
 		jpql.append(" FROM CpassTOrdImpegnoAssociato ti ");
 		jpql.append(" WHERE ti.cpassTOrdTestataOrdine.testataOrdineId = :testataOrdineId ");
 
-		Map<String, Object> params = new HashMap<>();
+		final Map<String, Object> params = new HashMap<>();
 		params.put("testataOrdineId", testataOrdineId);
 
-		TypedQuery<CpassTOrdImpegnoAssociato> query = composeTypedQuery(jpql, params);
-		List<CpassTOrdImpegnoAssociato> results = query.getResultList();
+		final TypedQuery<CpassTOrdImpegnoAssociato> query = composeTypedQuery(jpql, params);
+		final List<CpassTOrdImpegnoAssociato> results = query.getResultList();
 		if (results.size() > 0) {
 			return results;
 		} else {
@@ -49,14 +49,14 @@ public class CpassTOrdImpegnoAssociatoDaoImpl extends BaseAuditedEntityDaoImpl<U
 
 	@Override
 	public void deleteByTestataOrdine(UUID testataOrdineId) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("DELETE FROM ").append(clazz.getName());
+		final StringBuilder sb = new StringBuilder();
+		sb.append("DELETE FROM CpassTOrdImpegnoAssociato");
 		sb.append(" WHERE cpassTOrdTestataOrdine.testataOrdineId = :testataOrdineId");
-		
-		Map<String, Object> params = new HashMap<>();
+
+		final Map<String, Object> params = new HashMap<>();
 		params.put("testataOrdineId", testataOrdineId);
-		
-		Query query = composeQuery(sb, params);
+
+		final Query query = composeQuery(sb, params);
 		query.executeUpdate();
 	}
 

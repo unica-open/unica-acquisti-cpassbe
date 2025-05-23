@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -17,12 +17,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import org.mapstruct.Mapping;
-
 /**
  * Impegno
  */
-public class Impegno extends BaseDto<UUID> implements Serializable {
+public class Impegno extends BaseAuditedDto<UUID> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -41,7 +39,8 @@ public class Impegno extends BaseDto<UUID> implements Serializable {
 	private String descrizioneCapitolo;
 
 	private Integer annoProvvedimento;
-	private Integer numeroProvvedimento;
+	private String numeroProvvedimento;
+	//private String codiceTipoProvvedimento;
 	private String settoreProvvedimento;
 
 	private Ente ente;
@@ -65,6 +64,8 @@ public class Impegno extends BaseDto<UUID> implements Serializable {
 	private Integer numImpegnoRiaccertato;
 	private BigDecimal disponibilitaLiquidare;
 
+	private String cig;
+//	private String motivazioneAssenzaCig; // quando il servizio siac lo restituirà
 	/**
 	 * @return the annoEsercizio
 	 */
@@ -236,31 +237,24 @@ public class Impegno extends BaseDto<UUID> implements Serializable {
 	/**
 	 * @return the numeroProvvedimento
 	 */
-	public Integer getNumeroProvvedimento() {
+	public String getNumeroProvvedimento() {
 		return numeroProvvedimento;
 	}
 
 	/**
 	 * @param numeroProvvedimento the numeroProvvedimento to set
 	 */
-	public void setNumeroProvvedimento(Integer numeroProvvedimento) {
+	public void setNumeroProvvedimento(String numeroProvvedimento) {
 		this.numeroProvvedimento = numeroProvvedimento;
 	}
 
-	/**
-	 * @return the settoreProvvedimento
-	 */
 	public String getSettoreProvvedimento() {
 		return settoreProvvedimento;
 	}
 
-	/**
-	 * @param settoreProvvedimento the settoreProvvedimento to set
-	 */
 	public void setSettoreProvvedimento(String settoreProvvedimento) {
 		this.settoreProvvedimento = settoreProvvedimento;
 	}
-
 	/**
 	 * @return the ente
 	 */
@@ -443,6 +437,30 @@ public class Impegno extends BaseDto<UUID> implements Serializable {
 		this.disponibilitaLiquidare = disponibilitaLiquidare;
 	}
 
+	/**
+	 * @return the cig
+	 */
+	public String getCig() {
+		return cig;
+	}
+
+	/**
+	 * @param cig the cig to set
+	 */
+	public void setCig(String cig) {
+		this.cig = cig;
+	}
+
+
+/*
+	public String getCodiceTipoProvvedimento() {
+		return codiceTipoProvvedimento;
+	}
+
+	public void setCodiceTipoProvvedimento(String codiceTipoProvvedimento) {
+		this.codiceTipoProvvedimento = codiceTipoProvvedimento;
+	}
+*/
 	/**
 	 * Equals.
 	 *

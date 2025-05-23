@@ -7,3 +7,6 @@ Ufficio:
       type: string
     descrizione:
       type: string
+    ente:
+      type: object
+      $ref: '#/definitions/Ente'

@@ -1,0 +1,23 @@
+/common/chiama-token/{numeroToken}:
+  get:
+    operationId: getTolen
+    description: stress token
+    produces:
+      - application/json
+    tags:
+      - common
+    parameters:
+      - in: path
+        name: numeroToken
+        required: true
+        type: integer
+        description: numeroToken.
+    responses:
+      '200':
+        description: Lo status dell'operazione.
+        schema:
+          type: string
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'

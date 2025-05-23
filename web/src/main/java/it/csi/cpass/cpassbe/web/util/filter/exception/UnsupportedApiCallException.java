@@ -26,7 +26,7 @@ public class UnsupportedApiCallException extends RuntimeException {
 	public UnsupportedApiCallException(String message) {
 		super(message);
 	}
-	
+
 	/**
 	 * Failed authentication, with a message and an underlying exception
 	 * @param message the authentication failure message

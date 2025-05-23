@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -12,35 +12,46 @@ package it.csi.cpass.cpassbe.lib.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * The Class Settore.
- */
+import it.csi.cpass.cpassbe.lib.dto.ord.AooActa;
+
 public class Settore extends BaseAuditedDto<UUID> implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
-	private String cap;
 	private String codice;
 	private String descrizione;
-	private String indirizzo;
-	private String localita;
-	private String provincia;
-	private String telefono;
-	private String numCivico;
-	private String contatto;
-	private String email;
-	private Integer livello;  // aggiungere su yml
 	private List<Settore> listSettore = new ArrayList<>(); // aggiungere su yml
-	private UUID idPadre;  // aggiungere su yml	
+	private Settore settorePadre;  // aggiungere su yml
 	private Boolean utenteSettoreDefault;
 	private Utente rup;
+	private Date dataValiditaFine;
+	private Date dataValiditaInizio;
 	private TipoSettore tipoSettore;
 	private Ente ente;
-	
+	private List<SettoreIndirizzo> settoreIndirizzos = new ArrayList<>(); // aggiungere su yml
+	private List<Ufficio> uffici = new ArrayList<>(); // aggiungere su yml
+	private List<Cdc> cdcs = new ArrayList<>(); // aggiungere su yml
+	private String firma;
+	private List<AooActa> aooActas = new ArrayList<>();
+	private Boolean isCdc;
+	private String validita;
+	private String all;
+
+	private String indirizzoSettorePrincipale;
+	private String numCivicoSettorePrincipale;
+	private String localitaSettorePrincipale;
+	private String provinciaSettorePrincipale;
+	private String capSettorePrincipale;
+	private String contattoSettorePrincipale;
+	private String emailSettorePrincipale;
+	private String telefonoSettorePrincipale;
+	private String sede;
+
 
 	/** Default constructor */
 	public Settore() {}
@@ -51,20 +62,6 @@ public class Settore extends BaseAuditedDto<UUID> implements Serializable {
 	 */
 	public Settore(UUID id) {
 		super(id);
-	}
-
-	/**
-	 * @return the cap
-	 */
-	public String getCap() {
-		return cap;
-	}
-
-	/**
-	 * @param cap the cap to set
-	 */
-	public void setCap(String cap) {
-		this.cap = cap;
 	}
 
 	/**
@@ -93,62 +90,6 @@ public class Settore extends BaseAuditedDto<UUID> implements Serializable {
 	 */
 	public void setDescrizione(String descrizione) {
 		this.descrizione = descrizione;
-	}
-
-	/**
-	 * @return the indirizzo
-	 */
-	public String getIndirizzo() {
-		return indirizzo;
-	}
-
-	/**
-	 * @param indirizzo the indirizzo to set
-	 */
-	public void setIndirizzo(String indirizzo) {
-		this.indirizzo = indirizzo;
-	}
-
-	/**
-	 * @return the localita
-	 */
-	public String getLocalita() {
-		return localita;
-	}
-
-	/**
-	 * @param localita the localita to set
-	 */
-	public void setLocalita(String localita) {
-		this.localita = localita;
-	}
-
-	/**
-	 * @return the provincia
-	 */
-	public String getProvincia() {
-		return provincia;
-	}
-
-	/**
-	 * @param provincia the provincia to set
-	 */
-	public void setProvincia(String provincia) {
-		this.provincia = provincia;
-	}
-
-	/**
-	 * @return the telefono
-	 */
-	public String getTelefono() {
-		return telefono;
-	}
-
-	/**
-	 * @param telefono the telefono to set
-	 */
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
 	}
 
 	/**
@@ -210,49 +151,6 @@ public class Settore extends BaseAuditedDto<UUID> implements Serializable {
 		this.rup = rup;
 	}
 
-	
-	/**
-	 * @return the numCivico
-	 */
-	public String getNumCivico() {
-		return numCivico;
-	}
-
-	/**
-	 * @param numCivico the numCivico to set
-	 */
-	public void setNumCivico(String numCivico) {
-		this.numCivico = numCivico;
-	}
-
-	/**
-	 * @return the contatto
-	 */
-	public String getContatto() {
-		return contatto;
-	}
-
-	/**
-	 * @param contatto the contatto to set
-	 */
-	public void setContatto(String contatto) {
-		this.contatto = contatto;
-	}
-
-	/**
-	 * @return the email
-	 */
-	public String getEmail() {
-		return email;
-	}
-
-	/**
-	 * @param email the email to set
-	 */
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	/**
 	 * @return the listSettore
 	 */
@@ -267,43 +165,294 @@ public class Settore extends BaseAuditedDto<UUID> implements Serializable {
 		this.listSettore = listSettore;
 	}
 
+
 	/**
-	 * @return the livello
+	 * @return the settorePadre
 	 */
-	public Integer getLivello() {
-		return livello;
+	public Settore getSettorePadre() {
+		return settorePadre;
 	}
 
 	/**
-	 * @param livello the livello to set
+	 * @param settorePadre the settorePadre to set
 	 */
-	public void setLivello(Integer livello) {
-		this.livello = livello;
+	public void setSettorePadre(Settore settorePadre) {
+		this.settorePadre = settorePadre;
+	}
+
+
+	/**
+	 * @return the settoreIndirizzos
+	 */
+	public List<SettoreIndirizzo> getSettoreIndirizzos() {
+		return settoreIndirizzos;
 	}
 
 	/**
-	 * @return the idPadre
+	 * @param settoreIndirizzos the settoreIndirizzos to set
 	 */
-	public UUID getIdPadre() {
-		return idPadre;
+	public void setSettoreIndirizzos(List<SettoreIndirizzo> settoreIndirizzos) {
+		this.settoreIndirizzos = settoreIndirizzos;
+	}
+
+
+	/**
+	 * @return the uffici
+	 */
+	public List<Ufficio> getUffici() {
+		return uffici;
 	}
 
 	/**
-	 * @param livello the idPadre to set
+	 * @param uffici the uffici to set
 	 */
-	public void setIdPadre(UUID idPadre) {
-		this.idPadre = idPadre;
+	public void setUffici(List<Ufficio> uffici) {
+		this.uffici = uffici;
 	}
+
+	/**
+	 * @return the firma
+	 */
+	public String getFirma() {
+		return firma;
+	}
+
+	/**
+	 * @param firma the firma to set
+	 */
+	public void setFirma(String firma) {
+		this.firma = firma;
+	}
+
+	/**
+	 * @return the aooActas
+	 */
+	public List<AooActa> getAooActas() {
+		return aooActas;
+	}
+
+	/**
+	 * @param aooActas the aooActas to set
+	 */
+	public void setAooActas(List<AooActa> aooActas) {
+		this.aooActas = aooActas;
+	}
+
+
+	/**
+	 * @return the cdcs
+	 */
+	public List<Cdc> getCdcs() {
+		return cdcs;
+	}
+
+	/**
+	 * @param cdcs the cdcs to set
+	 */
+	public void setCdcs(List<Cdc> cdcs) {
+		this.cdcs = cdcs;
+	}
+
+
+	/**
+	 * @return the isCdc
+	 */
+	public Boolean getIsCdc() {
+		return isCdc;
+	}
+
+	/**
+	 * @param isCdc the isCdc to set
+	 */
+	public void setIsCdc(Boolean isCdc) {
+		this.isCdc = isCdc;
+	}
+
+	/**
+	 * @return the dataValiditaFine
+	 */
+	public Date getDataValiditaFine() {
+		return dataValiditaFine;
+	}
+
+	/**
+	 * @param dataValiditaFine the dataValiditaFine to set
+	 */
+	public void setDataValiditaFine(Date dataValiditaFine) {
+		this.dataValiditaFine = dataValiditaFine;
+	}
+
+	/**
+	 * @return the dataValiditaInizio
+	 */
+	public Date getDataValiditaInizio() {
+		return dataValiditaInizio;
+	}
+
+	/**
+	 * @param dataValiditaInizio the dataValiditaInizio to set
+	 */
+	public void setDataValiditaInizio(Date dataValiditaInizio) {
+		this.dataValiditaInizio = dataValiditaInizio;
+	}
+
+
+	/**
+	 * @return the validita
+	 */
+	public String getValidita() {
+		return validita;
+	}
+
+	/**
+	 * @param validita the validita to set
+	 */
+	public void setValidita(String validita) {
+		this.validita = validita;
+	}
+
+
+
+
+	/**
+	 * @return the indirizzoSettorePrincipale
+	 */
+	public String getIndirizzoSettorePrincipale() {
+		return indirizzoSettorePrincipale;
+	}
+
+	/**
+	 * @param indirizzoSettorePrincipale the indirizzoSettorePrincipale to set
+	 */
+	public void setIndirizzoSettorePrincipale(String indirizzoSettorePrincipale) {
+		this.indirizzoSettorePrincipale = indirizzoSettorePrincipale;
+	}
+
+	/**
+	 * @return the numCivicoSettorePrincipale
+	 */
+	public String getNumCivicoSettorePrincipale() {
+		return numCivicoSettorePrincipale;
+	}
+
+	/**
+	 * @param numCivicoSettorePrincipale the numCivicoSettorePrincipale to set
+	 */
+	public void setNumCivicoSettorePrincipale(String numCivicoSettorePrincipale) {
+		this.numCivicoSettorePrincipale = numCivicoSettorePrincipale;
+	}
+
+	/**
+	 * @return the localitaSettorePrincipale
+	 */
+	public String getLocalitaSettorePrincipale() {
+		return localitaSettorePrincipale;
+	}
+
+	/**
+	 * @param localitaSettorePrincipale the localitaSettorePrincipale to set
+	 */
+	public void setLocalitaSettorePrincipale(String localitaSettorePrincipale) {
+		this.localitaSettorePrincipale = localitaSettorePrincipale;
+	}
+
+	/**
+	 * @return the provinciaSettorePrincipale
+	 */
+	public String getProvinciaSettorePrincipale() {
+		return provinciaSettorePrincipale;
+	}
+
+	/**
+	 * @param provinciaSettorePrincipale the provinciaSettorePrincipale to set
+	 */
+	public void setProvinciaSettorePrincipale(String provinciaSettorePrincipale) {
+		this.provinciaSettorePrincipale = provinciaSettorePrincipale;
+	}
+
+	/**
+	 * @return the capSettorePrincipale
+	 */
+	public String getCapSettorePrincipale() {
+		return capSettorePrincipale;
+	}
+
+	/**
+	 * @param capSettorePrincipale the capSettorePrincipale to set
+	 */
+	public void setCapSettorePrincipale(String capSettorePrincipale) {
+		this.capSettorePrincipale = capSettorePrincipale;
+	}
+
+	/**
+	 * @return the contattoSettorePrincipale
+	 */
+	public String getContattoSettorePrincipale() {
+		return contattoSettorePrincipale;
+	}
+
+	/**
+	 * @param contattoSettorePrincipale the contattoSettorePrincipale to set
+	 */
+	public void setContattoSettorePrincipale(String contattoSettorePrincipale) {
+		this.contattoSettorePrincipale = contattoSettorePrincipale;
+	}
+
+	/**
+	 * @return the emailSettorePrincipale
+	 */
+	public String getEmailSettorePrincipale() {
+		return emailSettorePrincipale;
+	}
+
+	/**
+	 * @param emailSettorePrincipale the emailSettorePrincipale to set
+	 */
+	public void setEmailSettorePrincipale(String emailSettorePrincipale) {
+		this.emailSettorePrincipale = emailSettorePrincipale;
+	}
+
+	/**
+	 * @return the telefonoSettorePrincipale
+	 */
+	public String getTelefonoSettorePrincipale() {
+		return telefonoSettorePrincipale;
+	}
+
+	/**
+	 * @param telefonoSettorePrincipale the telefonoSettorePrincipale to set
+	 */
+	public void setTelefonoSettorePrincipale(String telefonoSettorePrincipale) {
+		this.telefonoSettorePrincipale = telefonoSettorePrincipale;
+	}
+
+	/**
+	 * @return the sede
+	 */
+	public String getSede() {
+		return sede;
+	}
+
+	/**
+	 * @param sede the sede to set
+	 */
+	public void setSede(String sede) {
+		this.sede = sede;
+	}
+
+	public String getAll() {
+		return all;
+	}
+
+	public void setAll(String all) {
+		this.all = all;
+	}
+
 	@Override
 	public String toString() {
 		return new StringBuilder()
-			.append("Settore [cap=").append(cap)
 			.append(", codice=").append(codice)
 			.append(", descrizione=").append(descrizione)
-			.append(", indirizzo=").append(indirizzo)
-			.append(", localita=").append(localita)
-			.append(", provincia=").append(provincia)
-			.append(", telefono=").append(telefono)
 			.append(", utenteSettoreDefault=").append(utenteSettoreDefault)
 			.append(", rup=").append(rup)
 			.append(", tipoSettore=").append(tipoSettore)

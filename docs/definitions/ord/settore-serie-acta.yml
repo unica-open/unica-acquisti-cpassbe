@@ -1,0 +1,14 @@
+SettoreSerieActa:
+  type: object
+  properties:
+    dataFineValidita:
+      type: string
+      format: date-time
+    id:
+      type: string
+      format: uuid
+    serieId:
+      type: string
+    settore:
+      type: object
+      $ref: '#/definitions/Settore'

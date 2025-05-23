@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -24,9 +24,9 @@ import it.csi.cpass.cpassbe.lib.dto.Comunicazione;
  */
 
 public class GetComunicazioneService extends BaseService<GetComunicazioneRequest, GetComunicazioneResponse> {
-	
+
 	private final SystemDad systemDad;
-	
+
 	/**
 	 * Constructor
 	 * @param configurationHelper the helper for the configuration
@@ -39,7 +39,7 @@ public class GetComunicazioneService extends BaseService<GetComunicazioneRequest
 
 	@Override
 	protected void execute() {
-		List<Comunicazione> comunicaziones = systemDad.getComunicaziones();
+		final List<Comunicazione> comunicaziones = systemDad.getComunicaziones();
 		response.setComunicaziones(comunicaziones);
 	}
 

@@ -30,6 +30,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 import it.csi.cpass.cpassbe.lib.dto.pba.Programma;
+import it.csi.cpass.cpassbe.web.util.annotation.LoadSettore;
 
 /**
  * API interface for /pba/programma path
@@ -72,12 +73,12 @@ public interface ProgrammaApi {
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
-	
+
 	/**
 	 * Gets the permessi by Struttura id
-	 * @param settoreId 
-	 * @param anno 
-	 * @param versione 
+	 * @param settoreId
+	 * @param anno
+	 * @param versione
 	 * @param securityContext the security context
 	 * @param httpHeaders the HTTP headers
 	 * @param httpRequest the HTTP request
@@ -97,8 +98,8 @@ public interface ProgrammaApi {
 
 	/**
 	 * Gets the Programmi by Settore id
-	 * @param settoreId 
-	 * @param validi 
+	 * @param settoreId
+	 * @param validi
 	 * @param securityContext the security context
 	 * @param httpHeaders the HTTP headers
 	 * @param httpRequest the HTTP request
@@ -116,8 +117,8 @@ public interface ProgrammaApi {
 
 	/**
 	 * Gets the Programmi by Settore id
-	 * @param settoreId 
-	 * @param statoCode 
+	 * @param settoreId
+	 * @param statoCode
 	 * @param securityContext the security context
 	 * @param httpHeaders the HTTP headers
 	 * @param httpRequest the HTTP request
@@ -133,7 +134,7 @@ public interface ProgrammaApi {
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
 
-	
+
 	/**
 	 * Posts an Programma
 	 * @param programma the programma to save
@@ -143,6 +144,7 @@ public interface ProgrammaApi {
 	 * @return the response
 	 */
 	@POST
+	@LoadSettore
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response postProgramma(
 			Programma programma,
@@ -159,10 +161,12 @@ public interface ProgrammaApi {
 	 * @return the response
 	 */
 	@POST
-	@Path("copia/{soloControlli}")
+	@Path("copia/{soloControlli}/{statoCopia}")
+	@LoadSettore
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response postProgrammaCopia(
 			@PathParam("soloControlli") Boolean soloControlli,
+			@PathParam("statoCopia")    String statoCopia,
 			Programma programma,
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
@@ -179,6 +183,7 @@ public interface ProgrammaApi {
 	 */
 	@PUT
 	@Path("{id}")
+	@LoadSettore
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response putProgrammaById(
 			@PathParam("id") UUID id,
@@ -186,7 +191,7 @@ public interface ProgrammaApi {
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
-	
+
 	/**
 	 * Puts an stato Programma by its id
 	 * @param id the id
@@ -198,6 +203,7 @@ public interface ProgrammaApi {
 	 */
 	@PUT
 	@Path("stato/annullato/{id}")
+	@LoadSettore
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response putProgrammaStatoAnnullatoById(
 			@PathParam("id") UUID id,
@@ -219,6 +225,7 @@ public interface ProgrammaApi {
 	@PUT
 	@Path("stato/confermato/{id}/{ignoreWarning}")
 	@Produces({MediaType.APPLICATION_JSON})
+	@LoadSettore
 	public Response putProgrammaStatoConfermatoById(
 			@PathParam("id") UUID id,
 			@PathParam("ignoreWarning") Boolean ignoreWarning,
@@ -226,7 +233,7 @@ public interface ProgrammaApi {
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
-	
+
 	/**
 	 * Puts an stato Programma by its id
 	 * @param id the id
@@ -238,6 +245,7 @@ public interface ProgrammaApi {
 	 */
 	@PUT
 	@Path("stato/riporta-in-bozza/{id}")
+	@LoadSettore
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response putProgrammaStatoRiportaInBozzaById(
 			@PathParam("id") UUID id,
@@ -245,16 +253,17 @@ public interface ProgrammaApi {
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
-	
+
 	/**
 	 * Gets the Programmi by Settore id
-	 * @param settoreId 
+	 * @param settoreId
 	 * @param statoCode the id statoCode
 	 * @param securityContext the security context
 	 * @param httpHeaders the HTTP headers
 	 * @param httpRequest the HTTP request
 	 * @return the response
 	 */
+	/*
 	@GET
 	@Path("settore/{id-settore}/stato/{stato-code}/recenti")
 	@Produces({MediaType.APPLICATION_JSON})
@@ -264,7 +273,7 @@ public interface ProgrammaApi {
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
-	
+	*/
 	/**
 	 * Gets the Programmi che si possono trasmettere al ministero
 	 * @param securityContext the security context
@@ -275,30 +284,32 @@ public interface ProgrammaApi {
 	@GET
 	@Path("trasmissione-mit")
 	@Produces({MediaType.APPLICATION_JSON})
+	@LoadSettore
 	public Response getProgrammiTrasmissioneMIT(
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
-	
+
 	/**
 	 * Per trasmettere un programma al ministero
-	 * @param idProgramma 
-	 * @param idUtente 
-	 * @param modalita-invio 
+	 * @param idProgramma
+	 * @param idUtente
+	 * @param modalita-invio
 	 * @param securityContext
 	 * @param httpHeaders
 	 * @param httpRequest
 	 * @return the response
 	 */
 	@PUT
-	@Path("trasmetti/{id-programma}/{id-utente}/{modalita-invio}")
+	@Path("trasmetti/{id-utente}/{modalita-invio}")
 	@Produces({MediaType.APPLICATION_JSON})
-	public Response putTrasmettiProgrammaById(
-			@PathParam("id-programma") UUID idProgramma,
+	@LoadSettore
+	public Response putTrasmettiProgramma(
+			Programma programma,
 			@PathParam("id-utente") UUID idUtente,
 			@PathParam("modalita-invio") String modalitaInvio,
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
-	
+
 }

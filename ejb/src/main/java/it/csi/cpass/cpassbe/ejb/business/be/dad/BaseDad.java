@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -10,14 +10,14 @@
  */
 package it.csi.cpass.cpassbe.ejb.business.be.dad;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
-import javax.inject.Inject;
-
-import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.CpassTProgressivoDao;
-import it.csi.cpass.cpassbe.ejb.entity.CpassTProgressivo;
-import it.csi.cpass.cpassbe.ejb.entity.CpassTProgressivoPk;
 import it.csi.cpass.cpassbe.ejb.util.jpa.Page;
+import it.csi.cpass.cpassbe.ejb.util.jpa.PageImpl;
 import it.csi.cpass.cpassbe.lib.dto.BaseDto;
 import it.csi.cpass.cpassbe.lib.util.log.LogUtil;
 import it.csi.cpass.cpassbe.lib.util.pagination.PagedList;
@@ -28,74 +28,25 @@ import it.csi.cpass.cpassbe.lib.util.pagination.PagedListImpl;
  */
 public abstract class BaseDad {
 
-	@Inject private CpassTProgressivoDao cpassTProgressivoDao;
+	//@Inject private CpassTProgressivoDao cpassTProgressivoDao;
 	/** Logger */
 	protected final LogUtil log = new LogUtil(getClass());
-
 	/**
-	 * Flush of the entity manager
+	 * 
+	 * @param <K>
+	 * @param <T>
+	 * @param lista
+	 * @return
 	 */
-	public void flush() {
-		cpassTProgressivoDao.flush();
-	}
-	
-	/**
-	 * Flush And Clear of the entity manager
-	 */
-	public void flushAndClear() {
-		cpassTProgressivoDao.flushAndClear();
-	}
-	
-	
-	/**
-	 * Gets a new progressive value starting from "1"
-	 * @param tipo the type
-	 * @param codice the code
-	 * @return the progressive value
-	 */
-	protected Integer getProgressivo1(String tipo, String codice) {
-		final String methodName = "getProgressivo1";
-		CpassTProgressivoPk id = new CpassTProgressivoPk();
-		id.setProgressivoTipo(tipo);
-		id.setProgressivoCodice(codice);
-		CpassTProgressivo cpassTProgressivo = cpassTProgressivoDao.findOne(id).orElseGet(() -> {
-			CpassTProgressivo ctp = new CpassTProgressivo();
-			ctp.setId(id);
-			ctp.setProgressivoNumero(Integer.valueOf(1));
-			ctp = cpassTProgressivoDao.insert(ctp);
-			return ctp;
-		});
-		cpassTProgressivo.setProgressivoNumero(Integer.valueOf(cpassTProgressivo.getProgressivoNumero().intValue() + 1));
-		cpassTProgressivoDao.saveAndFlush(cpassTProgressivo);
-		Integer numero = cpassTProgressivo.getProgressivoNumero();
-		log.trace(methodName, () -> "Returning CpassTProgressivo for tipo = \"" + tipo + "\", codice = \"" + codice + "\": " + numero);
-		return numero;
-	}
-
-	
-	/**
-	 * Gets a new progressive value
-	 * @param tipo the type
-	 * @param codice the code
-	 * @return the progressive value
-	 */
-	protected Integer getProgressivo(String tipo, String codice) {
-		final String methodName = "getProgressivo";
-		CpassTProgressivoPk id = new CpassTProgressivoPk();
-		id.setProgressivoTipo(tipo);
-		id.setProgressivoCodice(codice);
-		CpassTProgressivo cpassTProgressivo = cpassTProgressivoDao.findOne(id).orElseGet(() -> {
-			CpassTProgressivo ctp = new CpassTProgressivo();
-			ctp.setId(id);
-			ctp.setProgressivoNumero(Integer.valueOf(0));
-			ctp = cpassTProgressivoDao.insert(ctp);
-			return ctp;
-		});
-		cpassTProgressivo.setProgressivoNumero(Integer.valueOf(cpassTProgressivo.getProgressivoNumero().intValue() + 1));
-		cpassTProgressivoDao.saveAndFlush(cpassTProgressivo);
-		Integer numero = cpassTProgressivo.getProgressivoNumero();
-		log.trace(methodName, () -> "Returning CpassTProgressivo for tipo = \"" + tipo + "\", codice = \"" + codice + "\": " + numero);
-		return numero;
+	protected <K,T extends BaseDto<K>> Map<K,T> listToMap(List<T> lista) {
+		final Map<K, T> resultsMap = new HashMap<>();
+		if(lista==null || lista.size()==0) {
+			return resultsMap;
+		}
+		for (final T elemento : lista) {
+			resultsMap.put(elemento.getId(), elemento);
+		}
+		return resultsMap;
 	}
 
 	/**
@@ -109,7 +60,7 @@ public abstract class BaseDad {
 	 * @return the paged list corresponding to the given page
 	 */
 	protected <D, E> PagedList<D> toPagedList(Page<E> elements, int pageNumber, int pageSize, Function<E, D> converter) {
-		PagedList<D> pagedList = new PagedListImpl<>();
+		final PagedList<D> pagedList = new PagedListImpl<>();
 		pagedList.setTotalElements(elements.getTotalElements());
 		if(pageSize > 0) {
 			pagedList.setCurrentPage(pageNumber);
@@ -120,9 +71,9 @@ public abstract class BaseDad {
 		}
 
 		elements.getContent()
-			.stream()
-			.map(converter::apply)
-			.forEach(pagedList::add);
+		.stream()
+		.map(converter::apply)
+		.forEach(pagedList::add);
 		return pagedList;
 	}
 
@@ -134,4 +85,32 @@ public abstract class BaseDad {
 	protected <K> K getId(BaseDto<K> model) {
 		return model != null ? model.getId() : null;
 	}
+
+	/**
+	 * 
+	 * @param <E>
+	 * @param lista
+	 * @param page
+	 * @param size
+	 * @return
+	 */
+	protected <E> Page<E> getPagedResult(List<E> lista, int page, int size) {
+		final int count = lista.size();
+		if(count == 0) {return new PageImpl<>(0);}
+
+		final List<E> listaDipagina = new ArrayList<>();
+		final long firstResult = (long)page * size;
+		final long lastResult  = firstResult + size;
+		for(int i = 0; i<lista.size();i++ ) {
+			if (i>=count) {
+				break;
+			}
+			if (i>firstResult && i<=lastResult) {
+				final E el =lista.get(i);
+				listaDipagina.add(el);
+			}
+		}
+		return new PageImpl<>(count, listaDipagina);
+	}
+
 }

@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -11,6 +11,7 @@
 package it.csi.cpass.cpassbe.ejb.business.be.service.impl.common;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -27,6 +28,7 @@ import it.csi.cpass.cpassbe.lib.external.FornitoreHelper;
 import it.csi.cpass.cpassbe.lib.external.itf.ExternalServiceResolveWrapper;
 import it.csi.cpass.cpassbe.lib.external.res.ExternalServiceResponseWrapper;
 import it.csi.cpass.cpassbe.lib.util.pagination.PagedListImpl;
+import it.csi.cpass.cpassbe.lib.util.threadlocal.CpassThreadLocalContainer;
 
 /**
  * Retrieves an Fornitores
@@ -37,7 +39,7 @@ public class PostRicercaFornitoreService extends BaseService<PostRicercaFornitor
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param configurationHelper  the configuration helper
 	 * @param externalHelperLookup the external helper lookup
 	 */
@@ -48,46 +50,35 @@ public class PostRicercaFornitoreService extends BaseService<PostRicercaFornitor
 
 	@Override
 	protected void execute() {
-		FiltroFornitore filtroFornitore = new FiltroFornitore();
+		final UUID enteId = CpassThreadLocalContainer.SETTORE_UTENTE.get().getEnte().getId();
+		final FiltroFornitore filtroFornitore = new FiltroFornitore();
 		filtroFornitore.setFornitore(request.getFornitore());
 		filtroFornitore.setStatoFornitore(IntegrationConstants.SOGGETTO_STATO_VALIDO);
-
-		ExternalServiceResolveWrapper<FornitoreHelper> handler = externalHelperLookup.lookup(FornitoreHelper.class);
-		List<Fornitore> fornitori = invokeExternalService(handler, () -> handler.getInstance().getFornitori(handler.getParams(), filtroFornitore));
-
-		for (Fornitore fornitore : fornitori) {
-			String indirizzoCompleto = "";
-			if (fornitore.getSedime() != null) {
-				indirizzoCompleto += fornitore.getSedime() + " ";
+		//try {
+		final ExternalServiceResolveWrapper<FornitoreHelper> handler = externalHelperLookup.lookup(FornitoreHelper.class,enteId);
+		final List<Fornitore> fornitori = invokeExternalService(handler, () -> handler.getInstance().getFornitori(handler.getParams(), filtroFornitore));
+		/*
+			for (Fornitore fornitore : fornitori) {
+				String indirizzoConSedime = "";
+				if (fornitore.getSedime() != null) {
+					indirizzoConSedime += fornitore.getSedime() + " ";
+				}
+				if (fornitore.getIndirizzo() != null) {
+					indirizzoConSedime += fornitore.getIndirizzo() + " ";
+				}
+				fornitore.setIndirizzo(indirizzoConSedime.trim());
 			}
-			if (fornitore.getIndirizzo() != null) {
-				indirizzoCompleto += fornitore.getIndirizzo() + " ";
-			}
-			if (fornitore.getNumeroCivico() != null) {
-				indirizzoCompleto += fornitore.getNumeroCivico();
-			}
-			fornitore.setIndirizzo(indirizzoCompleto.trim());
-		}
-
+		 */
 		response.setFornitori(new PagedListImpl<>(fornitori));
 	}
 
 	@Override
 	protected <H, E> E invokeExternalService(ExternalServiceResolveWrapper<H> handler, Supplier<ExternalServiceResponseWrapper<E>> supplier) {
-		ExternalServiceResponseWrapper<E> externalResponse = supplier.get();
-
-		checkBusinessCondition(externalResponse.isSuccess(),
-				() -> MsgCpassOrd.ORDORDE0002.getError("errori", externalResponse.getErrors().stream().collect(Collectors.joining(", "))));
-
-		List<E> fornitori = (List<E>) externalResponse.getResponse();
-		if (fornitori.size() == 0) {
-//			final String errori;
-//			if (externalResponse.getMessages() != null && externalResponse.getMessages().size() > 0) {
-//				errori = externalResponse.getMessages().stream().collect(Collectors.joining(", "));
-//			}
-			checkBusinessCondition(false, () -> MsgCpassOrd.ORDORDE0074.getError());
-		}
-
+		final ExternalServiceResponseWrapper<E> externalResponse = supplier.get();
+		checkBusinessCondition(externalResponse.isSuccess(),() -> MsgCpassOrd.ORDORDE0002.getError("errori", externalResponse.getErrors().stream().collect(Collectors.joining(", "))));
+		final List<E> fornitori = (List<E>) externalResponse.getResponse();
+		//sostituito da
+		checkBusinessCondition(fornitori.size()>0, () -> MsgCpassOrd.ORDORDE0074.getError());
 		return externalResponse.getResponse();
 	}
 

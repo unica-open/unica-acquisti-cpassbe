@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -18,6 +18,7 @@ import it.csi.cpass.cpassbe.lib.dto.BaseAuditedDto;
 import it.csi.cpass.cpassbe.lib.dto.Ente;
 import it.csi.cpass.cpassbe.lib.dto.Stato;
 import it.csi.cpass.cpassbe.lib.dto.Utente;
+import it.csi.cpass.cpassbe.lib.util.convert.DateConvertHelper;
 
 /**
  * The Class Programma.
@@ -30,15 +31,15 @@ public class Programma extends BaseAuditedDto<UUID> implements Serializable {
 	/** The anno. */
 	private Integer anno;
 	/** The descrizione. */
-	private String descrizione;	
-	/** The utente referente. */	
+	private String descrizione;
+	/** The utente referente. */
 	private Utente utenteReferente;
 	/** The ente. */
 	private Ente ente;
 	/** The stato. */
 	private Stato stato;
 	/** The numeroProvvedimento. */
-	private Integer numeroProvvedimento;
+	private String numeroProvvedimento;
 	/** The descrizioneProvvedimento. */
 	private String descrizioneProvvedimento;
 	/** The dataProvvedimento. */
@@ -55,6 +56,13 @@ public class Programma extends BaseAuditedDto<UUID> implements Serializable {
 	private Long idRicevutoMit;
 	/** The dataApprovazione. */
 	private Date dataApprovazione;
+	private Date dataTrasmissioneMit;
+
+	private Boolean isUltimoBiennio;
+	//private String descrizioneComposta;
+	private Integer annoFineProgramma;
+	//private Integer durataProgramma;
+
 
 	/** Default constructor */
 	public Programma() {}
@@ -99,7 +107,7 @@ public class Programma extends BaseAuditedDto<UUID> implements Serializable {
 		this.ente = ente;
 	}
 
-	
+
 	/**
 	 * @return the stato
 	 */
@@ -114,18 +122,18 @@ public class Programma extends BaseAuditedDto<UUID> implements Serializable {
 		this.stato = stato;
 	}
 
-	
+
 	/**
 	 * @return the numeroProvvedimento
 	 */
-	public Integer getNumeroProvvedimento() {
+	public String getNumeroProvvedimento() {
 		return numeroProvvedimento;
 	}
 
 	/**
 	 * @param numeroProvvedimento the numeroProvvedimento to set
 	 */
-	public void setNumeroProvvedimento(Integer numeroProvvedimento) {
+	public void setNumeroProvvedimento(String numeroProvvedimento) {
 		this.numeroProvvedimento = numeroProvvedimento;
 	}
 
@@ -185,7 +193,7 @@ public class Programma extends BaseAuditedDto<UUID> implements Serializable {
 		this.url = url;
 	}
 
-	
+
 	/**
 	 * @return the utenteReferente
 	 */
@@ -200,7 +208,7 @@ public class Programma extends BaseAuditedDto<UUID> implements Serializable {
 		this.utenteReferente = utenteReferente;
 	}
 
-	
+
 	/**
 	 * @return the descrizione
 	 */
@@ -215,7 +223,7 @@ public class Programma extends BaseAuditedDto<UUID> implements Serializable {
 		this.descrizione = descrizione;
 	}
 
-	
+
 	/**
 	 * @return the versione
 	 */
@@ -244,7 +252,7 @@ public class Programma extends BaseAuditedDto<UUID> implements Serializable {
 		this.codiceMit = codiceMit;
 	}
 
-	
+
 	/**
 	 * @return the idRicevutoMit
 	 */
@@ -259,7 +267,7 @@ public class Programma extends BaseAuditedDto<UUID> implements Serializable {
 		this.idRicevutoMit = idRicevutoMit;
 	}
 
-	
+
 	/**
 	 * @return the dataApprovazione
 	 */
@@ -274,23 +282,102 @@ public class Programma extends BaseAuditedDto<UUID> implements Serializable {
 		this.dataApprovazione = dataApprovazione;
 	}
 
+
+	/**
+	 * @return the dataTrasmissioneMit
+	 */
+	public Date getDataTrasmissioneMit() {
+		return dataTrasmissioneMit;
+	}
+
+	/**
+	 * @param dataTrasmissioneMit the dataTrasmissioneMit to set
+	 */
+	public void setDataTrasmissioneMit(Date dataTrasmissioneMit) {
+		this.dataTrasmissioneMit = dataTrasmissioneMit;
+	}
+
+	/**
+	 * @return the isUltimoBiennio
+	 */
+	public Boolean getIsUltimoBiennio() {
+		return isUltimoBiennio;
+	}
+
+	/**
+	 * @param isUltimoBiennio the isUltimoBiennio to set
+	 */
+	public void setIsUltimoBiennio(Boolean isUltimoBiennio) {
+		this.isUltimoBiennio = isUltimoBiennio;
+	}
+
+
+
+	/**
+	 * @return the annoProgrammaFine
+	 */
+	public Integer getAnnoFineProgramma() {
+		return annoFineProgramma;
+	}
+
+	/**
+	 * @param annoProgrammaFine the annoProgrammaFine to set
+	 */
+	public void setAnnoFineProgramma(Integer annoFineProgramma) {
+		this.annoFineProgramma = annoFineProgramma;
+	}
+
+	/**
+	 * @return the durataProgramma
+	 */
+	public Integer getDurataProgramma() {
+		return annoFineProgramma - anno;
+	}
+
+	/**
+	 * @param durataProgramma the durataProgramma to set
+	 */
+	/*public void setDurataProgramma(Integer durataProgramma) {
+		this.durataProgramma = durataProgramma;
+	}*/
+
+	/**
+	 * @return the descrizioneComposta
+	 */
+
+	public String getDescrizioneComposta() {
+
+		String descrizioneComposta = "";
+		String trasmissione = "";
+		if (stato.getCodice().equals("TRASMESSO")) {
+			trasmissione = " il " + DateConvertHelper.formatDate(getDataTrasmissioneMit(), "dd/MM/yyyy");
+		}
+		if (versione == 1) {
+			descrizioneComposta = anno+"-"+ annoFineProgramma + " - " + stato.getCodice();
+		} else {
+			descrizioneComposta = anno+"-"+ annoFineProgramma + " agg. "+ (versione-1) +" - " + stato.getCodice();
+		}
+		return descrizioneComposta + trasmissione;
+	}
+
 	@Override
 	public String toString() {
 		return new StringBuilder()
 			.append("Programma [anno=").append(anno)
 			.append(", utenteReferente=").append(utenteReferente)
 			.append(", ente=").append(ente)
-			.append(", stato=").append(stato)		
+			.append(", stato=").append(stato)
 			.append(", numeroProvvedimento=").append(numeroProvvedimento)
 			.append(", descrizioneProvvedimento=").append(descrizioneProvvedimento)
 			.append(", dataProvvedimento=").append(dataProvvedimento)
 			.append(", dataPubblicazione=").append(dataPubblicazione)
-			.append(", url=").append(url)			
-			.append(", descrizione=").append(descrizione)			
-			.append(", versione=").append(versione)	
-			.append(", codiceMit=").append(codiceMit)	
-			.append(", idRicevutoMit=").append(idRicevutoMit)	
-			.append(", dataApprovazione=").append(dataApprovazione)	
+			.append(", url=").append(url)
+			.append(", descrizione=").append(descrizione)
+			.append(", versione=").append(versione)
+			.append(", codiceMit=").append(codiceMit)
+			.append(", idRicevutoMit=").append(idRicevutoMit)
+			.append(", dataApprovazione=").append(dataApprovazione)
+			.append(", dataTrasmissioneMit=").append(dataTrasmissioneMit)
 			.append(innerToString())
 			.append("]")
 			.toString();

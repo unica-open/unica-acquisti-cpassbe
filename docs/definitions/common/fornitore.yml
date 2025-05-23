@@ -22,6 +22,8 @@ Fornitore:
       type: string
     indirizzo:
       type: string
+    indirizzoCompleto:
+      type: string
     numeroCivico:
       type: string
     cap:
@@ -38,4 +40,22 @@ Fornitore:
         $ref: '#/definitions/ListinoFornitore'
     selected:
       type: boolean
+    dataCreazione:
+      type: string
+      format: date-time
+    utenteCreazione:
+      type: string
+    dataModifica:
+      type: string
+      format: date-time
+    utenteModifica:
+      type: string
+    dataCancellazione:
+      type: string
+      format: date-time
+    utenteCancellazione:
+      type: string
+    optlock:
+      type: string
+      format: uuid
       

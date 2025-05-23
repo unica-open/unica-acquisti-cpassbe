@@ -1,16 +1,10 @@
-//
-// Questo file è stato generato dall'architettura JavaTM per XML Binding (JAXB) Reference Implementation, v2.3.2 
-// Vedere <a href="https://javaee.github.io/jaxb-v2/">https://javaee.github.io/jaxb-v2/</a> 
-// Qualsiasi modifica a questo file andrà persa durante la ricompilazione dello schema di origine. 
-// Generato il: 2020.05.26 alle 03:23:29 PM CEST 
-//
-
 
 package it.eng.auriga.repository2.model.outputdatiud;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -33,7 +27,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
  *         &lt;element name="IdUD" type="{http://www.w3.org/2001/XMLSchema}integer"/&gt;
- *         &lt;element name="IdDocPrimario" type="{http://www.w3.org/2001/XMLSchema}integer"/&gt;
  *         &lt;element name="NomeUD"&gt;
  *           &lt;complexType&gt;
  *             &lt;simpleContent&gt;
@@ -200,7 +193,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "idUD",
-    "idDocPrimario",
     "nomeUD",
     "registrazioneData",
     "oggettoUD",
@@ -244,8 +236,6 @@ public class DatiUD {
 
     @XmlElement(name = "IdUD", required = true)
     protected BigInteger idUD;
-    @XmlElement(name = "IdDocPrimario", required = true)
-    protected BigInteger idDocPrimario;
     @XmlElement(name = "NomeUD", required = true)
     protected DatiUD.NomeUD nomeUD;
     @XmlElement(name = "RegistrazioneData", required = true)
@@ -346,30 +336,6 @@ public class DatiUD {
      */
     public void setIdUD(BigInteger value) {
         this.idUD = value;
-    }
-
-    /**
-     * Recupera il valore della proprietà idDocPrimario.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getIdDocPrimario() {
-        return idDocPrimario;
-    }
-
-    /**
-     * Imposta il valore della proprietà idDocPrimario.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setIdDocPrimario(BigInteger value) {
-        this.idDocPrimario = value;
     }
 
     /**

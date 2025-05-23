@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -16,7 +16,6 @@ import java.util.List;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 import it.csi.cpass.cpassbe.ejb.entity.CpassTMetadatiFunzione;
 import it.csi.cpass.cpassbe.lib.dto.MetadatiFunzione;
@@ -29,7 +28,7 @@ import it.csi.cpass.cpassbe.lib.mapper.BaseMapperInterface;
 public interface MetadatiFunzioneMapper extends BaseMapperInterface<MetadatiFunzione, CpassTMetadatiFunzione> {
 
 	@Override
-	
+
 	MetadatiFunzione toModel(CpassTMetadatiFunzione entity);
 
 	@Override

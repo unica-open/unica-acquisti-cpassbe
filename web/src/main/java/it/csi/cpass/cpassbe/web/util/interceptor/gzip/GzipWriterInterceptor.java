@@ -46,7 +46,7 @@ public class GzipWriterInterceptor implements WriterInterceptor {
 
 		MultivaluedMap<String, String> requestHeaders = httpHeaders.getRequestHeaders();
 		List<String> acceptEncoding = requestHeaders.getOrDefault(HttpHeaders.ACCEPT_ENCODING, new ArrayList<>());
-		
+
 		// Compress if client accepts GZIP encoding
 		OutputStream os = null;
 		try {

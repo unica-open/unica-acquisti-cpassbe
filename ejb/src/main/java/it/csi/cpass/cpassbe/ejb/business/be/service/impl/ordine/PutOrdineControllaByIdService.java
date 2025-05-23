@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -18,41 +18,43 @@ import it.csi.cpass.cpassbe.ejb.business.be.dad.RigaOrdineDad;
 import it.csi.cpass.cpassbe.ejb.business.be.dad.SettoreDad;
 import it.csi.cpass.cpassbe.ejb.business.be.dad.SystemDad;
 import it.csi.cpass.cpassbe.ejb.business.be.dad.TestataOrdineDad;
-import it.csi.cpass.cpassbe.ejb.business.be.service.UtilityVerificheOrdine;
 import it.csi.cpass.cpassbe.ejb.business.be.service.request.ordine.PutOrdineControllaByIdRequest;
 import it.csi.cpass.cpassbe.ejb.business.be.service.response.ordine.PutOrdineControllaByIdResponse;
+import it.csi.cpass.cpassbe.ejb.business.be.utility.UtilityVerificheOrdine;
 import it.csi.cpass.cpassbe.ejb.external.ExternalHelperLookup;
-import it.csi.cpass.cpassbe.ejb.util.CpassThreadLocalContainer;
 import it.csi.cpass.cpassbe.ejb.util.conf.ConfigurationHelper;
 import it.csi.cpass.cpassbe.lib.dto.ApiError;
 import it.csi.cpass.cpassbe.lib.dto.Ente;
 import it.csi.cpass.cpassbe.lib.dto.Settore;
+import it.csi.cpass.cpassbe.lib.dto.error.CoreError;
 import it.csi.cpass.cpassbe.lib.dto.ord.TestataOrdine;
+import it.csi.cpass.cpassbe.lib.util.threadlocal.CpassThreadLocalContainer;
 
-public class PutOrdineControllaByIdService extends BaseTestataOrdineService<PutOrdineControllaByIdRequest, PutOrdineControllaByIdResponse> {
+public class PutOrdineControllaByIdService extends BaseOrdineService<PutOrdineControllaByIdRequest, PutOrdineControllaByIdResponse> {
 
 	private final ExternalHelperLookup externalHelperLookup;
-	private final SettoreDad settoreDad;
 	private final SystemDad systemDad;
 	private final RigaOrdineDad rigaOrdineDad;
 	private final ImpegnoDad impegnoDad;
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param configurationHelper
+	 * @param externalHelperLookup
 	 * @param testataOrdineDad
+	 * @param rigaOrdineDad
 	 * @param impegnoDad
-	 * @param decodificaDad
+	 * @param systemDad
+	 * @param settoreDad
 	 */
 	public PutOrdineControllaByIdService(ConfigurationHelper configurationHelper, ExternalHelperLookup externalHelperLookup, TestataOrdineDad testataOrdineDad,
 			RigaOrdineDad rigaOrdineDad, ImpegnoDad impegnoDad, SystemDad systemDad, SettoreDad settoreDad) {
-		super(configurationHelper, testataOrdineDad);
+		super(configurationHelper, testataOrdineDad, settoreDad);
 		this.externalHelperLookup = externalHelperLookup;
 		this.rigaOrdineDad = rigaOrdineDad;
 		this.impegnoDad = impegnoDad;
 		this.systemDad = systemDad;
-		this.settoreDad = settoreDad;
 	}
 
 	@Override
@@ -61,31 +63,30 @@ public class PutOrdineControllaByIdService extends BaseTestataOrdineService<PutO
 
 	@Override
 	protected void execute() {
-		TestataOrdine testataOrdine = testataOrdineDad.getTestataOrdineModel(request.getId());
-		// TestataOrdine testataOrdine = request.getTestataOrdine(); // l'oggetto non è completo
-		List<ApiError> apiErrors = new ArrayList<ApiError>();
-		
-		Settore settoreCorrente = CpassThreadLocalContainer.SETTORE_UTENTE.get();
-		Ente ente = settoreCorrente.getEnte();
+		final Settore settoreCorrente = CpassThreadLocalContainer.SETTORE_UTENTE.get();
+		final Ente ente = settoreCorrente.getEnte();
+		final TestataOrdine testataOrdine = testataOrdineDad.getTestataOrdineModel(request.getId(),ente.getId());	
+		verificheDiControllo(ente, testataOrdine);
+		response.setTestataOrdine(testataOrdine);
+	}
 
-		// Verifiche di completezza
-		apiErrors.addAll(UtilityVerificheOrdine.checkCompletezza(testataOrdine, rigaOrdineDad, impegnoDad));
-
-		// Verifiche di validità
-		apiErrors.addAll(UtilityVerificheOrdine.checkValidita(testataOrdine, externalHelperLookup, settoreDad, rigaOrdineDad, impegnoDad));
+	private void verificheDiControllo(final Ente ente, final TestataOrdine testataOrdine) {
+		final List<ApiError> apiErrors = new ArrayList<>(UtilityVerificheOrdine.checkCompletezza(testataOrdine, rigaOrdineDad, impegnoDad,settoreDad));
+		try {
+			// Verifiche di validità
+			apiErrors.addAll(UtilityVerificheOrdine.checkValidita(testataOrdine, externalHelperLookup, settoreDad, rigaOrdineDad, impegnoDad,ente.getId()));
+		}catch(final Exception e) {
+			final ApiError errore = CoreError.GENERIC_ERROR.getError("error", "Collegamento al sistema contabile non funzionante contattare l'assistenza");
+			generaException( errore );
+		}
 
 		// Verifiche di congruenza
 		apiErrors.addAll(UtilityVerificheOrdine.checkCongruenza(testataOrdine));
-
 		// Verifiche di consistenza
 		apiErrors.addAll(UtilityVerificheOrdine.checkConsistenza(testataOrdine, rigaOrdineDad, impegnoDad));
-
 		// Verifiche sui totali riga
 		apiErrors.addAll(UtilityVerificheOrdine.checkTotaliRiga(testataOrdine, systemDad, rigaOrdineDad, ente.getId()));
-
 		separaMessaggiErrorePerTipo(apiErrors);
-		
-		response.setTestataOrdine(testataOrdine);
 	}
 
 }

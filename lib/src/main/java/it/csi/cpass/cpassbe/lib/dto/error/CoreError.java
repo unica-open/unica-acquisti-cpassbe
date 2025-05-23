@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -36,8 +36,12 @@ public enum CoreError implements ErrorCreator {
 	SYSSYSE0009("SYS-SYS-E-0009", "The following errors were found: {errori}"),
 	/** Elaboration wrapper error */
 	SYSSYSE0010("SYS-SYS-E-0010", "The following errors were found during elaboration {elaborazione_id}"),
+	/** Elaboration wrapper error */
+	SYSSYSE0011("SYS-SYS-E-0011", "Codice fiscale non valido"),
+	/** Elaboration wrapper error */
+	SYSSYSE0016("SYS-SYS-E-0016", "Servizio esterno {servizio} non raggiungibile"),
 	;
-	
+
 	private final String code;
 	private final String type;
 	private final String group;
@@ -71,7 +75,7 @@ public enum CoreError implements ErrorCreator {
 	public String getCode() {
 		return code;
 	}
-	
+
 	@Override
 	public String getType() {
 		return type;

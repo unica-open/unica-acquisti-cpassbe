@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -25,6 +25,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import it.csi.cpass.cpassbe.ejb.entity.CpassDAliquoteIva;
+import it.csi.cpass.cpassbe.ejb.entity.CpassDOggettiSpesa;
+import it.csi.cpass.cpassbe.ejb.entity.CpassDStato;
 import it.csi.cpass.cpassbe.ejb.entity.CpassDUnitaMisura;
 import it.csi.cpass.cpassbe.ejb.entity.CpassTListinoFornitore;
 import it.csi.cpass.cpassbe.ejb.entity.base.BaseAuditedEntity;
@@ -33,7 +35,7 @@ import it.csi.cpass.cpassbe.lib.util.uuid.UuidUtils;
 
 /**
  * The persistent class for the cpass_t_ord_riga_ordine database table.
- * 
+ *
  */
 @Entity
 @Table(name="cpass_t_ord_riga_ordine")
@@ -42,7 +44,7 @@ public class CpassTOrdRigaOrdine extends BaseAuditedEntity<UUID> implements Seri
 	private static final long serialVersionUID = 1L;
 	/** The UUID namespace */
 	public static final UUID NAMESPACE = UuidUtils.generateUUIDv5FromNamespaceAndString(UuidUtils.NAMESPACE_OID, "cpass_t_ord_riga_ordine");
-	
+
 	@Id
 	@Column(name="riga_ordine_id")
 	private UUID rigaOrdineId;
@@ -73,7 +75,7 @@ public class CpassTOrdRigaOrdine extends BaseAuditedEntity<UUID> implements Seri
 
 	@Column(name="prezzo_unitario")
 	private BigDecimal prezzoUnitario;
-	
+
 	private String note;
 
 	private Integer progressivo;
@@ -94,10 +96,10 @@ public class CpassTOrdRigaOrdine extends BaseAuditedEntity<UUID> implements Seri
 	@JoinColumn(name="oggetti_spesa_id")
 	private CpassDOggettiSpesa cpassDOggettiSpesa;
 
-	//bi-directional many-to-one association to CpassDStatoElOrdine
+	//bi-directional many-to-one association to CpassDStato
 	@ManyToOne
-	@JoinColumn(name="stato_el_ordine_id")
-	private CpassDStatoElOrdine cpassDStatoElOrdine;
+	@JoinColumn(name="stato_id")
+	private CpassDStato cpassDStato;
 
 	//bi-directional many-to-one association to CpassDUnitaMisura
 	@ManyToOne
@@ -258,16 +260,22 @@ public class CpassTOrdRigaOrdine extends BaseAuditedEntity<UUID> implements Seri
 		this.cpassDOggettiSpesa = cpassDOggettiSpesa;
 	}
 
-	public CpassDStatoElOrdine getCpassDStatoElOrdine() {
-		return this.cpassDStatoElOrdine;
-	}
-
-	public void setCpassDStatoElOrdine(CpassDStatoElOrdine cpassDStatoElOrdine) {
-		this.cpassDStatoElOrdine = cpassDStatoElOrdine;
-	}
-
 	public CpassDUnitaMisura getCpassDUnitaMisura() {
 		return this.cpassDUnitaMisura;
+	}
+
+	/**
+	 * @return the cpassDStato
+	 */
+	public CpassDStato getCpassDStato() {
+		return cpassDStato;
+	}
+
+	/**
+	 * @param cpassDStato the cpassDStato to set
+	 */
+	public void setCpassDStato(CpassDStato cpassDStato) {
+		this.cpassDStato = cpassDStato;
 	}
 
 	public void setCpassDUnitaMisura(CpassDUnitaMisura cpassDUnitaMisura) {
@@ -282,7 +290,7 @@ public class CpassTOrdRigaOrdine extends BaseAuditedEntity<UUID> implements Seri
 		this.cpassTOrdDestinatario = cpassTOrdDestinatario;
 	}
 
-	
+
 	/**
 	 * @return the cpassTListinoFornitore
 	 */

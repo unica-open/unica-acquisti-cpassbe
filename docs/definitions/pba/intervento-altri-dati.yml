@@ -33,6 +33,8 @@ InterventoAltriDati:
       type: number
     ivaSecondoAnno:
       type: number
+    ivaTerzoAnno:
+      type: number
     normativaRiferimento:
       type: string
     note:
@@ -43,9 +45,14 @@ InterventoAltriDati:
       type: string
     speseSostenute:
       type: number
+    fondiPnrr:
+      type: boolean      
     tipoAcquistoMatRic:
       type: object
       $ref: '#/definitions/TipoAcquisto'
     tipoAcquistoVerdi:
       type: object
       $ref: '#/definitions/TipoAcquisto'
+    motiviEsclusioneCig:
+      type: object
+      $ref: '#/definitions/MotiviEsclusioneCig'

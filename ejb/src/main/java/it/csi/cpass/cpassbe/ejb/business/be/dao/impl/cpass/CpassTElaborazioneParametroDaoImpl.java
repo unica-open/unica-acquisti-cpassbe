@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -26,19 +26,19 @@ import it.csi.cpass.cpassbe.ejb.entity.CpassTElaborazioneParametro;
 @ApplicationScoped
 public class CpassTElaborazioneParametroDaoImpl extends BaseEntityDaoImpl<Integer, CpassTElaborazioneParametro> implements CpassTElaborazioneParametroDao {
 	// Nothing to add
-	
+
 	@Override
 	public CpassTElaborazioneParametro getParametro(Integer elaborazioneId, String chiave) {
-		Map<String, Object> params = new HashMap<>();
-		StringBuilder jpql = new StringBuilder().append("FROM CpassTElaborazioneParametro tp ");
+		final Map<String, Object> params = new HashMap<>();
+		final StringBuilder jpql = new StringBuilder().append("FROM CpassTElaborazioneParametro tp ");
 		jpql.append(" WHERE tp.cpassTElaborazione.elaborazioneId = :elaborazioneId ");
 		jpql.append(" AND tp.elaborazioneParametroChiave = :chiave ");
-		
+
 		params.put("elaborazioneId", elaborazioneId);
 		params.put("chiave", chiave);
 
-		TypedQuery<CpassTElaborazioneParametro> query = composeTypedQuery(jpql, params);
+		final TypedQuery<CpassTElaborazioneParametro> query = composeTypedQuery(jpql, params);
 		return query.getResultList().get(0);
 	}
-	
+
 }

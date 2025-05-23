@@ -25,6 +25,11 @@
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
+      <artifactId>cpassbe-exposed</artifactId>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
       <artifactId>cpassbe-ejb</artifactId>
       <type>ejb</type>
     </dependency>
@@ -40,12 +45,27 @@
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
+      <artifactId>cpassbe-integ-acta</artifactId>
+      <type>ejb</type>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
       <artifactId>cpassbe-integ-stilo</artifactId>
       <type>ejb</type>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
+      <artifactId>cpassbe-integ-hr</artifactId>
+      <type>ejb</type>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
       <artifactId>cpassbe-integ-notier</artifactId>
+      <type>ejb</type>
+    </dependency>
+	<dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>cpassbe-integ-sicraweb</artifactId>
       <type>ejb</type>
     </dependency>
   </dependencies>
@@ -82,6 +102,11 @@
               <artifactId>cpassbe-angular</artifactId>
               <contextRoot>${module.ear.context-root.angular}</contextRoot>
             </webModule>
+            <webModule>
+              <groupId>it.csi.cpass</groupId>
+              <artifactId>cpassbe-exposed</artifactId>
+              <contextRoot>${module.ear.context-root.exposed}</contextRoot>
+            </webModule>
             <jarModule>
               <groupId>it.csi.cpass</groupId>
               <artifactId>cpassbe-lib</artifactId>
@@ -89,6 +114,14 @@
             <ejbModule>
               <groupId>it.csi.cpass</groupId>
               <artifactId>cpassbe-integ-siac</artifactId>
+            </ejbModule>
+            <ejbModule>
+              <groupId>it.csi.cpass</groupId>
+              <artifactId>cpassbe-integ-sicraweb</artifactId>
+            </ejbModule>
+            <ejbModule>
+              <groupId>it.csi.cpass</groupId>
+              <artifactId>cpassbe-integ-acta</artifactId>
             </ejbModule>
             <ejbModule>
               <groupId>it.csi.cpass</groupId>

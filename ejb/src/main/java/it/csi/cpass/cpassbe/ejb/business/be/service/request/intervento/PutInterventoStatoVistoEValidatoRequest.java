@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -21,9 +21,9 @@ import it.csi.cpass.cpassbe.lib.dto.pba.Intervento;
  */
 public class PutInterventoStatoVistoEValidatoRequest implements BaseRequest {
 
-//	private final Intervento intervento;
+	//	private final Intervento intervento;
 	private List<Intervento> interventi = new ArrayList<>();
-	
+
 	/**
 	 * Constructor
 	 * @param intervento the intervento
@@ -38,5 +38,5 @@ public class PutInterventoStatoVistoEValidatoRequest implements BaseRequest {
 	public List<Intervento> getInterventi() {
 		return interventi;
 	}
-	
+
 }

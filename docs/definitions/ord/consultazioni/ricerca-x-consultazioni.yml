@@ -1,0 +1,17 @@
+RicercaXConsultazioni:
+  type: object
+  properties:
+    tipoConsultazione:
+      type: string
+    tipoVista:
+      type: string
+    annoEsercizio:
+      type: integer
+    provvedimento:
+      type: object
+      $ref: '#/definitions/Provvedimento'
+    numeroProcedura:
+      type: string
+    tipoProceduraOrd:
+      type: object
+      $ref: '#/definitions/TipoProceduraOrd'

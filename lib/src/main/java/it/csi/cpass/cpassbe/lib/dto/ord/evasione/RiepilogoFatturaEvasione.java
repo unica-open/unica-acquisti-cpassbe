@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -15,8 +15,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 
-import javax.persistence.Column;
-
 import it.csi.cpass.cpassbe.lib.dto.BaseDto;
 
 
@@ -24,9 +22,9 @@ public class RiepilogoFatturaEvasione extends BaseDto<Long> implements Serializa
 	private static final long serialVersionUID = 1L;
 
 	private Long riepilogoFatturaEvasioneId;
-		
+
 	private UUID testataEvasioneId;
-	
+
 	private Integer impegnoAnno;
 
 	private Integer impegnoAnnoEsercizio;
@@ -46,7 +44,7 @@ public class RiepilogoFatturaEvasione extends BaseDto<Long> implements Serializa
 	private String causaleSospensioneDescrizione;
 
 	private Date dataSospensione;
-	
+
 	public RiepilogoFatturaEvasione() {
 	}
 
@@ -106,7 +104,7 @@ public class RiepilogoFatturaEvasione extends BaseDto<Long> implements Serializa
 		this.subimpegnoNumero = subimpegnoNumero;
 	}
 
-	
+
 	/**
 	 * @return the riepilogoFatturaEvasioneId
 	 */

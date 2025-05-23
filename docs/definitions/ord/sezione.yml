@@ -1,0 +1,46 @@
+Sezione:
+  type: object
+  properties:
+    dataCancellazione:
+      type: string
+      format: date-time
+    dataCreazione:
+      type: string
+      format: date-time
+    dataModifica:
+      type: string
+      format: date-time
+    ente:
+      type: object
+      $ref: '#/definitions/Ente'
+    settore:
+      type: object
+      $ref: '#/definitions/Settore'
+    id:
+      type: string
+      format: uuid
+    optlock:
+      type: string
+      format: uuid
+    regoleSmistamentoRms:
+      type: array
+      items:  
+        $ref: '#/definitions/RegoleSmistamentoRms'
+    rigaRms:
+      type: array
+      items:  
+        $ref: '#/definitions/RigaRms'
+    sezioneCodice:
+      type: string
+    sezioneDescrizione:
+      type: string
+    utenteCancellazione:
+      type: string
+    utenteCreazione:
+      type: string
+    utenteModifica:
+      type: string
+    utenteSeziones:
+      type: array
+      items:  
+        $ref: '#/definitions/Utente'

@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -56,11 +56,11 @@ public class CpassDPbaRicompresoTipo implements Serializable, BaseEntity<Integer
 	/** The ricompreso tipo cui obbligatorio. */
 	@Column(name="ricompreso_tipo_cui_obbligatorio")
 	private Boolean ricompresoTipoCuiObbligatorio;
-	
+
 	/** The ricompreso tipo cui obbligatorio. */
 	@Column(name="ricompreso_tipo_conteggio_importi")
 	private Boolean ricompresoTipoConteggioImporti;
-	
+
 
 	/** The cpass T interventos. */
 	//bi-directional many-to-one association to CpassTPbaIntervento
@@ -181,7 +181,7 @@ public class CpassDPbaRicompresoTipo implements Serializable, BaseEntity<Integer
 		return cpassTPbaIntervento;
 	}
 
-	
+
 	/**
 	 * @return the ricompresoTipoConteggioImporti
 	 */

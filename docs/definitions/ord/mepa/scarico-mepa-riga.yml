@@ -1,0 +1,49 @@
+ScaricoMepaRiga:
+  type: object
+  properties:
+    scaricoMepaTestata:
+      type: object
+      $ref: '#/definitions/ScaricoMepaTestata'
+    orderlineNote:
+      type: string
+    orderlineId:
+      type: string
+    orderlineQuantity:
+      type: number
+    orderlineQuantityUnitCode:
+      type: string
+    orderlineLineExtensionAmount:
+      type: number
+    orderlineLinePartialDeliveryIndicator:
+      type: boolean
+    orderlineLineDeliveryId:
+      type: string
+    priceamount:
+      type: number
+    basequantity:
+      type: number
+    itemName:
+      type: string
+    itemBuyersId:
+      type: string
+    itemSellersId:
+      type: string
+    itemClassificationCode:
+      type: string
+    classifiedtaxcategoryId:
+      type: string
+    classifiedtaxcategoryPercent:
+      type: number
+    classifiedtaxcategoryTaxschemeId:
+      type: string
+    id:
+      type: string
+      format: uuid
+    optlock:
+      type: string
+      format: uuid
+    scaricoMepaScontis:
+      type: array
+      items:
+        $ref: '#/definitions/ScaricoMepaSconti'
+

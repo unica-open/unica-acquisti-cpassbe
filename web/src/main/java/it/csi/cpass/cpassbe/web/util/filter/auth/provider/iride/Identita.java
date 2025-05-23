@@ -19,7 +19,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  * Identity provider for Shibboleth
  */
 public class Identita implements Serializable {
-	
+
 	private static final String SLASH = "/";
 
 	private static final int SLASH_CHAR_CODE = 47;
@@ -37,7 +37,7 @@ public class Identita implements Serializable {
 	public static final int AUTENTICAZIONE_CERTIFICATO = 8;
 	/** Constant for strong X.509 auth type */
 	public static final int AUTENTICAZIONE_CERTIFICATO_FORTE = 16;
-	
+
 	private String nome;
 	private String cognome;
 	private String codFiscale;
@@ -88,7 +88,7 @@ public class Identita implements Serializable {
 	public Identita(String token) throws MalformedIdTokenException {
 		this.tokenParseIndex = -1;
 		this.token = token;
-		
+
 		this.codFiscale = parseSegment();
 		this.nome = parseSegment();
 		this.cognome = parseSegment();
@@ -96,11 +96,11 @@ public class Identita implements Serializable {
 		this.timestamp = parseSegment();
 		this.livelloAutenticazione = Integer.parseInt(parseSegment());
 		this.mac = token.substring(tokenParseIndex + 1);
-		
+
 		this.tokenParseIndex = -1;
 		this.token = null;
 	}
-	
+
 	/**
 	 * @return the nome
 	 */
@@ -208,7 +208,7 @@ public class Identita implements Serializable {
 			return false;
 		}
 		final Identita other = (Identita) obj;
-		
+
 		return new EqualsBuilder()
 				.append(this.nome, other.nome)
 				.append(this.cognome, other.cognome)

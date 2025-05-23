@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -17,7 +17,7 @@ import it.csi.cpass.cpassbe.ejb.business.be.service.response.base.BaseGetRespons
 
 public class PostSavePreferenzeResponse extends BaseGetResponse<Map<String, Object>> {
 
-	private Map<String, Object> preferenze = new HashMap<String, Object>();
+	private Map<String, Object> preferenze = new HashMap<>();
 
 	/**
 	 * @return the preferenze
@@ -30,9 +30,10 @@ public class PostSavePreferenzeResponse extends BaseGetResponse<Map<String, Obje
 	 * @param preferenze the preferenze to set
 	 */
 	public void setPreferenze(Map<String, Object> preferenze) {
-		this.preferenze = preferenze != null ? preferenze : new HashMap<String, Object>();
+		this.preferenze = preferenze != null ? preferenze : new HashMap<>();
 	}
 
+	@Override
 	protected Map<String, Object> getEntity() {
 		return preferenze;
 	}

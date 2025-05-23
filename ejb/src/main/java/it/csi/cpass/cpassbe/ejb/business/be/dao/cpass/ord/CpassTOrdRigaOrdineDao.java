@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -18,18 +18,20 @@ import it.csi.cpass.cpassbe.ejb.business.be.dao.BaseAuditedEntityDao;
 import it.csi.cpass.cpassbe.ejb.entity.ord.CpassTOrdRigaOrdine;
 
 public interface CpassTOrdRigaOrdineDao extends BaseAuditedEntityDao<UUID, CpassTOrdRigaOrdine> {
-	
-	List<CpassTOrdRigaOrdine> findByIdDestinatario(UUID idDestinatario);
-	
+
+
+	List<CpassTOrdRigaOrdine> findByIdDestinatario(UUID idDestinatario, Integer progressivoDest);
+	List<CpassTOrdRigaOrdine> findByIdDestinatarios(List<UUID> idDestinatarios);
+
 	void deleteByDestinatario(UUID idDestinatario);
-	
+
 	List<CpassTOrdRigaOrdine> findByTestataOrdine(UUID testataOrdineId, UUID rigaOrdineId);
-	
-	public long countDaEvadere(Integer annoOrdineDa, 
-			Integer numeroOrdineDa, 
-			Integer annoOrdineA, 
-			Integer numeroOrdineA, 
-			Date dataEmissioneDa, 
+
+	public long countDaEvadere(Integer annoOrdineDa,
+			Integer numeroOrdineDa,
+			Integer annoOrdineA,
+			Integer numeroOrdineA,
+			Date dataEmissioneDa,
 			Date dataEmissioneA,
 			Integer tipoOrdineId,
 			Integer lottoAnno,
@@ -41,16 +43,17 @@ public interface CpassTOrdRigaOrdineDao extends BaseAuditedEntityDao<UUID, Cpass
 			UUID fornitoreId,
 			Integer provvedimentoAnno,
 			String provvedimentoNumero,
+			String provvedimentoTipo,
 			UUID impegnoId,
 			UUID subimpegnoId,
 			List<Integer> oggettoSpesaId,
 			Integer cpvId);
 
-	List<CpassTOrdRigaOrdine> findDaEvadere(Integer annoOrdineDa, 
-			Integer numeroOrdineDa, 
-			Integer annoOrdineA, 
-			Integer numeroOrdineA, 
-			Date dataEmissioneDa, 
+	List<CpassTOrdRigaOrdine> findDaEvadere(Integer annoOrdineDa,
+			Integer numeroOrdineDa,
+			Integer annoOrdineA,
+			Integer numeroOrdineA,
+			Date dataEmissioneDa,
 			Date dataEmissioneA,
 			Integer tipoOrdineId,
 			Integer lottoAnno,
@@ -62,6 +65,7 @@ public interface CpassTOrdRigaOrdineDao extends BaseAuditedEntityDao<UUID, Cpass
 			UUID fornitoreId,
 			Integer provvedimentoAnno,
 			String provvedimentoNumero,
+			String provvedimentoTipo,
 			UUID impegnoId,
 			UUID subimpegnoId,
 			List<Integer> oggettoSpesaId,
@@ -70,5 +74,7 @@ public interface CpassTOrdRigaOrdineDao extends BaseAuditedEntityDao<UUID, Cpass
 			String cfUtente,
 			UUID utenteId,
 			UUID settoreId);
+	void deleteFromTestataordine(UUID testataOrdineId);
+	void updateFromTestataordine(UUID testataOrdineId);
 
 }

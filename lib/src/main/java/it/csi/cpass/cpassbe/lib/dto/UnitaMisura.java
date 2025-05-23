@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -16,7 +16,7 @@ import java.util.Date;
 
 public class UnitaMisura  extends BaseDto<Integer> implements Serializable {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -30,7 +30,7 @@ public class UnitaMisura  extends BaseDto<Integer> implements Serializable {
 	public UnitaMisura(Integer id) {
 		super(id);
 	}
-	
+
 	private String codice;
 
 	private String descrizione;
@@ -39,10 +39,10 @@ public class UnitaMisura  extends BaseDto<Integer> implements Serializable {
 
 	/** The data modifica. */
 	private Date dataValiditaFine;
-	
+
 	/** The data modifica. */
 	private Date dataValiditaInizio;
-	
+
 	/**
 	 * @return the codice
 	 */
@@ -85,7 +85,7 @@ public class UnitaMisura  extends BaseDto<Integer> implements Serializable {
 		this.ambitoUtilizzo = ambitoUtilizzo;
 	}
 
-	
+
 	/**
 	 * @return the dataValiditaFine
 	 */

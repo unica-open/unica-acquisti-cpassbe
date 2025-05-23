@@ -1,0 +1,100 @@
+ScaricoMepaTestata:
+  type: object
+  properties:
+    orderId:
+      type: string
+    stato:
+      type: object
+      $ref: '#/definitions/Stato'
+    issueDate:
+      type: string
+      format: date-time
+    orderTypeCode:
+      type: string
+    note:
+      type: string
+    customerReference:
+      type: string
+    endDate:
+      type: string
+      format: date-time
+    originatorDocumentReferenceId:
+      type: string
+    additionalDocumentReferenceId:
+      type: string
+    additionalDocumentReferenceDocumentType:
+      type: string
+    buyerCustomerPartyId:
+      type: string
+    buyerCustomerPartyName:
+      type: string
+    buyerCustomerPartyStreetName:
+      type: string
+    buyerCustomerPartyCityName:
+      type: string
+    buyerCustomerPartyPostalZone:
+      type: string
+    buyerCustomerPartyCompanyId:
+      type: string
+    sellersupplierpartyEndpointId:
+      type: string
+    sellersupplierpartyName:
+      type: string
+    sellersupplierpartyStreetName:
+      type: string
+    sellersupplierpartyCityName:
+      type: string
+    sellersupplierpartyPostalZone:
+      type: string
+    sellersupplierpartyRegistrationName:
+      type: string
+    deliveryLocationId:
+      type: string
+    deliveryLocationStreetName:
+      type: string
+    id:
+      type: string
+      format: uuid
+    deliveryLocationCityName:
+      type: string
+    optlock:
+      type: string
+      format: uuid
+    deliveryLocationPostalZone:
+      type: string
+    requesteddeliveryperiodStartDate:
+      type: string
+    requesteddeliveryperiodEndDate:
+      type: string
+      format: date-time
+    deliverpartyId:
+      type: string
+    deliverpartyName:
+      type: string
+    deliverpartyContactName:
+      type: string
+    deliverpartyContactTelephone:
+      type: string
+    deliverpartyContactEmail:
+      type: string
+    taxTotal:
+      type: number
+    anticipatedmonetarytotalLineExtensionAmount:
+      type: number
+    anticipatedmonetarytotalAllowanceTotalAmount:
+      type: number
+    anticipatedmonetarytotalTaxExclusiveAmount:
+      type: number
+    anticipatedmonetarytotalTaxInclusiveAmount:
+      type: number
+    anticipatedmonetarytotalPayableAmount:
+      type: number
+    scaricoMepaRigas:
+      type: array
+      items:
+        $ref: '#/definitions/ScaricoMepaRiga'
+    scaricoMepaXmls:
+      type: array
+      items:
+        $ref: '#/definitions/ScaricoMepaXml'
+    

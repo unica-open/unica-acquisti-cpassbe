@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -49,7 +49,7 @@ public class SubimpegnoEvasione extends BaseAuditedDto<UUID> implements Serializ
 	private BigDecimal totaleRipartibile;
 
 	private CausaleSospensioneEvasione causaleSospensioneEvasione;
-	
+
 	private Date dataSospensione;
 
 	public SubimpegnoEvasione() {
@@ -264,5 +264,5 @@ public class SubimpegnoEvasione extends BaseAuditedDto<UUID> implements Serializ
 	public void setDataSospensione(Date dataSospensione) {
 		this.dataSospensione = dataSospensione;
 	}
-	
+
 }

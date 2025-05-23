@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -35,7 +35,7 @@ import it.csi.cpass.cpassbe.lib.util.uuid.UuidUtils;
 
 /**
  * The persistent class for the cpass_t_ord_testata_evasione database table.
- * 
+ *
  */
 @Entity
 @Table(name = "cpass_t_ord_testata_evasione")
@@ -55,7 +55,7 @@ public class CpassTOrdTestataEvasione extends BaseAuditedEntity<UUID> implements
 
 	@Column(name = "data_invio_contabilita")
 	private Date dataInvioContabilita;
-		
+
 	@Column(name = "data_conferma")
 	private Date dataConferma;
 
@@ -88,8 +88,8 @@ public class CpassTOrdTestataEvasione extends BaseAuditedEntity<UUID> implements
 	@Column(name = "fattura_anno")
 	private Integer fatturaAnno;
 
-	@Column(name = "fattura_codice")
-	private String fatturaCodice;
+	@Column(name = "fattura_codice_fornitore")
+	private String fatturaCodiceFornitore;
 
 	@Column(name = "fattura_numero")
 	private String fatturaNumero;
@@ -114,6 +114,9 @@ public class CpassTOrdTestataEvasione extends BaseAuditedEntity<UUID> implements
 	@Column(name = "totale_con_iva")
 	private BigDecimal totaleConIva;
 
+	@Column(name = "documento_trasporto_id")
+	private Integer documentoTrasportoId;
+
 	// bi-directional many-to-one association to CpassTOrdDestinatarioEvasione
 	@OneToMany(mappedBy = "cpassTOrdTestataEvasione")
 	private List<CpassTOrdDestinatarioEvasione> cpassTOrdDestinatarioEvasiones;
@@ -122,16 +125,11 @@ public class CpassTOrdTestataEvasione extends BaseAuditedEntity<UUID> implements
 	@ManyToOne
 	@JoinColumn(name = "stato_id")
 	private CpassDStato cpassDStato;
-	
+
 	// bi-directional many-to-one association to CpassDStato
 	@ManyToOne
 	@JoinColumn(name = "ufficio_id")
 	private CpassTUfficio cpassTUfficio;
-
-	// bi-directional many-to-one association to CpassTOrdDocumentoTrasporto
-	@ManyToOne
-	@JoinColumn(name = "documento_trasporto_id")
-	private CpassTOrdDocumentoTrasporto cpassTOrdDocumentoTrasporto;
 
 	// bi-directional many-to-one association to CpassTFornitore
 	@ManyToOne
@@ -153,6 +151,9 @@ public class CpassTOrdTestataEvasione extends BaseAuditedEntity<UUID> implements
 	@ManyToOne
 	@JoinColumn(name = "tipo_evasione_id")
 	private CpassDOrdTipoEvasione cpassDOrdTipoEvasione;
+
+	@Column(name = "fattura_codice_ext")
+	private String fatturaCodiceExt;
 
 	public CpassTOrdTestataEvasione() {
 	}
@@ -197,10 +198,12 @@ public class CpassTOrdTestataEvasione extends BaseAuditedEntity<UUID> implements
 		this.dataInserimento = dataInserimento;
 	}
 
+	@Override
 	public Date getDataModifica() {
 		return this.dataModifica;
 	}
 
+	@Override
 	public void setDataModifica(Date dataModifica) {
 		this.dataModifica = dataModifica;
 	}
@@ -261,12 +264,12 @@ public class CpassTOrdTestataEvasione extends BaseAuditedEntity<UUID> implements
 		this.fatturaAnno = fatturaAnno;
 	}
 
-	public String getFatturaCodice() {
-		return this.fatturaCodice;
+	public String getFatturaCodiceFornitore() {
+		return this.fatturaCodiceFornitore;
 	}
 
-	public void setFatturaCodice(String fatturaCodice) {
-		this.fatturaCodice = fatturaCodice;
+	public void setFatturaCodiceFornitore(String fatturaCodiceFornitore) {
+		this.fatturaCodiceFornitore = fatturaCodiceFornitore;
 	}
 
 	public String getFatturaNumero() {
@@ -333,6 +336,14 @@ public class CpassTOrdTestataEvasione extends BaseAuditedEntity<UUID> implements
 		this.totaleConIva = totaleConIva;
 	}
 
+	public Integer getDocumentoTrasportoId() {
+		return documentoTrasportoId;
+	}
+
+	public void setDocumentoTrasportoId(Integer documentoTrasportoId) {
+		this.documentoTrasportoId = documentoTrasportoId;
+	}
+
 	public List<CpassTOrdDestinatarioEvasione> getCpassTOrdDestinatarioEvasiones() {
 		return this.cpassTOrdDestinatarioEvasiones;
 	}
@@ -361,14 +372,6 @@ public class CpassTOrdTestataEvasione extends BaseAuditedEntity<UUID> implements
 
 	public void setCpassDStato(CpassDStato cpassDStato) {
 		this.cpassDStato = cpassDStato;
-	}
-
-	public CpassTOrdDocumentoTrasporto getCpassTOrdDocumentoTrasporto() {
-		return this.cpassTOrdDocumentoTrasporto;
-	}
-
-	public void setCpassTOrdDocumentoTrasporto(CpassTOrdDocumentoTrasporto cpassTOrdDocumentoTrasporto) {
-		this.cpassTOrdDocumentoTrasporto = cpassTOrdDocumentoTrasporto;
 	}
 
 	public CpassTFornitore getCpassTFornitore() {
@@ -402,7 +405,7 @@ public class CpassTOrdTestataEvasione extends BaseAuditedEntity<UUID> implements
 	public void setCpassDOrdTipoEvasione(CpassDOrdTipoEvasione cpassDOrdTipoEvasione) {
 		this.cpassDOrdTipoEvasione = cpassDOrdTipoEvasione;
 	}
-	
+
 	public CpassTUfficio getCpassTUfficio() {
 		return cpassTUfficio;
 	}
@@ -423,6 +426,20 @@ public class CpassTOrdTestataEvasione extends BaseAuditedEntity<UUID> implements
 	 */
 	public void setDataInvioContabilita(Date dataInvioContabilita) {
 		this.dataInvioContabilita = dataInvioContabilita;
+	}
+
+	/**
+	 * @return the fatturaCodiceExt
+	 */
+	public String getFatturaCodiceExt() {
+		return fatturaCodiceExt;
+	}
+
+	/**
+	 * @param fatturaCodiceExt the fatturaCodiceExt to set
+	 */
+	public void setFatturaCodiceExt(String fatturaCodiceExt) {
+		this.fatturaCodiceExt = fatturaCodiceExt;
 	}
 
 	@Override

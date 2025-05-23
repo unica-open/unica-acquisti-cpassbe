@@ -15,7 +15,9 @@ package it.csi.cpass.cpassbe.web.business.be.api;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
@@ -44,7 +46,7 @@ public interface SystemApi {
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
-	
+
 	/**
 	 * Comunicazioni method
 	 * @param securityContext the security context
@@ -60,4 +62,21 @@ public interface SystemApi {
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
 	
+	/**
+	 * Comunicazioni method
+	 * @param securityContext the security context
+	 * @param httpHeaders the HTTP headers
+	 * @param httpRequest the HTTP request
+	 * @return the response
+	 */
+	@POST
+	@Path("audit/{cf}/{azione}")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Response postCsiAudit(
+			@PathParam("cf") String cf,
+			@PathParam("azione") String azione,
+			@Context SecurityContext securityContext,
+			@Context HttpHeaders httpHeaders,
+			@Context HttpServletRequest httpRequest);
+
 }

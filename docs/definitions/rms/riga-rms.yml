@@ -1,0 +1,77 @@
+RigaRms:
+  type: object
+  properties:
+    consegnaParziale:
+      type: boolean
+    cui:
+      type: string
+    dataCancellazione:
+      type: string
+      format: date-time
+    dataCreazione:
+      type: string
+      format: date-time
+    dataFineConsegna:
+      type: string
+      format: date-time
+    dataInizioConsegna:
+      type: string
+      format: date-time
+    dataModifica:
+      type: string
+      format: date-time
+    ente:
+      type: object
+      $ref: '#/definitions/Ente'
+    id:
+      type: string
+      format: uuid
+    magazzino:
+      type: object
+      $ref: '#/definitions/Magazzino'
+    magazzinoId:
+      type: integer
+    motivoRifiuto:
+      type: string
+    note:
+      type: string
+    oggettiSpesa:
+      type: object
+      $ref: '#/definitions/Ods'
+    optlock:
+      type: string
+      format: uuid
+    progressivoRiga:
+      type: integer
+    quantita:
+      type: number
+    quantitaSuRda:
+      type: number
+    settoreAcquisto:
+      type: object
+      $ref: '#/definitions/Settore'
+    stato:
+      type: object
+      $ref: '#/definitions/Stato'
+    testataRms:
+      type: object
+      $ref: '#/definitions/TestataRms'
+    sezione:
+      type: object
+      $ref: '#/definitions/Sezione'
+    utenteCancellazione:
+      type: string
+    utenteCreazione:
+      type: string
+    utenteModifica:
+      type: string
+    rigaRda:
+      type: array
+      items:
+        $ref: '#/definitions/RigaRda'
+    motivoEvasioneManuale:  
+      type: string
+    destinatario:
+      type: string
+    flgNonCompetenza:
+      type: boolean      

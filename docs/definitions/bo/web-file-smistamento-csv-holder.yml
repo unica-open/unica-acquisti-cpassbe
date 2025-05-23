@@ -1,0 +1,11 @@
+WebSmistamentoRmsFileHolder:
+  type: object
+  properties:
+    idEnte:
+      type: string
+    sostituisciRegola:
+      type: boolean
+    separatore:
+      type: string
+    attachment:
+      type: file

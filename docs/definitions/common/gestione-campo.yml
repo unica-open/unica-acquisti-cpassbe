@@ -1,0 +1,21 @@
+GestioneCampo:
+  type: object
+  properties:
+    editabile:
+      type: boolean
+    ente:
+      type: object
+      $ref: '#/definitions/Ente'
+    id:
+      type: string
+      format: uuid
+    nomeCampo:
+      type: string
+    note:
+      type: string
+    obbligatorioIns:
+      type: boolean
+    obbligatorioUpd:
+      type: boolean
+    visibile:
+      type: boolean

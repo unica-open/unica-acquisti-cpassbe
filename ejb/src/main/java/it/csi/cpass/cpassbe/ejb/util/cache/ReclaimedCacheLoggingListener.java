@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -42,13 +42,19 @@ public class ReclaimedCacheLoggingListener<V> implements Runnable {
 		final String methodName = "run";
 		LOG.info(methodName, "Listening for items removed from the cache");
 		try {
+			int i=0;
 			while(true) {
-				Reference<? extends V> removed = cacheReferenceQueue.remove();
-				long count = garbageCollectorCounter.incrementAndGet();
+				i++;
+				final Reference<? extends V> removed = cacheReferenceQueue.remove();
+				final long count = garbageCollectorCounter.incrementAndGet();
 				LOG.debug(methodName, "Removed item " + removed + " from cache (" + count + " references reaped since thread started)");
+				if(i>1000) {
+					break;
+				}
 			}
-		} catch(InterruptedException ie) {
+		} catch(final InterruptedException ie) {
 			LOG.info(methodName, "Shutting down the thread...");
+			Thread.currentThread().interrupt();
 		}
 		LOG.info(methodName, "Thread shut down");
 	}

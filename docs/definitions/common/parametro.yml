@@ -1,0 +1,20 @@
+Parametro:
+  type: object
+  properties:
+    parametroId:
+      type: string
+    chiave:
+      type: string
+    valore:
+      type: string
+    abilitata:
+      type: boolean
+    riferimento:
+      type: string
+    ambiente:
+      type: string
+    note:
+      type: string
+    ente:
+      type: object
+      $ref: '#/definitions/Ente'

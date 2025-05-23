@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -26,13 +26,13 @@ import it.csi.cpass.cpassbe.ejb.entity.base.BaseEntity;
 @Entity
 @Table(name="cpass_v_cpv")
 @NamedQuery(name="CpassVCpv.findAll", query="SELECT c FROM CpassVCpv c")
-public class CpassVCpv implements Serializable, BaseEntity<Long> {	
+public class CpassVCpv implements Serializable, BaseEntity<Long> {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name="id_v_cpv")
 	private Long idVCpv;
-	
+
 	@Column(name="cpv_categoria")
 	private String cpvCategoria;
 

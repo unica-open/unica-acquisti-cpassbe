@@ -21,7 +21,7 @@
         description: Errore generico.
         schema:
           $ref: '#/definitions/ApiError'
-/pba/programma/copia/{soloControlli}:
+/pba/programma/copia/{soloControlli}/{statoCopia}:
   post:
     operationId: postProgrammaCopia
     description: Copia un programma su sistema.
@@ -35,6 +35,11 @@
         required: true
         type: boolean
         description: Se il servizio deve effettuare i soli controlli precedenti la copia.
+      - in: path
+        name: statoCopia
+        required: true
+        type: string
+        description: stato da applicare agli acquisti.        
       - in: body
         name: programma
         required: true
@@ -313,37 +318,37 @@
         description: Errore generico.
         schema:
           $ref: '#/definitions/ApiError'
-/pba/programma/settore/{id-settore}/stato/{stato-code}/recenti:
-  get:
-    produces:
-      - application/json
-    tags:
-      - programma
-    operationId: getUltimiProgrammiBySettoreAndStato
-    description: Restituisce gli ultimi programmi di un determinato settore.
-    parameters:
-      - in: path
-        name: id-settore
-        required: true
-        type: string
-        format: uuid
-        description: L'id del settore dell'utente.
-      - in: path
-        name: stato-code
-        required: true
-        type: string
-        description: codice dello stato
-    responses:
-      '200':
-        description: I programmi collegati al settore dell'utente.
-        schema:
-          type: array
-          items:
-            $ref: '#/definitions/Programma'
-      default:
-        description: Errore generico.
-        schema:
-          $ref: '#/definitions/ApiError'
+#/pba/programma/settore/{id-settore}/stato/{stato-code}/recenti:
+#  get:
+#    produces:
+#      - application/json
+#    tags:
+#      - programma
+#    operationId: getUltimiProgrammiBySettoreAndStato
+#    description: Restituisce gli ultimi programmi di un determinato settore.
+#    parameters:
+#      - in: path
+#        name: id-settore
+#        required: true
+#        type: string
+#        format: uuid
+#        description: L'id del settore dell'utente.
+#      - in: path
+#        name: stato-code
+#        required: true
+#        type: string
+#        description: codice dello stato
+#    responses:
+#      '200':
+#        description: I programmi collegati al settore dell'utente.
+#        schema:
+#          type: array
+#          items:
+#            $ref: '#/definitions/Programma'
+#      default:
+#        description: Errore generico.
+#        schema:
+#          $ref: '#/definitions/ApiError'
 /pba/programma/trasmissione-mit:
   get:
     produces:
@@ -364,21 +369,20 @@
         description: Errore generico.
         schema:
           $ref: '#/definitions/ApiError'
-/pba/programma/trasmetti/{id-programma}/{id-utente}/{modalita-invio}:
+/pba/programma/trasmetti/{id-utente}/{modalita-invio}:
   put:
-    operationId: putTrasmettiProgrammaById
+    operationId: putTrasmettiProgramma
     description: Per trasmettere un programma al ministero
     produces:
       - application/json
     tags:
       - programma
     parameters:
-      - in: path
-        name: id-programma
+      - in: body
+        name: programma
         required: true
-        type: string
-        format: uuid
-        description: L'id del programma.
+        schema:
+          $ref: '#/definitions/Programma'
       - in: path
         name: id-utente
         required: true

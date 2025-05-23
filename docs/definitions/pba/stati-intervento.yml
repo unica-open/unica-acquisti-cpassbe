@@ -1,0 +1,19 @@
+StatiIntervento:
+  type: object
+  properties:
+    data:
+      type: string
+      format: date-time
+    id:
+      type: string
+      format: uuid
+    intervento:
+      type: object
+      $ref: '#/definitions/Intervento'
+    motivazione:
+      type: string
+    stato:
+      type: string
+    utente:
+      type: object
+      $ref: '#/definitions/Utente'

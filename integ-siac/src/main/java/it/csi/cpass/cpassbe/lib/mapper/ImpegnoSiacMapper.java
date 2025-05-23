@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - INTEGRATION submodule - SIAC
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -27,7 +27,7 @@ import it.csi.cpass.cpassbe.lib.mapper.annotation.TrimmedString;
 @Mapper(uses = {
 	SubimpegnoSiacMapper.class, StringMapper.class
 })
-public interface ImpegnoSiacMapper extends BaseMapperInterface<Impegno, it.csi.siac.integ.data._1.Impegno> {
+public interface ImpegnoSiacMapper extends BaseMapperInterface<Impegno, it.csi.siac.integ.data._1.Impegno> {   
 
 	@Override
 	@Mapping(target = "annoEsercizio", expression = "java( java.util.Calendar.getInstance().get(java.util.Calendar.YEAR) )")
@@ -36,6 +36,7 @@ public interface ImpegnoSiacMapper extends BaseMapperInterface<Impegno, it.csi.s
 	@Mapping(source = "descrizione", target = "descrizione", qualifiedBy = TrimmedString.class)
 	@Mapping(source = "stato.codice", target = "stato", qualifiedBy = TrimmedString.class)
 	@Mapping(source = "importo", target = "importoAttuale")
+	//@Mapping(source = "importo", target = "importo")
 	@Mapping(target = "importo", expression = "java( new java.math.BigDecimal(0) )")
 	@Mapping(target = "importoIniziale", expression = "java( new java.math.BigDecimal(0) )")
 	@Mapping(source = "disponibilitaLiquidare", target = "disponibilitaLiquidare")
@@ -53,6 +54,7 @@ public interface ImpegnoSiacMapper extends BaseMapperInterface<Impegno, it.csi.s
 	@Mapping(source = "pdc.descrizione", target = "pdcDescrizione", qualifiedBy = TrimmedString.class)
 	@Mapping(source = "annoImpegnoRiaccertato", target = "annoImpegnoRiaccertato")
 	@Mapping(source = "numImpegnoRiaccertato", target = "numImpegnoRiaccertato")
+	@Mapping(source = "cig", target = "cig")
 	Impegno toModel(it.csi.siac.integ.data._1.Impegno entity);
 
 	@Override

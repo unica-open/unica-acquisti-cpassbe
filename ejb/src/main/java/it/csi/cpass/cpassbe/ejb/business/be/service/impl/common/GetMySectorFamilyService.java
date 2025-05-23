@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -24,7 +24,7 @@ import it.csi.cpass.cpassbe.lib.dto.Settore;
  */
 public class GetMySectorFamilyService extends BaseCommonService<GetMySectorFamilyRequest, GetMySectorFamilyResponse> {
 
-	private SettoreDad  settoreDad;
+	private final SettoreDad  settoreDad;
 	/**
 	 * Constructor
 	 * @param configurationHelper the configuration helper
@@ -42,7 +42,7 @@ public class GetMySectorFamilyService extends BaseCommonService<GetMySectorFamil
 
 	@Override
 	protected void execute() {
-		List<Settore> lista = settoreDad.getMySectorFamily(request.getSettorePadreId());
+		final List<Settore> lista = settoreDad.getMySectorFamily(request.getSettorePadreId());
 		response.setSettores(lista);
 	}
 

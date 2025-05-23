@@ -34,3 +34,13 @@ Utente:
     optlock:
       type: string
       format: uuid
+    utenteSettores:
+      type: array
+      items:
+        $ref: '#/definitions/UtenteSettore'
+    utenteRupDeleghes:
+      type: array
+      items:
+        $ref: '#/definitions/UtenteRupDeleghe'
+    presenteSuHr:
+      type: boolean

@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -34,7 +34,7 @@ public abstract class TreeCpvOdsMapper implements BaseMapperInterface<Cpv, Cpass
 		if (entity == null) {
 			return null;
 		}
-		Cpv cpv = new Cpv();
+		final Cpv cpv = new Cpv();
 		cpv.setId(entity.getCpvId());
 		cpv.setLivello(entity.getLivello());
 		cpv.setCodice(entity.getCpvCodice());
@@ -44,10 +44,10 @@ public abstract class TreeCpvOdsMapper implements BaseMapperInterface<Cpv, Cpass
 		cpv.setDivisione(entity.getCpvDivisione());
 		cpv.setGruppo(entity.getCpvGruppo());
 		cpv.setClasse(entity.getCpvClasse());
-		cpv.setCategoria(entity.getCpvCategoria());		
+		cpv.setCategoria(entity.getCpvCategoria());
 		cpv.setIdPadre(entity.getCpvIdPadre());
-		
-		SettoreInterventi setInt = new SettoreInterventi();
+
+		final SettoreInterventi setInt = new SettoreInterventi();
 		setInt.setId(entity.getSettoreInterventiId());
 		setInt.setCodice(entity.getSettoreInterventiCodice());
 		setInt.setDescrizione(entity.getSettoreInterventiDescrizione());
@@ -63,14 +63,14 @@ public abstract class TreeCpvOdsMapper implements BaseMapperInterface<Cpv, Cpass
 	@IterableMapping(elementTargetType = CpassVCpvOds.class)
 	public abstract List<CpassVCpvOds> toEntities(Collection<Cpv> models);
 
-	
+
 	@Override
 	public CpassVCpvOds toEntity(Cpv model) {
 		if (model == null) {
 			return null;
 		}
-		CpassVCpvOds cpassVCpv = new CpassVCpvOds();
-		cpassVCpv.setId(model.getId() != null ? Long.valueOf(model.getId().longValue()) : null);
+		final CpassVCpvOds cpassVCpv = new CpassVCpvOds();
+		cpassVCpv.setId(model.getId() != null ? model.getId().longValue() : null);
 		cpassVCpv.setCpvId(model.getId());
 		cpassVCpv.setCpvIdPadre(model.getIdPadre());
 		cpassVCpv.setLivello(model.getLivello());
@@ -81,10 +81,10 @@ public abstract class TreeCpvOdsMapper implements BaseMapperInterface<Cpv, Cpass
 		cpassVCpv.setCpvDivisione(model.getDivisione());
 		cpassVCpv.setCpvGruppo(model.getGruppo());
 		cpassVCpv.setCpvClasse(model.getClasse());
-		cpassVCpv.setCpvCategoria(model.getCategoria());				
+		cpassVCpv.setCpvCategoria(model.getCategoria());
 		cpassVCpv.setSettoreInterventiId(model.getSettoreInterventi().getId());
 		cpassVCpv.setSettoreInterventiCodice(model.getSettoreInterventi().getCodice());
-		cpassVCpv.setSettoreInterventiDescrizione(model.getSettoreInterventi().getDescrizione());		
+		cpassVCpv.setSettoreInterventiDescrizione(model.getSettoreInterventi().getDescrizione());
 		return cpassVCpv;
 	}
 }

@@ -2,13 +2,15 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
  * =========================LICENSE_END==================================
  */
 package it.csi.cpass.cpassbe.ejb.business.be.service.impl.ordine;
+
+import java.util.List;
 
 import it.csi.cpass.cpassbe.ejb.business.be.dad.SettoreDad;
 import it.csi.cpass.cpassbe.ejb.business.be.service.impl.base.BaseService;
@@ -17,8 +19,6 @@ import it.csi.cpass.cpassbe.ejb.business.be.service.response.ordine.PostRicercaS
 import it.csi.cpass.cpassbe.ejb.util.conf.ConfigurationHelper;
 import it.csi.cpass.cpassbe.lib.dto.Settore;
 import it.csi.cpass.cpassbe.lib.dto.SettoreIndirizzo;
-
-import java.util.List;
 
 public class PostRicercaSettoreIndirizzoService extends BaseService<PostRicercaSettoreIndirizzoRequest, PostRicercaSettoreIndirizzoResponse> {
 
@@ -39,13 +39,13 @@ public class PostRicercaSettoreIndirizzoService extends BaseService<PostRicercaS
 	@Override
 	protected void checkServiceParams() {
 		settore = request.getSettore();
-		checkNotNull(settore, "settore", true);
-		checkNotNull(settore.getCodice(),"codice", true);
+		checkNotNull(settore, "settore", Boolean.TRUE);
+		checkNotNull(settore.getCodice(),"codice", Boolean.TRUE);
 	}
 
 	@Override
 	protected void execute() {
-		List<SettoreIndirizzo> resp = settoreDad.postRicercaSettoreIndirizzi(request.getSettore());
+		final List<SettoreIndirizzo> resp = settoreDad.postRicercaSettoreIndirizzi(request.getSettore());
 		response.setSettoreIndirizzi(resp);
 	}
 }

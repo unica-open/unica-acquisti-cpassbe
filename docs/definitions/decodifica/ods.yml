@@ -5,6 +5,12 @@ Ods:
       type: integer
     inventariabile:
       type: boolean
+    generico:
+      type: boolean
+    genericoStr:
+      type: string      
+    valido:
+      type: boolean
     codice:
       type: string
     descrizione:
@@ -17,6 +23,8 @@ Ods:
       format: date-time
     prezzoUnitario:
       type: number
+    quantitaMaxRichiedibile:
+      type: number
     aliquoteIva:
       type: object
       $ref: '#/definitions/AliquoteIva'
@@ -26,3 +34,11 @@ Ods:
     unitaMisura:
       type: object
       $ref: '#/definitions/unitaMisura'
+    listinoFornitores:
+      type: array
+      items:  
+        $ref: '#/definitions/ListinoFornitore'
+    odsDatiContabilis:
+      type: array
+      items:  
+        $ref: '#/definitions/OdsDatiContabili'

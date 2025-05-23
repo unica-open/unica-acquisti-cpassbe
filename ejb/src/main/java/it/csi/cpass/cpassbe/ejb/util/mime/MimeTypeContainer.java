@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -21,7 +21,10 @@ public enum MimeTypeContainer {
 	EXCEL_SPREADSHEET(MimeType.EXCEL_SPREADSHEET, Extension.EXCEL_SPREADSHEET),
 	/** Mime type for .pdf type */
 	PDF(MimeType.PDF, Extension.PDF),
-	
+
+	/** Mime type for .pdf type */
+	ZIP(MimeType.ZIP, Extension.ZIP),
+
 	;
 	private final String mimeType;
 	private final String extension;
@@ -46,21 +49,21 @@ public enum MimeTypeContainer {
 	public String getExtension() {
 		return extension;
 	}
-	
+
 	/**
 	 * Retrieves the container by the extension
 	 * @param extension the extension
 	 * @return the container
 	 */
 	public static MimeTypeContainer byExtension(String extension) {
-		for(MimeTypeContainer mtc : values()) {
+		for(final MimeTypeContainer mtc : values()) {
 			if(mtc.extension.equals(extension)) {
 				return mtc;
 			}
 		}
 		return null;
 	}
-	
+
 	/**
 	 * MIME type utility values
 	 */
@@ -72,6 +75,8 @@ public enum MimeTypeContainer {
 		public static final String EXCEL_SPREADSHEET = "application/vnd.ms-excel";
 		/** Mime type for .pdf type */
 		public static final String PDF = "application/pdf";
+		/** Mime type for .pdf type */
+		public static final String ZIP = "application/zip";
 	}
 	/**
 	 * MIME extensions utility values
@@ -84,5 +89,7 @@ public enum MimeTypeContainer {
 		public static final String EXCEL_SPREADSHEET = "xls";
 		/** .pdf */
 		public static final String PDF = "pdf";
+		/** .zip */
+		public static final String ZIP = "zip";
 	}
 }

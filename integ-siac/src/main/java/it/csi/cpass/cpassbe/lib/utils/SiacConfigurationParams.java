@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - INTEGRATION submodule - SIAC
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -41,14 +41,14 @@ public enum SiacConfigurationParams implements ConfigurationParam {
 	/** STATO_FATTURA_RIPARTIBILE*/
 	STATO_FATTURA_RIPARTIBILE("STATO_FATTURA_RIPARTIBILE"),
 	
-	/** */
 	ANNO_AVVIO_STILO("ANNO_AVVIO_STILO"),
 	
-	/** */
 	CODICE_TIPO_PROVV_STILO("CODICE_TIPO_PROVV_STILO"),
 	
-	/** */
-	CODICE_TIPO_PROVV_ANTE_STILO("CODICE_TIPO_PROVV_ANTE_STILO"),
+	//CODICE_TIPO_PROVV_ANTE_STILO("CODICE_TIPO_PROVV_ANTE_STILO"),
+	
+	NUMERAZIONE_ATTI_UNIVOCA("NUMERAZIONE_ATTI_UNIVOCA")
+	
 	;
 	
 	private final String paramName;

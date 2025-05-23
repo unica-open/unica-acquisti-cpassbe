@@ -10,8 +10,6 @@
  */
 package it.csi.cpass.cpassbe.web.business.be.api.impl;
 
-import java.util.UUID;
-
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.HttpHeaders;
@@ -59,5 +57,9 @@ public class ElaborazioneApiServiceImpl extends BaseRestServiceImpl implements E
 	public Response getElaborazioniByEntity(String id, SecurityContext securityContext, HttpHeaders httpHeaders,
 			HttpServletRequest httpRequest) {
 		return invoke(() ->enteFacade.getElaborazioniByEntity(id));
+	}
+	@Override
+	public Response getMessaggiByUltimaElaborazione(String entitaId,String tipo, SecurityContext securityContext, HttpHeaders httpHeaders,HttpServletRequest httpRequest) {
+		return invoke(() ->enteFacade.getMessaggiByUltimaElaborazione(entitaId,tipo));
 	}
 }

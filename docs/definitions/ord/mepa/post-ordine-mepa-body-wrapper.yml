@@ -1,0 +1,12 @@
+PostOrdineMepaBodyWrapper:
+  type: object
+  properties:
+    formTestataOrdineMepa:
+      type: object
+      $ref: '#/definitions/FormTestataOrdineMepa'
+    scaricoMepaTestata:
+      type: object
+      $ref: '#/definitions/ScaricoMepaTestata'
+    fornitore:
+      type: object
+      $ref: '#/definitions/Fornitore'

@@ -13,6 +13,12 @@
   <name>CPASS BackEnd - EJB submodule</name>
 
   <dependencies>
+	<dependency>
+	<groupId>com.opencsv</groupId>
+	<artifactId>opencsv</artifactId>
+	<version>5.3</version>
+	</dependency>
+
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>cpassbe-lib</artifactId>
@@ -125,6 +131,10 @@
       <groupId>joda-time</groupId>
       <artifactId>joda-time</artifactId>
     </dependency>
+    <dependency>
+    <groupId>org.jboss.ejb3</groupId>
+      <artifactId>jboss-ejb3-ext-api</artifactId>
+    </dependency>
   </dependencies>
 
   <build>
@@ -230,14 +240,6 @@
           </plugin>
         </plugins>
       </build>
-      <dependencies>
-        <dependency>
-          <groupId>org.jboss.as</groupId>
-          <artifactId>jboss-as-arquillian-container-remote</artifactId>
-          <scope>test</scope>
-          <version></version>
-        </dependency>
-      </dependencies>
     </profile>
 
     <profile>

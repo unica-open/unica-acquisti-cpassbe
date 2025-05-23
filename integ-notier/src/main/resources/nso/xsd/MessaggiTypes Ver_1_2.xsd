@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+			xmlns:types="http://nso.rgs.mef.gov.it/docs/xsd/ordini/messaggi/v1.0" 
+			xmlns:ds="http://www.w3.org/2000/09/xmldsig#" 
+			targetNamespace="http://nso.rgs.mef.gov.it/docs/xsd/ordini/messaggi/v1.0" version="1.1">
+	<!-- =================================================================== -->
+	<!-- ELEMENTI PER TRASMITTENTI											 -->
+	<!-- =================================================================== -->
+	<xsd:element name="RicevutaConsegna" type="types:RicevutaConsegna_Type"/>
+	<xsd:element name="NotificaMancataConsegna" type="types:NotificaMancataConsegna_Type"/>
+	<xsd:element name="NotificaScarto" type="types:NotificaScarto_Type"/>
+	<xsd:element name="AttestazioneTrasmissione" type="types:AttestazioneTrasmissione_Type"/>
+	<!-- =================================================================== -->
+	<!--  ELEMENTI PER RICEVENTI											 -->
+	<!-- =================================================================== -->
+	<xsd:element name="MetadatiInvioFile" type="types:MetadatiInvioFile_Type"/>
+
+	<xsd:complexType name="RicevutaConsegna_Type">
+		<xsd:sequence>
+			<xsd:element name="Identificativo" type="types:Identificativo_Type"/>
+			<xsd:element name="NomeFile" type="types:NomeFile_Type"/>
+			<xsd:element name="DataOraRicezione" type="xsd:dateTime"/>
+			<xsd:element name="DataOraConsegna" type="xsd:dateTime"/>
+			<xsd:element name="Ricevente" type="types:Ricevente_Type"/>
+			<xsd:element name="RiferimentoArchivio" type="types:RiferimentoArchivio_Type" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="MessageId" type="types:MessageId_Type"/>
+			<xsd:element name="PecMessageId" type="types:PecMessageId_Type" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="Note" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+		</xsd:sequence>
+		<xsd:attribute name="versione" type="types:Versione_Type" use="required" fixed="1.0"/>
+	</xsd:complexType>
+	<xsd:complexType name="NotificaScarto_Type">
+		<xsd:sequence>
+			<xsd:element name="Identificativo" type="types:Identificativo_Type"/>
+			<xsd:element name="NomeFile" type="types:NomeFile_Type"/>
+			<xsd:element name="DataOraRicezione" type="xsd:dateTime"/>
+			<xsd:element name="RiferimentoArchivio" type="types:RiferimentoArchivio_Type" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="ListaErrori" type="types:ListaErrori_Type"/>
+			<xsd:element name="MessageId" type="types:MessageId_Type"/>
+			<xsd:element name="PecMessageId" type="types:PecMessageId_Type" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="Note" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+		</xsd:sequence>
+		<xsd:attribute name="versione" type="types:Versione_Type" use="required" fixed="1.0"/>
+	</xsd:complexType>
+	<xsd:complexType name="NotificaMancataConsegna_Type">
+		<xsd:sequence>
+			<xsd:element name="Identificativo" type="types:Identificativo_Type"/>
+			<xsd:element name="NomeFile" type="types:NomeFile_Type"/>
+			<xsd:element name="DataOraRicezione" type="xsd:dateTime"/>
+			<xsd:element name="RiferimentoArchivio" type="types:RiferimentoArchivio_Type" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="Descrizione" type="types:Descrizione_Type" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="MessageId" type="types:MessageId_Type"/>
+			<xsd:element name="PecMessageId" type="types:PecMessageId_Type" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="Note" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+		</xsd:sequence>
+		<xsd:attribute name="versione" type="types:Versione_Type" use="required" fixed="1.0"/>
+	</xsd:complexType>
+	<xsd:complexType name="AttestazioneTrasmissione_Type">
+		<xsd:sequence>
+			<xsd:element name="Identificativo" type="types:Identificativo_Type"/>
+			<xsd:element name="NomeFile" type="types:NomeFile_Type"/>
+			<xsd:element name="DataOraRicezione" type="xsd:dateTime"/>
+			<xsd:element name="RiferimentoArchivio" type="types:RiferimentoArchivio_Type" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="Ricevente" type="types:Ricevente_Type"/>
+			<xsd:element name="MessageId" type="types:MessageId_Type"/>
+			<xsd:element name="PecMessageId" type="types:PecMessageId_Type" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="Note" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="HashFileOriginale" type="xsd:string"/>
+		</xsd:sequence>
+		<xsd:attribute name="versione" type="types:Versione_Type" use="required" fixed="1.0"/>
+	</xsd:complexType>
+	<xsd:complexType name="RiferimentoArchivio_Type">
+		<xsd:sequence>
+			<xsd:element name="Identificativo" type="types:Identificativo_Type"/>
+			<xsd:element name="NomeFile" type="types:NomeFile_Type"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ListaErrori_Type">
+		<xsd:sequence>
+			<xsd:element name="Errore" type="types:Errore_Type" minOccurs="1" maxOccurs="200"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Errore_Type">
+		<xsd:sequence>
+			<xsd:element name="Codice" type="types:Codice_Type"/>
+			<xsd:element name="Descrizione" type="types:Descrizione_Type"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="Codice_Type">
+		<xsd:restriction base="xsd:string"/>
+	</xsd:simpleType>
+	<!-- =================================================================== -->
+	<!-- TIPI PER RICEVENTI													 -->
+	<!-- =================================================================== -->
+	<xsd:complexType name="MetadatiInvioFile_Type">
+		<xsd:sequence>
+			<xsd:element name="Identificativo" type="types:Identificativo_Type"/>
+			<xsd:element name="NomeFile" type="types:NomeFile_Type"/>
+			<xsd:element name="CodiceDestinatario" type="types:CodiceDestinatario_Type"/>
+			<xsd:element name="Formato" type="types:Formato_Type" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="TentativiInvio" type="xsd:integer"/>
+			<xsd:element name="MessageId" type="types:MessageId_Type"/>
+			<xsd:element name="Note" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="HASH" type="xsd:string"/>
+		</xsd:sequence>
+		<xsd:attribute name="versione" type="types:Versione_Type" use="required" fixed="1.0"/>
+	</xsd:complexType>
+	<xsd:simpleType name="CodiceDestinatario_Type">
+		<xsd:restriction base="xsd:string"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="Formato_Type">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="5"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- =================================================================== -->
+	<!-- TIPI COMUNI														 -->
+	<!-- =================================================================== -->
+	<xsd:simpleType name="Identificativo_Type">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="20"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="NomeFile_Type">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="50"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="MessageId_Type">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="14"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="PecMessageId_Type">
+		<xsd:restriction base="xsd:string"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="Descrizione_Type">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="1000"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Versione_Type">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="5"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="Ricevente_Type">
+		<xsd:sequence>
+			<xsd:element name="Codice" type="types:CodiceDestinatario_Type"/>
+			<xsd:element name="Descrizione" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

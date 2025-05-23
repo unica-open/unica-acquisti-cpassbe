@@ -71,7 +71,7 @@ public class ExceptionMapperHelper {
 
 		return builder.build();
 	}
-	
+
 	/**
 	 * Converts the exception to a response
 	 * @param errors the errors
@@ -102,13 +102,13 @@ public class ExceptionMapperHelper {
 	 */
 	public Response toResponse(List<ApiError> errors) {
 		final String methodName = "toResponse";
-		
+
 		String sJson = null;
 		if (errors != null) {
 			sJson = JsonUtility.serialize(errors);
 		}
 		log.debug(methodName, " - JSON response: " + sJson);
-		
+
 		ResponseBuilder builder = Response
 				.status(status)
 				.header("Content-Type", MediaType.APPLICATION_JSON)
@@ -123,5 +123,5 @@ public class ExceptionMapperHelper {
 		}
 		return builder.build();
 	}
-	
+
 }

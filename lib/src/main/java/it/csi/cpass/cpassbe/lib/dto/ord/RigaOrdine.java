@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -12,21 +12,22 @@ package it.csi.cpass.cpassbe.lib.dto.ord;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.UUID;
 
 import it.csi.cpass.cpassbe.lib.dto.AliquoteIva;
 import it.csi.cpass.cpassbe.lib.dto.BaseAuditedDto;
-import it.csi.cpass.cpassbe.lib.dto.Impegno;
 import it.csi.cpass.cpassbe.lib.dto.ListinoFornitore;
+import it.csi.cpass.cpassbe.lib.dto.Ods;
+import it.csi.cpass.cpassbe.lib.dto.Stato;
 import it.csi.cpass.cpassbe.lib.dto.UnitaMisura;
+import it.csi.cpass.cpassbe.lib.dto.pba.SettoreInterventi;
 
 public class RigaOrdine extends BaseAuditedDto<UUID> implements Serializable {
-	
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
-	
-	private UUID id;
+
+//	private UUID id;
 	private Boolean consegnaParziale;
 	private BigDecimal importoNetto;
 	private BigDecimal importoIva;
@@ -39,28 +40,29 @@ public class RigaOrdine extends BaseAuditedDto<UUID> implements Serializable {
 	private Integer progressivo;
 	private BigDecimal quantita;
 	private AliquoteIva aliquoteIva;
-	private OggettiSpesa ods;
-	private StatoElOrdine statoElOrdine;
+	private Ods ods;
+	private Stato stato;
 	private UnitaMisura unitaMisura;
 	private Destinatario destinatario;
 	private ListinoFornitore listinoFornitore;
 	private String note;
 	private BigDecimal importoDaEvadere;
-	// private List<Impegno> impegniOrdine;
-	
+	private BigDecimal quantitaEvadibile;
+	private SettoreInterventi tipoAcquisto;
+
 	public RigaOrdine() {
 	}
 
 	public RigaOrdine(UUID id) {
 		super(id);
 	}
-	
-	public UUID getId() {
-		return id;
-	}
-	public void setId(UUID id) {
-		this.id = id;
-	}
+
+//	public UUID getId() {
+//		return id;
+//	}
+//	public void setId(UUID id) {
+//		this.id = id;
+//	}
 	public Boolean getConsegnaParziale() {
 		return consegnaParziale;
 	}
@@ -133,21 +135,30 @@ public class RigaOrdine extends BaseAuditedDto<UUID> implements Serializable {
 	public void setAliquoteIva(AliquoteIva aliquoteIva) {
 		this.aliquoteIva = aliquoteIva;
 	}
-	public OggettiSpesa getOds() {
+	public Ods getOds() {
 		return ods;
 	}
-	public void setOds(OggettiSpesa ods) {
+	public void setOds(Ods ods) {
 		this.ods = ods;
 	}
-	public StatoElOrdine getStatoElOrdine() {
-		return statoElOrdine;
-	}
-	public void setStatoElOrdine(StatoElOrdine statoElOrdine) {
-		this.statoElOrdine = statoElOrdine;
-	}
+
 	public UnitaMisura getUnitaMisura() {
 		return unitaMisura;
 	}
+	/**
+	 * @return the stato
+	 */
+	public Stato getStato() {
+		return stato;
+	}
+
+	/**
+	 * @param stato the stato to set
+	 */
+	public void setStato(Stato stato) {
+		this.stato = stato;
+	}
+
 	public void setUnitaMisura(UnitaMisura unitaMisura) {
 		this.unitaMisura = unitaMisura;
 	}
@@ -185,6 +196,21 @@ public class RigaOrdine extends BaseAuditedDto<UUID> implements Serializable {
 	public void setImportoDaEvadere(BigDecimal importoDaEvadere) {
 		this.importoDaEvadere = importoDaEvadere;
 	}
-	
-	
+
+	public BigDecimal getQuantitaEvadibile() {
+		return quantitaEvadibile;
+	}
+
+	public void setQuantitaEvadibile(BigDecimal quantitaEvadibile) {
+		this.quantitaEvadibile = quantitaEvadibile;
+	}
+
+	public SettoreInterventi getTipoAcquisto() {
+		return tipoAcquisto;
+	}
+
+	public void setTipoAcquisto(SettoreInterventi tipoAcquisto) {
+		this.tipoAcquisto = tipoAcquisto;
+	}
+
 }

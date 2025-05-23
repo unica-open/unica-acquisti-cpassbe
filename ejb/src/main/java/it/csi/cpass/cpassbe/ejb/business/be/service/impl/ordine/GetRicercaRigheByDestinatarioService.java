@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -20,14 +20,14 @@ import it.csi.cpass.cpassbe.ejb.util.conf.ConfigurationHelper;
 import it.csi.cpass.cpassbe.lib.dto.ord.RigaOrdine;
 
 public class GetRicercaRigheByDestinatarioService extends BaseService<GetRicercaRigheByDestinatarioRequest, GetRicercaRigheByDestinatarioResponse> {
-	
+
 	RigaOrdineDad rigaOrdineDad;
-	
+
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param configurationHelper the configuration helper
-	 * @param testataOrdineDad    the testataOrdine DAD
+	 * @param rigaOrdineDad    the testataOrdine DAD
 	 */
 	public GetRicercaRigheByDestinatarioService(ConfigurationHelper configurationHelper, RigaOrdineDad rigaOrdineDad) {
 		super(configurationHelper);
@@ -41,7 +41,7 @@ public class GetRicercaRigheByDestinatarioService extends BaseService<GetRicerca
 
 	@Override
 	protected void execute() {
-		List<RigaOrdine> righe = rigaOrdineDad.getRigheByDestinatario(request.getIdDestinatario());
+		final List<RigaOrdine> righe = rigaOrdineDad.getRigheByDestinatario(request.getIdDestinatario());
 		response.setRigheOrdine(righe);
 	}
 

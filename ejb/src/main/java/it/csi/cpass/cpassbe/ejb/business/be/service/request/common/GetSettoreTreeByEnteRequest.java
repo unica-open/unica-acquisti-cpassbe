@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -19,20 +19,24 @@ import it.csi.cpass.cpassbe.ejb.business.be.service.request.base.BaseRequest;
  */
 public class GetSettoreTreeByEnteRequest implements BaseRequest {
 	private final UUID enteId;
+	private final String codSettoreRadice;
+	private final String validita;
 
-	/**
-	 * Constructor
-	 * 
-	 * @param enteId the enteId
-	 */
-	public GetSettoreTreeByEnteRequest(UUID enteId) {
+	public GetSettoreTreeByEnteRequest(UUID enteId, String codSettoreRadice, String validita) {
 		this.enteId = enteId;
+		this.codSettoreRadice = codSettoreRadice;
+		this.validita = validita;
 	}
 
-	/**
-	 * @return the enteId
-	 */
 	public UUID getEnteId() {
 		return enteId;
+	}
+
+	public String getCodSettoreRadice() {
+		return codSettoreRadice;
+	}
+
+	public String getValidita() {
+		return validita;
 	}
 }

@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -16,7 +16,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import it.csi.cpass.cpassbe.lib.dto.BaseDto;
-import it.csi.cpass.cpassbe.lib.util.convert.StringHelper;
 import it.csi.cpass.cpassbe.lib.util.serialization.JsonUtility;
 
 /**
@@ -40,7 +39,7 @@ public abstract class BasePostResponse<K, D extends BaseDto<K>> extends BaseResp
 	@Override
 	protected Response composeOwnResponse() {
 		final String methodName = "composeOwnResponse";
-		String serialized = JsonUtility.serialize(getEntity());
+		final String serialized = JsonUtility.serialize(getEntity());
 		log.debug(methodName, "JSON response: " + serialized);
 		return Response
 				.status(Status.CREATED)

@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -18,6 +18,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
@@ -53,13 +55,27 @@ public class CpassDTipoSettore implements Serializable, BaseEntity<Integer> {
 	@Column(name="tipo_settore_descrizione", nullable=false, length=250)
 	private String tipoSettoreDescrizione;
 
+	/** The flag_utilizzabile. */
+	@Column(name="flag_utilizzabile", nullable=false)
+	private Boolean flagUtilizzabile;
 
+	/** The flag_direzione. */
+	@Column(name="flag_direzione", nullable=false)
+	private Boolean flagDirezione;
+
+	// bi-directional many-to-one association to CpassTEnte
+	@ManyToOne
+	@JoinColumn(name = "ente_id", nullable=false)
+	private CpassTEnte cpassTEnte;
 
 
 	/** The cpass T settores. */
 	//bi-directional many-to-one association to CpassTSettore
 	@OneToMany(mappedBy="cpassDTipoSettore")
 	private List<CpassTSettore> cpassTSettores;
+
+	@Column(name="posizione", nullable=false)
+	private Integer posizione;
 
 	/**
 	 * Gets the tipo settore id.
@@ -109,6 +125,48 @@ public class CpassDTipoSettore implements Serializable, BaseEntity<Integer> {
 	}
 
 	/**
+	 * @return the flagUtilizzabile
+	 */
+	public Boolean getFlagUtilizzabile() {
+		return flagUtilizzabile;
+	}
+
+	/**
+	 * @param flagUtilizzabile the flagUtilizzabile to set
+	 */
+	public void setFlagUtilizzabile(Boolean flagUtilizzabile) {
+		this.flagUtilizzabile = flagUtilizzabile;
+	}
+
+	/**
+	 * @return the flagDirezione
+	 */
+	public Boolean getFlagDirezione() {
+		return flagDirezione;
+	}
+
+	/**
+	 * @param tipoSettoreFlagDirezione the tipoSettoreFlagDirezione to set
+	 */
+	public void setFlagDirezione(Boolean flagDirezione) {
+		this.flagDirezione = flagDirezione;
+	}
+
+	/**
+	 * @return the cpassTEnte
+	 */
+	public CpassTEnte getCpassTEnte() {
+		return cpassTEnte;
+	}
+
+	/**
+	 * @param cpassTEnte the cpassTEnte to set
+	 */
+	public void setCpassTEnte(CpassTEnte cpassTEnte) {
+		this.cpassTEnte = cpassTEnte;
+	}
+
+	/**
 	 * Gets the cpass T settores.
 	 *
 	 * @return the cpass T settores
@@ -150,6 +208,21 @@ public class CpassDTipoSettore implements Serializable, BaseEntity<Integer> {
 		cpassTSettore.setCpassDTipoSettore(null);
 
 		return cpassTSettore;
+	}
+
+
+	/**
+	 * @return the posizione
+	 */
+	public Integer getPosizione() {
+		return posizione;
+	}
+
+	/**
+	 * @param posizione the posizione to set
+	 */
+	public void setPosizione(Integer posizione) {
+		this.posizione = posizione;
 	}
 
 	@Override

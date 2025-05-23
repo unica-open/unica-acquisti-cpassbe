@@ -254,6 +254,31 @@
         description: Errore generico.
         schema:
           $ref: '#/definitions/ApiError'
+/utente/ruolo/{ruolo-codice}:
+  get:
+    produces:
+      - application/json
+    tags:
+      - utente
+    operationId: getUtenteByRuolo
+    description: Restituisce gli utenti con un determinato ruolo.
+    parameters:
+      - in: path
+        name: ruolo-codice
+        required: true
+        type: string
+        description: codice del ruolo.
+    responses:
+      '200':
+        description: Gli utenti configurati con il dato ruolo.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Utente'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
 /utente/ruoli/settore/{id-settore}:
   get:
     produces:
@@ -351,3 +376,205 @@
         description: Errore generico.
         schema:
           $ref: '#/definitions/ApiError'
+/utente/notifiche/non-lette:
+  get:
+    produces:
+      - application/json
+    tags:
+      - utente
+    operationId: getNotificheNonLette
+    description: Restituisce le notifiche non lette in base all'attore che invoca il servizio.
+    responses:
+      '200':
+        description: le notifiche non lette in base all'attore che invoca il servizio.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Notifica'
+          
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/utente/notifiche/count-non-lette:
+  get:
+    produces:
+      - application/json
+    tags:
+      - utente
+    operationId: getCountNotificheNonLette
+    description: Restituisce il numero di notifiche non lette in base all'attore che invoca il servizio.
+    responses:
+      '200':
+        description: il numero di notifiche non lette in base all'attore che invoca il servizio.
+        schema:
+          $ref: '#/definitions/NotificaInfo'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/utente/notifiche/aggiorna:
+  put:
+    produces:
+      - application/json
+    tags:
+      - utente
+    operationId: putAggiornaNotifiche
+    description: Aggiorna l'assegnazione delle notifiche all'utente in base a quelle impostate come "lette"
+    parameters:
+      - in: body
+        name: listaNotifiche
+        required: true
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Notifica'
+    responses:
+      '200':
+        description: L'avvenuta assegnazione delle notifiche all'utente in base a quelle impostate come "lette"
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/utente/lista-ruoli/ente/selezionabile/{selezionabile-da-procedura}:
+  get:
+    produces:
+      - application/json
+    tags:
+      - utente
+    parameters:
+      - in: path
+        name: selezionabile-da-procedura
+        required: true
+        type: string
+    operationId: getRuoliByEnte
+    description: Restituisce i ruoli attivi qu quell'ente.
+    responses:
+      '200':
+        description: lista dei ruili .
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Ruolo'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/utente/ricerca:
+  post:
+    operationId: getRicercaUtenti
+    description: Restituisce gli utenti registrati su sistema.
+    produces:
+      - application/json
+    tags:
+      - utente
+    parameters:
+      - $ref: '#/parameters/offsetParam'
+      - $ref: '#/parameters/limitParam'
+      - $ref: '#/parameters/sortParam'
+      - $ref: '#/parameters/directionParam'
+      - in: body
+        name: ricercaUtenti
+        required: true
+        schema:
+          $ref: '#/definitions/RicercaUtenti'
+    responses:
+      '200':
+        description: Utenti registrati su sistema.
+        schema:
+          $ref: '#/definitions/PagedResponseUtente'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/utente/ricerca/no-page:
+  post:
+    operationId: getRicercaUtentiNoPage
+    description: Restituisce gli utenti registrati su sistema.
+    produces:
+      - application/json
+    tags:
+      - utente
+    parameters:
+      - in: body
+        name: ricercaUtenti
+        required: true
+        schema:
+          $ref: '#/definitions/RicercaUtenti'
+    responses:
+      '200':
+        description: Utenti registrati su sistema.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Utente'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/utente/cf/{cf}:
+  get:
+    operationId: getUtenteHrByCf
+    description: Restituisce il cf da hr
+    produces:
+      - application/json
+    tags:
+      - utente
+    parameters:
+      - in: path
+        name: cf
+        required: true
+        type: string
+    responses:
+      '200':
+        description: utente ricercato.
+        schema:
+          $ref: '#/definitions/Utente'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'   
+/utente/sposta-utenti-settore/{id-settore-old}/{id-settore-new}/controllo/{controllo}:
+  put:
+    operationId: putSpostaUtentiSettore
+    description: Restituisce il cf da hr
+    produces:
+      - application/json
+    tags:
+      - utente
+    parameters:
+      - in: path
+        name: id-settore-old
+        required: true
+        type: string
+        format: uuid
+        description: L'id del settore vecchio.
+      - in: path
+        name: id-settore-new
+        required: true
+        type: string
+        format: uuid
+        description: L'id del settore nuovo.
+      - in: path
+        name: controllo
+        required: true
+        type: string
+        description: controllo su dirigente.
+      - in: body
+        name: utenti
+        required: true
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Utente'             
+    responses:
+      '200':
+        description: utente ricercato.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Utente'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'                           

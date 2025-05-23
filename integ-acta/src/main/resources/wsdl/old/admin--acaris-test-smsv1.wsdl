@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="SMSService" targetNamespace="smsservice.acaris.acta.doqui.it" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:common="common.acaris.acta.doqui.it" xmlns:sms="sms.acaris.acta.doqui.it" xmlns:tns="smsservice.acaris.acta.doqui.it" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="common.acaris.acta.doqui.it">
+			<xsd:include schemaLocation="http://tst-applogic.reteunitaria.piemonte.it/actasrv/smsWS?xsd=ACARIS-Common.xsd"/>
+		</xsd:schema>
+    <xsd:schema targetNamespace="sms.acaris.acta.doqui.it">
+			<xsd:include schemaLocation="http://tst-applogic.reteunitaria.piemonte.it/actasrv/smsWS?xsd=ACARIS-SMS.xsd"/>
+			<xsd:include schemaLocation="http://tst-applogic.reteunitaria.piemonte.it/actasrv/smsWS?xsd=ACARIS-SMSMessaging.xsd"/>
+		</xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="acarisException">
+    <wsdl:part name="fault" element="common:acarisFault">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="completaSmistamentoFirmaDwdRequest">
+    <wsdl:part name="input" element="sms:completaSmistamentoFirmaDwd">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="creaSmistamentoResponse">
+    <wsdl:part name="output" element="sms:creaSmistamentoResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="creaSmistamentoRequest">
+    <wsdl:part name="input" element="sms:creaSmistamento">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="annullaSmistamentoFirmaDwdResponse">
+    <wsdl:part name="output" element="sms:annullaSmistamentoFirmaDwdResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryResponse">
+    <wsdl:part name="output" element="common:queryResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="annullaSmistamentoFirmaDwdRequest">
+    <wsdl:part name="input" element="sms:annullaSmistamentoFirmaDwd">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="completaSmistamentoFirmaDwdResponse">
+    <wsdl:part name="output" element="sms:completaSmistamentoFirmaDwdResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryRequest">
+    <wsdl:part name="input" element="common:query">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="SMSServicePort">
+    <wsdl:operation name="creaSmistamento">
+      <wsdl:input message="tns:creaSmistamentoRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:creaSmistamentoResponse">
+    </wsdl:output>
+      <wsdl:fault name="creaSmistamentoFault" message="tns:acarisException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="query">
+      <wsdl:input message="tns:queryRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:queryResponse">
+    </wsdl:output>
+      <wsdl:fault name="queryFault" message="tns:acarisException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="completaSmistamentoFirmaDwd">
+      <wsdl:input message="tns:completaSmistamentoFirmaDwdRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:completaSmistamentoFirmaDwdResponse">
+    </wsdl:output>
+      <wsdl:fault name="completaSmistamentoFirmaDwdFault" message="tns:acarisException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="annullaSmistamentoFirmaDwd">
+      <wsdl:input message="tns:annullaSmistamentoFirmaDwdRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:annullaSmistamentoFirmaDwdResponse">
+    </wsdl:output>
+      <wsdl:fault name="annullaSmistamentoFirmaDwdFault" message="tns:acarisException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SMSServiceBinding" type="tns:SMSServicePort">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="creaSmistamento">
+      <soap:operation/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="creaSmistamentoFault">
+        <soap:fault name="creaSmistamentoFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="query">
+      <soap:operation/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="queryFault">
+        <soap:fault name="queryFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="completaSmistamentoFirmaDwd">
+      <soap:operation/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="completaSmistamentoFirmaDwdFault">
+        <soap:fault name="completaSmistamentoFirmaDwdFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="annullaSmistamentoFirmaDwd">
+      <soap:operation/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="annullaSmistamentoFirmaDwdFault">
+        <soap:fault name="annullaSmistamentoFirmaDwdFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SMSService">
+    <wsdl:port name="SMSServicePort" binding="tns:SMSServiceBinding">
+      <soap:address location="http://tst-api-piemonte.ecosis.csi.it/documentale/acaris-test-sms/v1"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

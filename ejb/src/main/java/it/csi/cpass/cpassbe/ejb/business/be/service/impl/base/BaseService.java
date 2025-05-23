@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -26,13 +26,16 @@ import it.csi.cpass.cpassbe.ejb.business.be.service.request.base.BaseRequest;
 import it.csi.cpass.cpassbe.ejb.business.be.service.response.base.BaseResponse;
 import it.csi.cpass.cpassbe.ejb.exception.BusinessException;
 import it.csi.cpass.cpassbe.ejb.exception.ParamValidationException;
+import it.csi.cpass.cpassbe.ejb.util.StringUtility;
 import it.csi.cpass.cpassbe.ejb.util.conf.ConfigurationHelper;
 import it.csi.cpass.cpassbe.ejb.util.exception.BusinessExceptionAware;
 import it.csi.cpass.cpassbe.lib.dto.ApiError;
 import it.csi.cpass.cpassbe.lib.dto.BaseAuditedDto;
 import it.csi.cpass.cpassbe.lib.dto.BaseDto;
+import it.csi.cpass.cpassbe.lib.dto.Ruolo;
 import it.csi.cpass.cpassbe.lib.dto.error.CoreError;
 import it.csi.cpass.cpassbe.lib.dto.error.MsgTypeEnum;
+import it.csi.cpass.cpassbe.lib.dto.ord.Destinatario;
 import it.csi.cpass.cpassbe.lib.external.itf.ExternalServiceResolveWrapper;
 import it.csi.cpass.cpassbe.lib.external.res.ExternalServiceResponseWrapper;
 import it.csi.cpass.cpassbe.lib.util.function.Thunk;
@@ -85,11 +88,23 @@ public abstract class BaseService<Q extends BaseRequest, R extends BaseResponse>
 		this.initialize();
 		baseCheckServiceParams();
 		if(!response.getApiErrors().isEmpty()) {
+			paramExceptionPreReturn();
 			return response;
 		}
 
 		init();
-		execute();
+		try {
+			execute();
+		}catch(final RuntimeException re) {
+			runtimeExceptionPreReturn(re);
+			throw re;
+		}
+		/*if(!response.getApiErrors().isEmpty()) {
+			serviceExceptionPreReturn();
+
+			throw new BusinessException("BAD REQUEST",response.getApiErrors());
+
+		}*/
 
 		return response;
 	}
@@ -100,10 +115,11 @@ public abstract class BaseService<Q extends BaseRequest, R extends BaseResponse>
 	 */
 	private R initializeResponse() {
 		@SuppressWarnings("unchecked")
+		final
 		Class<R> responseClass = (Class<R>) GenericTypeResolver.resolveActualTypeArgs(getClass(), BaseService.class)[1];
 		try {
 			// Refactored for Java 11
-			Constructor<R> constructor = responseClass.getDeclaredConstructor();
+			final Constructor<R> constructor = responseClass.getDeclaredConstructor();
 			return constructor.newInstance();
 		} catch (RuntimeException | InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
 			throw new IllegalStateException("Cannot initialize response object", e);
@@ -116,9 +132,9 @@ public abstract class BaseService<Q extends BaseRequest, R extends BaseResponse>
 	 */
 	private void baseCheckServiceParams() {
 		try {
-			checkCondition(request != null, CoreError.REQUIRED_PARAMETER_OMITTED.getError("parameter", "request"), true);
+			checkCondition(request != null, CoreError.REQUIRED_PARAMETER_OMITTED.getError("parameter", "request"), Boolean.TRUE);
 			checkServiceParams();
-		} catch (ParamValidationException pve) {
+		} catch (final ParamValidationException pve) {
 			log.trace("baseCheckServiceParams", "Errors in service validation: " + pve.getMessage());
 		}
 	}
@@ -128,6 +144,13 @@ public abstract class BaseService<Q extends BaseRequest, R extends BaseResponse>
 	 * @in case of errors in param check
 	 */
 	protected void checkServiceParams() {
+		// To be implemented as needed
+	}
+	protected void paramExceptionPreReturn() {
+		// To be implemented as needed
+	}
+
+	protected void serviceExceptionPreReturn() {
 		// To be implemented as needed
 	}
 
@@ -143,6 +166,9 @@ public abstract class BaseService<Q extends BaseRequest, R extends BaseResponse>
 	 */
 	protected abstract void execute();
 
+	protected void runtimeExceptionPreReturn(RuntimeException re)  {
+		// To be implemented as needed
+	}
 	// CHECKS
 	/**
 	 * Checks that the field is not null
@@ -209,11 +235,11 @@ public abstract class BaseService<Q extends BaseRequest, R extends BaseResponse>
 	 */
 	protected void checkCharSequenceLength(CharSequence field, String fieldName, int minLength, int maxLength, boolean throwException) {
 		checkCondition(minLength == 0 || StringUtils.length(field) >= minLength,
-			CoreError.STRING_PARAMETER_LENGTH_CHECK_FAILED.getError("fieldName", fieldName, "operator", ">=", "value", Integer.valueOf(minLength)),
-			throwException);
+				CoreError.STRING_PARAMETER_LENGTH_CHECK_FAILED.getError("fieldName", fieldName, "operator", ">=", "value", Integer.valueOf(minLength)),
+				throwException);
 		checkCondition(maxLength == 0 || StringUtils.length(field) <= maxLength,
-			CoreError.STRING_PARAMETER_LENGTH_CHECK_FAILED.getError("fieldName", fieldName, "operator", "<=", "value", Integer.valueOf(maxLength)),
-			throwException);
+				CoreError.STRING_PARAMETER_LENGTH_CHECK_FAILED.getError("fieldName", fieldName, "operator", "<=", "value", Integer.valueOf(maxLength)),
+				throwException);
 	}
 
 	/**
@@ -301,10 +327,39 @@ public abstract class BaseService<Q extends BaseRequest, R extends BaseResponse>
 	}
 
 	@Override
-	public void checkBusinessCondition(boolean condition, ApiError message) {
+	public void checkBusinessCondition(boolean condition, ApiError message, boolean throwException) {
 		if(!condition) {
 			response.addApiError(message);
-			throw new BusinessException(message);
+			if(throwException) {
+				throw new BusinessException(message);
+			}
+		}
+	}
+
+	public void gotoException() {
+		if(response.getApiErrors().size()>0) {
+			throw new BusinessException("ERROR",response.getApiErrors());
+		}
+	}
+
+	@Override
+	public void checkBusinessCondition(boolean condition, ApiError message) {
+		checkBusinessCondition(condition, message, Boolean.TRUE);
+	}
+
+	@Override
+	public void generaException(ApiError message) {
+		checkBusinessCondition(Boolean.FALSE, message, Boolean.TRUE);
+	}
+
+	/**
+	 *
+	 * @param condition
+	 * @param message
+	 */
+	public void warnBusinessCondition(boolean condition, ApiError message) {
+		if(!condition) {
+			response.addApiWarnings(message);
 		}
 	}
 
@@ -316,7 +371,7 @@ public abstract class BaseService<Q extends BaseRequest, R extends BaseResponse>
 	@Override
 	public void checkBusinessCondition(boolean condition, Supplier<ApiError> message) {
 		if(!condition) {
-			ApiError em = message.get();
+			final ApiError em = message.get();
 			response.addApiError(em);
 			throw new BusinessException(em);
 		}
@@ -326,14 +381,22 @@ public abstract class BaseService<Q extends BaseRequest, R extends BaseResponse>
 	public void checkBusinessCondition(BooleanSupplier supplier, Supplier<ApiError> errorMessage) {
 		this.checkBusinessCondition(supplier.getAsBoolean(), errorMessage);
 	}
-	
+
 	/**
 	 * Checks the validity of the Optlock
 	 * @param currentOptlock the current optlock
 	 * @param oldOptlock the old optlock
 	 */
 	protected void checkOptlock(UUID currentOptlock, UUID oldOptlock) {
-		checkBusinessCondition(oldOptlock.equals(currentOptlock), CoreError.INVALID_OPTLOOK.getError("optlock", currentOptlock));
+		checkOptlock (currentOptlock, oldOptlock, CoreError.INVALID_OPTLOOK.getError("optlock", currentOptlock));
+	}
+	/**
+	 * Checks the validity of the Optlock
+	 * @param currentOptlock the current optlock
+	 * @param oldOptlock the old optlock
+	 */
+	protected void checkOptlock(UUID currentOptlock, UUID oldOptlock,  ApiError message) {
+		checkBusinessCondition(oldOptlock.equals(currentOptlock), message);
 	}
 
 	/**
@@ -344,7 +407,7 @@ public abstract class BaseService<Q extends BaseRequest, R extends BaseResponse>
 	 * @return the loaded instance
 	 */
 	public <E> E isEntityPresent(Supplier<Optional<E>> supplier, String modelName) {
-		Optional<E> instance = supplier.get();
+		final Optional<E> instance = supplier.get();
 		checkBusinessCondition(instance.isPresent(), CoreError.UNMAPPED_ENTITY.getError("entity", modelName));
 		return instance.orElse(null);
 	}
@@ -357,11 +420,11 @@ public abstract class BaseService<Q extends BaseRequest, R extends BaseResponse>
 	 * @return the loaded instance
 	 */
 	public <E> E isNotEntityPresent(Supplier<Optional<E>> supplier, String modelName) {
-		Optional<E> instance = supplier.get();
+		final Optional<E> instance = supplier.get();
 		checkBusinessCondition(!instance.isPresent(), CoreError.MAPPED_ENTITY.getError("entity", modelName));
 		return instance.orElse(null);
 	}
-	
+
 	/**
 	 * Invokes a service
 	 * @param <A> the request type
@@ -381,7 +444,7 @@ public abstract class BaseService<Q extends BaseRequest, R extends BaseResponse>
 				response.addApiErrors(res.getApiErrors());
 			}
 			throw new BusinessException("Exception in inner method invocation", e);
-		} catch(Exception e) {
+		} catch(final Exception e) {
 			response.addApiError(CoreError.SYSTEM_ERROR.getError("error", e.getMessage()));
 			throw new BusinessException("Exception in inner method invocation", e);
 		}
@@ -416,7 +479,7 @@ public abstract class BaseService<Q extends BaseRequest, R extends BaseResponse>
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @param <K>
 	 * @param <T>
 	 * @param newDto
@@ -430,7 +493,7 @@ public abstract class BaseService<Q extends BaseRequest, R extends BaseResponse>
 		newDto.setUtenteModifica(oldDto.getUtenteModifica());
 		newDto.setUtenteCancellazione(oldDto.getUtenteCancellazione());
 	}
-	
+
 	/**
 	 * Invocation of external service
 	 * @param <H> the handler type
@@ -440,18 +503,16 @@ public abstract class BaseService<Q extends BaseRequest, R extends BaseResponse>
 	 * @return the response
 	 */
 	protected <H, E> E invokeExternalService(ExternalServiceResolveWrapper<H> handler, Supplier<ExternalServiceResponseWrapper<E>> supplier) {
-		ExternalServiceResponseWrapper<E> externalResponse = supplier.get();
-		
+		final ExternalServiceResponseWrapper<E> externalResponse = supplier.get();
 		checkBusinessCondition(externalResponse.isSuccess(), () -> CoreError.GENERIC_ERROR.getError("error", externalResponse.getErrors().stream().collect(Collectors.joining(", "))));
-		// TODO: Log messages?
 		return externalResponse.getResponse();
 	}
-	
+
 	protected void separaMessaggiErrorePerTipo(List<ApiError> apiErrors) {
 		// separo i messaggi di errore dagli altri (INFO, WARNING)
-		List<ApiError> apiErrorsError = new ArrayList<ApiError>();
-		List<ApiError> apiErrorsOthers = new ArrayList<ApiError>();
-		for (ApiError apiError : apiErrors) {
+		final List<ApiError> apiErrorsError = new ArrayList<>();
+		final List<ApiError> apiErrorsOthers = new ArrayList<>();
+		for (final ApiError apiError : apiErrors) {
 			if (apiError.getType().equals(MsgTypeEnum.ERROR.getCostante())) {
 				apiErrorsError.add(apiError);
 			} else {
@@ -459,11 +520,33 @@ public abstract class BaseService<Q extends BaseRequest, R extends BaseResponse>
 			}
 		}
 		// non può succedere di vedere a FE messaggi di tipi diversi
-		if (apiErrorsOthers.size() > 0 && apiErrorsError.size() == 0) { 
+		if (apiErrorsOthers.size() > 0 && apiErrorsError.size() == 0) {
 			response.setApiErrors(apiErrorsOthers);
 		} else {
 			response.setApiErrors(apiErrorsError);
 		}
 	}
-	
+
+	protected Boolean containsRuolo(List<Ruolo> ruoli,String ruoloCode) {
+		Boolean ris = Boolean.FALSE;
+		for(final Ruolo ruolo : ruoli) {
+			if (ruolo.getCodice().equals(ruoloCode)){
+				ris = Boolean.TRUE;
+			}
+		}
+		return ris;
+	}
+
+	protected Boolean isIndirizzoEquals(Destinatario destinatario2, Destinatario dest) {
+		if(    StringUtility.isEqualsString(destinatario2.getIndirizzo(),dest.getIndirizzo())
+				&& StringUtility.isEqualsString(destinatario2.getCap(),dest.getCap())
+				&& StringUtility.isEqualsString(destinatario2.getNumCivico(),dest.getNumCivico())
+				&& StringUtility.isEqualsString(destinatario2.getLocalita(),dest.getLocalita())
+				&& StringUtility.isEqualsString(destinatario2.getProvincia(),dest.getProvincia()) ) {
+			return Boolean.TRUE;
+		}
+		return Boolean.FALSE;
+	}
+
+
 }

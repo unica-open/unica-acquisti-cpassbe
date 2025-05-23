@@ -2,15 +2,13 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
  * =========================LICENSE_END==================================
  */
 package it.csi.cpass.cpassbe.ejb.business.be.dad.sort;
-
-import java.util.Set;
 
 public enum SettoreSort implements JpaSort {
 
@@ -54,7 +52,7 @@ public enum SettoreSort implements JpaSort {
 	 * @return the sort
 	 */
 	public static SettoreSort byModelName(String modelName) {
-		for(SettoreSort ss : SettoreSort.values()) {
+		for(final SettoreSort ss : SettoreSort.values()) {
 			if(ss.modelName.equalsIgnoreCase(modelName)) {
 				return ss;
 			}

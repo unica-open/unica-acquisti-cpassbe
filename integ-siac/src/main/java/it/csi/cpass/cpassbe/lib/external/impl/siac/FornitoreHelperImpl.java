@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - INTEGRATION submodule - SIAC
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -51,6 +51,7 @@ public class FornitoreHelperImpl extends BaseSiacHelperImpl implements Fornitore
 		RicercaSinteticaSoggettiResponse ricercaSinteticaSoggettiResponse = ricercaService.ricercaSinteticaSoggetti(ricercaSinteticaSoggetti);
 
 		ExternalServiceResponseWrapper<List<Fornitore>> response = initResponse(methodName, ricercaSinteticaSoggettiResponse);
+		
 		if (response.isSuccess() && ricercaSinteticaSoggettiResponse.getSoggetti() != null) {
 
 			List<Soggetto> soggettosFiltrati = new ArrayList<Soggetto>();
@@ -77,8 +78,7 @@ public class FornitoreHelperImpl extends BaseSiacHelperImpl implements Fornitore
 				RicercaDettaglioSoggettiResponse ricercaDettaglioSoggettiResponse = ricercaService.ricercaDettaglioSoggetto(ricercaDettaglioSoggetto);
 				response = initResponse(methodName, ricercaDettaglioSoggettiResponse);
 				if (response.isSuccess() && ricercaDettaglioSoggettiResponse.getSoggetti() != null) {
-					response.setResponse(
-							ricercaDettaglioSoggettiResponse.getSoggetti().stream().map(CpassSiacMappers.FORNITORE::toModel).collect(Collectors.toList()));
+					response.setResponse(ricercaDettaglioSoggettiResponse.getSoggetti().stream().map(CpassSiacMappers.FORNITORE::toModel).collect(Collectors.toList()));
 				}
 
 			} else {

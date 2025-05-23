@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -38,7 +38,7 @@ public class GetUtenteRupDeleganteService extends BaseUtenteService<GetUtenteRup
 
 	@Override
 	protected void execute() {
-		Utente utente = utenteDad.getUtenteRupDelegante(request.getId()).orElseThrow(() -> new NotFoundException("utente rup non trovato"));
+		final Utente utente = utenteDad.getUtenteRupDelegante(request.getId()).orElseThrow(() -> new NotFoundException("utente rup non trovato"));
 		response.setUtente(utente);
 	}
 

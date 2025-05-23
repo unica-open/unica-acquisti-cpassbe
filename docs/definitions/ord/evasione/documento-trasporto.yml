@@ -1,6 +1,54 @@
 DocumentoTrasporto:
   type: object
   properties:
-    id:
+    capDestinatario:
       type: string
-      format: uuid
+    contattoDestinatario:
+      type: string
+    dataConsegna:
+      type: string
+      format: date-time
+    despatchAdviceId:
+      type: string
+    documentoTrasportoRigaList:
+      type: array
+      items:
+        $ref: '#/definitions/DocumentoTrasportoRiga'
+    endpointId:
+      type: string
+    fornitore:
+      type: object
+      $ref: '#/definitions/Fornitore'
+    idNotier:
+      type: string
+    id:
+      type: integer
+    indirizzoDestinatario:
+      type: string
+    localitaDestinatario:
+      type: string
+    note:
+      type: string
+    ordineUnicoData:
+      type: string
+    ordineUnicoId:
+      type: string
+    ordineUnicoTipo:
+      type: string
+    partitaIvaFornitore:
+      type: string
+    provinciaDestinatario:
+      type: string
+    ragioneSocialeFornitore:
+      type: string
+    settoreEmittenteOrdine:
+      type: string
+    stato:
+      type: object
+      $ref: '#/definitions/Stato'
+    telefonoDestinatario:
+      type: string
+    testataEvasione:
+      type: object
+      $ref: '#/definitions/TestataEvasione'
+

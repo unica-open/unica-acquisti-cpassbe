@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -29,6 +29,14 @@ public class Permesso extends BaseDto<Long> implements Serializable {
 	private String titoloBox;
 	/** The voce menu. */
 	private Boolean voceMenu;
+
+	private String disattivabile;
+
+	private Boolean attivo;
+
+	private Modulo modulo;
+
+
 	/** The voce menu. */
 	//private Boolean trasversale;
 
@@ -52,13 +60,16 @@ public class Permesso extends BaseDto<Long> implements Serializable {
 	 * @param titoloBox the titoloBox
 	 * @param voceMenu the voceMenu
 	 */
-	public Permesso(Long id, String codice, String descrizione, String tipo, String titoloBox, Boolean voceMenu) {
+	public Permesso(Long id, String codice, String descrizione, String tipo, String titoloBox, Boolean voceMenu,Boolean attivo, String disattivabile) {
 		super(id);
 		this.codice = codice;
 		this.descrizione = descrizione;
 		this.tipo = tipo;
 		this.titoloBox = titoloBox;
 		this.voceMenu = voceMenu;
+		this.attivo = attivo;
+		this.disattivabile = disattivabile;
+
 	}
 
 	/**
@@ -131,6 +142,50 @@ public class Permesso extends BaseDto<Long> implements Serializable {
 		this.voceMenu = voceMenu;
 	}
 
+
+	/**
+	 * @return the disattivabile
+	 */
+	public String getDisattivabile() {
+		return disattivabile;
+	}
+
+	/**
+	 * @param disattivabile the disattivabile to set
+	 */
+	public void setDisattivabile(String disattivabile) {
+		this.disattivabile = disattivabile;
+	}
+
+	/**
+	 * @return the attivo
+	 */
+	public Boolean getAttivo() {
+		return attivo;
+	}
+
+	/**
+	 * @param attivo the attivo to set
+	 */
+	public void setAttivo(Boolean attivo) {
+		this.attivo = attivo;
+	}
+
+
+
+	/**
+	 * @return the moduloId
+	 */
+	public Modulo getModulo() {
+		return modulo;
+	}
+
+	/**
+	 * @param moduloId the moduloId to set
+	 */
+	public void setModulo(Modulo modulo) {
+		this.modulo = modulo;
+	}
 
 	@Override
 	public String toString() {

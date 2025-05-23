@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -52,7 +52,7 @@ public class Intervento extends BaseAuditedDto<UUID> implements Serializable {
 	/** The intervento ricompreso. */
 	private String ricompresoCui;
 	/** The intervento ricompreso. */
-	private Intervento interventoCopia;	
+	private Intervento interventoCopia;
 	/** The settore interventi. */
 	private SettoreInterventi settoreInterventi;
 	/** The cpv. */
@@ -75,14 +75,27 @@ public class Intervento extends BaseAuditedDto<UUID> implements Serializable {
 	private String interventoCopiaTipo;
 	/**	interventoImportiCopiaTipo */
 	private String interventoImportiCopiaTipo;
-	
-	private Boolean esenteCup; 
-	
+
+	//presente solo su model
+	private String motivazioneRifiutoRagioneria;
+
+	private String motivazioneRiportaInBozza;
+
+	private String motivazioneRifiuto;
+
+	private Boolean esenteCup;
+
 	private Boolean flagCuiNonGenerato;
-	
+
 	private String motivazioneNonRiproposto;
-	
+
 	private Settore settore;
+
+	/** The lotto funzionale. */
+	private Boolean avviato;
+
+	/** The elementi Dipendenti. */
+	private Boolean elementiDipendenti;
 
 	/** The listInterventoImporti. */
 	private List<InterventoImporti> listInterventoImporti = new ArrayList<>();
@@ -97,20 +110,66 @@ public class Intervento extends BaseAuditedDto<UUID> implements Serializable {
 
 	/** The listInterventoAltriDati. */
 	private List<MetadatiFunzione> listMetadatiFunzione = new ArrayList<>();
-		
+
 	private Date dataVisto;
-			
+
 	private Utente utenteVisto;
-			
+
 	private Date dataValidazione;
-			
+
 	private Utente utenteValidazione;
-			
+
 	private Date dataRifiuto;
-			
+
 	private Utente utenteRifiuto;
-	
-	
+
+	private String selNonRip;
+
+	private Boolean capofila;
+
+	private Date dataVistoRagioneria;
+
+	private Boolean versioneDefinitiva;
+
+	private Boolean vistoRagioneria;
+
+	private List<StatiIntervento> statiInterventos;
+
+	private List<StoricoInterventoRup> storicoInterventoRups;
+
+	private Intervento interventoCapofila;
+
+	private TipoProceduraPba tipoProceduraPba;
+
+	private Utente utenteVistoRagioneria;
+
+	private String versioneDefinitivaStr;
+
+	private String vistoRagioneriaStr;
+
+	private String statoXStorico;
+
+	private Date dataAvviato;
+
+	private Utente utenteAvviato;
+
+	private List<InterventoCig> interventoCigs;
+
+	private String esenteIva;
+	private Boolean presenteInAltroProgramma;
+
+	private Boolean presenteInAltroProgrammaFuturo;
+
+	private String descrizioneUltimoStato;
+
+	public String getEsenteIva() {
+		return esenteIva;
+	}
+
+	public void setEsenteIva(String esenteIva) {
+		this.esenteIva = esenteIva;
+	}
+
 	/** Default constructor */
 	public Intervento() {}
 
@@ -255,9 +314,9 @@ public class Intervento extends BaseAuditedDto<UUID> implements Serializable {
 		this.interventoRicompreso = interventoRicompreso;
 	}
 	*/
-	
-	
-	
+
+
+
 	/**
 	 * Gets the settore interventi.
 	 * @return the settore interventi
@@ -409,7 +468,7 @@ public class Intervento extends BaseAuditedDto<UUID> implements Serializable {
 	public void setListCpv(List<Cpv> listCpv) {
 		this.listCpv = listCpv != null ? listCpv : new ArrayList<>();
 	}
-	
+
 	/**
 	 * @return the listInterventoAltriDati
 	 */
@@ -423,7 +482,7 @@ public class Intervento extends BaseAuditedDto<UUID> implements Serializable {
 	public void setListInterventoAltriDati(List<InterventoAltriDati> listInterventoAltriDati) {
 		this.listInterventoAltriDati = listInterventoAltriDati != null ? listInterventoAltriDati : new ArrayList<>();
 	}
-	
+
 	/**
 	 * @return the ausa
 	 */
@@ -467,7 +526,7 @@ public class Intervento extends BaseAuditedDto<UUID> implements Serializable {
 		this.ricompresoTipo = ricompresoTipo;
 	}
 
-	
+
 	/**
 	 * @return the interventoCopia
 	 */
@@ -524,7 +583,36 @@ public class Intervento extends BaseAuditedDto<UUID> implements Serializable {
 		this.motivazioneNonRiproposto = motivazioneNonRiproposto;
 	}
 
-	
+
+
+	/**
+	 * @return the motivazioneRiportaInBozza
+	 */
+	public String getMotivazioneRiportaInBozza() {
+		return motivazioneRiportaInBozza;
+	}
+
+	/**
+	 * @param motivazioneRiportaInBozza the motivazioneRiportaInBozza to set
+	 */
+	public void setMotivazioneRiportaInBozza(String motivazioneRiportaInBozza) {
+		this.motivazioneRiportaInBozza = motivazioneRiportaInBozza;
+	}
+
+	/**
+	 * @return the motivazioneRifiuto
+	 */
+	public String getMotivazioneRifiuto() {
+		return motivazioneRifiuto;
+	}
+
+	/**
+	 * @param motivazioneRifiuto the motivazioneRifiuto to set
+	 */
+	public void setMotivazioneRifiuto(String motivazioneRifiuto) {
+		this.motivazioneRifiuto = motivazioneRifiuto;
+	}
+
 	/**
 	 * @return the interventoImportiCopiaTipo
 	 */
@@ -553,7 +641,7 @@ public class Intervento extends BaseAuditedDto<UUID> implements Serializable {
 		this.risorsaIdCapitalePrivato = risorsaIdCapitalePrivato;
 	}
 
-	
+
 	/**
 	 * @return the settore
 	 */
@@ -568,7 +656,7 @@ public class Intervento extends BaseAuditedDto<UUID> implements Serializable {
 		this.settore = settore;
 	}
 
-	
+
 	/**
 	 * @return the esenteCup
 	 */
@@ -583,7 +671,7 @@ public class Intervento extends BaseAuditedDto<UUID> implements Serializable {
 		this.esenteCup = esenteCup;
 	}
 
-	
+
 	/**
 	 * @return the listMetadatiFunzione
 	 */
@@ -598,7 +686,7 @@ public class Intervento extends BaseAuditedDto<UUID> implements Serializable {
 		this.listMetadatiFunzione = listMetadatiFunzione;
 	}
 
-	
+
 	/**
 	 * @return the dataVisto
 	 */
@@ -683,6 +771,322 @@ public class Intervento extends BaseAuditedDto<UUID> implements Serializable {
 		this.utenteRifiuto = utenteRifiuto;
 	}
 
+	/**
+	 * @return the capofila
+	 */
+	public Boolean getCapofila() {
+		return capofila;
+	}
+
+	/**
+	 * @param capofila the capofila to set
+	 */
+	public void setCapofila(Boolean capofila) {
+		this.capofila = capofila;
+	}
+
+	/**
+	 * @return the dataVistoRagioneria
+	 */
+	public Date getDataVistoRagioneria() {
+		return dataVistoRagioneria;
+	}
+
+	/**
+	 * @param dataVistoRagioneria the dataVistoRagioneria to set
+	 */
+	public void setDataVistoRagioneria(Date dataVistoRagioneria) {
+		this.dataVistoRagioneria = dataVistoRagioneria;
+	}
+
+	/**
+	 * @return the versioneDefinitiva
+	 */
+	public Boolean getVersioneDefinitiva() {
+		return versioneDefinitiva;
+	}
+
+	/**
+	 * @param versioneDefinitiva the versioneDefinitiva to set
+	 */
+	public void setVersioneDefinitiva(Boolean versioneDefinitiva) {
+		this.versioneDefinitiva = versioneDefinitiva;
+	}
+
+	/**
+	 * @return the vistoRagioneria
+	 */
+	public Boolean getVistoRagioneria() {
+		return vistoRagioneria;
+	}
+
+	/**
+	 * @param vistoRagioneria the vistoRagioneria to set
+	 */
+	public void setVistoRagioneria(Boolean vistoRagioneria) {
+		this.vistoRagioneria = vistoRagioneria;
+	}
+
+	/**
+	 * @return the statiInterventos
+	 */
+	public List<StatiIntervento> getStatiInterventos() {
+		return statiInterventos;
+	}
+
+	/**
+	 * @param statiInterventos the statiInterventos to set
+	 */
+	public void setStatiInterventos(List<StatiIntervento> statiInterventos) {
+		this.statiInterventos = statiInterventos;
+	}
+
+	/**
+	 * @return the storicoInterventoRups
+	 */
+	public List<StoricoInterventoRup> getStoricoInterventoRups() {
+		return storicoInterventoRups;
+	}
+
+	/**
+	 * @param storicoInterventoRups the storicoInterventoRups to set
+	 */
+	public void setStoricoInterventoRups(List<StoricoInterventoRup> storicoInterventoRups) {
+		this.storicoInterventoRups = storicoInterventoRups;
+	}
+
+
+
+	/**
+	 * @return the utenteVistoRagioneria
+	 */
+	public Utente getUtenteVistoRagioneria() {
+		return utenteVistoRagioneria;
+	}
+
+	/**
+	 * @param utenteVistoRagioneria the utenteVistoRagioneria to set
+	 */
+	public void setUtenteVistoRagioneria(Utente utenteVistoRagioneria) {
+		this.utenteVistoRagioneria = utenteVistoRagioneria;
+	}
+
+	/**
+	 * @return the selNonRip
+	 */
+	public String getSelNonRip() {
+		return selNonRip;
+	}
+
+	/**
+	 * @param selNonRip the selNonRip to set
+	 */
+	public void setSelNonRip(String selNonRip) {
+		this.selNonRip = selNonRip;
+	}
+
+	/**
+	 * @return the interventoCapofila
+	 */
+	public Intervento getInterventoCapofila() {
+		return interventoCapofila;
+	}
+
+	/**
+	 * @param interventoCapofila the interventoCapofila to set
+	 */
+	public void setInterventoCapofila(Intervento interventoCapofila) {
+		this.interventoCapofila = interventoCapofila;
+	}
+
+
+	/**
+	 * @return the vistoRagioneriaStr
+	 */
+	public String getVistoRagioneriaStr() {
+		return vistoRagioneriaStr;
+	}
+
+	/**
+	 * @param vistoRagioneriaStr the vistoRagioneriaStr to set
+	 */
+	public void setVistoRagioneriaStr(String vistoRagioneriaStr) {
+		this.vistoRagioneriaStr = vistoRagioneriaStr;
+	}
+
+
+
+	/**
+	 * @return the statoXStorico
+	 */
+	public String getStatoXStorico() {
+		return statoXStorico;
+	}
+
+	/**
+	 * @param statoXStorico the statoXStorico to set
+	 */
+	public void setStatoXStorico(String statoXStorico) {
+		this.statoXStorico = statoXStorico;
+	}
+
+	/**
+	 * @return the avviato
+	 */
+	public Boolean getAvviato() {
+		return avviato;
+	}
+
+	/**
+	 * @param avviato the avviato to set
+	 */
+	public void setAvviato(Boolean avviato) {
+		this.avviato = avviato;
+	}
+
+	/**
+	 * @return the versioneDefinitivaStr
+	 */
+	public String getVersioneDefinitivaStr() {
+		return versioneDefinitivaStr;
+	}
+
+	/**
+	 * @param versioneDefinitivaStr the versioneDefinitivaStr to set
+	 */
+	public void setVersioneDefinitivaStr(String versioneDefinitivaStr) {
+		this.versioneDefinitivaStr = versioneDefinitivaStr;
+	}
+
+
+	/**
+	 * @return the motivazioneRifiutoRagioneria
+	 */
+	public String getMotivazioneRifiutoRagioneria() {
+		return motivazioneRifiutoRagioneria;
+	}
+
+	/**
+	 * @param motivazioneRifiutoRagioneria the motivazioneRifiutoRagioneria to set
+	 */
+	public void setMotivazioneRifiutoRagioneria(String motivazioneRifiutoRagioneria) {
+		this.motivazioneRifiutoRagioneria = motivazioneRifiutoRagioneria;
+	}
+
+	/**
+	 * @return the elementiDipendenti
+	 */
+	public Boolean getElementiDipendenti() {
+		return elementiDipendenti;
+	}
+
+	/**
+	 * @param elementiDipendenti the elementiDipendenti to set
+	 */
+	public void setElementiDipendenti(Boolean elementiDipendenti) {
+		this.elementiDipendenti = elementiDipendenti;
+	}
+
+	/**
+	 * @return the dataAvviato
+	 */
+	public Date getDataAvviato() {
+		return dataAvviato;
+	}
+
+	/**
+	 * @param dataAvviato the dataAvviato to set
+	 */
+	public void setDataAvviato(Date dataAvviato) {
+		this.dataAvviato = dataAvviato;
+	}
+
+	/**
+	 * @return the utenteAvviato
+	 */
+	public Utente getUtenteAvviato() {
+		return utenteAvviato;
+	}
+
+	/**
+	 * @param utenteAvviato the utenteAvviato to set
+	 */
+	public void setUtenteAvviato(Utente utenteAvviato) {
+		this.utenteAvviato = utenteAvviato;
+	}
+
+
+	/**
+	 * @return the tipoProceduraPba
+	 */
+	public TipoProceduraPba getTipoProceduraPba() {
+		return tipoProceduraPba;
+	}
+
+	/**
+	 * @param tipoProceduraPba the tipoProceduraPba to set
+	 */
+	public void setTipoProceduraPba(TipoProceduraPba tipoProceduraPba) {
+		this.tipoProceduraPba = tipoProceduraPba;
+	}
+
+	/**
+	 * @return the interventoCigs
+	 */
+	public List<InterventoCig> getInterventoCigs() {
+		return interventoCigs;
+	}
+
+	/**
+	 * @param interventoCigs the interventoCigs to set
+	 */
+	public void setInterventoCigs(List<InterventoCig> interventoCigs) {
+		this.interventoCigs = interventoCigs;
+	}
+
+	/**
+	 * @return the trasmesso
+	 */
+	public Boolean getPresenteInAltroProgramma() {
+		return presenteInAltroProgramma;
+	}
+
+	/**
+	 * @param presenteInAltroProgramma the trasmesso to set
+	 */
+	public void setPresenteInAltroProgramma(Boolean presenteInAltroProgramma) {
+		this.presenteInAltroProgramma = presenteInAltroProgramma;
+	}
+
+
+	/**
+	 * @return the presenteInAltroProgrammaFuturo
+	 */
+	public Boolean getPresenteInAltroProgrammaFuturo() {
+		return presenteInAltroProgrammaFuturo;
+	}
+
+	/**
+	 * @param presenteInAltroProgrammaFuturo the presenteInAltroProgrammaFuturo to set
+	 */
+	public void setPresenteInAltroProgrammaFuturo(Boolean presenteInAltroProgrammaFuturo) {
+		this.presenteInAltroProgrammaFuturo = presenteInAltroProgrammaFuturo;
+	}
+
+	/**
+	 * @return the descrizioneUltimoStato
+	 */
+	public String getDescrizioneUltimoStato() {
+		return descrizioneUltimoStato;
+	}
+
+	/**
+	 * @param descrizioneUltimoStato the descrizioneUltimoStato to set
+	 */
+	public void setDescrizioneUltimoStato(String descrizioneUltimoStato) {
+		this.descrizioneUltimoStato = descrizioneUltimoStato;
+	}
+
 	@Override
 	public String toString() {
 		return new StringBuilder()
@@ -715,4 +1119,5 @@ public class Intervento extends BaseAuditedDto<UUID> implements Serializable {
 			.append("]")
 			.toString();
 	}
+
 }

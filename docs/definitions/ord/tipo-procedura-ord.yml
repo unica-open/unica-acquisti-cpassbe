@@ -1,0 +1,13 @@
+TipoProceduraOrd:
+  type: object
+  properties:
+    codice:
+      type: string
+    descrizione:
+      type: string
+    ente:
+      type: object
+      $ref: '#/definitions/Ente'
+    id:
+      type: string
+      format: uuid

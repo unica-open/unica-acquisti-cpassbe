@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -10,12 +10,14 @@
  */
 package it.csi.cpass.cpassbe.ejb.business.be.dao.impl.cpass;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.CpassRUtenteSettoreDao;
@@ -26,10 +28,10 @@ import it.csi.cpass.cpassbe.ejb.entity.CpassRUtenteSettore;
 public class CpassRUtenteSettoreDaoImpl extends BaseEntityDaoImpl<Integer, CpassRUtenteSettore> implements CpassRUtenteSettoreDao {
 
 	@Override
-	public List<CpassRUtenteSettore> findByUtenteSettore(UUID utenteId, UUID settoreId) {
-		Map<String, Object> params = new HashMap<>();
+	public List<CpassRUtenteSettore> findByUtenteSettore(UUID utenteId, UUID settoreId,Date dataValiditaFine) {
+		final Map<String, Object> params = new HashMap<>();
 
-		StringBuilder jpql = new StringBuilder();
+		final StringBuilder jpql = new StringBuilder();
 		jpql.append(" SELECT rus ");
 		jpql.append(" FROM CpassRUtenteSettore rus ");
 		jpql.append(" WHERE rus.cpassTUtente.utenteId = :utenteId ");
@@ -40,9 +42,39 @@ public class CpassRUtenteSettoreDaoImpl extends BaseEntityDaoImpl<Integer, Cpass
 			jpql.append(" AND rus.cpassTSettore.settoreId = :settoreId ");
 			params.put("settoreId", settoreId);
 		}
+		if(dataValiditaFine!=null) {
+			jpql.append(" AND (rus.dataValiditaFine   IS NULL OR (rus.dataValiditaFine   IS NOT NULL and rus.dataValiditaFine   >= :dataValiditaFine ))");
+			params.put("dataValiditaFine", dataValiditaFine);
+		}
 
-		TypedQuery<CpassRUtenteSettore> query = composeTypedQuery(jpql, params);
+		final TypedQuery<CpassRUtenteSettore> query = composeTypedQuery(jpql, params);
 		return query.getResultList();
+	}
+
+	@Override
+	public void deleteLogicallyByUtenteId(UUID utenteId, UUID settoreId ) {
+		final Date now = new Date();
+		final Map<String, Object> params = new HashMap<>();
+		final StringBuilder sb = new StringBuilder();
+		sb.append(" UPDATE CpassRUtenteSettore urd set urd.dataValiditaFine = :now ");
+		sb.append(" WHERE urd.dataValiditaFine IS NULL ");
+		params.put("now", now);
+
+		if (utenteId != null) {
+			sb.append(" AND urd.cpassTUtente.utenteId = :utenteId");
+			params.put("utenteId", utenteId);
+		}
+
+		if (settoreId != null) {
+			sb.append(" AND urd.cpassTSettore.settoreId = :settoreId ");
+			params.put("settoreId", settoreId);
+		}
+		//sb.append(" AND (urd.dataValiditaFine IS NULL OR (urd.dataValiditaFine IS NOT NULL AND urd.dataValiditaFine > :now))");
+
+		params.put("now", now);
+		final Query query = composeQuery(sb, params);
+		query.executeUpdate();
+
 	}
 
 }

@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -18,39 +18,39 @@ import javax.persistence.MappedSuperclass;
 
 /**
  * Audited entity base implementation
+ * 
  * @param <K> the key type
  */
 @MappedSuperclass
 public abstract class BaseAuditedEntity<K> implements OptlockEntity, BaseEntity<K> {
 
 	/** The data cancellazione. */
-	@Column(name="data_cancellazione")
+	@Column(name = "data_cancellazione")
 	private Date dataCancellazione;
 
 	/** The data creazione. */
-	@Column(name="data_creazione", nullable=false)
+	@Column(name = "data_creazione", nullable = false)
 	private Date dataCreazione;
 
 	/** The data modifica. */
-	@Column(name="data_modifica", nullable=false)
+	@Column(name = "data_modifica", nullable = false)
 	private Date dataModifica;
 
 	/** The utente cancellazione. */
-	@Column(name="utente_cancellazione")
+	@Column(name = "utente_cancellazione")
 	private String utenteCancellazione;
 
 	/** The utente creazione. */
-	@Column(name="utente_creazione", nullable=false)
+	@Column(name = "utente_creazione", nullable = false)
 	private String utenteCreazione;
 
 	/** The utente modifica. */
-	@Column(name="utente_modifica", nullable=false)
+	@Column(name = "utente_modifica", nullable = false)
 	private String utenteModifica;
 
 	/** The optlock. */
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private UUID optlock;
-
 
 	/**
 	 * @return the dataCancellazione

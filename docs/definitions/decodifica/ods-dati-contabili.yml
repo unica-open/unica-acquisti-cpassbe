@@ -1,0 +1,33 @@
+OdsDatiContabili:
+  type: object
+  properties:
+    dataCancellazione:
+      type: string
+      format: date-time
+    dataCreazione:
+      type: string
+      format: date-time
+    dataModifica:
+      type: string
+      format: date-time
+    id:
+      type: string
+      format: uuid
+    oggettiSpesa:
+      type: object
+      $ref: '#/definitions/Ods'
+    optlock:
+      type: string
+      format: uuid
+    prezzoMassimo:
+      type: number
+    prezzoMinimo:
+      type: number
+    ultimoPrezzo:
+      type: number
+    utenteCancellazione:
+      type: string
+    utenteCreazione:
+      type: string
+    utenteModifica:
+      type: string

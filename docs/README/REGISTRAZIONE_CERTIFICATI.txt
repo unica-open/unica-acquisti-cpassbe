@@ -1,0 +1,122 @@
+registrare certificato nel jdk
+	scaricato certificato da Chrome
+
+	<<< NO >>>
+	keytool -importcert -alias serviziocontrattipubblici -trustcacerts -file C:\Users\filip\Desktop\CPASS\serviziocontrattipubblici.cer
+
+	keytool -importcert -alias serviziocontrattipubblici -cacerts -file C:\Users\filip\Desktop\CPASS\serviziocontrattipubblici.cer
+	keytool -list -cacerts -alias serviziocontrattipubblici
+
+	vedi:
+	Directory di C:\java\jdk-11.0.6.10-hotspot\lib\security
+		22/09/2020  17:32           106.267 cacerts
+		
+registrazione certifcato .p12 (notier-test)
+
+	keytool -importkeystore -srckeystore [MON_FICHIER.p12] -srcstoretype pkcs12 -srcalias [ALIAS_SRC] -destkeystore [MON_KEYSTORE.jks] -deststoretype jks -deststorepass [PASSWORD_JKS] -destalias [ALIAS_DEST]
+		You'll need to modify these parameters:
+		MY_FILE.p12 : indicate the path to the PKCS#12 file (.p12 or .pfx extension) to be converted.
+		MY_KEYSTORE.jks: path to the keystore in which you want to store your certificate. If it does not exist it will be created automatically.
+		PASSWORD_JKS: password that will be requested at the keystore opening.
+		ALIAS_SRC: name matching your certificate entry in the PKCS#12 file, "tomcat" for example.
+			N.B.: In case you would export your certificate from a Windows server generating a .PFX file, you'll have to retrieve the "alias" name created by Windows. To do so, you can execute the following command:
+			keytool -v -list -storetype pkcs12 -keystore FILE_PFX
+			There, the "alias name" field indicates the storage name of your certificate you need to use in the command line.
+		ALIAS_DEST: name that will match your certificate entry in the JKS keystore, "tomcat" for example.
+
+	keytool -importkeystore -srckeystore "C:\Users\Daniela Tarantino\Desktop\notier\ACSI\ACSI.p12" -srcstoretype pkcs12 -srcalias acsi -destkeystore "C:\Program Files\AdoptOpenJDK\jdk-11.0.6.10-hotspot\lib\security\cacerts" -deststoretype jks -deststorepass changeit -destalias notier-test
+	password di origine: ekrG$x+e3^
+	
+	keytool -list -cacerts -alias notier-test
+	
+	
+	
+	
+	Registrazione certificato 
+keytool -importkeystore -srckeystore "D:\certificato\ACSI.p12" -srcstoretype pkcs12 -srcalias acsi -destkeystore "D:\Programmi\java\jdk-11.0.6\lib\security\cacerts" -deststoretype jks -deststorepass changeit -destalias notier-test
+password di origine: ekrG$x+e3^
+cd D:\Programmi\java\jdk-11.0.6\bin
+keytool -list -cacerts -alias notier-test
+password changeit
+
+registrare certificato nel jdk
+	scaricato certificato da Chrome
+
+	<<< NO >>>
+	keytool -importcert -alias serviziocontrattipubblici -trustcacerts -file C:\Users\filip\Desktop\CPASS\serviziocontrattipubblici.cer
+
+	keytool -importcert -alias serviziocontrattipubblici -cacerts -file C:\Users\filip\Desktop\CPASS\serviziocontrattipubblici.cer
+	keytool -list -cacerts -alias serviziocontrattipubblici
+
+	vedi:
+	Directory di C:\java\jdk-11.0.6.10-hotspot\lib\security
+		22/09/2020  17:32           106.267 cacerts
+		
+registrazione certifcato .p12 (notier-test)
+
+	keytool -importkeystore -srckeystore [MON_FICHIER.p12] -srcstoretype pkcs12 -srcalias [ALIAS_SRC] -destkeystore [MON_KEYSTORE.jks] -deststoretype jks -deststorepass [PASSWORD_JKS] -destalias [ALIAS_DEST]
+		You'll need to modify these parameters:
+		MY_FILE.p12 : indicate the path to the PKCS#12 file (.p12 or .pfx extension) to be converted.
+		MY_KEYSTORE.jks: path to the keystore in which you want to store your certificate. If it does not exist it will be created automatically.
+		PASSWORD_JKS: password that will be requested at the keystore opening.
+		ALIAS_SRC: name matching your certificate entry in the PKCS#12 file, "tomcat" for example.
+			N.B.: In case you would export your certificate from a Windows server generating a .PFX file, you'll have to retrieve the "alias" name created by Windows. To do so, you can execute the following command:
+			keytool -v -list -storetype pkcs12 -keystore FILE_PFX
+			There, the "alias name" field indicates the storage name of your certificate you need to use in the command line.
+		ALIAS_DEST: name that will match your certificate entry in the JKS keystore, "tomcat" for example.
+
+	keytool -importkeystore -srckeystore "C:\Users\Daniela Tarantino\Desktop\notier\ACSI\ACSI.p12" -srcstoretype pkcs12 -srcalias acsi -destkeystore "C:\Program Files\AdoptOpenJDK\jdk-11.0.6.10-hotspot\lib\security\cacerts" -deststoretype jks -deststorepass changeit -destalias notier-test
+	password di origine: ekrG$x+e3^
+	
+	keytool -list -cacerts -alias notier-test
+	
+	
+	
+	
+	Registrazione certificato 
+keytool -importkeystore -srckeystore "D:\certificato\ACSI.p12" -srcstoretype pkcs12 -srcalias acsi -destkeystore "D:\Programmi\java\jdk-11.0.6\lib\security\cacerts" -deststoretype jks -deststorepass changeit -destalias notier-test
+password di origine: ekrG$x+e3^
+cd D:\Programmi\java\jdk-11.0.6\bin
+keytool -list -cacerts -alias notier-test
+password changeit
+registrare certificato nel jdk
+	scaricato certificato da Chrome
+
+	<<< NO >>>
+	keytool -importcert -alias serviziocontrattipubblici -trustcacerts -file C:\Users\filip\Desktop\CPASS\serviziocontrattipubblici.cer
+
+	keytool -importcert -alias serviziocontrattipubblici -cacerts -file C:\Users\filip\Desktop\CPASS\serviziocontrattipubblici.cer
+	keytool -list -cacerts -alias serviziocontrattipubblici
+
+	vedi:
+	Directory di C:\java\jdk-11.0.6.10-hotspot\lib\security
+		22/09/2020  17:32           106.267 cacerts
+		
+registrazione certifcato .p12 (notier-test)
+
+	keytool -importkeystore -srckeystore [MON_FICHIER.p12] -srcstoretype pkcs12 -srcalias [ALIAS_SRC] -destkeystore [MON_KEYSTORE.jks] -deststoretype jks -deststorepass [PASSWORD_JKS] -destalias [ALIAS_DEST]
+		You'll need to modify these parameters:
+		MY_FILE.p12 : indicate the path to the PKCS#12 file (.p12 or .pfx extension) to be converted.
+		MY_KEYSTORE.jks: path to the keystore in which you want to store your certificate. If it does not exist it will be created automatically.
+		PASSWORD_JKS: password that will be requested at the keystore opening.
+		ALIAS_SRC: name matching your certificate entry in the PKCS#12 file, "tomcat" for example.
+			N.B.: In case you would export your certificate from a Windows server generating a .PFX file, you'll have to retrieve the "alias" name created by Windows. To do so, you can execute the following command:
+			keytool -v -list -storetype pkcs12 -keystore FILE_PFX
+			There, the "alias name" field indicates the storage name of your certificate you need to use in the command line.
+		ALIAS_DEST: name that will match your certificate entry in the JKS keystore, "tomcat" for example.
+
+	keytool -importkeystore -srckeystore "C:\Users\Daniela Tarantino\Desktop\notier\ACSI\ACSI.p12" -srcstoretype pkcs12 -srcalias acsi -destkeystore "C:\Program Files\AdoptOpenJDK\jdk-11.0.6.10-hotspot\lib\security\cacerts" -deststoretype jks -deststorepass changeit -destalias notier-test
+	password di origine: ekrG$x+e3^
+	
+	keytool -list -cacerts -alias notier-test
+	
+	
+	
+	
+	Registrazione certificato 
+keytool -importkeystore -srckeystore "D:\certificato\ACSI.p12" -srcstoretype pkcs12 -srcalias acsi -destkeystore "D:\Programmi\java\jdk-11.0.6\lib\security\cacerts" -deststoretype jks -deststorepass changeit -destalias notier-test
+password di origine: ekrG$x+e3^
+cd D:\Programmi\java\jdk-11.0.6\bin
+keytool -list -cacerts -alias notier-test
+password changeit
+	

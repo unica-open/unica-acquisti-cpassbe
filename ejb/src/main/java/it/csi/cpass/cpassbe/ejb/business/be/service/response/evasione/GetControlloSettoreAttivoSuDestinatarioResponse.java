@@ -1,0 +1,32 @@
+/*-
+ * ========================LICENSE_START=================================
+ * CPASS BackEnd - EJB submodule
+ * %%
+ * Copyright (C) 2019 - 2025 CSI Piemonte
+ * %%
+ * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
+ * SPDX-License-Identifier: EUPL-1.2
+ * =========================LICENSE_END==================================
+ */
+package it.csi.cpass.cpassbe.ejb.business.be.service.response.evasione;
+
+import it.csi.cpass.cpassbe.ejb.business.be.service.response.base.BaseGetResponse;
+
+public class GetControlloSettoreAttivoSuDestinatarioResponse extends BaseGetResponse<String> {
+
+	private String statoAttivo;
+
+	public String getStatoAttivo() {
+		return statoAttivo;
+	}
+
+	public void setStatoAttivo(String statoAttivo) {
+		this.statoAttivo = statoAttivo;
+	}
+
+	@Override
+	protected String getEntity() {
+		return statoAttivo;
+	}
+
+}

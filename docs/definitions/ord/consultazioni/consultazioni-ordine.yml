@@ -1,0 +1,31 @@
+ConsultazioniOrdine:
+  type: object
+  properties:
+    id:
+      type: string
+    annoOrdine:
+      type: integer
+    descrizioneAcquisto:
+      type: string
+    evaso:
+      type: number
+    fornitoreCodice:
+      type: string
+    fornitoreRagioneSociale:
+      type: string
+    impegnato:
+      type: number
+    inContabilita:
+      type: number
+    listaConsultazioniEvasione:
+      type: array
+      items:  
+        $ref: '#/definitions/ConsultazioniEvasione'
+    lordo:
+      type: number
+    netto:
+      type: number
+    numeroOrdine:
+      type: integer
+    statoDesc:
+      type: string

@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -47,13 +47,13 @@ public class CpassTMetadatiFunzione implements Serializable, BaseEntity<Integer>
 	//@ManyToOne
 	//@JoinColumn(name="utente_id")
 	//private CpassTUtente cpassTUtente;
-	
+
 	@Column(name="modulo")
 	private String modulo;
-	
+
 	@Column(name="funzione")
 	private String funzione;
-	
+
 	@Column(name="chiave_colonna")
 	private String chiaveColonna;
 
@@ -62,10 +62,10 @@ public class CpassTMetadatiFunzione implements Serializable, BaseEntity<Integer>
 
 	@Column(name="stringa_sql")
 	private String stringaSql;
-	
+
 	@Column(name="jpql")
 	private String jpql;
- 
+
 	@Column(name="ordinamento_layout")
 	private Integer ordinamentoLayout;
 
@@ -167,7 +167,7 @@ public class CpassTMetadatiFunzione implements Serializable, BaseEntity<Integer>
 		this.jpql = jpql;
 	}
 
-	
+
 	/**
 	 * @return the ordinamentoLayout
 	 */

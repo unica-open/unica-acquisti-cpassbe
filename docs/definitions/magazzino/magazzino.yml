@@ -1,0 +1,31 @@
+Magazzino:
+  type: object
+  properties:
+    codice:
+      type: string
+    dataCancellazione:
+      type: string
+      format: date-time
+    dataCreazione:
+      type: string
+      format: date-time
+    dataModifica:
+      type: string
+      format: date-time
+    descrizione:
+      type: string
+    ente:
+      type: object
+      $ref: '#/definitions/Ente'
+    id:
+      type: string
+      format: uuid
+    optlock:
+      type: string
+      format: uuid
+    utenteCancellazione:
+      type: string
+    utenteCreazione:
+      type: string
+    utenteModifica:
+      type: string

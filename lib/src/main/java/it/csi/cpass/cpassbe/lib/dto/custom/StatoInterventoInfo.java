@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -25,11 +25,11 @@ public class StatoInterventoInfo extends BaseDto<Integer> implements Serializabl
 	private static final long serialVersionUID = 1L;
 
 	private String stato;
-	
+
 	private Date dataInserimento;
-		
+
 	private String utenteCognome;
-		
+
 	private String utenteNome;
 
 	/**

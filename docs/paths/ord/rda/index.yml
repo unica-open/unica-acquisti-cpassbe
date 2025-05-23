@@ -1,0 +1,266 @@
+/rda/testata/{id}:
+  get:
+    operationId: getTestataRdaById
+    description: Restituisce la testata RDA per id
+    produces:
+      - application/json
+    tags:
+      - rdaApi
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della testataOrdine.
+    responses:
+      '200':
+        description: L'id della TestataRda
+        schema:
+          $ref: '#/definitions/TestataRda'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/rda/testata-rda/ricerca/{anno}/{numero}/{idEnte}:
+  get:
+    operationId: getRicercaTestataRdaByAnnoENum
+    description: Restituisce la testataRda per anno e numero e ente.
+    produces:
+      - application/json
+    tags:
+      - rdaApi
+    parameters:
+      - in: path
+        name: anno
+        required: true
+        type: integer
+        description: L'anno della testataRda.
+      - in: path
+        name: numero
+        required: true
+        type: integer
+        description: Il numero della testataRda.
+      - in: path
+        name: idEnte
+        required: true
+        type: string
+        format: uuid
+        description: L'id dell'ente associato all'utente.
+    responses:
+      '200':
+        description: La testataRda registrata su sistema per dati anno e numero.
+        schema:
+          $ref: '#/definitions/TestataRda'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/rda/ricerca:
+  post:
+    operationId: getRicercaRda
+    description: Restituisce le richieste di acquisto registrate su sistema.
+    produces:
+      - application/json
+    tags:
+      - rdaApi
+    parameters:
+      - $ref: '#/parameters/offsetParam'
+      - $ref: '#/parameters/limitParam'
+      - $ref: '#/parameters/sortParam'
+      - $ref: '#/parameters/directionParam'
+      - in: body
+        name: ricercaRda
+        required: true
+        schema:
+          $ref: '#/definitions/RicercaRda'
+    responses:
+      '200':
+        description: Richieste di acquisto registrate su sistema.
+        schema:
+          $ref: '#/definitions/PagedResponseRda'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/rda:
+  post:
+    operationId: postTestataRda
+    description: Inserisce una rda su sistema.
+    produces:
+      - application/json
+    tags:
+      - rdaApi
+    parameters:
+      - in: body
+        name: testataRda
+        required: true
+        schema:
+          $ref: '#/definitions/TestataRda'
+    responses:
+      '200':
+        description: L'rda registrata.
+        schema:
+          $ref: '#/definitions/TestataRda'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/rda/{id}:          
+  delete:
+    operationId: deleteTestataRdaById
+    description: Cancella l'rda per id.
+    produces:
+      - application/json
+    tags:
+      - rdaApi
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della testata rda.
+    responses:
+      '200':
+        description: Lo status dell'operazione.
+        schema:
+          type: string
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+  put:
+    operationId: putTestataRdaById
+    description: Aggiorna la testataRda per id.
+    produces:
+      - application/json
+    tags:
+      - rdaApi
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della testataRda.
+      - in: body
+        name: testataRda
+        required: true
+        schema:
+          $ref: '#/definitions/TestataRda'
+    responses:
+      '200':
+        description: La testataRda aggiornata.
+        schema:
+          $ref: '#/definitions/TestataRda'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/rda/riga-rda/{id}: 
+  delete:
+    operationId: deleteRigaRdaById
+    description: Elimina la riga di una testata rda presente a sistema.
+    produces:
+      - application/json
+    tags:
+      - rdaApi
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della riga.
+    responses:
+      '200':
+        description: riga ordine eliminata.
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/rda/riga-rda/check/{ods-confermato}:
+  put:
+    operationId: putRigaRda
+    description: Modifica un rigaRda di una testataRda su sistema.
+    produces:
+      - application/json
+    tags:
+      - rdaApi
+    parameters:
+      - in: path
+        name: ods-confermato
+        required: true
+        type: boolean
+        description: vale true se bla bla bla.
+      - in: body
+        name: rigaRda
+        required: true
+        schema:
+          $ref: '#/definitions/RigaRda'
+    responses:
+      '200':
+        description: testata rda registrato.
+        schema:
+          $ref: '#/definitions/RigaRda'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/rda/testata-rda/{id}/stato/{statoCodice}:
+  put:
+    operationId: putCambioStatoRda
+    description: Modifica lo stato di una testataRda su sistema.
+    produces:
+      - application/json
+    tags:
+      - rdaApi
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+        format: uuid
+        description: L'id della richiesta.
+      - in: path
+        name: statoCodice
+        required: true
+        type: string
+        description: codice dello stato della richiesta.       
+    responses:
+      '200':
+        description: testata rda registrata.
+        schema:
+          $ref: '#/definitions/TestataRda'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/rda/ricerca/rms-da-evadere:
+  post:
+    operationId: getRicercaRmsDaEvadere
+    description: Restituisce gli RMS da evadere registrati su sistema.
+    produces:
+      - application/json
+    tags:
+      - rdaApi
+    parameters:
+      - $ref: '#/parameters/offsetParam'
+      - $ref: '#/parameters/limitParam'
+      - $ref: '#/parameters/sortParam'
+      - $ref: '#/parameters/directionParam'
+      - in: body
+        name: ricercaRmsDaEvadere
+        required: true
+        schema:
+          $ref: '#/definitions/RicercaRmsDaEvadere'
+    responses:
+      '200':
+        description: Rms da evadere registrati su sistema.
+        schema:
+          $ref: '#/definitions/PagedResponseRmsDaEvadere'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'                    

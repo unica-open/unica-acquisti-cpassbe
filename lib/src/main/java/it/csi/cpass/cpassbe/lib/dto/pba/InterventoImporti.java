@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -28,6 +28,8 @@ public class InterventoImporti extends BaseAuditedDto<UUID> implements Serializa
 	private BigDecimal importoAnnoPrimo;
 	/** The importo anno secondo. */
 	private BigDecimal importoAnnoSecondo;
+	/** The importo anno terzo. */
+	private BigDecimal importoAnnoTerzo;
 	/** The importo anni successivi. */
 	private BigDecimal importoAnniSuccessivi;
 	/** The risorsa. */
@@ -81,6 +83,21 @@ public class InterventoImporti extends BaseAuditedDto<UUID> implements Serializa
 	}
 
 	/**
+	 * @return the importoAnnoTerzo
+	 */
+	public BigDecimal getImportoAnnoTerzo() {
+		return importoAnnoTerzo;
+	}
+
+	/**
+	 * @param importoAnnoTerzo the importoAnnoTerzo to set
+	 */
+
+	public void setImportoAnnoTerzo(BigDecimal importoAnnoTerzo) {
+		this.importoAnnoTerzo = importoAnnoTerzo;
+	}
+
+	/**
 	 * Gets the importo anni successivi.
 	 * @return the importo anni successivi
 	 */
@@ -128,7 +145,7 @@ public class InterventoImporti extends BaseAuditedDto<UUID> implements Serializa
 		this.intervento = intervento;
 	}
 
-	
+
 	/**
 	 * @return the motivazione
 	 */

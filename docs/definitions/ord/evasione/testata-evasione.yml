@@ -32,23 +32,22 @@ TestataEvasione:
       type: string
     destinatarioEvasiones:
       type: array
-      items:  
+      items:
         $ref: '#/definitions/DestinatarioEvasione'
     documentoConsegna:
       type: string
     documentoDataConsegna:
       type: string
       format: date-time
-    documentoTrasporto:
-      type: object
-      $ref: '#/definitions/DocumentoTrasporto'
+    documentoTrasportoId:
+      type: integer
     evasioneAnno:
       type: integer
     evasioneNumero:
       type: integer
     fatturaAnno:
       type: integer
-    fatturaCodice:
+    fatturaCodiceFornitore:
       type: string
     fatturaNumero:
       type: string
@@ -95,4 +94,6 @@ TestataEvasione:
     utenteCreazione:
       type: string
     utenteModifica:
+      type: string
+    fatturaCodiceExt:
       type: string

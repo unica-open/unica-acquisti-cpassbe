@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -14,11 +14,11 @@ import java.util.UUID;
 
 import it.csi.cpass.cpassbe.ejb.business.be.service.response.base.BasePostResponse;
 import it.csi.cpass.cpassbe.lib.dto.ord.RigaOrdine;
+import it.csi.cpass.cpassbe.lib.dto.ord.RigaOrdineWrapper;
 
-public class PostRigaOrdineResponse extends BasePostResponse<UUID, RigaOrdine> {
-	
+public class PostRigaOrdineResponse extends BasePostResponse<UUID, RigaOrdineWrapper> {
+
 	private RigaOrdine rigaOrdine;
-
 	/**
 	 * @return the testataOrdine
 	 */
@@ -34,13 +34,35 @@ public class PostRigaOrdineResponse extends BasePostResponse<UUID, RigaOrdine> {
 	}
 
 	@Override
-	protected RigaOrdine getEntity() {
-		return rigaOrdine;
-	}
-
-	@Override
 	protected String getBaseUri() {
 		return "rigaOrdine";
 	}
 
+	@Override
+	protected RigaOrdineWrapper getEntity() {
+		return new RigaOrdineWrapper(rigaOrdine,apiWarnings);
+	}
+
+	/*
+	public static class PostRigaOrdineWrapper extends BaseDto<UUID>{
+		final RigaOrdine rigaOrdine;
+		final List<ApiError> listaErrori;
+
+		public PostRigaOrdineWrapper(RigaOrdine rigaOrdine, List<ApiError> listaErrori) {
+			super();
+			this.rigaOrdine = rigaOrdine;
+			this.listaErrori = listaErrori;
+		}
+		public RigaOrdine getRigaOrdine() {
+			return rigaOrdine;
+		}
+		public List<ApiError> getListaErrori() {
+			return listaErrori;
+		}
+
+		public UUID getId() {
+			return rigaOrdine!= null? rigaOrdine.getId() : null ;
+		}
+	}
+	 */
 }

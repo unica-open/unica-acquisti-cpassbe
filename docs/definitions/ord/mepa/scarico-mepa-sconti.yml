@@ -1,0 +1,25 @@
+ScaricoMepaSconti:
+  type: object
+  properties:
+    orderId:
+      type: string
+    scaricoMepaRiga:
+      type: object
+      $ref: '#/definitions/ScaricoMepaRiga'
+    orderlineLineAllowancechargeIndicator:
+      type: boolean
+    orderlineLineAllowancechargeReason:
+      type: string
+    orderlineLineAllowancechargeMultiplierFactorNumeric:
+      type: number
+    orderlineLineAllowancechargeAmount:
+      type: number
+    orderlineLineAllowancechargeBaseAmount:
+      type: number
+    id:
+      type: string
+      format: uuid
+    optlock:
+      type: string
+      format: uuid
+    

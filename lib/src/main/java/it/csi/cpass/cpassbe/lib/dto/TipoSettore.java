@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -15,7 +15,7 @@ import java.io.Serializable;
 /**
  * The Class Stato.
  */
-public class TipoSettore extends BaseDto<Long> implements Serializable {
+public class TipoSettore extends BaseDto<Integer> implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -24,6 +24,11 @@ public class TipoSettore extends BaseDto<Long> implements Serializable {
 	private String codice;
 	/** The descrizione. */
 	private String descrizione;
+	private Boolean flagUtilizzabile;
+    private Boolean flagDirezione;
+	private Ente ente;
+	private Integer posizione;
+
 
 	/** Default constructor */
 	public TipoSettore() {}
@@ -32,7 +37,7 @@ public class TipoSettore extends BaseDto<Long> implements Serializable {
 	 * Constructor
 	 * @param id the id
 	 */
-	public TipoSettore(Long id) {
+	public TipoSettore(Integer id) {
 		super(id);
 	}
 
@@ -66,6 +71,61 @@ public class TipoSettore extends BaseDto<Long> implements Serializable {
 		this.codice = codice;
 	}
 
+	/**
+	 * @return the flagUtilizzabile
+	 */
+	public Boolean getFlagUtilizzabile() {
+		return flagUtilizzabile;
+	}
+
+	/**
+	 * @param flagUtilizzabile the flagUtilizzabile to set
+	 */
+	public void setFlagUtilizzabile(Boolean flagUtilizzabile) {
+		this.flagUtilizzabile = flagUtilizzabile;
+	}
+
+	/**
+	 * @return the flagDirezione
+	 */
+	public Boolean getFlagDirezione() {
+		return flagDirezione;
+	}
+
+	/**
+	 * @param flagDirezione the flagDirezione to set
+	 */
+	public void setFlagDirezione(Boolean flagDirezione) {
+		this.flagDirezione = flagDirezione;
+	}
+
+	/**
+	 * @return the ente
+	 */
+	public Ente getEnte() {
+		return ente;
+	}
+
+	/**
+	 * @param ente the ente to set
+	 */
+	public void setEnte(Ente ente) {
+		this.ente = ente;
+	}
+
+	/**
+	 * @return the posizione
+	 */
+	public Integer getPosizione() {
+		return posizione;
+	}
+
+	/**
+	 * @param posizione the posizione to set
+	 */
+	public void setPosizione(Integer posizione) {
+		this.posizione = posizione;
+	}
 
 	@Override
 	public String toString() {

@@ -34,7 +34,7 @@ public class GzipReaderInterceptor implements ReaderInterceptor {
 		MultivaluedMap<String, String> headers = context.getHeaders();
 
 		List<String> contentEncoding = headers.getOrDefault(HttpHeaders.CONTENT_ENCODING, new ArrayList<>());
-		
+
 		InputStream is = null;
 		try {
 			for (String s : contentEncoding) {

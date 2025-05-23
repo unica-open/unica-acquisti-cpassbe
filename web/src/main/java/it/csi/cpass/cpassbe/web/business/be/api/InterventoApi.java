@@ -39,8 +39,10 @@ import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
 import it.csi.cpass.cpassbe.ejb.util.mime.MimeTypeContainer.MimeType;
 import it.csi.cpass.cpassbe.lib.dto.Cpv;
+import it.csi.cpass.cpassbe.lib.dto.pba.CopiaInterventoWrapper;
 import it.csi.cpass.cpassbe.lib.dto.pba.Intervento;
 import it.csi.cpass.cpassbe.web.dto.InterventiDaCopia;
+import it.csi.cpass.cpassbe.web.dto.RicercaInterventiPerCopia;
 import it.csi.cpass.cpassbe.web.dto.WebInterventoFileHolder;
 import it.csi.cpass.cpassbe.web.util.annotation.LoadSettore;
 
@@ -68,7 +70,17 @@ public interface InterventoApi {
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
-
+	/**
+	 *
+	 */
+	@DELETE
+	@Path("/physically/{id}")
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response deleteInterventoPhysicallyById(
+			@PathParam("id") UUID id,
+			@Context SecurityContext securityContext,
+			@Context HttpHeaders httpHeaders,
+			@Context HttpServletRequest httpRequest);
 	/**
 	 * Gets the Interventi by the query params
 	 * @param offset the offset
@@ -82,34 +94,29 @@ public interface InterventoApi {
 	 * @return the response
 	 */
 	@POST
-	@Path("ricerca/settore/{id-settore}")
+	//@Path("ricerca/settore/{id-settore}")
+	@Path("ricerca")
 	@Produces({MediaType.APPLICATION_JSON})
+	@LoadSettore
 	public Response getRicercaInterventi(
 			@Min(0) @QueryParam("offset") Integer offset,
 			@Min(1) @Max(100) @QueryParam("limit") Integer limit,
 			@QueryParam("sort") @DefaultValue("") String sort,
 			@QueryParam("direction") @DefaultValue("asc") String direction,
-			//@QueryParam("metadati") List<Metadati> metadati,
 			Intervento intervento,
-			@PathParam("id-settore") UUID settoreId,
-			//Boolean perCopia,
+			//@PathParam("id-settore") UUID settoreId,
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
-	/*
-	class Metadati {
-		public String campo;
-		public String direzione;
-	}
-*/
+
 	/**
 	 * Gets the Interventi by the query params
 	 * @param offset the offset
 	 * @param limit the limit
 	 * @param sort the sort
 	 * @param direction the direction
-	 * @param idProgrammaOld 
-	 * @param idProgrammaNew 
+	 * @param idProgrammaOld
+	 * @param idProgrammaNew
 	 * @param securityContext the security context
 	 * @param httpHeaders the HTTP headers
 	 * @param httpRequest the HTTP request
@@ -118,6 +125,7 @@ public interface InterventoApi {
 	@GET
 	@Path("ricerca-per-copia/programma-old-id/{id-programma-old}/programma-new-id/{id-programma-new}")
 	@Produces({MediaType.APPLICATION_JSON})
+	@LoadSettore
 	public Response getRicercaInterventiXCopia(
 			@Min(0) @QueryParam("offset") Integer offset,
 			@Min(1) @Max(100) @QueryParam("limit") Integer limit,
@@ -129,7 +137,34 @@ public interface InterventoApi {
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
 
-	
+	/**
+	 * Gets the Interventi by the query params
+	 * @param offset the offset
+	 * @param limit the limit
+	 * @param sort the sort
+	 * @param direction the direction
+	 * @param ricercaInterventiPerCopia
+	 * @param idProgrammaNew
+	 * @param securityContext the security context
+	 * @param httpHeaders the HTTP headers
+	 * @param httpRequest the HTTP request
+	 * @return the response
+	 */
+	@POST
+	@Path("post-ricerca-per-copia")
+	@Produces({MediaType.APPLICATION_JSON})
+	@LoadSettore
+	public Response postRicercaInterventiXCopia(
+			@Min(0) @QueryParam("offset") Integer offset,
+			@Min(1) @Max(100) @QueryParam("limit") Integer limit,
+			@QueryParam("sort") @DefaultValue("") String sort,
+			@QueryParam("direction") @DefaultValue("asc") String direction,
+			RicercaInterventiPerCopia ricercaInterventiPerCopia,
+			@Context SecurityContext securityContext,
+			@Context HttpHeaders httpHeaders,
+			@Context HttpServletRequest httpRequest);
+
+
 	/**
 	 * Gets an Intervento by its id
 	 * @param id the id
@@ -141,33 +176,51 @@ public interface InterventoApi {
 	@GET
 	@Path("{id}")
 	@Produces({MediaType.APPLICATION_JSON})
+	@LoadSettore
 	public Response getInterventoById(
 			@PathParam("id") UUID id,
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
-	
 
-
+	@GET
+	@Path("/cui-futuro/{id}")
+	@Produces({MediaType.APPLICATION_JSON})
+	@LoadSettore
+	public Response getInterventoInProgrammaFuturoById(
+			@PathParam("id") UUID id,
+			@Context SecurityContext securityContext,
+			@Context HttpHeaders httpHeaders,
+			@Context HttpServletRequest httpRequest);
+	@GET
+	@Path("lista/cui/{cui}")
+	@Produces({MediaType.APPLICATION_JSON})
+	@LoadSettore
+	public Response getInterventiByCui(
+			@PathParam("cui") String cui,
+			@Context SecurityContext securityContext,
+			@Context HttpHeaders httpHeaders,
+			@Context HttpServletRequest httpRequest);
 	/**
 	 * Gets an Intervento by its cui
 	 * @param cui the cui
-	 * @param idProgramma 
+	 * @param idProgramma
 	 * @param securityContext the security context
 	 * @param httpHeaders the HTTP headers
 	 * @param httpRequest the HTTP request
 	 * @return the response
 	 */
 	@GET
-	@Path("cui/{cui}/programma/{id-programma}/settore/{id-settore}")
+	@Path("cui/{cui}/programma/{id-programma}")
 	@Produces({MediaType.APPLICATION_JSON})
+	@LoadSettore
 	public Response getInterventoByCui(
 			@PathParam("cui") String cui,
 			@PathParam("id-programma") UUID idProgramma,
-			@PathParam("id-settore") UUID settoreId,
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
+
 
 	/**
 	 * Gets the InterventoImporti by Intervento id
@@ -200,6 +253,7 @@ public interface InterventoApi {
 	 */
 	@POST
 	@Produces({MediaType.APPLICATION_JSON})
+	@LoadSettore
 	public Response postIntervento(
 			Intervento intervento,
 			@Context SecurityContext securityContext,
@@ -209,8 +263,8 @@ public interface InterventoApi {
 
 	/**
 	 * Posts an Intervento
-	 * @param interventiDaCopia 
-	 * @param idProgramma 
+	 * @param interventiDaCopia
+	 * @param idProgramma
 	 * @param securityContext the security context
 	 * @param httpHeaders the HTTP headers
 	 * @param httpRequest the HTTP request
@@ -218,7 +272,8 @@ public interface InterventoApi {
 	 */
 	@POST
 	@Path("copia-lista-int/programma/{id-programma}")
-	@Produces({MediaType.APPLICATION_JSON})	
+	@Produces({MediaType.APPLICATION_JSON})
+	@LoadSettore
 	public Response postInterventiDaCopia(
 			InterventiDaCopia interventiDaCopia,
 			@PathParam("id-programma") UUID idProgramma,
@@ -226,8 +281,29 @@ public interface InterventoApi {
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
 
-	
-	
+	/**
+	 * Posts an Intervento
+	 * @param interventiDaCopia
+	 * @param idProgramma
+	 * @param securityContext the security context
+	 * @param httpHeaders the HTTP headers
+	 * @param httpRequest the HTTP request
+	 * @return the response
+	 */
+	@POST
+	@Path("copia-lista-int-v2/programma/{id-programma}")
+	@Produces({MediaType.APPLICATION_JSON})
+	@LoadSettore
+	public Response postInterventiDaCopiaV2(
+			List<CopiaInterventoWrapper> listCopiaInterventoWrapper,
+			@PathParam("id-programma") UUID idProgramma,
+			@QueryParam("stato") String stato,
+			@Context SecurityContext securityContext,
+			@Context HttpHeaders httpHeaders,
+			@Context HttpServletRequest httpRequest);
+
+
+
 	/**
 	 * Puts an Intervento by its id
 	 * @param id the id
@@ -239,6 +315,7 @@ public interface InterventoApi {
 	 */
 	@PUT
 	@Path("{id}")
+	@LoadSettore
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response putInterventoById(
 			@PathParam("id") UUID id,
@@ -265,7 +342,7 @@ public interface InterventoApi {
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
 
-	
+
 	/**
 	 * Puts an stato Intervento by its id
 	 * @param id the id
@@ -276,6 +353,7 @@ public interface InterventoApi {
 	 * @return the response
 	 */
 	@PUT
+	@LoadSettore
 	@Path("stato/annullato/{id}/settore/{id-settore}")
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response putInterventoStatoAnnullatoById(
@@ -285,6 +363,7 @@ public interface InterventoApi {
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
+
 
 	/**
 	 * Puts an stato Intervento by its id
@@ -297,6 +376,7 @@ public interface InterventoApi {
 	 */
 	@PUT
 	@Path("stato/approvato/{id}")
+	@LoadSettore
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response putInterventoStatoApprovatoById(
 			@PathParam("id") UUID id,
@@ -304,7 +384,7 @@ public interface InterventoApi {
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
-	
+
 	/**
 	 * Puts an stato of Interventi by its id
 	 * @param intervento the intervento to update
@@ -315,6 +395,7 @@ public interface InterventoApi {
 	 */
 	@PUT
 	@Path("stato/approvato")
+	@LoadSettore
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response putInterventiStatoApprovato(
 			List<Intervento> intervento,
@@ -322,6 +403,7 @@ public interface InterventoApi {
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
 
+	//postControlloCapofilaXCopiaInterventi
 	/**
 	 * Puts an stato of Interventi by its id
 	 * @param intervento the intervento to update
@@ -333,6 +415,7 @@ public interface InterventoApi {
 	@PUT
 	@Path("stato/annullato/settore/{id-settore}")
 	@Produces({MediaType.APPLICATION_JSON})
+	@LoadSettore
 	public Response putInterventiStatoAnnullato(
 			@PathParam("id-settore") UUID settoreId,
 			List<Intervento> intervento,
@@ -340,8 +423,8 @@ public interface InterventoApi {
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
 
-	
-	
+
+
 	/**
 	 * Posts the upload of a CSV
 	 * @param fileHolder the file holder
@@ -352,12 +435,13 @@ public interface InterventoApi {
 	 */
 	@POST
 	@Path("upload/csv")
+	@LoadSettore
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	public Response postUploadCsv(
-			@MultipartForm WebInterventoFileHolder fileHolder,			
+			@MultipartForm WebInterventoFileHolder fileHolder,
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
-			@Context HttpServletRequest httpRequest);	
+			@Context HttpServletRequest httpRequest);
 
 	@GET
 	@Path("/cpvs/intervento/{id}")
@@ -367,11 +451,20 @@ public interface InterventoApi {
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
-	
+
 	@GET
 	@Path("/ultimo-stato-info/{id}")
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response getUltimoStatoInfoByInterventoId(
+			@PathParam("id") UUID id,
+			@Context SecurityContext securityContext,
+			@Context HttpHeaders httpHeaders,
+			@Context HttpServletRequest httpRequest);
+
+	@GET
+	@Path("/lista-stati/{id}")
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response getStatiInterventoByInterventoId(
 			@PathParam("id") UUID id,
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
@@ -397,15 +490,17 @@ public interface InterventoApi {
 			@Context HttpServletRequest httpRequest);
 
 	@PUT
-	@Path("/voltura/{id-rup}")
+	@Path("/voltura/{id-settore}/{id-rup}")
+	@LoadSettore
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response putInterventoVoltura(
+			@PathParam("id-settore") UUID idSettore,
 			@PathParam("id-rup") UUID idRup,
 			List<Intervento> interventi,
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
-	
+
 	/**
 	 * Puts an stato of Interventi by its id
 	 * @param intervento the intervento to update
@@ -461,9 +556,145 @@ public interface InterventoApi {
 	@PUT
 	@Path("/prendi-in-carico")
 	@Produces({MediaType.APPLICATION_JSON})
+	@LoadSettore
 	public Response putInterventoPrendiInCarico(
 			List<Intervento> interventi,
 			@Context SecurityContext securityContext,
 			@Context HttpHeaders httpHeaders,
 			@Context HttpServletRequest httpRequest);
+
+	/**
+	 * Puts an stato of Interventi by its id
+	 * @param intervento the intervento to update
+	 * @param securityContext the security context
+	 * @param httpHeaders the HTTP headers
+	 * @param httpRequest the HTTP request
+	 * @return the response
+	 */
+	@PUT
+	@Path("stato/visto-ragioneria")
+	@Produces({MediaType.APPLICATION_JSON})
+	@LoadSettore
+	public Response putInterventiStatoVistoRagioneria(
+			List<Intervento> intervento,
+			@Context SecurityContext securityContext,
+			@Context HttpHeaders httpHeaders,
+			@Context HttpServletRequest httpRequest);
+	/**
+	 * Puts an stato of Interventi by its id
+	 * @param intervento the intervento to update
+	 * @param securityContext the security context
+	 * @param httpHeaders the HTTP headers
+	 * @param httpRequest the HTTP request
+	 * @return the response
+	 */
+	@PUT
+	@Path("stato/rifiuto-visto-ragioneria")
+	@Produces({MediaType.APPLICATION_JSON})
+	@LoadSettore
+	public Response putInterventiStatoRifiutoVistoRagioneria(
+			List<Intervento> intervento,
+			@Context SecurityContext securityContext,
+			@Context HttpHeaders httpHeaders,
+			@Context HttpServletRequest httpRequest);
+
+	@POST
+	@Path("interventi-capofila/programma/{id-programma}")
+	@LoadSettore
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response getInterventiCapofila(
+			@PathParam("id-programma") UUID idProgramma,
+			Intervento intervento,
+			@Context SecurityContext securityContext,
+			@Context HttpHeaders httpHeaders,
+			@Context HttpServletRequest httpRequest);
+
+	@GET
+	@Path("interventi-capofila-associati/{id-int-capofila}")
+	@LoadSettore
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response getInterventibyCapofilaId(
+			@PathParam("id-int-capofila") UUID capofilaId,
+			@Context SecurityContext securityContext,
+			@Context HttpHeaders httpHeaders,
+			@Context HttpServletRequest httpRequest);
+
+	@POST
+	@Path("ricerca-per-copia/controllo-capofila")
+	@LoadSettore
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response postControlloCapofilaXCopiaInterventi(
+			List<Intervento> interventi,
+			@Context SecurityContext securityContext,
+			@Context HttpHeaders httpHeaders,
+			@Context HttpServletRequest httpRequest);
+
+	@POST
+	@LoadSettore
+	@Path("controllo/stato/cancellazione")
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response postControlloCancellazioneIntervento(
+			List<Intervento> interventi,
+			@Context SecurityContext securityContext,
+			@Context HttpHeaders httpHeaders,
+			@Context HttpServletRequest httpRequest);
+
+	@GET
+	@Path("/lista-cig/{id-intervento}")
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response getCigByInterventoId(
+			@PathParam("id-intervento") UUID idIntervento,
+			@Context SecurityContext securityContext,
+			@Context HttpHeaders httpHeaders,
+			@Context HttpServletRequest httpRequest);
+
+	/**
+	 * Puts an stato of Interventi by its id
+	 * @param intervento the intervento to update
+	 * @param securityContext the security context
+	 * @param httpHeaders the HTTP headers
+	 * @param httpRequest the HTTP request
+	 * @return the response
+	 */
+	@PUT
+	@Path("stato/riporta-in-bozza")
+	@Produces({MediaType.APPLICATION_JSON})
+	@LoadSettore
+	public Response putInterventiRiportaInBozza(
+			List<Intervento> intervento,
+			@Context SecurityContext securityContext,
+			@Context HttpHeaders httpHeaders,
+			@Context HttpServletRequest httpRequest);
+	/**
+	 * Puts an stato Intervento by its id
+	 * @param id the id
+	 * @param intervento the intervento to update
+	 * @param securityContext the security context
+	 * @param httpHeaders the HTTP headers
+	 * @param httpRequest the HTTP request
+	 * @return the response
+	 */
+	@PUT
+	@LoadSettore
+	@Path("avvia-intervento/{id-intervento}/{motivo-esclusione-cig}")
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response putAvviaInterventoById(
+			@PathParam("id-intervento") UUID idIntervento,
+			@PathParam("motivo-esclusione-cig") Integer motivoEsclusioneCigId,
+			List<String> cigs,
+			@Context SecurityContext securityContext,
+			@Context HttpHeaders httpHeaders,
+			@Context HttpServletRequest httpRequest);
+
+	@PUT
+	@LoadSettore
+	@Path("intervento-non-avviato/{id-intervento}")
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response putInterventoNonAvviatoById(
+			@PathParam("id-intervento") UUID idIntervento,
+			@Context SecurityContext securityContext,
+			@Context HttpHeaders httpHeaders,
+			@Context HttpServletRequest httpRequest);
+
 }
+

@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -26,7 +26,7 @@ public class PutTestataEvasioneService extends BaseService<PutTestataEvasioneReq
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param configurationHelper
 	 * @param testataEvasioneDad
 	 */
@@ -37,7 +37,7 @@ public class PutTestataEvasioneService extends BaseService<PutTestataEvasioneReq
 
 	@Override
 	protected void checkServiceParams() {
-		checkNotNull(request.getTestataEvasione(), "testataEvasione", true);
+		checkNotNull(request.getTestataEvasione(), "testataEvasione", Boolean.TRUE);
 	}
 
 	@Override

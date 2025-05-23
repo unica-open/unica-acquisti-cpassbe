@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -25,10 +25,10 @@ import it.csi.cpass.cpassbe.lib.util.http.HttpHelper;
  *
  */
 public class OAuth2HelperHeaderGrant extends OAuth2Helper {
-	
+
 	/** The authorization header content */
 	private final String authorization;
-	
+
 	/**
 	 * Constructor
 	 * @param oAuthURL
@@ -47,10 +47,10 @@ public class OAuth2HelperHeaderGrant extends OAuth2Helper {
 	void initToken() {
 		final String methodName = "initToken";
 		log.trace(methodName, () -> "OAuth2 URI: " + this.oAuthURL + " - Consumer key: " + this.consumerKey);
-		
+
 		Map<Object, Object> params = new HashMap<>();
 		params.put("grant_type", "client_credentials");
-		
+
 		HttpRequest request = HttpRequest.newBuilder()
 				.uri(URI.create(this.oAuthURL))
 				.timeout(Duration.ofMillis(timeout))
@@ -59,8 +59,7 @@ public class OAuth2HelperHeaderGrant extends OAuth2Helper {
 				.header("Content-type", "application/x-www-form-urlencoded")
 				.POST(HttpHelper.ofFormData(params))
 				.build();
-		
-		invokeAndParseToken(request);
+		retryInitToken(request, 3);
 	}
 
 }

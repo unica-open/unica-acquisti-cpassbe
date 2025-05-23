@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -32,7 +32,7 @@ import it.csi.cpass.cpassbe.lib.util.uuid.UuidUtils;
 
 /**
  * The persistent class for the cpass_t_impegno database table.
- * 
+ *
  */
 
 @Entity
@@ -46,8 +46,8 @@ public class CpassTImpegno extends BaseAuditedEntity<UUID> implements Serializab
 	@Id
 	@Column(name="impegno_id")
 	private UUID impegnoId;
-	
-	
+
+
 	@Column(name="descrizione_capitolo")
 	private String descrizioneCapitolo;
 
@@ -86,6 +86,12 @@ public class CpassTImpegno extends BaseAuditedEntity<UUID> implements Serializab
 
 	@Column(name="provvedimento_settore")
 	private String provvedimentoSettore;
+
+	@Column(name="pdc_codice")
+	private String pdcCodice;
+
+	@Column(name="pdc_descrizione")
+	private String pdcDescrizione;
 
 	private String stato;
 
@@ -220,6 +226,34 @@ public class CpassTImpegno extends BaseAuditedEntity<UUID> implements Serializab
 
 	public void setProvvedimentoSettore(String provvedimentoSettore) {
 		this.provvedimentoSettore = provvedimentoSettore;
+	}
+
+	/**
+	 * @return the pdcCodice
+	 */
+	public String getPdcCodice() {
+		return pdcCodice;
+	}
+
+	/**
+	 * @param pdcCodice the pdcCodice to set
+	 */
+	public void setPdcCodice(String pdcCodice) {
+		this.pdcCodice = pdcCodice;
+	}
+
+	/**
+	 * @return the pdcDescrizione
+	 */
+	public String getPdcDescrizione() {
+		return pdcDescrizione;
+	}
+
+	/**
+	 * @param pdcDescrizione the pdcDescrizione to set
+	 */
+	public void setPdcDescrizione(String pdcDescrizione) {
+		this.pdcDescrizione = pdcDescrizione;
 	}
 
 	public String getStato() {

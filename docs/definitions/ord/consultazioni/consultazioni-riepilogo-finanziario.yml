@@ -1,0 +1,9 @@
+ConsultazioniRiepilogoFinanziario:
+  type: object
+  properties:
+    totaleResidui:
+      type: number
+    totaleCompetenza:
+      type: number
+    totaleAnnoSuccessivo:
+      type: number

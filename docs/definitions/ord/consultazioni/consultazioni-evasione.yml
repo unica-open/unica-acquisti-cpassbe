@@ -1,0 +1,34 @@
+ConsultazioniEvasione:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    annoEvasione:
+      type: integer
+    documentoFatturaAnno:
+      type: string
+    documentoFatturaNumero:
+      type: string
+    documentoFatturaTipo:
+      type: string
+    evaso:
+      type: number
+    fornitoreCodice:
+      type: string
+    fornitoreDesc:
+      type: string
+    fornitoreRagioneSociale:
+      type: string
+    inContabilita:
+      type: number
+    listaConsultazioniRipartizioneEvasione:
+      type: array
+      items:  
+        $ref: '#/definitions/ConsultazioniRipartizioneEvasione'
+    numeroEvasione:
+      type: integer
+    ripartitoSuImpegni:
+      type: number
+    statoDesc:
+      type: string

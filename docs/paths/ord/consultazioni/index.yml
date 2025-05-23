@@ -1,0 +1,73 @@
+/ord/consultazioni/ricerca/impegno:
+  post:
+    operationId: postRicercaConsultazioniXImpegno
+    description: Restituisce la consultazione a partire da impegno
+    produces:
+      - application/json
+    tags:
+      - consultazioni
+    parameters:
+      - in: body
+        name: ricercaXConsultazioni
+        required: true
+        schema:
+          $ref: '#/definitions/RicercaXConsultazioni'
+    responses:
+      '200':
+        description: impegni in consultazione.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/ConsultazioniImpegno'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/consultazioni/ricerca/ordine:
+  post:
+    operationId: postRicercaConsultazioniXOrdine
+    description: Restituisce la consultazione a partire da ordine
+    produces:
+      - application/json
+    tags:
+      - consultazioni
+    parameters:
+      - in: body
+        name: ricercaXConsultazioni
+        required: true
+        schema:
+          $ref: '#/definitions/RicercaXConsultazioni'
+    responses:
+      '200':
+        description: ordini in consultazione.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/ConsultazioniOrdine'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/consultazioni/ricerca/riepilogo:
+  post:
+    operationId: postRicercaConsultazioniXRiepilogo
+    description: Restituisce la consultazione a partire da Riepilogo
+    produces:
+      - application/json
+    tags:
+      - consultazioni
+    parameters:
+      - in: body
+        name: ricercaXConsultazioni
+        required: true
+        schema:
+          $ref: '#/definitions/RicercaXConsultazioni'
+    responses:
+      '200':
+        description: riepilogo consultazione.
+        schema:
+          $ref: '#/definitions/ConsultazioniRiepilogo'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'                    

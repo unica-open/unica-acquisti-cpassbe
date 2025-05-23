@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -20,7 +20,6 @@ import javax.persistence.TypedQuery;
 
 import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.ord.CpassDOrdStatoNsoDao;
 import it.csi.cpass.cpassbe.ejb.business.be.dao.impl.BaseEntityDaoImpl;
-import it.csi.cpass.cpassbe.ejb.entity.CpassDStato;
 import it.csi.cpass.cpassbe.ejb.entity.ord.CpassDOrdStatoNso;
 import it.csi.cpass.cpassbe.ejb.util.jpa.JpaQueryHelper;
 
@@ -32,24 +31,24 @@ public class CpassDOrdStatoNsoDaoImpl extends BaseEntityDaoImpl<Integer, CpassDO
 
 	@Override
 	public List<CpassDOrdStatoNso> getStatoNsosByTipo(String statoNsoTipo) {
-		Map<String, Object> params = new HashMap<>();
-		StringBuilder jpql = new StringBuilder()
-			.append("FROM CpassDOrdStatoNso ds ")
-			.append(" WHERE 1 = 1 ");
+		final Map<String, Object> params = new HashMap<>();
+		final StringBuilder jpql = new StringBuilder()
+				.append("FROM CpassDOrdStatoNso ds ")
+				.append(" WHERE 1 = 1 ");
 		JpaQueryHelper.andFieldEquals(jpql, params, "ds.statoNsoTipo", "statoNsoTipo", statoNsoTipo);
-		TypedQuery<CpassDOrdStatoNso> query = composeTypedQuery(jpql, params);
+		final TypedQuery<CpassDOrdStatoNso> query = composeTypedQuery(jpql, params);
 		return query.getResultList();
 	}
-	
+
 	@Override
 	public Optional<CpassDOrdStatoNso> findByCodiceTipo(String statoNsoCodice, String statoNsoTipo) {
-		Map<String, Object> params = new HashMap<>();
-		StringBuilder jpql = new StringBuilder()
-			.append("FROM CpassDOrdStatoNso ds ")
-			.append(" WHERE 1 = 1 ");
+		final Map<String, Object> params = new HashMap<>();
+		final StringBuilder jpql = new StringBuilder()
+				.append("FROM CpassDOrdStatoNso ds ")
+				.append(" WHERE 1 = 1 ");
 		JpaQueryHelper.andFieldEquals(jpql, params, "ds.statoNsoCodice", "statoNsoCodice", statoNsoCodice);
 		JpaQueryHelper.andFieldEquals(jpql, params, "ds.statoNsoTipo", "statoNsoTipo", statoNsoTipo);
-		TypedQuery<CpassDOrdStatoNso> query = composeTypedQuery(jpql, params);
+		final TypedQuery<CpassDOrdStatoNso> query = composeTypedQuery(jpql, params);
 		return query.getResultList().stream().findFirst();
 	}
 

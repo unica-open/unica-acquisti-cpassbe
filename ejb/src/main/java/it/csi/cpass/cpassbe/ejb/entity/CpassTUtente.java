@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -22,7 +22,16 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import it.csi.cpass.cpassbe.ejb.entity.base.BaseAuditedEntity;
+import it.csi.cpass.cpassbe.ejb.entity.ord.CpassROrdUtenteSezione;
+import it.csi.cpass.cpassbe.ejb.entity.ord.CpassTOrdDestinatarioInvioNso;
+import it.csi.cpass.cpassbe.ejb.entity.ord.CpassTOrdTestataOrdine;
+import it.csi.cpass.cpassbe.ejb.entity.ord.evasione.CpassTOrdTestataEvasione;
+import it.csi.cpass.cpassbe.ejb.entity.ord.rda.CpassTOrdTestataRda;
+import it.csi.cpass.cpassbe.ejb.entity.pba.CpassRPbaStatiIntervento;
+import it.csi.cpass.cpassbe.ejb.entity.pba.CpassRPbaStoricoInterventoRup;
+import it.csi.cpass.cpassbe.ejb.entity.rms.CpassTRmsTestataRms;
 import it.csi.cpass.cpassbe.lib.util.uuid.UuidUtils;
+
 
 
 /**
@@ -58,13 +67,13 @@ public class CpassTUtente extends BaseAuditedEntity<UUID> implements Serializabl
 	/** telefono */
 	@Column(name="telefono", length=200)
 	private String telefono;
-	/** Email */	
+	/** Email */
 	@Column(name="email", length=200)
 	private String email;
-	
-	/** Rup */	
-	private Boolean rup;
-	
+
+	/** Rup */
+	//private Boolean rup;
+
 	/** The cpass R utente settores. */
 	//bi-directional many-to-one association to CpassRUtenteSettore
 	@OneToMany(mappedBy="cpassTUtente")
@@ -73,7 +82,62 @@ public class CpassTUtente extends BaseAuditedEntity<UUID> implements Serializabl
 	//bi-directional many-to-one association to CpassRUtenteRupSettore
 	@OneToMany(mappedBy="cpassTUtente")
 	private List<CpassRUtenteRupSettore> cpassRUtenteRupSettores;
-	
+
+	//bi-directional many-to-one association to CpassROrdUtenteSezione
+	//@OneToMany(mappedBy="cpassTUtente")
+	//private List<CpassROrdUtenteSezione> cpassROrdUtenteSeziones;
+
+	//bi-directional many-to-one association to CpassTOrdTestataRda
+	//@OneToMany(mappedBy="cpassTUtente")
+	//private List<CpassTOrdTestataRda> cpassTOrdTestataRdas;
+
+	/** The cpass R dirigente settores. */
+	//bi-directional many-to-one association to CpassRDirigenteSettore
+	@OneToMany(mappedBy="cpassTUtente")
+	private List<CpassRDirigenteSettore> cpassRDirigenteSettores;
+
+
+	//bi-directional many-to-one association to CpassRNotificaUtente
+	@OneToMany(mappedBy="cpassTUtente")
+	private List<CpassRNotificaUtente> cpassRNotificaUtentes;
+
+	//bi-directional many-to-one association to CpassROrdUtenteSezione
+	@OneToMany(mappedBy="cpassTUtente")
+	private List<CpassROrdUtenteSezione> cpassROrdUtenteSeziones;
+
+	//bi-directional many-to-one association to CpassRPbaStatiIntervento
+	@OneToMany(mappedBy="cpassTUtente")
+	private List<CpassRPbaStatiIntervento> cpassRPbaStatiInterventos;
+
+	//bi-directional many-to-one association to CpassRPbaStoricoInterventoRup
+	@OneToMany(mappedBy="cpassTUtente")
+	private List<CpassRPbaStoricoInterventoRup> cpassRPbaStoricoInterventoRups;
+
+	//bi-directional many-to-one association to CpassTOrdDestinatarioInvioNso
+	@OneToMany(mappedBy="cpassTUtente")
+	private List<CpassTOrdDestinatarioInvioNso> cpassTOrdDestinatarioInvioNsos;
+
+	//bi-directional many-to-one association to CpassTOrdTestataEvasione
+	@OneToMany(mappedBy="cpassTUtente")
+	private List<CpassTOrdTestataEvasione> cpassTOrdTestataEvasiones;
+
+	//bi-directional many-to-one association to CpassTOrdTestataOrdine
+	@OneToMany(mappedBy="cpassTUtente")
+	private List<CpassTOrdTestataOrdine> cpassTOrdTestataOrdines;
+
+	//bi-directional many-to-one association to CpassTOrdTestataRda
+	@OneToMany(mappedBy="cpassTUtente")
+	private List<CpassTOrdTestataRda> cpassTOrdTestataRdas;
+
+	//bi-directional many-to-one association to CpassTRmsTestataRm
+	@OneToMany(mappedBy="cpassTUtente")
+	private List<CpassTRmsTestataRms> cpassTRmsTestataRms;
+
+
+	//bi-directional many-to-one association to CpassTUtenteRupDeleghe
+	@OneToMany(mappedBy="cpassTUtenteRup")
+	private List<CpassTUtenteRupDeleghe> cpassTUtenteRupDeleghes;
+
 	/**
 	 * Gets the utente id.
 	 *
@@ -190,7 +254,7 @@ public class CpassTUtente extends BaseAuditedEntity<UUID> implements Serializabl
 		return cpassRUtenteSettore;
 	}
 
-	
+
 	/**
 	 * @return the telefono
 	 */
@@ -240,20 +304,170 @@ public class CpassTUtente extends BaseAuditedEntity<UUID> implements Serializabl
 
 		return cpassRUtenteRupSettore;
 	}
-	
-	
+
 	/**
-	 * @return the rup
+	 * @return the cpassRDirigenteSettores
 	 */
+	public List<CpassRDirigenteSettore> getCpassRDirigenteSettores() {
+		return cpassRDirigenteSettores;
+	}
+
+	/**
+	 * @param cpassRDirigenteSettores the cpassRDirigenteSettores to set
+	 */
+	public void setCpassRDirigenteSettores(List<CpassRDirigenteSettore> cpassRDirigenteSettores) {
+		this.cpassRDirigenteSettores = cpassRDirigenteSettores;
+	}
+
+	/*
 	public Boolean getRup() {
 		return rup;
 	}
 
-	/**
-	 * @param rup the rup to set
-	 */
 	public void setRup(Boolean rup) {
 		this.rup = rup;
+	}
+	 */
+
+	/**
+	 * @return the cpassRNotificaUtentes
+	 */
+	public List<CpassRNotificaUtente> getCpassRNotificaUtentes() {
+		return cpassRNotificaUtentes;
+	}
+
+	/**
+	 * @param cpassRNotificaUtentes the cpassRNotificaUtentes to set
+	 */
+	public void setCpassRNotificaUtentes(List<CpassRNotificaUtente> cpassRNotificaUtentes) {
+		this.cpassRNotificaUtentes = cpassRNotificaUtentes;
+	}
+
+	/**
+	 * @return the cpassROrdUtenteSeziones
+	 */
+	public List<CpassROrdUtenteSezione> getCpassROrdUtenteSeziones() {
+		return cpassROrdUtenteSeziones;
+	}
+
+	/**
+	 * @param cpassROrdUtenteSeziones the cpassROrdUtenteSeziones to set
+	 */
+	public void setCpassROrdUtenteSeziones(List<CpassROrdUtenteSezione> cpassROrdUtenteSeziones) {
+		this.cpassROrdUtenteSeziones = cpassROrdUtenteSeziones;
+	}
+
+	/**
+	 * @return the cpassRPbaStatiInterventos
+	 */
+	public List<CpassRPbaStatiIntervento> getCpassRPbaStatiInterventos() {
+		return cpassRPbaStatiInterventos;
+	}
+
+	/**
+	 * @param cpassRPbaStatiInterventos the cpassRPbaStatiInterventos to set
+	 */
+	public void setCpassRPbaStatiInterventos(List<CpassRPbaStatiIntervento> cpassRPbaStatiInterventos) {
+		this.cpassRPbaStatiInterventos = cpassRPbaStatiInterventos;
+	}
+
+	/**
+	 * @return the cpassRPbaStoricoInterventoRups
+	 */
+	public List<CpassRPbaStoricoInterventoRup> getCpassRPbaStoricoInterventoRups() {
+		return cpassRPbaStoricoInterventoRups;
+	}
+
+	/**
+	 * @param cpassRPbaStoricoInterventoRups the cpassRPbaStoricoInterventoRups to set
+	 */
+	public void setCpassRPbaStoricoInterventoRups(List<CpassRPbaStoricoInterventoRup> cpassRPbaStoricoInterventoRups) {
+		this.cpassRPbaStoricoInterventoRups = cpassRPbaStoricoInterventoRups;
+	}
+
+	/**
+	 * @return the cpassTOrdDestinatarioInvioNsos
+	 */
+	public List<CpassTOrdDestinatarioInvioNso> getCpassTOrdDestinatarioInvioNsos() {
+		return cpassTOrdDestinatarioInvioNsos;
+	}
+
+	/**
+	 * @param cpassTOrdDestinatarioInvioNsos the cpassTOrdDestinatarioInvioNsos to set
+	 */
+	public void setCpassTOrdDestinatarioInvioNsos(List<CpassTOrdDestinatarioInvioNso> cpassTOrdDestinatarioInvioNsos) {
+		this.cpassTOrdDestinatarioInvioNsos = cpassTOrdDestinatarioInvioNsos;
+	}
+
+	/**
+	 * @return the cpassTOrdTestataEvasiones
+	 */
+	public List<CpassTOrdTestataEvasione> getCpassTOrdTestataEvasiones() {
+		return cpassTOrdTestataEvasiones;
+	}
+
+	/**
+	 * @param cpassTOrdTestataEvasiones the cpassTOrdTestataEvasiones to set
+	 */
+	public void setCpassTOrdTestataEvasiones(List<CpassTOrdTestataEvasione> cpassTOrdTestataEvasiones) {
+		this.cpassTOrdTestataEvasiones = cpassTOrdTestataEvasiones;
+	}
+
+	/**
+	 * @return the cpassTOrdTestataOrdines
+	 */
+	public List<CpassTOrdTestataOrdine> getCpassTOrdTestataOrdines() {
+		return cpassTOrdTestataOrdines;
+	}
+
+	/**
+	 * @param cpassTOrdTestataOrdines the cpassTOrdTestataOrdines to set
+	 */
+	public void setCpassTOrdTestataOrdines(List<CpassTOrdTestataOrdine> cpassTOrdTestataOrdines) {
+		this.cpassTOrdTestataOrdines = cpassTOrdTestataOrdines;
+	}
+
+	/**
+	 * @return the cpassTOrdTestataRdas
+	 */
+	public List<CpassTOrdTestataRda> getCpassTOrdTestataRdas() {
+		return cpassTOrdTestataRdas;
+	}
+
+	/**
+	 * @param cpassTOrdTestataRdas the cpassTOrdTestataRdas to set
+	 */
+	public void setCpassTOrdTestataRdas(List<CpassTOrdTestataRda> cpassTOrdTestataRdas) {
+		this.cpassTOrdTestataRdas = cpassTOrdTestataRdas;
+	}
+
+	/**
+	 * @return the cpassTRmsTestataRms
+	 */
+	public List<CpassTRmsTestataRms> getCpassTRmsTestataRms() {
+		return cpassTRmsTestataRms;
+	}
+
+	/**
+	 * @param cpassTRmsTestataRms the cpassTRmsTestataRms to set
+	 */
+	public void setCpassTRmsTestataRms(List<CpassTRmsTestataRms> cpassTRmsTestataRms) {
+		this.cpassTRmsTestataRms = cpassTRmsTestataRms;
+	}
+
+
+	/**
+	 * @return the cpassTUtenteRupDeleghes
+	 */
+	public List<CpassTUtenteRupDeleghe> getCpassTUtenteRupDeleghes() {
+		return cpassTUtenteRupDeleghes;
+	}
+
+	/**
+	 * @param cpassTUtenteRupDeleghes the cpassTUtenteRupDeleghes to set
+	 */
+	public void setCpassTUtenteRupDeleghes(List<CpassTUtenteRupDeleghe> cpassTUtenteRupDeleghes) {
+		this.cpassTUtenteRupDeleghes = cpassTUtenteRupDeleghes;
 	}
 
 	@Override

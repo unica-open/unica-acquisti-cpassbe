@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -30,10 +30,10 @@ public class Risorsa extends BaseDto<Integer> implements Serializable {
 	private String tipo;
 	/** risorsa_tag_trasmissione*/
 	private String tagTrasmissione;
-	
+
 	/** ordinamento */
 	private Integer ordinamento;
-	
+
 	/** Default constructor */
 	public Risorsa() {}
 
@@ -90,7 +90,7 @@ public class Risorsa extends BaseDto<Integer> implements Serializable {
 		this.tipo = tipo;
 	}
 
-	
+
 	/**
 	 * @return the tagTrasmissione
 	 */
@@ -104,8 +104,8 @@ public class Risorsa extends BaseDto<Integer> implements Serializable {
 	public void setTagTrasmissione(String tagTrasmissione) {
 		this.tagTrasmissione = tagTrasmissione;
 	}
-	
-	
+
+
 	/**
 	 * @return the ordinamento
 	 */
@@ -119,7 +119,7 @@ public class Risorsa extends BaseDto<Integer> implements Serializable {
 	public void setOrdinamento(Integer ordinamento) {
 		this.ordinamento = ordinamento;
 	}
-	
+
 
 	@Override
 	public String toString() {

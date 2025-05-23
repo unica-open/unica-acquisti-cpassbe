@@ -1,0 +1,118 @@
+/ord/scarico-mepa/upload/xml:
+  post:
+    operationId: postUploadScaricoMepaXml
+    description: inserisce ordine da file xml
+    consumes:
+      - multipart/form-data
+    produces:
+      - application/json
+    tags:
+      - scaricoMepa
+    parameters:
+      - in: formData
+        name: idEnte
+        type: string
+      - in: formData
+        name: attachment
+        type: file
+      - in: formData
+        name: fileXml
+        type: string
+    responses:
+      '200':
+        description: scarico mepa xml.
+        schema:
+          $ref: '#/definitions/ScaricoMepaTestata'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/scarico-mepa/find:
+  get:
+    operationId: getOrdiniMepaDaCaricare
+    description: Restituisce gli ordini mepa in stato da caricare relativi all'utente
+    produces:
+      - application/json
+    tags:
+      - scaricoMepa
+    parameters:
+      - $ref: '#/parameters/offsetParam'
+      - $ref: '#/parameters/limitParam'
+      - $ref: '#/parameters/sortParam'
+      - $ref: '#/parameters/directionParam'
+    responses:
+      '200':
+        description: Ordini MEPA da caricare
+        schema:
+          $ref: '#/definitions/PagedResponseMepaTestata'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/scarico-mepa/find/{idTestataMepa}:
+  get:
+    operationId: getTestataMepaById
+    description: Restituisce una testata ordine MEPA
+    produces:
+      - application/json
+    tags:
+      - scaricoMepa
+    parameters:
+      - in: path
+        name: idTestataMepa
+        type: integer
+    responses:
+      '200':
+        description: Ordine MEPA da caricare
+        schema:
+          $ref: '#/definitions/ScaricoMepaTestata'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/scarico-mepa/verifica-fornitore/{sellersupplierpartyEndpointId}:
+  get:
+    operationId: getVerificaFornitore
+    description: Verifica la presenza del fornitore indicato sul sistema contabile
+    produces:
+      - application/json
+    tags:
+      - scaricoMepa
+    parameters:
+      - in: path
+        name: sellersupplierpartyEndpointId
+        type: string
+    responses:
+      '200':
+        description: Fornitore trovato
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Fornitore'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'
+/ord/scarico-mepa/insert-ordine:
+  post:
+    operationId: postOrdineMepa
+    description: inserisce un ordine a partire da un ordine MEPA
+    produces:
+      - application/json
+    tags:
+      - scaricoMepa
+    parameters:
+      - in: body
+        name: postOrdineMepaBodyWrapper
+        required: true
+        schema:
+          $ref: '#/definitions/PostOrdineMepaBodyWrapper'
+    responses:
+      '200':
+        description: testata ordine inserita
+        schema:
+          $ref: '#/definitions/TestataOrdine'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'

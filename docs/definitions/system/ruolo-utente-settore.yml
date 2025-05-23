@@ -1,0 +1,19 @@
+RuoloUtenteSettore:
+  type: object
+  properties:
+    dataValiditaFine:
+      type: string
+      format: date-time
+    dataValiditaInizio:
+      type: string
+      format: date-time
+    valido:
+      type: boolean
+    id:
+      type: integer
+    ruolo:
+      type: object
+      $ref: '#/definitions/Ruolo'
+    utenteSettore:
+      type: object
+      $ref: '#/definitions/UtenteSettore'

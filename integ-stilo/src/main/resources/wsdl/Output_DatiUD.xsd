@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!-- edited with XMLSpy v2018 rel. 2 sp1 (http://www.altova.com) by Valentina Martinucci (Engineering) -->
+<!-- edited with XMLSpy v2006 sp2 U (http://www.altova.com) by Andrea Campello (Engineering) -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 	<xs:simpleType name="FlagSiNoType">
 		<xs:annotation>
-			<xs:documentation>1=Sì, 0=No</xs:documentation>
+			<xs:documentation>1=SÃ¬, 0=No</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="1"/>
@@ -66,7 +66,7 @@
 	</xs:complexType>
 	<xs:simpleType name="LibreriaType">
 		<xs:annotation>
-			<xs:documentation>Nome che identifica una libreria contenente unità documentarie e fascicoli</xs:documentation>
+			<xs:documentation>Nome che identifica una libreria contenente unitÃ  documentarie e fascicoli</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:maxLength value="100"/>
@@ -138,7 +138,7 @@
 	</xs:simpleType>
 	<xs:simpleType name="NroLivelloGerarchiaType">
 		<xs:annotation>
-			<xs:documentation>Nro di un livello di una struttura gerarchica come la struttura organizzativa o il titolario di classificazione: 1 è il livello più alto (ad esempio il settore o il titolo), 2 il successivo (ad esempio il servizio o la classe) e così via</xs:documentation>
+			<xs:documentation>Nro di un livello di una struttura gerarchica come la struttura organizzativa o il titolario di classificazione: 1 Ã¨ il livello piÃ¹ alto (ad esempio il settore o il titolo), 2 il successivo (ad esempio il servizio o la classe) e cosÃ¬ via</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:integer">
 			<xs:minInclusive value="1"/>
@@ -187,7 +187,7 @@
 	</xs:complexType>
 	<xs:complexType name="ScrivaniaVirtualeType">
 		<xs:annotation>
-			<xs:documentation>La scrivania virtuale rappresenta un utente non come persona fisica, ma nella funzione che svolge presso una certa UO. Può essere indicata univocamente indicando UO e utente; oppure il sistema può cercare di identificarla anche o solo a partire dalla sua descrizione</xs:documentation>
+			<xs:documentation>La scrivania virtuale rappresenta un utente non come persona fisica, ma nella funzione che svolge presso una certa UO. PuÃ² essere indicata univocamente indicando UO e utente; oppure il sistema puÃ² cercare di identificarla anche o solo a partire dalla sua descrizione</xs:documentation>
 		</xs:annotation>
 		<xs:all>
 			<xs:element name="UO" type="UOType"/>
@@ -289,7 +289,7 @@
 			<xs:element name="CodIdInAnagrafe" type="IdInSistemaEsternoType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Codice identificativo del soggetto nell'anagrafe residenti/ditte.
-Sul documento il soggetto è riportato con i dati di seguito riportati, non con quelli eventuali presenti in anagrafe.</xs:documentation>
+Sul documento il soggetto Ã¨ riportato con i dati di seguito riportati, non con quelli eventuali presenti in anagrafe.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="FlagFisica" type="FlagSiNoType">
@@ -373,7 +373,7 @@ Sul documento il soggetto è riportato con i dati di seguito riportati, non con q
 				<xs:sequence>
 					<xs:element name="PerConoscenza" fixed="1" minOccurs="0">
 						<xs:annotation>
-							<xs:documentation>Se presente indica che è destinatario per conoscenza</xs:documentation>
+							<xs:documentation>Se presente indica che Ã¨ destinatario per conoscenza</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="IndirizzoDest" type="IndirizzoType" minOccurs="0"/>
@@ -395,7 +395,7 @@ Sul documento il soggetto è riportato con i dati di seguito riportati, non con q
 				<xs:sequence>
 					<xs:element name="NaturaRelazioneConUD" type="OggDiTabDiSistemaType">
 						<xs:annotation>
-							<xs:documentation>Natura della relazione del soggetto con l'unità documentaria (valore da apposita tabella di sistema)</xs:documentation>
+							<xs:documentation>Natura della relazione del soggetto con l'unitÃ  documentaria (valore da apposita tabella di sistema)</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="DettNaturaRelazioneConUD" type="xs:string" minOccurs="0">
@@ -409,7 +409,7 @@ Sul documento il soggetto è riportato con i dati di seguito riportati, non con q
 	</xs:complexType>
 	<xs:complexType name="SoggettoInternoType">
 		<xs:annotation>
-			<xs:documentation>Rappresenta un soggetto interno all'AOO che può essere: una UO, un utente, una scrivania virtuale (che rappresenta l'utente non come persona, ma nella funzione che svolge presso una certa UO), un gruppo (di utenti o UO o scrivanie virtuali) o un ruolo amministrativo (es: Dirigente, Direttore Generale ecc). Quando si assegna ad un gruppo o un ruolo il sistema assegna a tutti gli utenti, UO e scrivanie del gruppo o aventi il ruolo</xs:documentation>
+			<xs:documentation>Rappresenta un soggetto interno all'AOO che puÃ² essere: una UO, un utente, una scrivania virtuale (che rappresenta l'utente non come persona, ma nella funzione che svolge presso una certa UO), un gruppo (di utenti o UO o scrivanie virtuali) o un ruolo amministrativo (es: Dirigente, Direttore Generale ecc). Quando si assegna ad un gruppo o un ruolo il sistema assegna a tutti gli utenti, UO e scrivanie del gruppo o aventi il ruolo</xs:documentation>
 		</xs:annotation>
 		<xs:choice>
 			<xs:element name="UO" type="UOType"/>
@@ -441,7 +441,7 @@ Sul documento il soggetto è riportato con i dati di seguito riportati, non con q
 					<xs:element name="ApertoDa" type="UOUserType" minOccurs="0"/>
 					<xs:element name="AttributoAddFasc" type="AttributoAddizionaleType" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
-							<xs:documentation>Attributi addizionali (oltre quelli già previsti dal tracciato) del fascicolo. ATTENZIONE: gli attributi addizionali sono solo quelli previsti per il tipo del fascicolo; dunque se questo non è valorizzato non ci sono attributi addizionali</xs:documentation>
+							<xs:documentation>Attributi addizionali (oltre quelli giÃ  previsti dal tracciato) del fascicolo. ATTENZIONE: gli attributi addizionali sono solo quelli previsti per il tipo del fascicolo; dunque se questo non Ã¨ valorizzato non ci sono attributi addizionali</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
@@ -485,7 +485,7 @@ Sul documento il soggetto è riportato con i dati di seguito riportati, non con q
 		<xs:choice>
 			<xs:element name="AllFiles" fixed="1">
 				<xs:annotation>
-					<xs:documentation>Serve a indicare che il privilegio è su tutti i file dell'unità documentaria</xs:documentation>
+					<xs:documentation>Serve a indicare che il privilegio Ã¨ su tutti i file dell'unitÃ  documentaria</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="SuFile" type="xs:positiveInteger" maxOccurs="unbounded">
@@ -505,7 +505,7 @@ Sul documento il soggetto è riportato con i dati di seguito riportati, non con q
 		<xs:complexContent>
 			<xs:extension base="SoggettoInternoInACLType">
 				<xs:sequence>
-					<!-- segue la lista dei possibili privilegi sull'unità documentaria-->
+					<!-- segue la lista dei possibili privilegi sull'unitÃ  documentaria-->
 					<xs:element name="VisualizzazioneDati" type="FlagConsentiNegaType"/>
 					<xs:element name="VisualizzazioneFile" type="PrivilegioSuFileType"/>
 					<xs:element name="ModificaDati" type="FlagConsentiNegaType"/>
@@ -539,7 +539,7 @@ Sul documento il soggetto è riportato con i dati di seguito riportati, non con q
 					<xs:element name="MessaggioAssegnazione" type="xs:string" minOccurs="0"/>
 					<xs:element name="DecorrenzaAssegnazione" type="xs:date" minOccurs="0">
 						<xs:annotation>
-							<xs:documentation>Data futura da cui decorrerà l'assegnazione</xs:documentation>
+							<xs:documentation>Data futura da cui decorrerÃ  l'assegnazione</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<!-- i due elementi successivi servono per avere evidenze di scadenze se i tempi richiesti in questi elementi sono scaduti o prossimi alla scadenza -->
@@ -564,7 +564,7 @@ Sul documento il soggetto è riportato con i dati di seguito riportati, non con q
 								</xs:element>
 								<xs:element name="FlagPrimaUltima" default="P">
 									<xs:annotation>
-										<xs:documentation>Indica se la notifica deve essere data alla prima (P) o all'ultima (U) presa in carico e/o presa visione. Serve solo se l'assegnatario corrisponde a più utenti (il che può accadere se si tratta di una UO, un gruppo o un ruolo).</xs:documentation>
+										<xs:documentation>Indica se la notifica deve essere data alla prima (P) o all'ultima (U) presa in carico e/o presa visione. Serve solo se l'assegnatario corrisponde a piÃ¹ utenti (il che puÃ² accadere se si tratta di una UO, un gruppo o un ruolo).</xs:documentation>
 									</xs:annotation>
 									<xs:simpleType>
 										<xs:restriction base="xs:string">
@@ -583,7 +583,7 @@ Sul documento il soggetto è riportato con i dati di seguito riportati, non con q
 	</xs:complexType>
 	<xs:complexType name="ClassifUAType">
 		<xs:annotation>
-			<xs:documentation>Rappresenta una classificazione e/o un'unità archivistica (UA), vale a dire un fascicolo basato sul titolario di calssificazione e identificato attraverso anno, classificazione, n.ro progressivo (all'interno di anno e classificazione) ed eventuale n.ro di sottofascicolo</xs:documentation>
+			<xs:documentation>Rappresenta una classificazione e/o un'unitÃ  archivistica (UA), vale a dire un fascicolo basato sul titolario di calssificazione e identificato attraverso anno, classificazione, n.ro progressivo (all'interno di anno e classificazione) ed eventuale n.ro di sottofascicolo</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="AnnoAperturaUA" type="AnnoType" minOccurs="0">
@@ -610,7 +610,7 @@ Sul documento il soggetto è riportato con i dati di seguito riportati, non con q
 	</xs:complexType>
 	<xs:complexType name="FolderCustomType">
 		<xs:annotation>
-			<xs:documentation>Rappresenta un folder che non sia un'unità archivistica</xs:documentation>
+			<xs:documentation>Rappresenta un folder che non sia un'unitÃ  archivistica</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="IdFolder" type="xs:integer"/>
@@ -625,24 +625,24 @@ Sul documento il soggetto è riportato con i dati di seguito riportati, non con q
 		<xs:choice>
 			<xs:element name="ClassifUA" type="ClassifUAType">
 				<xs:annotation>
-					<xs:documentation>Classificazione e/o fascicolo dell'archivio ufficiale basato sul titolario di classificazione (unità archivistica) assegnati all'unità documentaria.</xs:documentation>
+					<xs:documentation>Classificazione e/o fascicolo dell'archivio ufficiale basato sul titolario di classificazione (unitÃ  archivistica) assegnati all'unitÃ  documentaria.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="FolderCustom" type="FolderCustomType">
 				<xs:annotation>
-					<xs:documentation>Fascicolo, che non sia un'unità archivistica, in cui si trova l'unità documentaria</xs:documentation>
+					<xs:documentation>Fascicolo, che non sia un'unitÃ  archivistica, in cui si trova l'unitÃ  documentaria</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:choice>
 	</xs:complexType>
 	<xs:complexType name="VersioneElettronicaType">
 		<xs:annotation>
-			<xs:documentation>Contiene le informazioni di un file associato all'unità documentaria</xs:documentation>
+			<xs:documentation>Contiene le informazioni di un file associato all'unitÃ  documentaria</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="NomeFile" type="xs:string">
 				<xs:annotation>
-					<xs:documentation>Nome dell'ultima versione del file valida e visibile all'utente. Se vuoto significa che non c'è alcuna versione del file valida e visibile</xs:documentation>
+					<xs:documentation>Nome dell'ultima versione del file valida e visibile all'utente. Se vuoto significa che non c'Ã¨ alcuna versione del file valida e visibile</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="NroUltimaVersione" type="xs:positiveInteger" minOccurs="0">
@@ -653,26 +653,21 @@ Sul documento il soggetto è riportato con i dati di seguito riportati, non con q
 		</xs:sequence>
 		<xs:attribute name="DifferenteDaAttuale" type="FlagSiNoType" use="optional">
 			<xs:annotation>
-				<xs:documentation>Indica se la versione del documento riportata nel tag e relativa ad una "fotografia storica" dei dati è diversa da quella attuale</xs:documentation>
+				<xs:documentation>Indica se la versione del documento riportata nel tag e relativa ad una "fotografia storica" dei dati Ã¨ diversa da quella attuale</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 		<xs:attribute name="ModificatoAlTsRich" type="FlagSiNoType" use="optional">
 			<xs:annotation>
-				<xs:documentation>Indica se la versione del documento è stata variata proprio alla data e ora a cui si è richiesta la "fotografia storica" dei dati</xs:documentation>
+				<xs:documentation>Indica se la versione del documento Ã¨ stata variata proprio alla data e ora a cui si Ã¨ richiesta la "fotografia storica" dei dati</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 	</xs:complexType>
 	<xs:complexType name="AllegatoUDType">
 		<xs:annotation>
-			<xs:documentation>Contiene i dati di un documento allegato di un''unità documentaria</xs:documentation>
+			<xs:documentation>Contiene i dati di un documento allegato di un''unitÃ  documentaria</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<!-- almeno uno dei due elementi seguenti è obbligatorio -->
-			<xs:element name="IdDoc" type="xs:integer">
-				<xs:annotation>
-					<xs:documentation>Identificativo univoco del documento allegato</xs:documentation>
-				</xs:annotation>
-			</xs:element>
+			<!-- almeno uno dei due elementi seguenti Ã¨ obbligatorio -->
 			<xs:element name="TipoDocAllegato" type="OggDiTabDiSistemaType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Tipo dell'allegato </xs:documentation>
@@ -685,7 +680,7 @@ Sul documento il soggetto è riportato con i dati di seguito riportati, non con q
 			</xs:element>
 			<xs:element name="OriginaleCartaceo" type="FlagSiNoType" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>Indica se l'allegato è originariamente cartaceo</xs:documentation>
+					<xs:documentation>Indica se l'allegato Ã¨ originariamente cartaceo</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="TipoCartaceo" type="TipoCartaceoType" minOccurs="0">
@@ -700,7 +695,7 @@ Sul documento il soggetto è riportato con i dati di seguito riportati, non con q
 			</xs:element>
 			<xs:element name="AttributoAddAlleg" type="AttributoAddizionaleType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>Attributo addizionale (oltre quelli già previsti dal tracciato) con cui è caratterizzato l'allegato. </xs:documentation>
+					<xs:documentation>Attributo addizionale (oltre quelli giÃ  previsti dal tracciato) con cui Ã¨ caratterizzato l'allegato. </xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -713,29 +708,24 @@ Sul documento il soggetto è riportato con i dati di seguito riportati, non con q
 			<xs:sequence>
 				<xs:element name="IdUD" type="xs:integer">
 					<xs:annotation>
-						<xs:documentation>Identificativo univoco assegnato all'unità documentaria nel sistema documentale</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="IdDocPrimario" type="xs:integer">
-					<xs:annotation>
-						<xs:documentation>Identificativo univoco del documento primario dell'unità documentaria</xs:documentation>
+						<xs:documentation>Identificativo univoco assegnato all'unitÃ  documentaria nel sistema documentale</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="NomeUD">
 					<xs:annotation>
-						<xs:documentation>Nome dell'unità documentaria</xs:documentation>
+						<xs:documentation>Nome dell'unitÃ  documentaria</xs:documentation>
 					</xs:annotation>
 					<xs:complexType>
 						<xs:simpleContent>
 							<xs:extension base="NomeUDType">
 								<xs:attribute name="DifferenteDaAttuale" type="FlagSiNoType" use="optional">
 									<xs:annotation>
-										<xs:documentation>Indica se il valore del campo riportato nel tag e relativo ad una "fotografia storica" dei dati è diverso da quello attuale</xs:documentation>
+										<xs:documentation>Indica se il valore del campo riportato nel tag e relativo ad una "fotografia storica" dei dati Ã¨ diverso da quello attuale</xs:documentation>
 									</xs:annotation>
 								</xs:attribute>
 								<xs:attribute name="ModificatoAlTsRich" type="FlagSiNoType" use="optional">
 									<xs:annotation>
-										<xs:documentation>Indica se il valore del campo è stato variato proprio alla data e ora a cui si è richiesta la "fotografia storica" dei dati</xs:documentation>
+										<xs:documentation>Indica se il valore del campo Ã¨ stato variato proprio alla data e ora a cui si Ã¨ richiesta la "fotografia storica" dei dati</xs:documentation>
 									</xs:annotation>
 								</xs:attribute>
 							</xs:extension>
@@ -745,31 +735,31 @@ Sul documento il soggetto è riportato con i dati di seguito riportati, non con q
 				<!-- ATTENZIONE: dei due elementi successivi almeno uno deve essere valorizzato -->
 				<xs:element name="RegistrazioneData" type="RegistrazioneNumerazioneType" maxOccurs="unbounded">
 					<xs:annotation>
-						<xs:documentation>Estremi e altri dati realtivi ad una registrazione o numerazione data all'unità documentaria esternamente o internamente al sistema documentale</xs:documentation>
+						<xs:documentation>Estremi e altri dati realtivi ad una registrazione o numerazione data all'unitÃ  documentaria esternamente o internamente al sistema documentale</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="OggettoUD">
 					<xs:annotation>
-						<xs:documentation>Oggetto dell'unità documentaria</xs:documentation>
+						<xs:documentation>Oggetto dell'unitÃ  documentaria</xs:documentation>
 					</xs:annotation>
 					<xs:complexType>
 						<xs:simpleContent>
 							<xs:extension base="OggettoUDType">
 								<xs:attribute name="DifferenteDaAttuale" type="FlagSiNoType" use="optional">
 									<xs:annotation>
-										<xs:documentation>Indica se il valore del campo riportato nel tag e relativo ad una "fotografia storica" dei dati è diverso da quello attuale</xs:documentation>
+										<xs:documentation>Indica se il valore del campo riportato nel tag e relativo ad una "fotografia storica" dei dati Ã¨ diverso da quello attuale</xs:documentation>
 									</xs:annotation>
 								</xs:attribute>
 								<xs:attribute name="ModificatoAlTsRich" type="FlagSiNoType" use="optional">
 									<xs:annotation>
-										<xs:documentation>Indica se il valore del campo è stato variato proprio alla data e ora a cui si è richiesta la "fotografia storica" dei dati</xs:documentation>
+										<xs:documentation>Indica se il valore del campo Ã¨ stato variato proprio alla data e ora a cui si Ã¨ richiesta la "fotografia storica" dei dati</xs:documentation>
 									</xs:annotation>
 								</xs:attribute>
 							</xs:extension>
 						</xs:simpleContent>
 					</xs:complexType>
 				</xs:element>
-				<!-- i 5 elementi seguenti sono relativi al documento primario dell'unità documentaria-->
+				<!-- i 5 elementi seguenti sono relativi al documento primario dell'unitÃ  documentaria-->
 				<xs:element name="TipoDoc" type="OggDiTabDiSistemaType">
 					<xs:annotation>
 						<xs:documentation>Tipo del documento primario (possibile solo uno dei valori in apposita tabella del sistema documentale)</xs:documentation>
@@ -777,7 +767,7 @@ Sul documento il soggetto è riportato con i dati di seguito riportati, non con q
 				</xs:element>
 				<xs:element name="OriginaleCartaceo" type="FlagSiNoType" minOccurs="0">
 					<xs:annotation>
-						<xs:documentation>Indica se il documento primario è originariamente cartaceo</xs:documentation>
+						<xs:documentation>Indica se il documento primario Ã¨ originariamente cartaceo</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="TipoCartaceo" type="TipoCartaceoType" minOccurs="0">
@@ -787,12 +777,12 @@ Sul documento il soggetto è riportato con i dati di seguito riportati, non con q
 				</xs:element>
 				<xs:element name="VersioneElettronica" type="VersioneElettronicaType">
 					<xs:annotation>
-						<xs:documentation>Contiene le informazioni sull'eventuale file primario dell'unità documentaria</xs:documentation>
+						<xs:documentation>Contiene le informazioni sull'eventuale file primario dell'unitÃ  documentaria</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="TipoProvenienza" default="I" minOccurs="0">
 					<xs:annotation>
-						<xs:documentation>Indica se unità documentaria in entrata (E), uscita (U) o interna (I)</xs:documentation>
+						<xs:documentation>Indica se unitÃ  documentaria in entrata (E), uscita (U) o interna (I)</xs:documentation>
 					</xs:annotation>
 					<xs:simpleType>
 						<xs:restriction base="xs:string">
@@ -805,7 +795,7 @@ Sul documento il soggetto è riportato con i dati di seguito riportati, non con q
 				</xs:element>
 				<xs:element name="NroAllegati" type="xs:integer">
 					<xs:annotation>
-						<xs:documentation>Nro di allegati dell'unità documentaria.</xs:documentation>
+						<xs:documentation>Nro di allegati dell'unitÃ  documentaria.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="DatiProduzione" minOccurs="0">
@@ -823,7 +813,7 @@ Sul documento il soggetto è riportato con i dati di seguito riportati, non con q
 				</xs:element>
 				<xs:element name="DatiEntrata" minOccurs="0">
 					<xs:annotation>
-						<xs:documentation>Dati di acquisizione dall'esterno dell'unità documentaria</xs:documentation>
+						<xs:documentation>Dati di acquisizione dall'esterno dell'unitÃ  documentaria</xs:documentation>
 					</xs:annotation>
 					<xs:complexType>
 						<xs:sequence>
@@ -842,7 +832,7 @@ Sul documento il soggetto è riportato con i dati di seguito riportati, non con q
 							<xs:element name="UffRicezione" type="UOType" minOccurs="0"/>
 							<xs:element name="UtenteCtrlAmmissib" type="UserType" minOccurs="0">
 								<xs:annotation>
-									<xs:documentation>Utente che ha eseguito il controllo di ammissibilità in caso di documento pervenuto via PEC o via fax server</xs:documentation>
+									<xs:documentation>Utente che ha eseguito il controllo di ammissibilitÃ  in caso di documento pervenuto via PEC o via fax server</xs:documentation>
 								</xs:annotation>
 							</xs:element>
 						</xs:sequence>
@@ -850,7 +840,7 @@ Sul documento il soggetto è riportato con i dati di seguito riportati, non con q
 				</xs:element>
 				<xs:element name="DatiUscita" minOccurs="0">
 					<xs:annotation>
-						<xs:documentation>Dati di uscita dell'unità documentaria </xs:documentation>
+						<xs:documentation>Dati di uscita dell'unitÃ  documentaria </xs:documentation>
 					</xs:annotation>
 					<xs:complexType>
 						<xs:sequence>
@@ -871,38 +861,38 @@ Sul documento il soggetto è riportato con i dati di seguito riportati, non con q
 				</xs:element>
 				<xs:element name="AssegnazioneInterna" type="AssegnazioneInternaType" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
-						<xs:documentation>Contiene indicazione degli assegnatari interni attuali (non cioè i primi assegnatari) dell'unità documentaria e dettagli sull'assegnazione ad essi.  </xs:documentation>
+						<xs:documentation>Contiene indicazione degli assegnatari interni attuali (non cioÃ¨ i primi assegnatari) dell'unitÃ  documentaria e dettagli sull'assegnazione ad essi.  </xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="CopiaDaTenereA" type="SoggettoInternoType" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
-						<xs:documentation>Soggetti interno, non assegnatario, a cui è rimasta copia del documento. </xs:documentation>
+						<xs:documentation>Soggetti interno, non assegnatario, a cui Ã¨ rimasta copia del documento. </xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="AltroSoggettoInterno" type="SoggettoInternoEstesoType" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
-						<xs:documentation>Soggetto interno  che ha un ruolo/relazione con l'unità documentaria (oltre ai soggetti interni altrimenti specificati nel tracciato)</xs:documentation>
+						<xs:documentation>Soggetto interno  che ha un ruolo/relazione con l'unitÃ  documentaria (oltre ai soggetti interni altrimenti specificati nel tracciato)</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="CollocazioneClassificazioneUD">
 					<xs:annotation>
-						<xs:documentation>Contiene le eventuali classificazioni dell'unità documentaria e l'indicazione di dove è collocata l'unità documentaria stessa (libreria, folder-fascicolo, workspace): almeno un folder o un workspace è presente</xs:documentation>
+						<xs:documentation>Contiene le eventuali classificazioni dell'unitÃ  documentaria e l'indicazione di dove Ã¨ collocata l'unitÃ  documentaria stessa (libreria, folder-fascicolo, workspace): almeno un folder o un workspace Ã¨ presente</xs:documentation>
 					</xs:annotation>
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element name="LibreriaUD" type="LibreriaType" minOccurs="0">
 								<xs:annotation>
-									<xs:documentation>Libreria in cui si trova l'unità documentaria</xs:documentation>
+									<xs:documentation>Libreria in cui si trova l'unitÃ  documentaria</xs:documentation>
 								</xs:annotation>
 							</xs:element>
 							<xs:element name="ClassifFascicolo" type="ClassifFascicoloEstesoType" minOccurs="0" maxOccurs="unbounded">
 								<xs:annotation>
-									<xs:documentation>Contiene le informazioni di una classificazione dell'unità documentaria e/o di un fascicolo  in cui si trova l'unità documentaria. Il fascicolo può essere di due tipi: unità archivistica (folderizzazione basata sul titolario di classificazione), ovvero un fascicolo ufficiale dell'archivio dell'Ente; fascicolo "custom" (identificato da un path). </xs:documentation>
+									<xs:documentation>Contiene le informazioni di una classificazione dell'unitÃ  documentaria e/o di un fascicolo  in cui si trova l'unitÃ  documentaria. Il fascicolo puÃ² essere di due tipi: unitÃ  archivistica (folderizzazione basata sul titolario di classificazione), ovvero un fascicolo ufficiale dell'archivio dell'Ente; fascicolo "custom" (identificato da un path). </xs:documentation>
 								</xs:annotation>
 							</xs:element>
 							<xs:element name="Workspace" type="OggDiTabDiSistemaType" minOccurs="0" maxOccurs="unbounded">
 								<xs:annotation>
-									<xs:documentation>Riporta gli estremi di un workspace in cui si trova l'unità documentaria</xs:documentation>
+									<xs:documentation>Riporta gli estremi di un workspace in cui si trova l'unitÃ  documentaria</xs:documentation>
 								</xs:annotation>
 							</xs:element>
 						</xs:sequence>
@@ -911,13 +901,13 @@ Sul documento il soggetto è riportato con i dati di seguito riportati, non con q
 				<!-- documenti allegati (con o senza file associato) -->
 				<xs:element name="AllegatoUD" type="AllegatoUDType" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
-						<xs:documentation>Dati di un documento allegato dell'unità documentaria. Gli allegati sono restituiti in ordine dal 1° all'ultimo registrato in DB.</xs:documentation>
+						<xs:documentation>Dati di un documento allegato dell'unitÃ  documentaria. Gli allegati sono restituiti in ordine dal 1Â° all'ultimo registrato in DB.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<!-- l'emento successivo serve ad indicare qual è l'unità documentaria precedente a quella da caricare (ad esempio quella di cui quella da caricare è la risposta) -->
+				<!-- l'emento successivo serve ad indicare qual Ã¨ l'unitÃ  documentaria precedente a quella da caricare (ad esempio quella di cui quella da caricare Ã¨ la risposta) -->
 				<xs:element name="InRispostaAUD" type="EstremiRegNumType" minOccurs="0">
 					<xs:annotation>
-						<xs:documentation>Estremi di registrazione/numerazione per identificare l'unità documentaria di cui quella corrente rappresenta una risposta/il successivo.</xs:documentation>
+						<xs:documentation>Estremi di registrazione/numerazione per identificare l'unitÃ  documentaria di cui quella corrente rappresenta una risposta/il successivo.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="LivelloRiservatezzaInterno" type="xs:positiveInteger" minOccurs="0">
@@ -927,39 +917,39 @@ Sul documento il soggetto è riportato con i dati di seguito riportati, non con q
 				</xs:element>
 				<xs:element name="FlagVietatoAccessoEsterno" type="FlagSiNoType" minOccurs="0">
 					<xs:annotation>
-						<xs:documentation>Indica se soggetti esterni possono consultare o meno l'unità documentaria</xs:documentation>
+						<xs:documentation>Indica se soggetti esterni possono consultare o meno l'unitÃ  documentaria</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="VietatoAccessoEsternoFinoAl" type="xs:date" minOccurs="0">
 					<xs:annotation>
-						<xs:documentation>Indica la data fino a cui l'accesso al documento è precluso ai soggetti esterni</xs:documentation>
+						<xs:documentation>Indica la data fino a cui l'accesso al documento Ã¨ precluso ai soggetti esterni</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="PermessoVsSoggInterno" type="ACLRecordType" maxOccurs="unbounded">
 					<xs:annotation>
-						<xs:documentation>Privilegi sull'unità documentaria assentiti o negati ad un soggetto interno. Dunque attraverso questo elemento si ricostruisce l'ACL (Access Control List) dell'unità documentaria. </xs:documentation>
+						<xs:documentation>Privilegi sull'unitÃ  documentaria assentiti o negati ad un soggetto interno. Dunque attraverso questo elemento si ricostruisce l'ACL (Access Control List) dell'unitÃ  documentaria. </xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="LivelloEvidenza" type="xs:positiveInteger" minOccurs="0">
 					<xs:annotation>
-						<xs:documentation>Livello di evidenza/priorità dell'unità documentaria (valori interi da 1 in su)</xs:documentation>
+						<xs:documentation>Livello di evidenza/prioritÃ  dell'unitÃ  documentaria (valori interi da 1 in su)</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="Stato" minOccurs="0">
 					<xs:annotation>
-						<xs:documentation>Stato dell'unità documentaria</xs:documentation>
+						<xs:documentation>Stato dell'unitÃ  documentaria</xs:documentation>
 					</xs:annotation>
 					<xs:complexType>
 						<xs:complexContent>
 							<xs:extension base="OggDiTabDiSistemaType">
 								<xs:attribute name="DifferenteDaAttuale" type="FlagSiNoType" use="optional">
 									<xs:annotation>
-										<xs:documentation>Indica se il valore del campo riportato nel tag e relativo ad una "fotografia storica" dei dati è diverso da quello attuale</xs:documentation>
+										<xs:documentation>Indica se il valore del campo riportato nel tag e relativo ad una "fotografia storica" dei dati Ã¨ diverso da quello attuale</xs:documentation>
 									</xs:annotation>
 								</xs:attribute>
 								<xs:attribute name="ModificatoAlTsRich" type="FlagSiNoType" use="optional">
 									<xs:annotation>
-										<xs:documentation>Indica se il valore del campo è stato variato proprio alla data e ora a cui si è richiesta la "fotografia storica" dei dati</xs:documentation>
+										<xs:documentation>Indica se il valore del campo Ã¨ stato variato proprio alla data e ora a cui si Ã¨ richiesta la "fotografia storica" dei dati</xs:documentation>
 									</xs:annotation>
 								</xs:attribute>
 							</xs:extension>
@@ -968,19 +958,19 @@ Sul documento il soggetto è riportato con i dati di seguito riportati, non con q
 				</xs:element>
 				<xs:element name="StatoDettaglio" minOccurs="0">
 					<xs:annotation>
-						<xs:documentation>Stato di dettaglio dell'unità documentaria</xs:documentation>
+						<xs:documentation>Stato di dettaglio dell'unitÃ  documentaria</xs:documentation>
 					</xs:annotation>
 					<xs:complexType>
 						<xs:complexContent>
 							<xs:extension base="OggDiTabDiSistemaType">
 								<xs:attribute name="DifferenteDaAttuale" type="FlagSiNoType" use="optional">
 									<xs:annotation>
-										<xs:documentation>Indica se il valore del campo riportato nel tag e relativo ad una "fotografia storica" dei dati è diverso da quello attuale</xs:documentation>
+										<xs:documentation>Indica se il valore del campo riportato nel tag e relativo ad una "fotografia storica" dei dati Ã¨ diverso da quello attuale</xs:documentation>
 									</xs:annotation>
 								</xs:attribute>
 								<xs:attribute name="ModificatoAlTsRich" type="FlagSiNoType" use="optional">
 									<xs:annotation>
-										<xs:documentation>Indica se il valore del campo è stato variato proprio alla data e ora a cui si è richiesta la "fotografia storica" dei dati</xs:documentation>
+										<xs:documentation>Indica se il valore del campo Ã¨ stato variato proprio alla data e ora a cui si Ã¨ richiesta la "fotografia storica" dei dati</xs:documentation>
 									</xs:annotation>
 								</xs:attribute>
 							</xs:extension>
@@ -989,19 +979,19 @@ Sul documento il soggetto è riportato con i dati di seguito riportati, non con q
 				</xs:element>
 				<xs:element name="NoteUD" minOccurs="0">
 					<xs:annotation>
-						<xs:documentation>Note dell'unità documentaria</xs:documentation>
+						<xs:documentation>Note dell'unitÃ  documentaria</xs:documentation>
 					</xs:annotation>
 					<xs:complexType>
 						<xs:simpleContent>
 							<xs:extension base="xs:string">
 								<xs:attribute name="DifferenteDaAttuale" type="FlagSiNoType" use="optional">
 									<xs:annotation>
-										<xs:documentation>Indica se il valore del campo riportato nel tag e relativo ad una "fotografia storica" dei dati è diverso da quello attuale</xs:documentation>
+										<xs:documentation>Indica se il valore del campo riportato nel tag e relativo ad una "fotografia storica" dei dati Ã¨ diverso da quello attuale</xs:documentation>
 									</xs:annotation>
 								</xs:attribute>
 								<xs:attribute name="ModificatoAlTsRich" type="FlagSiNoType" use="optional">
 									<xs:annotation>
-										<xs:documentation>Indica se il valore del campo è stato variato proprio alla data e ora a cui si è richiesta la "fotografia storica" dei dati</xs:documentation>
+										<xs:documentation>Indica se il valore del campo Ã¨ stato variato proprio alla data e ora a cui si Ã¨ richiesta la "fotografia storica" dei dati</xs:documentation>
 									</xs:annotation>
 								</xs:attribute>
 							</xs:extension>
@@ -1010,73 +1000,73 @@ Sul documento il soggetto è riportato con i dati di seguito riportati, non con q
 				</xs:element>
 				<xs:element name="AttributoAddUD" type="AttributoAddizionaleType" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
-						<xs:documentation>Attributo addizionale (oltre quelli già previsti dal tracciato) con cui e' caratterizzata l'unità documentaria. </xs:documentation>
+						<xs:documentation>Attributo addizionale (oltre quelli giÃ  previsti dal tracciato) con cui e' caratterizzata l'unitÃ  documentaria. </xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="DataOraCreazione" type="xs:string">
 					<xs:annotation>
-						<xs:documentation>Data e ora di creazione dell'unità documentaria nel formato configurato come standard per data e ora</xs:documentation>
+						<xs:documentation>Data e ora di creazione dell'unitÃ  documentaria nel formato configurato come standard per data e ora</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="UtenteDiCreazione" type="xs:string">
 					<xs:annotation>
-						<xs:documentation>Descrizione dell'utente di creazione dell'unità documentaria</xs:documentation>
+						<xs:documentation>Descrizione dell'utente di creazione dell'unitÃ  documentaria</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="DataOraUltimaModifica" type="xs:string" minOccurs="0">
 					<xs:annotation>
-						<xs:documentation>Data di ultima modifica dell'unità documentaria nel formato configurato come standard per data e ora</xs:documentation>
+						<xs:documentation>Data di ultima modifica dell'unitÃ  documentaria nel formato configurato come standard per data e ora</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="UtenteUltimaModifica" type="xs:string" minOccurs="0">
 					<xs:annotation>
-						<xs:documentation>Descrizione dell'utente di ultima modifica dei dati dell'unità documentaria</xs:documentation>
+						<xs:documentation>Descrizione dell'utente di ultima modifica dei dati dell'unitÃ  documentaria</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="DataOraUltimoAccesso" type="xs:string" minOccurs="0">
 					<xs:annotation>
-						<xs:documentation>Data e ora di ultimo accesso all'unità documentaria (in visualizzazione), ovviamaente prima di quello attuale, da parte dell'utente connesso (nel formato configurato come standard per data e ora)</xs:documentation>
+						<xs:documentation>Data e ora di ultimo accesso all'unitÃ  documentaria (in visualizzazione), ovviamaente prima di quello attuale, da parte dell'utente connesso (nel formato configurato come standard per data e ora)</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="LockInfo" type="xs:string">
 					<xs:annotation>
-						<xs:documentation>Estremi - utente e data - di un eventuale lock apposto sull'unità documentaria o su folder/workspace cui appartiene. Se è vuoto vuol dire che non c'è alcun lock</xs:documentation>
+						<xs:documentation>Estremi - utente e data - di un eventuale lock apposto sull'unitÃ  documentaria o su folder/workspace cui appartiene. Se Ã¨ vuoto vuol dire che non c'Ã¨ alcun lock</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="BitmapAbilitazioniAzioniUD" type="xs:string">
 					<xs:annotation>
-						<xs:documentation> E' una stringa di 1/0 in cui ogni carattere rappresenta l'abilitazione (1) o meno (0) dell'utente connesso ad una certa azione sull'unità documentaria
-						1° carattere: Editing/modifica dei metadati
-						2° carattere: Cancellazione dell'unità documentaria
-						3° carattere: Invio dell'unità documentaria
-						4° carattere: Notifica dell'unità documentaria
-						5° carattere: Presa in carico dell'unità documentaria
-						6° carattere: Avvio di un processo sull'unità documentaria
-						7° carattere: Lock dell'unità documentaria
-						8° carattere: Unlock dell'unità documentaria
-						9° carattere: Aggiunta ai preferiti
-						10°carattere: Eliminazione dai preferiti
-						11°carattere: Abilitazione a creare prima versione non pubblicata di un nuovo documento non primario
-						12°carattere: Presa visione dell'unità documentaria 			
-						13° carattere: Abilitazione a creare la prima versione per un nuovo documento non primario			
-						14° carattere: Abilitazione alla modifica dei permessi</xs:documentation>
+						<xs:documentation> E' una stringa di 1/0 in cui ogni carattere rappresenta l'abilitazione (1) o meno (0) dell'utente connesso ad una certa azione sull'unitÃ  documentaria
+						1Â° carattere: Editing/modifica dei metadati
+						2Â° carattere: Cancellazione dell'unitÃ  documentaria
+						3Â° carattere: Invio dell'unitÃ  documentaria
+						4Â° carattere: Notifica dell'unitÃ  documentaria
+						5Â° carattere: Presa in carico dell'unitÃ  documentaria
+						6Â° carattere: Avvio di un processo sull'unitÃ  documentaria
+						7Â° carattere: Lock dell'unitÃ  documentaria
+						8Â° carattere: Unlock dell'unitÃ  documentaria
+						9Â° carattere: Aggiunta ai preferiti
+						10Â°carattere: Eliminazione dai preferiti
+						11Â°carattere: Abilitazione a creare prima versione non pubblicata di un nuovo documento non primario
+						12Â°carattere: Presa visione dell'unitÃ  documentaria 			
+						13Â° carattere: Abilitazione a creare la prima versione per un nuovo documento non primario			
+						14Â° carattere: Abilitazione alla modifica dei permessi</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="BitmapAbilitazioniAzioniFilePrimario" type="xs:string">
 					<xs:annotation>
 						<xs:documentation>Stringa di 1/0 din cui ogni carattere rappresenta l'abilitazione (1) o meno (0) dell'utente connesso ad una certa azione sul file primario (l'ultima versione visibile). I significati dei bit (caratteri di posizione i-esima) sono:
-					1° carattere: Abilitazione al versioning/modifica del file
-					2° carattere: Abilitazione alla firma del file
-					3° carattere: Abilitazione alla cancellazione di tutte le versioni del file
-					4° carattere: Abilitazione alla modifica delle note del file 
-					 5° carattere: Abilitazione alla modifica dello stato di pubblicazione del file
-					8° carattere: Abilitazione al creare nuova versione non pubblicata
+					1Â° carattere: Abilitazione al versioning/modifica del file
+					2Â° carattere: Abilitazione alla firma del file
+					3Â° carattere: Abilitazione alla cancellazione di tutte le versioni del file
+					4Â° carattere: Abilitazione alla modifica delle note del file 
+					 5Â° carattere: Abilitazione alla modifica dello stato di pubblicazione del file
+					8Â° carattere: Abilitazione al creare nuova versione non pubblicata
 			</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="RuoloUtenteRispettoUD" type="OggDiTabDiSistemaType" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
-						<xs:documentation>Ruoli che ha l'utente connesso rispetto all'unità documentaria
+						<xs:documentation>Ruoli che ha l'utente connesso rispetto all'unitÃ  documentaria
 						</xs:documentation>
 					</xs:annotation>
 				</xs:element>

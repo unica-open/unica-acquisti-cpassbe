@@ -1,0 +1,10 @@
+EsitoInviaOrdineNSOService:
+  type: object
+  properties:
+    testataOrdine:
+      type: object
+      $ref: '#/definitions/TestataOrdine'
+    listApiErrors:
+      type: array
+      items:
+        $ref: '#/definitions/ApiError'

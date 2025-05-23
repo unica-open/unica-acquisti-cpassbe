@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -23,6 +23,12 @@ import it.csi.cpass.cpassbe.ejb.util.jpa.Page;
  */
 public interface BaseEntityDao<K, T extends BaseEntity<K>> extends BaseDao<T> {
 
+	/**
+	 * Finds an entity by its key
+	 * @param key the key
+	 * @return the entity
+	 */
+	Optional<T> findById(K key);
 	/**
 	 * Finds an entity by its key
 	 * @param key the key
@@ -60,6 +66,11 @@ public interface BaseEntityDao<K, T extends BaseEntity<K>> extends BaseDao<T> {
 	 * @param key the key of the entity
 	 */
 	void delete(K key);
+	/**
+	 * Deletes the table
+	 * @param key the key of the entity
+	 */
+	void deleteAll();
 	/**
 	 * Saves the entity
 	 * @param entity the entity to be saved

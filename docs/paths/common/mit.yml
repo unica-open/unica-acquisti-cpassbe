@@ -1,0 +1,23 @@
+/common/caricamento-massivo/carica-tabelle-xmit/{idProgramma}:
+  get:
+    operationId: getCaricaTabelleDaTrasmettere
+    description: carica le tabelle per la trasmissione al mit
+    produces:
+      - application/json
+    tags:
+      - common
+    parameters:
+      - in: path
+        name: idProgramma
+        required: true
+        type: string
+        description: id programma.
+    responses:
+      '200':
+        description: Lo status dell'operazione.
+        schema:
+          type: string
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'

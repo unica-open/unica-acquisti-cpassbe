@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -14,13 +14,13 @@ import it.csi.cpass.cpassbe.ejb.business.be.service.request.base.BaseRequest;
 import it.csi.cpass.cpassbe.lib.dto.ord.TestataOrdine;
 
 public class PostAnnullaTestataOrdineRequest implements BaseRequest {
-	
+
 	private final TestataOrdine testataOrdine;
 	private final boolean bypassControlli;
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param testataOrdine the testataOrdine
 	 */
 	public PostAnnullaTestataOrdineRequest(TestataOrdine testataOrdine, boolean bypassControlli) {

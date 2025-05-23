@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - INTEGRATION submodule - SIAC
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -76,6 +76,7 @@ public abstract class DocumentoSpesaSiacMapper implements BaseMapperInterface<Do
 		ds.setDescrizioneStato(entity.getStato().getDescrizione());
 		ds.setTotaleDocumento(entity.getImportoDocumento());
 		ds.setTotaleLiquidabileDocumento(entity.getImportoNettoDocumento());
+		ds.setCodiceExt(entity.getNumeroDocumento());
 
 		List<String> numeriOrdine = new ArrayList<>();
 		for(Ordine ordine : entity.getElencoOrdini()) {

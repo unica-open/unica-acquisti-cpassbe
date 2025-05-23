@@ -1,0 +1,47 @@
+# ATTENZIONE PROBLEMA su XML generato  va modificato il file OrderType aggiungendo il tag
+
+@XmlRootElement(name = "Order") riga circa 185
+
+    "taxTotal",
+    "anticipatedMonetaryTotal",
+    "orderLine"
+})
+@XmlRootElement(name = "Order")
+public class OrderType {
+
+    @XmlElement(name = "UBLExtensions", namespace = "urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2")
+    protected UBLExtensionsType ublExtensions;
+  
+l'xsd ha un qualche problemino e non ci genera la classe sorrettamente
+
+
+
+https://test-notier.regione.emilia-romagna.it/notier/
+
+login: annarita.tallarico
+pwd:   !Acquisti1!
+
+poi, vai su documenti ricevuti/Monitoraggi
+
+login: claudio.capone
+pwd:   !UnicaCpass1!
+CF collegato: AAAAAA00A11B000J (demo 21)
+settore collegato: A1111C - Patrimonio immobiliare, beni mobili, economato e cassa economale 	
+ID Notier: ACSI_01_UNICAA1111C
+IPA: 7K3KWF
+
+login: silvia.torta
+pwd: !AcquiSil1!
+CF collegato: AAAAAA00A11C000K (demo 22)
+settore collegato: A1111C - Patrimonio immobiliare, beni mobili, economato e cassa economale 	
+ID Notier: ACSI_02_UNICA
+IPA: 81YHY9
+
+per completezza ti mando tutti i dati del primo che abbiamo usato
+
+login: annarita.tallarico
+pwd:   !Acquisti1!
+CF collegato: AAAAAA00A11L000T (demo 31)
+settore collegato: A1511C - Politiche dell'istruzione, programmazione e monitoraggio strutture scolastiche
+ID Notier: ACSI_03_UNICAA1511C
+IPA: S04VFA

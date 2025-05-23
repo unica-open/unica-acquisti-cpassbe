@@ -13,4 +13,11 @@ Permesso:
       type: string
     voceMenu:
       type: boolean
+    disattivabile:
+      type: String
+    attivo:
+      type: boolean
+    modulo:
+      type: object
+      $ref: '#/definitions/Modulo'
       

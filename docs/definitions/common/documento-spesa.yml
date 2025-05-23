@@ -30,4 +30,5 @@ DocumentoSpesa:
       type: array
       items:
         type: string
-
+    codiceExt:
+      type: string

@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -21,7 +21,7 @@ public class PostCopiaRigheRequest implements BaseRequest {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param idFrom the id of Destinatario from who copy the RigaOrdine
 	 * @param idTo the id of Destinatario to whom copy the RigaOrdine
 	 */
@@ -37,5 +37,5 @@ public class PostCopiaRigheRequest implements BaseRequest {
 	public UUID getIdTo() {
 		return idTo;
 	}
-	
+
 }

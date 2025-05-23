@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -37,7 +37,7 @@ public class GetElaborazioneByIdService extends BaseElaborazioneService<GetElabo
 
 	@Override
 	protected void execute() {
-		Elaborazione elaborazione = new Elaborazione();//elaborazioneDad.getElaborazione(request.getId()).orElseThrow(() -> new NotFoundException("elaborazione"));
+		final Elaborazione elaborazione = new Elaborazione();//elaborazioneDad.getElaborazione(request.getId()).orElseThrow(() -> new NotFoundException("elaborazione"));
 		response.setElaborazione(elaborazione);
 	}
 

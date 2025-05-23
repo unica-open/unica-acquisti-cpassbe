@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -27,6 +27,9 @@ public class ParametroStampa extends BaseDto<Long> implements Serializable {
 	private String note;
 	private String procedureUtilizzate;
 	private String formatoStampa;
+	private Boolean multiplo;
+	private String fileName;
+
 
 	/** Default constructor */
 	public ParametroStampa() {}
@@ -151,7 +154,7 @@ public class ParametroStampa extends BaseDto<Long> implements Serializable {
 		this.procedureUtilizzate = procedureUtilizzate;
 	}
 
-	
+
 	/**
 	 * @return the formatoStampa
 	 */
@@ -166,10 +169,38 @@ public class ParametroStampa extends BaseDto<Long> implements Serializable {
 		this.formatoStampa = formatoStampa;
 	}
 
+	/**
+	 * @return the multiplo
+	 */
+	public Boolean getMultiplo() {
+		return multiplo;
+	}
+
+	/**
+	 * @param multiplo the multiplo to set
+	 */
+	public void setMultiplo(Boolean multiplo) {
+		this.multiplo = multiplo;
+	}
+
+	/**
+	 * @return the fileName
+	 */
+	public String getFileName() {
+		return fileName;
+	}
+
+	/**
+	 * @param fileName the fileName to set
+	 */
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
 	@Override
 	public String toString() {
 		return new StringBuilder()
-			.append("Parametro Stampa [")	
+			.append("Parametro Stampa [")
 			.append(", modulo=").append(modulo)
 			.append(", nomeStampa=").append(nomeStampa)
 			.append(", fileNameTemplate=").append(fileNameTemplate)

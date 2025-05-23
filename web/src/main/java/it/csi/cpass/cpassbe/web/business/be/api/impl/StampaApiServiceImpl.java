@@ -34,6 +34,12 @@ public class StampaApiServiceImpl extends BaseRestServiceImpl implements StampaA
 
 	@Override
 	public Response stampa(String nomeStampa, String formatFile, List<String> listaParametri,SecurityContext securityContext, HttpHeaders httpHeaders, HttpServletRequest httpRequest) {
-		return invoke(() -> stampeFacade.stampa( nomeStampa,  formatFile, listaParametri));
+		return invoke(() -> stampeFacade.stampa( nomeStampa,"", formatFile, listaParametri));
 	}
+
+	@Override
+	public Response printWithName(String logicName, String fileName, String formatFile, List<String> param,SecurityContext securityContext, HttpHeaders httpHeaders, HttpServletRequest httpRequest) {
+		return invoke(() -> stampeFacade.stampa( logicName,fileName, formatFile, param));
+	}
+
 }

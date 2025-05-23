@@ -1,0 +1,46 @@
+/magazzino/ricerca:
+  post:
+    operationId: getRicercaMagazzino
+    description: Restituisce magazzini registrati su sistema.
+    produces:
+      - application/json
+    tags:
+      - magazzino
+    parameters:
+      - $ref: '#/parameters/offsetParam'
+      - $ref: '#/parameters/limitParam'
+      - $ref: '#/parameters/sortParam'
+      - $ref: '#/parameters/directionParam'
+      - in: body
+        name: magazzino
+        required: true
+        schema:
+          $ref: '#/definitions/Magazzino'
+    responses:
+      '200':
+        description: Magazzini registrate su sistema.
+        schema:
+          $ref: '#/definitions/PagedResponseMagazzino'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'  
+/magazzino/all:
+  get:
+    operationId: getMagazzini
+    description: Restituisce magazzini registrati su sistema.
+    produces:
+      - application/json
+    tags:
+      - magazzino
+    responses:
+      '200':
+        description: Magazzini registrate su sistema.
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Magazzino'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'               

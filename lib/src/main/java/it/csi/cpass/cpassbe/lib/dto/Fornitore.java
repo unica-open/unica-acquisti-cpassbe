@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -17,7 +17,7 @@ import java.util.UUID;
 /**
  * The Class Fornitore.
  */
-public class Fornitore extends BaseDto<UUID> implements Serializable {
+public class Fornitore extends BaseAuditedDto<UUID> implements Serializable {
 
 	/** For serialization */
 	private static final long serialVersionUID = 5228253568772398388L;
@@ -37,12 +37,14 @@ public class Fornitore extends BaseDto<UUID> implements Serializable {
 	private String comune;
 	private String provincia;
 	private String stato;
-	private String codDestinatario;
+	//private String codDestinatario;
 	private List<ListinoFornitore> listinoFornitores;
 	private boolean selected; // utilizzando nel FE
 	private List<String> codiciFornitoriCollegatiSuccessivi;
 	private List<ModalitaPagamento> elencoModalitaPagamento;
-		
+	private Ente ente;
+
+
 	/** Default constructor */
 	public Fornitore() {}
 
@@ -53,7 +55,7 @@ public class Fornitore extends BaseDto<UUID> implements Serializable {
 	public Fornitore(UUID id) {
 		super(id);
 	}
-	
+
 	/**
 	 * @return the selected
 	 */
@@ -278,21 +280,7 @@ public class Fornitore extends BaseDto<UUID> implements Serializable {
 		this.stato = stato;
 	}
 
-	
-	/**
-	 * @return the codDestinatario
-	 */
-	public String getCodDestinatario() {
-		return codDestinatario;
-	}
 
-	/**
-	 * @param codDestinatario the codDestinatario to set
-	 */
-	public void setCodDestinatario(String codDestinatario) {
-		this.codDestinatario = codDestinatario;
-	}
-	
 	/**
 	 * @return the codiciFornitoriCollegatiSuccessivi
 	 */
@@ -333,6 +321,53 @@ public class Fornitore extends BaseDto<UUID> implements Serializable {
 	public void setElencoModalitaPagamento(List<ModalitaPagamento> elencoModalitaPagamento) {
 		this.elencoModalitaPagamento = elencoModalitaPagamento;
 	}
+
+	/**
+	 * @return the ente
+	 */
+	public Ente getEnte() {
+		return ente;
+	}
+
+	/**
+	 * @param ente the ente to set
+	 */
+	public void setEnte(Ente ente) {
+		this.ente = ente;
+	}
+
+	/**
+	 * @return the indirizzoCompleto
+	 */
+	public String getIndirizzoCompleto() {
+		String indirizzoCompleto = "";
+		if (getSedime() != null) {
+			indirizzoCompleto += getSedime().trim() + " ";
+		}
+		if (getIndirizzo() != null) {
+			indirizzoCompleto += getIndirizzo().trim() + " ";
+		}
+		if (getNumeroCivico() != null) {
+			indirizzoCompleto += getNumeroCivico().trim();
+		}
+		//setIndirizzoCompleto(indirizzoCompleto.trim());
+		return indirizzoCompleto.trim();
+	}
+
+	/**
+	 * @return the indirizzoCompleto
+	 */
+	public String getIndirizzoConSedime() {
+		String indirizzoConSedime = "";
+		if (getSedime() != null) {
+			indirizzoConSedime += getSedime().trim() + " ";
+		}
+		if (getIndirizzo() != null) {
+			indirizzoConSedime += getIndirizzo().trim() + " ";
+		}
+		return indirizzoConSedime.trim();
+	}
+
 
 	@Override
 	public String toString() {

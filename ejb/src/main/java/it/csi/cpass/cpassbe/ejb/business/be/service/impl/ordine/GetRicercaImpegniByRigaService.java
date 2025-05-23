@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -21,11 +21,11 @@ import it.csi.cpass.cpassbe.lib.dto.Impegno;
 
 public class GetRicercaImpegniByRigaService extends BaseService<GetRicercaImpegniByRigaRequest, GetRicercaImpegniByRigaResponse> {
 
-	private ImpegnoDad impegnoDad;
+	private final ImpegnoDad impegnoDad;
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param configurationHelper the configuration helper
 	 * @param testataOrdineDad    the testataOrdine DAD
 	 */
@@ -41,7 +41,7 @@ public class GetRicercaImpegniByRigaService extends BaseService<GetRicercaImpegn
 
 	@Override
 	protected void execute() {
-		List<Impegno> listImpegno = impegnoDad.getImpegniByRiga(request.getIdRiga());
+		final List<Impegno> listImpegno = impegnoDad.getImpegniByRiga(request.getIdRiga());
 		response.setListImpegno(listImpegno);
 	}
 

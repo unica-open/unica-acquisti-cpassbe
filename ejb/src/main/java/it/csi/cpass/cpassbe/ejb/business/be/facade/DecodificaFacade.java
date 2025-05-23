@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -10,12 +10,15 @@
  */
 package it.csi.cpass.cpassbe.ejb.business.be.facade;
 
+import javax.ejb.Lock;
+import javax.ejb.LockType;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
 import it.csi.cpass.cpassbe.ejb.business.be.dad.DecodificaDad;
+import it.csi.cpass.cpassbe.ejb.business.be.service.impl.common.ods.GetRicercaCpvOggettiSpesaService;
 import it.csi.cpass.cpassbe.ejb.business.be.service.impl.decodifica.GetAcquistiVariatiService;
 import it.csi.cpass.cpassbe.ejb.business.be.service.impl.decodifica.GetAliquoteIvaService;
 import it.csi.cpass.cpassbe.ejb.business.be.service.impl.decodifica.GetAllCausaleSospensioneEvasioneValideService;
@@ -23,20 +26,23 @@ import it.csi.cpass.cpassbe.ejb.business.be.service.impl.decodifica.GetAusaServi
 import it.csi.cpass.cpassbe.ejb.business.be.service.impl.decodifica.GetCpvService;
 import it.csi.cpass.cpassbe.ejb.business.be.service.impl.decodifica.GetCpvTreeService;
 import it.csi.cpass.cpassbe.ejb.business.be.service.impl.decodifica.GetModalitaAffidamentoService;
+import it.csi.cpass.cpassbe.ejb.business.be.service.impl.decodifica.GetMotiviEsclusioneCigService;
 import it.csi.cpass.cpassbe.ejb.business.be.service.impl.decodifica.GetNutsService;
 import it.csi.cpass.cpassbe.ejb.business.be.service.impl.decodifica.GetPrioritaService;
-import it.csi.cpass.cpassbe.ejb.business.be.service.impl.decodifica.GetRicercaOggettiSpesaService;
+import it.csi.cpass.cpassbe.ejb.business.be.service.impl.decodifica.GetProvvedimentoTipoService;
 import it.csi.cpass.cpassbe.ejb.business.be.service.impl.decodifica.GetRicompresoTipoService;
 import it.csi.cpass.cpassbe.ejb.business.be.service.impl.decodifica.GetRisorsaService;
 import it.csi.cpass.cpassbe.ejb.business.be.service.impl.decodifica.GetSettoreInterventiService;
 import it.csi.cpass.cpassbe.ejb.business.be.service.impl.decodifica.GetStatoByTipoService;
-import it.csi.cpass.cpassbe.ejb.business.be.service.impl.decodifica.GetStatoElOrdineByTipoService;
 import it.csi.cpass.cpassbe.ejb.business.be.service.impl.decodifica.GetStatoNsoByTipoService;
 import it.csi.cpass.cpassbe.ejb.business.be.service.impl.decodifica.GetTipoAcquistoService;
 import it.csi.cpass.cpassbe.ejb.business.be.service.impl.decodifica.GetTipoEvasioneService;
 import it.csi.cpass.cpassbe.ejb.business.be.service.impl.decodifica.GetTipoOrdineService;
-import it.csi.cpass.cpassbe.ejb.business.be.service.impl.decodifica.GetTipoProceduraService;
+import it.csi.cpass.cpassbe.ejb.business.be.service.impl.decodifica.GetTipoProceduraOrdService;
+import it.csi.cpass.cpassbe.ejb.business.be.service.impl.decodifica.GetTipoProceduraPbaService;
+import it.csi.cpass.cpassbe.ejb.business.be.service.impl.decodifica.GetTipoSettoreService;
 import it.csi.cpass.cpassbe.ejb.business.be.service.impl.decodifica.GetUnitaMisuraService;
+import it.csi.cpass.cpassbe.ejb.business.be.service.request.common.ods.GetRicercaCpvOggettiSpesaRequest;
 import it.csi.cpass.cpassbe.ejb.business.be.service.request.decodifica.GetAcquistiVariatiRequest;
 import it.csi.cpass.cpassbe.ejb.business.be.service.request.decodifica.GetAliquoteIvaRequest;
 import it.csi.cpass.cpassbe.ejb.business.be.service.request.decodifica.GetAllCausaleSospensioneEvasioneValideRequest;
@@ -44,20 +50,23 @@ import it.csi.cpass.cpassbe.ejb.business.be.service.request.decodifica.GetAusaRe
 import it.csi.cpass.cpassbe.ejb.business.be.service.request.decodifica.GetCpvRequest;
 import it.csi.cpass.cpassbe.ejb.business.be.service.request.decodifica.GetCpvTreeRequest;
 import it.csi.cpass.cpassbe.ejb.business.be.service.request.decodifica.GetModalitaAffidamentoRequest;
+import it.csi.cpass.cpassbe.ejb.business.be.service.request.decodifica.GetMotiviEsclusioneCigRequest;
 import it.csi.cpass.cpassbe.ejb.business.be.service.request.decodifica.GetNutsRequest;
 import it.csi.cpass.cpassbe.ejb.business.be.service.request.decodifica.GetPrioritaRequest;
-import it.csi.cpass.cpassbe.ejb.business.be.service.request.decodifica.GetRicercaOggettiSpesaRequest;
+import it.csi.cpass.cpassbe.ejb.business.be.service.request.decodifica.GetProvvedimentoTipoRequest;
 import it.csi.cpass.cpassbe.ejb.business.be.service.request.decodifica.GetRicompresoTipoRequest;
 import it.csi.cpass.cpassbe.ejb.business.be.service.request.decodifica.GetRisorsaRequest;
 import it.csi.cpass.cpassbe.ejb.business.be.service.request.decodifica.GetSettoreInterventiRequest;
 import it.csi.cpass.cpassbe.ejb.business.be.service.request.decodifica.GetStatoByTipoRequest;
-import it.csi.cpass.cpassbe.ejb.business.be.service.request.decodifica.GetStatoElOrdineByTipoRequest;
 import it.csi.cpass.cpassbe.ejb.business.be.service.request.decodifica.GetStatoNsoByTipoRequest;
 import it.csi.cpass.cpassbe.ejb.business.be.service.request.decodifica.GetTipoAcquistoRequest;
 import it.csi.cpass.cpassbe.ejb.business.be.service.request.decodifica.GetTipoEvasioneRequest;
 import it.csi.cpass.cpassbe.ejb.business.be.service.request.decodifica.GetTipoOrdineRequest;
-import it.csi.cpass.cpassbe.ejb.business.be.service.request.decodifica.GetTipoProceduraRequest;
+import it.csi.cpass.cpassbe.ejb.business.be.service.request.decodifica.GetTipoProceduraOrdRequest;
+import it.csi.cpass.cpassbe.ejb.business.be.service.request.decodifica.GetTipoProceduraPbaRequest;
+import it.csi.cpass.cpassbe.ejb.business.be.service.request.decodifica.GetTipoSettoreRequest;
 import it.csi.cpass.cpassbe.ejb.business.be.service.request.decodifica.GetUnitaMisuraRequest;
+import it.csi.cpass.cpassbe.ejb.business.be.service.response.common.ods.GetRicercaCpvOggettiSpesaResponse;
 import it.csi.cpass.cpassbe.ejb.business.be.service.response.decodifica.GetAcquistiVariatiResponse;
 import it.csi.cpass.cpassbe.ejb.business.be.service.response.decodifica.GetAliquoteIvaResponse;
 import it.csi.cpass.cpassbe.ejb.business.be.service.response.decodifica.GetAllCausaleSospensioneEvasioneValideResponse;
@@ -65,27 +74,31 @@ import it.csi.cpass.cpassbe.ejb.business.be.service.response.decodifica.GetAusaR
 import it.csi.cpass.cpassbe.ejb.business.be.service.response.decodifica.GetCpvResponse;
 import it.csi.cpass.cpassbe.ejb.business.be.service.response.decodifica.GetCpvTreeResponse;
 import it.csi.cpass.cpassbe.ejb.business.be.service.response.decodifica.GetModalitaAffidamentoResponse;
+import it.csi.cpass.cpassbe.ejb.business.be.service.response.decodifica.GetMotiviEsclusioneCigResponse;
 import it.csi.cpass.cpassbe.ejb.business.be.service.response.decodifica.GetNutsResponse;
 import it.csi.cpass.cpassbe.ejb.business.be.service.response.decodifica.GetPrioritaResponse;
-import it.csi.cpass.cpassbe.ejb.business.be.service.response.decodifica.GetRicercaOggettiSpesaResponse;
+import it.csi.cpass.cpassbe.ejb.business.be.service.response.decodifica.GetProvvedimentoTipoResponse;
 import it.csi.cpass.cpassbe.ejb.business.be.service.response.decodifica.GetRicompresoTipoResponse;
 import it.csi.cpass.cpassbe.ejb.business.be.service.response.decodifica.GetRisorsaResponse;
 import it.csi.cpass.cpassbe.ejb.business.be.service.response.decodifica.GetSettoreInterventiResponse;
 import it.csi.cpass.cpassbe.ejb.business.be.service.response.decodifica.GetStatoByTipoResponse;
-import it.csi.cpass.cpassbe.ejb.business.be.service.response.decodifica.GetStatoElOrdineByTipoResponse;
 import it.csi.cpass.cpassbe.ejb.business.be.service.response.decodifica.GetStatoNsoByTipoResponse;
 import it.csi.cpass.cpassbe.ejb.business.be.service.response.decodifica.GetTipoAcquistoResponse;
 import it.csi.cpass.cpassbe.ejb.business.be.service.response.decodifica.GetTipoEvasioneResponse;
 import it.csi.cpass.cpassbe.ejb.business.be.service.response.decodifica.GetTipoOrdineResponse;
-import it.csi.cpass.cpassbe.ejb.business.be.service.response.decodifica.GetTipoProceduraResponse;
+import it.csi.cpass.cpassbe.ejb.business.be.service.response.decodifica.GetTipoProceduraOrdResponse;
+import it.csi.cpass.cpassbe.ejb.business.be.service.response.decodifica.GetTipoProceduraPbaResponse;
+import it.csi.cpass.cpassbe.ejb.business.be.service.response.decodifica.GetTipoSettoreResponse;
 import it.csi.cpass.cpassbe.ejb.business.be.service.response.decodifica.GetUnitaMisuraResponse;
-import it.csi.cpass.cpassbe.lib.dto.ord.OggettiSpesa;
+import it.csi.cpass.cpassbe.lib.dto.Ods;
 
 
 /**
  * Fa&ccedil;ade for the /decodifica path
  */
 @Stateless
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
+@Lock(LockType.READ)
 public class DecodificaFacade extends BaseFacade {
 	// Injection point
 	@Inject private DecodificaDad decodificaDad;
@@ -94,7 +107,6 @@ public class DecodificaFacade extends BaseFacade {
 	 * Gets the Cpvs
 	 * @return the cpvs
 	 */
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public GetCpvResponse getCpv() {
 		return executeService(new GetCpvRequest(), new GetCpvService(configurationHelper, decodificaDad));
 	}
@@ -103,24 +115,21 @@ public class DecodificaFacade extends BaseFacade {
 	 * Gets the getCpvTree
 	 * @return the getCpvTree
 	 */
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public GetCpvTreeResponse getCpvTree() {
-		return executeService(new GetCpvTreeRequest(false), new GetCpvTreeService(configurationHelper, decodificaDad));
+		return executeService(new GetCpvTreeRequest(Boolean.FALSE), new GetCpvTreeService(configurationHelper, decodificaDad));
 	}
 	/**
 	 * Gets the getCpvOdsTree
 	 * @return the getCpvOdsTree
 	 */
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public GetCpvTreeResponse getCpvOdsTree() {
-		return executeService(new GetCpvTreeRequest(true), new GetCpvTreeService(configurationHelper, decodificaDad));
+		return executeService(new GetCpvTreeRequest(Boolean.TRUE), new GetCpvTreeService(configurationHelper, decodificaDad));
 	}
 
 	/**
 	 * Gets the ModalitaAffidamentos
 	 * @return the modalitaAffidamentos
 	 */
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public GetModalitaAffidamentoResponse getModalitaAffidamento() {
 		return executeService(new GetModalitaAffidamentoRequest(), new GetModalitaAffidamentoService(configurationHelper, decodificaDad));
 	}
@@ -128,7 +137,6 @@ public class DecodificaFacade extends BaseFacade {
 	 * Gets the Nuts
 	 * @return the nuts
 	 */
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public GetNutsResponse getNuts() {
 		return executeService(new GetNutsRequest(), new GetNutsService(configurationHelper, decodificaDad));
 	}
@@ -136,7 +144,6 @@ public class DecodificaFacade extends BaseFacade {
 	 * Gets the Prioritas
 	 * @return the prioritas
 	 */
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public GetPrioritaResponse getPriorita() {
 		return executeService(new GetPrioritaRequest(), new GetPrioritaService(configurationHelper, decodificaDad));
 	}
@@ -144,7 +151,6 @@ public class DecodificaFacade extends BaseFacade {
 	 * Gets the Risorses
 	 * @return the risorses
 	 */
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public GetRisorsaResponse getRisorse() {
 		return executeService(new GetRisorsaRequest(), new GetRisorsaService(configurationHelper, decodificaDad));
 	}
@@ -152,7 +158,6 @@ public class DecodificaFacade extends BaseFacade {
 	 * Gets the SettoreInterventis
 	 * @return the settoreInterventis
 	 */
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public GetSettoreInterventiResponse getSettoreInterventi() {
 		return executeService(new GetSettoreInterventiRequest(), new GetSettoreInterventiService(configurationHelper, decodificaDad));
 	}
@@ -161,7 +166,6 @@ public class DecodificaFacade extends BaseFacade {
 	 * Gets the ausa
 	 * @return the ausas
 	 */
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public GetAusaResponse getAusas() {
 		return executeService(new GetAusaRequest(), new GetAusaService(configurationHelper, decodificaDad));
 	}
@@ -170,7 +174,6 @@ public class DecodificaFacade extends BaseFacade {
 	 * Gets the AcquistiVariati
 	 * @return the acquistiVariati
 	 */
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public GetAcquistiVariatiResponse getAcquistiVariati() {
 		return executeService(new GetAcquistiVariatiRequest(), new GetAcquistiVariatiService(configurationHelper, decodificaDad));
 	}
@@ -179,79 +182,78 @@ public class DecodificaFacade extends BaseFacade {
 	 * Gets the RicompresoTipo
 	 * @return the RicompresoTipo
 	 */
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public GetRicompresoTipoResponse getRicompresoTipos() {
 		return executeService(new GetRicompresoTipoRequest(), new GetRicompresoTipoService(configurationHelper, decodificaDad));
 	}
-	
+
 	/**
 	 * Gets the TipoOrdines
 	 * @return the TipoOrdines
 	 */
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public GetTipoOrdineResponse getTipoOrdine() {
 		return executeService(new GetTipoOrdineRequest(), new GetTipoOrdineService(configurationHelper, decodificaDad));
+	}
+
+	/**
+	 * Gets the TipoOrdines
+	 * @return the TipoOrdines
+	 */
+	public GetTipoOrdineResponse getListaTipoOrdineExcludeCode(String noTypeCode) {
+		return executeService(new GetTipoOrdineRequest( noTypeCode), new GetTipoOrdineService(configurationHelper, decodificaDad));
 	}
 
 	/**
 	 * Gets the TipoProceduras
 	 * @return the TipoProceduras
 	 */
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public GetTipoProceduraResponse getTipoProcedura() {
-		return executeService(new GetTipoProceduraRequest(), new GetTipoProceduraService(configurationHelper, decodificaDad));
-	}
-	
-	/**
-	 * Gets the StatoElOrdines
-	 * @return the StatoElOrdines
-	 */
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public GetStatoElOrdineByTipoResponse getStatoElOrdineByTipo(String tipo) {
-		return executeService(new GetStatoElOrdineByTipoRequest(tipo), new GetStatoElOrdineByTipoService(configurationHelper, decodificaDad));
+	public GetTipoProceduraOrdResponse getTipoProceduraOrd() {
+		return executeService(new GetTipoProceduraOrdRequest(), new GetTipoProceduraOrdService(configurationHelper, decodificaDad));
 	}
 
-	
+	/**
+	 * Gets the TipoProceduras
+	 * @return the TipoProceduras
+	 */
+	public GetTipoProceduraPbaResponse getTipoProceduraPba() {
+		return executeService(new GetTipoProceduraPbaRequest(), new GetTipoProceduraPbaService(configurationHelper, decodificaDad));
+	}
 	/**
 	 * Gets the AliquoteIva
 	 * @return the AliquoteIvas
 	 */
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public GetAliquoteIvaResponse getAliquoteIva() {
 		return executeService(new GetAliquoteIvaRequest(), new GetAliquoteIvaService(configurationHelper, decodificaDad));
 	}
-	
+
 	/**
 	 * Gets the UnitaMisura
 	 * @return the UnitaMisura
 	 */
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public GetUnitaMisuraResponse getUnitaMisura() {
 		return executeService(new GetUnitaMisuraRequest(), new GetUnitaMisuraService(configurationHelper, decodificaDad));
 	}
 
 	/**
-	 * Retrieves the Interventi
-	 * @param page the page
-	 * @param limit the limit
-	 * @param sort the sort
-	 * @param direction the direction
-	 * @param intervento the intervento
-	 * @return the interventos
+	 *
+	 * @param page
+	 * @param limit
+	 * @param sort
+	 * @param direction
+	 * @param ods
+	 * @return
 	 */
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public GetRicercaOggettiSpesaResponse getRicercaOggettiSpesa(Integer page, Integer limit, String sort, String direction, OggettiSpesa oggettiSpesa) {
-		return executeService(new GetRicercaOggettiSpesaRequest(page, limit, sort, direction, oggettiSpesa), new GetRicercaOggettiSpesaService(configurationHelper, decodificaDad));
+	public GetRicercaCpvOggettiSpesaResponse getRicercaCpvOggettiSpesa(Integer page, Integer limit, String sort, String direction, Ods ods) {
+		return executeService(new GetRicercaCpvOggettiSpesaRequest(page, limit, sort, direction, ods), new GetRicercaCpvOggettiSpesaService(configurationHelper, decodificaDad));
 	}
-	
+
 	/**
 	 * Gets the Statos
 	 * @return the Statos
 	 */
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public GetStatoByTipoResponse getStatoByTipo(String tipo) {
 		return executeService(new GetStatoByTipoRequest(tipo), new GetStatoByTipoService(configurationHelper, decodificaDad));
 	}
+
 	/**
 	 * Gets the StatoNsos
 	 * @return the StatoNsos
@@ -260,12 +262,11 @@ public class DecodificaFacade extends BaseFacade {
 	public GetStatoNsoByTipoResponse getStatoNsoByTipo(String tipo) {
 		return executeService(new GetStatoNsoByTipoRequest(tipo), new GetStatoNsoByTipoService(configurationHelper, decodificaDad));
 	}
-	
+
 	/**
 	 * Gets the CausaleSospensioneEvasione valid
 	 * @return the CausaleSospensioneEvasiones
 	 */
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public GetAllCausaleSospensioneEvasioneValideResponse getAllCausaleSospensioneEvasioneValide() {
 		return executeService(new GetAllCausaleSospensioneEvasioneValideRequest(), new GetAllCausaleSospensioneEvasioneValideService(configurationHelper, decodificaDad));
 	}
@@ -273,7 +274,6 @@ public class DecodificaFacade extends BaseFacade {
 	 * Gets the TipoOrdines
 	 * @return the TipoOrdines
 	 */
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public GetTipoEvasioneResponse getTipoEvasione() {
 		return executeService(new GetTipoEvasioneRequest(), new GetTipoEvasioneService(configurationHelper, decodificaDad));
 	}
@@ -281,8 +281,19 @@ public class DecodificaFacade extends BaseFacade {
 	 * Gets the TipoOrdines
 	 * @return the TipoOrdines
 	 */
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public GetTipoAcquistoResponse getTipoAcquisto() {
 		return executeService(new GetTipoAcquistoRequest(), new GetTipoAcquistoService(configurationHelper, decodificaDad));
+	}
+
+	public GetProvvedimentoTipoResponse getProvvedimentoTipo() {
+		return executeService(new GetProvvedimentoTipoRequest(), new GetProvvedimentoTipoService(configurationHelper, decodificaDad));
+	}
+
+	public GetMotiviEsclusioneCigResponse getMotiviEsclusioneCig() {
+		return executeService(new GetMotiviEsclusioneCigRequest(), new GetMotiviEsclusioneCigService(configurationHelper, decodificaDad));
+	}
+
+	public GetTipoSettoreResponse getTipoSettore() {
+		return executeService(new GetTipoSettoreRequest(), new GetTipoSettoreService(configurationHelper, decodificaDad));
 	}
 }

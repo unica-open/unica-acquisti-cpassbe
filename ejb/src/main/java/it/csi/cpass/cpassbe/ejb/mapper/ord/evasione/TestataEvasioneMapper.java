@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -20,32 +20,35 @@ import org.mapstruct.Mapping;
 
 import it.csi.cpass.cpassbe.ejb.entity.ord.evasione.CpassTOrdTestataEvasione;
 import it.csi.cpass.cpassbe.ejb.mapper.ImpegnoMapper;
-import it.csi.cpass.cpassbe.ejb.mapper.SettoreMapper;
+import it.csi.cpass.cpassbe.ejb.mapper.SettoreCustomMapper;
 import it.csi.cpass.cpassbe.ejb.mapper.StatoMapper;
 import it.csi.cpass.cpassbe.ejb.mapper.StringMapper;
 import it.csi.cpass.cpassbe.ejb.mapper.UfficioMapper;
 import it.csi.cpass.cpassbe.ejb.mapper.UtenteMapper;
 import it.csi.cpass.cpassbe.ejb.mapper.ord.StatoNsoMapper;
-import it.csi.cpass.cpassbe.ejb.mapper.ord.TipoProceduraMapper;
+import it.csi.cpass.cpassbe.ejb.mapper.ord.TipoProceduraOrdMapper;
 import it.csi.cpass.cpassbe.lib.dto.ord.evasione.TestataEvasione;
 import it.csi.cpass.cpassbe.lib.mapper.BaseMapperInterface;
 
 /**
  * Mapper between TestataEvasione and CpassTOrdTestataEvasione
  */
-@Mapper(uses = { UtenteMapper.class, StatoMapper.class, StringMapper.class, TipoProceduraMapper.class, SettoreMapper.class, ImpegnoMapper.class,
-		StatoNsoMapper.class, TipoEvasioneMapper.class, 	DocumentoTrasportoMapper.class, UfficioMapper.class })
+@Mapper(uses = { UtenteMapper.class, StatoMapper.class, StringMapper.class, TipoProceduraOrdMapper.class, SettoreCustomMapper.class, ImpegnoMapper.class,
+		StatoNsoMapper.class, TipoEvasioneMapper.class, 	DocumentoTrasportoMapper.class, UfficioMapper.class
+})
 public interface TestataEvasioneMapper extends BaseMapperInterface<TestataEvasione, CpassTOrdTestataEvasione> {
 
 	@Override
 	@Mapping(source = "dataAutorizzazione", target = "dataAutorizzazione")
 	@Mapping(source = "cpassDStato", target = "stato")
 	@Mapping(source = "cpassTUfficio", target = "ufficio")
-	@Mapping(source = "cpassTOrdDocumentoTrasporto", target = "documentoTrasporto")
 	@Mapping(source = "cpassTFornitore", target = "fornitore")
 	@Mapping(source = "cpassTSettore", target = "settore")
 	@Mapping(source = "cpassTUtente", target = "utenteCompilatore")
 	@Mapping(source = "cpassDOrdTipoEvasione", target = "tipoEvasione")
+	@Mapping(source = "documentoConsegna", target = "documentoConsegna")
+	@Mapping(source = "documentoDataConsegna", target = "documentoDataConsegna")
+	@Mapping(source = "dataConsegna", target = "dataConsegna")
 	TestataEvasione toModel(CpassTOrdTestataEvasione entity);
 
 	@Override

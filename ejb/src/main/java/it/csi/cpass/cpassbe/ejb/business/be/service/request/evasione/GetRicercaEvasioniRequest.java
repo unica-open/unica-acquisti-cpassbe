@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -15,8 +15,8 @@ import java.util.Date;
 
 import it.csi.cpass.cpassbe.ejb.business.be.service.request.base.BasePagedRequest;
 import it.csi.cpass.cpassbe.lib.dto.Impegno;
+import it.csi.cpass.cpassbe.lib.dto.Ods;
 import it.csi.cpass.cpassbe.lib.dto.Subimpegno;
-import it.csi.cpass.cpassbe.lib.dto.ord.OggettiSpesa;
 import it.csi.cpass.cpassbe.lib.dto.ord.evasione.DestinatarioEvasione;
 import it.csi.cpass.cpassbe.lib.dto.ord.evasione.TestataEvasione;
 
@@ -39,15 +39,16 @@ public class GetRicercaEvasioniRequest extends BasePagedRequest {
 	private final Date dataEmissioneDa;
 	private final Date dataEmissioneA;
 	private final Integer annoProvvedimento;
-	private final Integer numeroProvvedimento;
+	private final String numeroProvvedimento;
+	private final String provvedimentoTipo;
 	private final TestataEvasione testataEvasione;
 	private final DestinatarioEvasione destinatarioEvasione;
 	private final Impegno impegno;
 	private final Subimpegno subimpegno;
-	private final OggettiSpesa oggettiSpesa;
-	
-//	private final UUID settoreId;
-	
+	private final Ods oggettiSpesa;
+
+	//	private final UUID settoreId;
+
 	/**
 	 * Constructor
 	 * @param size the size
@@ -58,8 +59,8 @@ public class GetRicercaEvasioniRequest extends BasePagedRequest {
 	 */
 	public GetRicercaEvasioniRequest(Integer page, Integer size, String sort, String direction
 			, Integer annoEvasioneDa, Integer numeroEvasioneDa, Integer annoEvasioneA, Integer numeroEvasioneA, Date dataInserimentoDa, Date dataInserimentoA
-			, Integer annoOrdineDa, Integer numeroOrdineDa, Integer annoOrdineA, Integer numeroOrdineA, Date dataEmissioneDa, Date dataEmissioneA, Integer annoProvvedimento, Integer numeroProvvedimento
-			, TestataEvasione testataEvasione, DestinatarioEvasione destinatarioEvasione,Impegno impegno, Subimpegno subimpegno, OggettiSpesa oggettiSpesa) {
+			, Integer annoOrdineDa, Integer numeroOrdineDa, Integer annoOrdineA, Integer numeroOrdineA, Date dataEmissioneDa, Date dataEmissioneA, Integer annoProvvedimento, String numeroProvvedimento
+			, String provvedimentoTipo, TestataEvasione testataEvasione, DestinatarioEvasione destinatarioEvasione,Impegno impegno, Subimpegno subimpegno, Ods oggettiSpesa) {
 		super(size, page, sort, direction);
 		this.annoEvasioneDa = annoEvasioneDa;
 		this.numeroEvasioneDa = numeroEvasioneDa;
@@ -80,6 +81,7 @@ public class GetRicercaEvasioniRequest extends BasePagedRequest {
 		this.impegno = impegno;
 		this.subimpegno = subimpegno;
 		this.oggettiSpesa = oggettiSpesa;
+		this.provvedimentoTipo = provvedimentoTipo;
 
 	}
 
@@ -177,7 +179,7 @@ public class GetRicercaEvasioniRequest extends BasePagedRequest {
 	/**
 	 * @return the numeroProvvedimento
 	 */
-	public Integer getNumeroProvvedimento() {
+	public String getNumeroProvvedimento() {
 		return numeroProvvedimento;
 	}
 
@@ -212,8 +214,12 @@ public class GetRicercaEvasioniRequest extends BasePagedRequest {
 	/**
 	 * @return the oggettiSpesa
 	 */
-	public OggettiSpesa getOggettiSpesa() {
+	public Ods getOggettiSpesa() {
 		return oggettiSpesa;
+	}
+
+	public String getProvvedimentoTipo() {
+		return provvedimentoTipo;
 	}
 
 

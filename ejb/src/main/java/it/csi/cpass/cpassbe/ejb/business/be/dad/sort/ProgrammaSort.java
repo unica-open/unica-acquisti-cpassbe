@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -54,7 +54,7 @@ public enum ProgrammaSort implements JpaSort {
 	 * @return the sort
 	 */
 	public static ProgrammaSort byModelName(String modelName) {
-		for (ProgrammaSort is : ProgrammaSort.values()) {
+		for (final ProgrammaSort is : ProgrammaSort.values()) {
 			if (is.modelName.equalsIgnoreCase(modelName)) {
 				return is;
 			}

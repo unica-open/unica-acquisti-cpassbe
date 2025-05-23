@@ -14,9 +14,9 @@ import java.util.Date;
 import java.util.List;
 
 import it.csi.cpass.cpassbe.lib.dto.Impegno;
+import it.csi.cpass.cpassbe.lib.dto.Ods;
 import it.csi.cpass.cpassbe.lib.dto.Subimpegno;
 import it.csi.cpass.cpassbe.lib.dto.ord.Destinatario;
-import it.csi.cpass.cpassbe.lib.dto.ord.OggettiSpesa;
 import it.csi.cpass.cpassbe.lib.dto.ord.RigaOrdine;
 import it.csi.cpass.cpassbe.lib.dto.ord.TestataOrdine;
 
@@ -36,18 +36,18 @@ public class RicercaRigheDaEvadere {
 	private Impegno impegno;
 	private Subimpegno subimpegno;
 	private RigaOrdine rigaOrdine;
-	private List<OggettiSpesa> odsList;
+	private List<Ods> odsList;
 
 	/**
 	 * @return the odsList
 	 */
-	public List<OggettiSpesa> getOdsList() {
+	public List<Ods> getOdsList() {
 		return odsList;
 	}
 	/**
 	 * @param odsList the odsList to set
 	 */
-	public void setOdsList(List<OggettiSpesa> odsList) {
+	public void setOdsList(List<Ods> odsList) {
 		this.odsList = odsList;
 	}
 	/**

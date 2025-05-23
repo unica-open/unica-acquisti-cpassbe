@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -10,7 +10,6 @@
  */
 package it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.ord.evasione;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -28,17 +27,17 @@ public interface CpassTOrdTestataEvasioneDao extends BaseAuditedEntityDao<UUID, 
 
 	Optional<CpassTOrdTestataEvasione> findByAnnoENumero(Integer anno, Integer numero, UUID enteId);
 	long countRicercaEvasioni(
-			Integer annoEvasioneDa, 
-			Integer numeroEvasioneDa, 
-			Integer annoEvasioneA, 
-			Integer numeroEvasioneA, 
-			Date dataInserimentoDa, 
+			Integer annoEvasioneDa,
+			Integer numeroEvasioneDa,
+			Integer annoEvasioneA,
+			Integer numeroEvasioneA,
+			Date dataInserimentoDa,
 			Date dataInserimentoA,
-			Integer annoOrdineDa, 
-			Integer numeroOrdineDa, 
-			Integer annoOrdineA, 
-			Integer numeroOrdineA, 
-			Date dataEmissioneDa, 
+			Integer annoOrdineDa,
+			Integer numeroOrdineDa,
+			Integer annoOrdineA,
+			Integer numeroOrdineA,
+			Date dataEmissioneDa,
 			Date dataEmissioneA,
 			Integer tipoEvasioneId,
 			Integer statoEvasioneId,
@@ -47,27 +46,28 @@ public interface CpassTOrdTestataEvasioneDao extends BaseAuditedEntityDao<UUID, 
 			UUID fornitoreId,
 			Integer provvedimentoAnno,
 			String provvedimentoNumero,
+			String provvedimentoTipo,
 			UUID impegnoId,
 			UUID subimpegnoId,
 			Integer oggettoSpesaId);
-	
+
 	/**
 	 * Paginated search
-	 * @param 
+	 * @param
 	 * @return the page
 	 */
-	Page<CpassTOrdTestataEvasione> findPaginated(			
-			Integer annoEvasioneDa, 
-			Integer numeroEvasioneDa, 
-			Integer annoEvasioneA, 
-			Integer numeroEvasioneA, 
-			Date dataInserimentoDa, 
+	Page<CpassTOrdTestataEvasione> findPaginated(
+			Integer annoEvasioneDa,
+			Integer numeroEvasioneDa,
+			Integer annoEvasioneA,
+			Integer numeroEvasioneA,
+			Date dataInserimentoDa,
 			Date dataInserimentoA,
-			Integer annoOrdineDa, 
-			Integer numeroOrdineDa, 
-			Integer annoOrdineA, 
-			Integer numeroOrdineA, 
-			Date dataEmissioneDa, 
+			Integer annoOrdineDa,
+			Integer numeroOrdineDa,
+			Integer annoOrdineA,
+			Integer numeroOrdineA,
+			Date dataEmissioneDa,
 			Date dataEmissioneA,
 			Integer tipoEvasioneId,
 			Integer statoEvasioneId,
@@ -76,6 +76,7 @@ public interface CpassTOrdTestataEvasioneDao extends BaseAuditedEntityDao<UUID, 
 			UUID fornitoreId,
 			Integer provvedimentoAnno,
 			String provvedimentoNumero,
+			String provvedimentoTipo,
 			UUID impegnoId,
 			UUID subimpegnoId,
 			Integer oggettoSpesaId,
@@ -86,6 +87,12 @@ public interface CpassTOrdTestataEvasioneDao extends BaseAuditedEntityDao<UUID, 
 			boolean checkVisibilitaDocumentale,
 			String cfUtente,
 			UUID utenteId,
-			UUID settoreId);
-	
+			UUID settoreId,
+			UUID enteId
+			);
+
+	List<CpassTOrdTestataEvasione> findTestateEvasioniByFattura(Integer anno, String numero, String tipo, String codice);
+
+	Optional<CpassTOrdTestataEvasione> getTestataEvasioneByDestinatario(UUID idDest);
+
 }

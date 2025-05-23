@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -16,9 +16,9 @@ import java.util.UUID;
 import it.csi.cpass.cpassbe.ejb.business.be.dad.UtenteDad;
 import it.csi.cpass.cpassbe.ejb.business.be.service.request.utente.GetPermessiBySettoreRequest;
 import it.csi.cpass.cpassbe.ejb.business.be.service.response.utente.GetPermessiBySettoreResponse;
-import it.csi.cpass.cpassbe.ejb.util.CpassThreadLocalContainer;
 import it.csi.cpass.cpassbe.ejb.util.conf.ConfigurationHelper;
 import it.csi.cpass.cpassbe.lib.dto.Permesso;
+import it.csi.cpass.cpassbe.lib.util.threadlocal.CpassThreadLocalContainer;
 
 /**
  * Retrieves an permessis
@@ -41,8 +41,8 @@ public class GetPermessiBySettoreService extends BaseUtenteService<GetPermessiBy
 
 	@Override
 	protected void execute() {
-		UUID utenteId = CpassThreadLocalContainer.UTENTE_CONNESSO.get().getId();
-		List<Permesso> permessi = utenteDad.getPermessiByUtenteAndSettore(utenteId, request.getSettoreId());
+		final UUID utenteId = CpassThreadLocalContainer.UTENTE_CONNESSO.get().getId();
+		final List<Permesso> permessi = utenteDad.getPermessiByUtenteAndSettore(utenteId, request.getSettoreId());
 		response.setPermessi(permessi);
 	}
 

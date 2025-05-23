@@ -1,0 +1,8 @@
+NotificaInfo:
+  type: object
+  properties:
+    pollingTime:
+      type: number
+    unreadCount:
+      type: integer
+      

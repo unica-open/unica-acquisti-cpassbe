@@ -7,6 +7,8 @@ WebInterventoFileHolder:
       type: string
     versioneProgramma:
       type: string
+    separatore:
+      type: string
     utenteReferenteCf:
       type: string
     attachment:

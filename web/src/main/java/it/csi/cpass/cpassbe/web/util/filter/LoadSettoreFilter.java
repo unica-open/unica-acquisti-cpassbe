@@ -23,10 +23,10 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.Provider;
 
 import it.csi.cpass.cpassbe.ejb.business.be.dad.SettoreDad;
-import it.csi.cpass.cpassbe.ejb.util.CpassThreadLocalContainer;
 import it.csi.cpass.cpassbe.lib.dto.Settore;
 import it.csi.cpass.cpassbe.lib.dto.error.CoreError;
 import it.csi.cpass.cpassbe.lib.util.log.LogUtil;
+import it.csi.cpass.cpassbe.lib.util.threadlocal.CpassThreadLocalContainer;
 import it.csi.cpass.cpassbe.web.util.annotation.LoadSettore;
 
 /**
@@ -41,7 +41,7 @@ public class LoadSettoreFilter implements ContainerRequestFilter {
 	/** Logger */
 	private static final LogUtil LOG = new LogUtil(LoadSettoreFilter.class);
 	private static final String SETTORE_HEADER = "X-SETTORE";
-	
+
 	@Inject private SettoreDad settoreDad;
 
 	@Override

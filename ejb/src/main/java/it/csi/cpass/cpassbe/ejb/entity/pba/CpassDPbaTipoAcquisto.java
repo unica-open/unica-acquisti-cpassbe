@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -87,7 +87,7 @@ public class CpassDPbaTipoAcquisto implements Serializable, BaseEntity<Integer> 
 	public void setTipoAcquistoDescrizione(String tipoAcquistoDescrizione) {
 		this.tipoAcquistoDescrizione = tipoAcquistoDescrizione;
 	}
-/*
+	/*
 	public List<CpassTPbaInterventoAltriDati> getCpassTPbaInterventoAltriDatis1() {
 		return this.cpassTPbaInterventoAltriDatis1;
 	}
@@ -131,7 +131,7 @@ public class CpassDPbaTipoAcquisto implements Serializable, BaseEntity<Integer> 
 
 		return cpassTPbaInterventoAltriDatis2;
 	}
-*/
+	 */
 
 	@Override
 	public Integer getId() {
@@ -140,6 +140,6 @@ public class CpassDPbaTipoAcquisto implements Serializable, BaseEntity<Integer> 
 
 	@Override
 	public void setId(Integer id) {
-		tipoAcquistoId = id;	
+		tipoAcquistoId = id;
 	}
 }

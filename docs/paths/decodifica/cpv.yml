@@ -17,3 +17,30 @@
         description: Errore generico.
         schema:
           $ref: '#/definitions/ApiError'
+/decodifica/ricerca/cpv-oggetti-spesa:
+  post:
+    operationId: getRicercaCpvOggettiSpesa
+    description: Restituisce lista cpv con oggetti di spesa .
+    produces:
+      - application/json
+    tags:
+      - decodifica
+    parameters:
+      - $ref: '#/parameters/offsetParam'
+      - $ref: '#/parameters/limitParam'
+      - $ref: '#/parameters/sortParam'
+      - $ref: '#/parameters/directionParam'
+      - in: body
+        name: oggettiSpesa
+        required: true
+        schema:
+          $ref: '#/definitions/Ods'
+    responses:
+      '200':
+        description: Cpv registrati su sistema.
+        schema:
+          $ref: '#/definitions/PagedResponseCpv'
+      default:
+        description: Errore generico.
+        schema:
+          $ref: '#/definitions/ApiError'

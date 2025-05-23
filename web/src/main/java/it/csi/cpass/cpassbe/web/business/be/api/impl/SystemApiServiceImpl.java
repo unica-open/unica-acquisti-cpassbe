@@ -10,6 +10,9 @@
  */
 package it.csi.cpass.cpassbe.web.business.be.api.impl;
 
+import java.net.URI;
+import java.util.UUID;
+
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Context;
@@ -32,11 +35,19 @@ public class SystemApiServiceImpl extends BaseRestServiceImpl implements SystemA
 	@Override
 	public Response ping(SecurityContext securityContext, HttpHeaders httpHeaders , @Context HttpServletRequest httpRequest) {
 		return Response.ok().build();
+		//Response.temporaryRedirect(https://dev-unica-acquisti-coto.nivolapiemonte.it/cpass-devsliv1wrup/Shibboleth.sso/Logout)
 	}
 
 	@Override
 	public Response getComunicazioni(SecurityContext securityContext, HttpHeaders httpHeaders, HttpServletRequest httpRequest) {
 		return invoke(() -> systemFacade.getComunicaziones());
 	}
+
+	@Override
+	public Response postCsiAudit(String cf,String azione, SecurityContext securityContext, HttpHeaders httpHeaders,HttpServletRequest httpRequest) {
+		return invoke(() -> systemFacade.postCsiAudit(cf,azione));
+	}
+
+
 
 }

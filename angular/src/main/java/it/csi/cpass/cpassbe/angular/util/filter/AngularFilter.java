@@ -33,8 +33,11 @@ public class AngularFilter implements Filter {
 	private static final LogUtil LOG = new LogUtil(AngularFilter.class);
 	/** The init-param to be used for the index */
 	private static final String INDEXURL_INIT_PARAM = "indexUrl";
+	/** The init-param to be used for the logout */
+	private static final String LOGOUTURL_INIT_PARAM = "logoutUrl";
 
 	private String indexUrl;
+	private String logoutUrl;
 
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
@@ -58,6 +61,7 @@ public class AngularFilter implements Filter {
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		this.indexUrl = filterConfig.getInitParameter(INDEXURL_INIT_PARAM);
+		this.logoutUrl = filterConfig.getInitParameter(LOGOUTURL_INIT_PARAM);
 	}
 
 	/**
@@ -67,6 +71,7 @@ public class AngularFilter implements Filter {
 	 */
 	private boolean isResourceRoute(String angularPath) {
 		return !angularPath.contains(indexUrl)
+				&& !angularPath.contains(logoutUrl)
 				// Assets
 				&& !angularPath.contains("/assets/")
 				// Files

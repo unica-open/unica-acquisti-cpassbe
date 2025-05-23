@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ========================LICENSE_START=================================
+  CPASS BackEnd - INTEGRATION submodule - NotiER
+  %%
+  Copyright (C) 2019 - 2021 CSI Piemonte
+  %%
+  SPDX-FileCopyrightText: Copyright 2019 - 2021 | CSI Piemonte
+  SPDX-License-Identifier: EUPL-1.2
+  =========================LICENSE_END==================================
+  -->
+
+<InvioDocumento xmlns="http://notier.intercenter.rer.it/services/1.0/inviodocumento/request">
+  <Versione>1.0</Versione>
+  <Documento>
+    <Chiave>
+      <Mittente>Uff_test_AP_to_AP</Mittente>
+      <TipoMittente>NOTIER</TipoMittente>
+      <Anno>2020</Anno>
+      <Numero>960-202019-1958</Numero>
+      <TipoDocumento>ORDINE</TipoDocumento>
+    </Chiave>
+    <Rappresentazione>
+      <Formato>BIS_3</Formato>
+      <Versione>2.1</Versione>
+    </Rappresentazione>
+  </Documento>
+  <Configurazione>
+    <InvioSdi>false</InvioSdi>
+    <InvioPeppol>true</InvioPeppol>
+    <InvioConservazione>true</InvioConservazione>
+    <ApprovazioneAutomatica>false</ApprovazioneAutomatica>
+    <AccettaChiaveDuplicata>true</AccettaChiaveDuplicata>
+  </Configurazione>
+  <MetadatiBusdox>
+    <RecipientIdentifier>0201:testap</RecipientIdentifier>
+    <SenderIdentifier>0201:testap</SenderIdentifier>
+    <DocumentIdentifier>urn:oasis:names:specification:ubl:schema:xsd:Order-2::Order##urn:fdc:peppol.eu:poacc:trns:order:3:restrictive:urn:www.agid.gov.it:trns:ordine:3.1::2.1</DocumentIdentifier>
+    <ProcessIdentifier>urn:fdc:peppol.eu:poacc:bis:order_only:3</ProcessIdentifier>
+  </MetadatiBusdox>
+</InvioDocumento>

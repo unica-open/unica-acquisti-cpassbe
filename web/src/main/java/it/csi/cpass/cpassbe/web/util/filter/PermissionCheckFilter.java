@@ -55,7 +55,7 @@ public class PermissionCheckFilter implements ContainerRequestFilter {
 	@Context private ResourceInfo resourceInfo;
 	/** The auth DAD */
 	@Inject private UtenteFacade utenteFacade;
-	
+
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
 		try {
@@ -67,7 +67,7 @@ public class PermissionCheckFilter implements ContainerRequestFilter {
 			abortWithInternalServerError(requestContext, e);
 		}
 	}
-	
+
 	/**
 	 * Executes the filtering
 	 * @param requestContext the request context
@@ -99,7 +99,7 @@ public class PermissionCheckFilter implements ContainerRequestFilter {
 			throw new UnsupportedApiCallException("Unsupported method");
 		}
 	}
-	
+
 	private UUID getUuidSettore(ContainerRequestContext requestContext) {
 		String idSettore = requestContext.getHeaderString(SETTORE_HEADER);
 		if(StringUtils.isBlank(idSettore)) {
@@ -123,7 +123,7 @@ public class PermissionCheckFilter implements ContainerRequestFilter {
 			Response.status(Response.Status.UNAUTHORIZED)
 				.build());
 	}
-	
+
 	/**
 	 * <p>Abort the filter chain with a 500 status code response.
 	 * @param requestContext the request context
@@ -133,7 +133,7 @@ public class PermissionCheckFilter implements ContainerRequestFilter {
 	private void abortWithInternalServerError(ContainerRequestContext requestContext, Exception e) {
 		// Abort the filter chain with a 500 status code response
 		LOG.error("abortWithInternalServerError", "Internal server error in authentication handling: " + e.getMessage(), e);
-		
+
 		requestContext.abortWith(
 			Response
 				.status(Status.INTERNAL_SERVER_ERROR)
@@ -141,5 +141,5 @@ public class PermissionCheckFilter implements ContainerRequestFilter {
 				.entity(JsonUtility.parseThrowable(e, false).toString())
 				.build());
 	}
-	
+
 }

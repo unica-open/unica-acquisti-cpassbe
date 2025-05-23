@@ -1,0 +1,12 @@
+TestoNotifica:
+  type: object
+  properties:
+    id:
+      type: integer
+    codice:
+      type: string
+    it:
+      type: string
+    en:
+      type: string
+      

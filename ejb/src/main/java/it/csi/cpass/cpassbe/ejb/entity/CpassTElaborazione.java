@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -47,39 +47,49 @@ public class CpassTElaborazione implements Serializable, BaseEntity<Integer> {
 	@Column(name="elaborazione_id")
 	private Integer elaborazioneId;
 
-	@Column(name="entita_id") 
+	@Column(name="entita_id")
 	private String entitaId;
-	
+
 	@Column(name="elaborazione_id_esterno")
 	private String elaborazione_id_esterno;
-	
+
 	@Column(name="elaborazione_utente")
 	private String elaborazioneUtente;
-	
-	@Column(name="elaborazione_stato") 
+
+	@Column(name="elaborazione_stato")
 	private String elaborazioneStato;
-	
-	@Column(name="elaborazione_data") 
+
+	@Column(name="elaborazione_data")
 	private Date elaborazioneData;
-	
+
 	@Column(name="elaborazione_esito")
 	private String elaborazioneEsito;
+
+	@Column(name="num_elaborazione_di_giornata")
+	private Integer numElaborazioneDiGiornata;
+
+	@Column(name="data_elaborazione_di_giornata")
+	private String dataElaborazioneDiGiornata;
 
 	/** The cpass T ElaborazioneMessaggio. */
 	//bi-directional many-to-one association to ElaborazioneMessaggio
 	@OneToMany(mappedBy="cpassTElaborazione")
 	private List<CpassTElaborazioneMessaggio> cpassTElaborazioneMessaggios;
-	
+
 	/** The cpass T ElaborazioneMessaggio. */
 	//bi-directional many-to-one association to ElaborazioneMessaggio
 	@OneToMany(mappedBy="cpassTElaborazione")
 	private List<CpassTElaborazioneParametro> cpassTElaborazioneParametros;
-	
+
 	/** CpassDElaborazioneTipo. */
 	//bi-directional many-to-one association to CpassDElaborazioneTipo
 	@ManyToOne
 	@JoinColumn(name="elaborazione_tipo_id", nullable=false)
 	private CpassDElaborazioneTipo cpassDElaborazioneTipo;
+
+	@ManyToOne
+	@JoinColumn(name="ente_id", nullable=false)
+	private CpassTEnte cpassTEnte;
 
 	/**
 	 * @return the elaborazioneId
@@ -165,7 +175,7 @@ public class CpassTElaborazione implements Serializable, BaseEntity<Integer> {
 		this.elaborazioneEsito = elaborazioneEsito;
 	}
 
-	
+
 	/**
 	 * @return the cpassTbaElaborazioneMessaggios
 	 */
@@ -208,7 +218,7 @@ public class CpassTElaborazione implements Serializable, BaseEntity<Integer> {
 		this.cpassDElaborazioneTipo = cpassDElaborazioneTipo;
 	}
 
-	
+
 	/**
 	 * @return the elaborazione_id_esterno
 	 */
@@ -221,6 +231,38 @@ public class CpassTElaborazione implements Serializable, BaseEntity<Integer> {
 	 */
 	public void setElaborazione_id_esterno(String elaborazione_id_esterno) {
 		this.elaborazione_id_esterno = elaborazione_id_esterno;
+	}
+
+
+	/**
+	 * @return the cpassTEnte
+	 */
+	public CpassTEnte getCpassTEnte() {
+		return cpassTEnte;
+	}
+
+	/**
+	 * @param cpassTEnte the cpassTEnte to set
+	 */
+	public void setCpassTEnte(CpassTEnte cpassTEnte) {
+		this.cpassTEnte = cpassTEnte;
+	}
+
+
+	public String getDataElaborazioneDiGiornata() {
+		return dataElaborazioneDiGiornata;
+	}
+
+	public void setDataElaborazioneDiGiornata(String dataElaborazioneDiGiornata) {
+		this.dataElaborazioneDiGiornata = dataElaborazioneDiGiornata;
+	}
+
+	public Integer getNumElaborazioneDiGiornata() {
+		return numElaborazioneDiGiornata;
+	}
+
+	public void setNumElaborazioneDiGiornata(Integer numElaborazioneDiGiornata) {
+		this.numElaborazioneDiGiornata = numElaborazioneDiGiornata;
 	}
 
 	@Override

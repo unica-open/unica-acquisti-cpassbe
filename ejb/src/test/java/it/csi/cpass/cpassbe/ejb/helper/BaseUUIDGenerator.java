@@ -12,16 +12,15 @@ package it.csi.cpass.cpassbe.ejb.helper;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Spliterator;
 import java.util.Spliterators;
@@ -30,24 +29,22 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import javax.persistence.Table;
-
 public class BaseUUIDGenerator {
-	
+/*
 	public static void main(String[] args) throws Exception {
 		List<Class<?>> classes = BaseUUIDGenerator.getClasses("it.csi.cpass.cpassbe.ejb.entity");
-		
+
 		String sql = classes.stream()
 		.filter(c -> !Modifier.isAbstract(c.getModifiers()) && !Modifier.isInterface(c.getModifiers()) && c.isAnnotationPresent(Table.class))
-		.filter(c -> Arrays.stream(c.getMethods()) .anyMatch(m -> m.getName() == "getId" && UUID.class.equals(m.getReturnType())))
+		.filter(c -> Arrays.stream(c.getMethods()) .anyMatch(m -> m.getName().equals("getId") && UUID.class.equals(m.getReturnType())))
 		.map(c -> {
 			Table table = c.getAnnotation(Table.class);
 			return "('" + table.name() + "', '" + generateUUIDv5FromNamespaceAndString(UUID.fromString("6ba7b812-9dad-11d1-80b4-00c04fd430c8"), table.name()).toString() + "')";
 		})
 		.collect(Collectors.joining(",\n\t"));
-		System.out.println("INSERT INTO cpass.cpass_t_uuid_namespace (uuid_namespace_table, uuid_namespace_value)\nSELECT tmp.tab, tmp.val::uuid\nFROM (VALUES\n\t" + sql + "\n) AS tmp(tab, val)\nWHERE NOT EXISTS (\n\tSELECT 1\n\tFROM cpass.cpass_t_uuid_namespace current\n\tWHERE current.uuid_namespace_table = tmp.tab\n);");
+		//System.out.println("INSERT INTO cpass.cpass_t_uuid_namespace (uuid_namespace_table, uuid_namespace_value)\nSELECT tmp.tab, tmp.val::uuid\nFROM (VALUES\n\t" + sql + "\n) AS tmp(tab, val)\nWHERE NOT EXISTS (\n\tSELECT 1\n\tFROM cpass.cpass_t_uuid_namespace current\n\tWHERE current.uuid_namespace_table = tmp.tab\n);");
 	}
-
+*/
 	/**
 	 * Scans all classes accessible from the context class loader which belong to the given package and subpackages.
 	 *
@@ -56,7 +53,7 @@ public class BaseUUIDGenerator {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	private static List<Class<?>> getClasses(String packageName) throws ClassNotFoundException, IOException {
+	public static List<Class<?>> getClasses(String packageName) throws ClassNotFoundException, IOException {
 	    ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 	    assert classLoader != null;
 	    String path = packageName.replace('.', '/');
@@ -95,11 +92,15 @@ public class BaseUUIDGenerator {
 	    }
 	    return classes;
 	}
-	
+
 	private static <T> Stream<T> enumerationAsStream(Enumeration<T> e) {
 		return StreamSupport.stream(Spliterators.spliteratorUnknownSize(new Iterator<T>() {
 			@Override
 			public T next() {
+				if(!hasNext()){
+					throw new NoSuchElementException();
+				}
+
 				return e.nextElement();
 			}
 
@@ -109,14 +110,14 @@ public class BaseUUIDGenerator {
 			}
 		}, Spliterator.ORDERED), false);
 	}
-	 
+
 	 /**
 	 * Generates an UUID from a namespace and a string
 	 * @param namespace the namespace
 	 * @param name the string
 	 * @return the UUID
 	 */
-	private static UUID generateUUIDv5FromNamespaceAndString(UUID namespace, String name) {
+	public static UUID generateUUIDv5FromNamespaceAndString(UUID namespace, String name) {
 		return generateUUIDv5FromNamespaceAndBytes(namespace, Objects.requireNonNull(name, "name == null").getBytes(StandardCharsets.UTF_8));
 	}
 
@@ -146,7 +147,7 @@ public class BaseUUIDGenerator {
 		sha1Bytes[8] |= 0x80;
 		return fromBytes(sha1Bytes);
 	}
-	
+
 	/**
 	 * Transforms an UUID to its bytes
 	 *
@@ -166,7 +167,7 @@ public class BaseUUIDGenerator {
 		}
 		return out;
 	}
-	
+
 	/**
 	 * Generates an UUID from bytes
 	 *

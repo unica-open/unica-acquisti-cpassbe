@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -12,6 +12,7 @@ package it.csi.cpass.cpassbe.ejb.business.be.service.impl.evasione;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -24,7 +25,6 @@ import it.csi.cpass.cpassbe.ejb.business.be.service.response.evasione.PutTestata
 import it.csi.cpass.cpassbe.ejb.external.ExternalHelperLookup;
 import it.csi.cpass.cpassbe.ejb.util.ConstantsCPassParametro;
 import it.csi.cpass.cpassbe.ejb.util.ConstantsCPassParametro.ChiaveEnum;
-import it.csi.cpass.cpassbe.ejb.util.CpassThreadLocalContainer;
 import it.csi.cpass.cpassbe.ejb.util.conf.ConfigurationHelper;
 import it.csi.cpass.cpassbe.lib.IntegrationConstants;
 import it.csi.cpass.cpassbe.lib.dto.FiltroFornitore;
@@ -39,6 +39,7 @@ import it.csi.cpass.cpassbe.lib.external.itf.ExternalServiceResolveWrapper;
 import it.csi.cpass.cpassbe.lib.external.res.ExternalServiceResponseWrapper;
 import it.csi.cpass.cpassbe.lib.util.pagination.PagedList;
 import it.csi.cpass.cpassbe.lib.util.pagination.PagedListImpl;
+import it.csi.cpass.cpassbe.lib.util.threadlocal.CpassThreadLocalContainer;
 
 public class PutTestataEvasionePerRiepilogoFatturaService extends BaseService<PutTestataEvasionePerRiepilogoFatturaRequest, PutTestataEvasionePerRiepilogoFatturaResponse> {
 
@@ -49,7 +50,7 @@ public class PutTestataEvasionePerRiepilogoFatturaService extends BaseService<Pu
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param configurationHelper
 	 * @param testataEvasioneDad
 	 */
@@ -65,14 +66,14 @@ public class PutTestataEvasionePerRiepilogoFatturaService extends BaseService<Pu
 	@Override
 	protected void checkServiceParams() {
 		log.info("checkServiceParams", "Strart");
-		checkNotNull(request.getTestataEvasione(), "testataEvasione", true);
-		checkNotNull(request.getTestataEvasione().getFornitore(), "fornitore", true);
-		checkNotNull(request.getTestataEvasione().getFatturaAnno(), "fatturaAnno", true);
-		checkNotNull(request.getTestataEvasione().getFatturaNumero(), "fatturaNumero", true);
-		checkNotNull(request.getTestataEvasione().getFatturaCodice(), "fatturaCodice", true);
-		checkNotNull(request.getTestataEvasione().getFatturaTipo(), "fatturaTipo", true);
-		checkNotNull(request.getTestataEvasione().getFatturaTotale(), "fatturaTotale", true);
-		checkNotNull(request.getTestataEvasione().getFatturaTotaleLiquidabile(), "fatturaTotaleLiquidabile", true);
+		checkNotNull(request.getTestataEvasione(), "testataEvasione", Boolean.TRUE);
+		checkNotNull(request.getTestataEvasione().getFornitore(), "fornitore", Boolean.TRUE);
+		checkNotNull(request.getTestataEvasione().getFatturaAnno(), "fatturaAnno", Boolean.TRUE);
+		checkNotNull(request.getTestataEvasione().getFatturaNumero(), "fatturaNumero", Boolean.TRUE);
+		checkNotNull(request.getTestataEvasione().getFatturaCodiceFornitore(), "fatturaCodice", Boolean.TRUE);
+		checkNotNull(request.getTestataEvasione().getFatturaTipo(), "fatturaTipo", Boolean.TRUE);
+		checkNotNull(request.getTestataEvasione().getFatturaTotale(), "fatturaTotale", Boolean.TRUE);
+		checkNotNull(request.getTestataEvasione().getFatturaTotaleLiquidabile(), "fatturaTotaleLiquidabile", Boolean.TRUE);
 		log.info("checkServiceParams", "Stop");
 	}
 
@@ -80,139 +81,113 @@ public class PutTestataEvasionePerRiepilogoFatturaService extends BaseService<Pu
 	protected void execute() {
 		log.info("execute", "Strart");
 		TestataEvasione testataEvasione = request.getTestataEvasione();
+		final UUID enteId = CpassThreadLocalContainer.SETTORE_UTENTE.get().getEnte().getId();
+		final BigDecimal totaleLiquidabile = testataEvasione.getFatturaTotaleLiquidabile();
+		final BigDecimal totaleEvaso = testataEvasione.getTotaleConIva();
+		final String nomeParametro = ChiaveEnum.TOLLERANZA_EVASIONE.name();
+		final Utente utenteConnesso = CpassThreadLocalContainer.UTENTE_CONNESSO.get();
+		final List<Settore> settoreUtente = utenteDad.getSettoriByUtente(utenteConnesso.getId());
 
-		BigDecimal totaleLiquidabile = testataEvasione.getFatturaTotaleLiquidabile();
-		BigDecimal totaleEvaso = testataEvasione.getTotaleConIva();
-		String nomeParametro = ChiaveEnum.TOLLERANZA_EVASIONE.name();
-		Utente utenteConnesso = CpassThreadLocalContainer.UTENTE_CONNESSO.get();
-		List<Settore> settoreUtente = utenteDad.getSettoriByUtente(utenteConnesso.getId());
-		
 		if(!totaleLiquidabile.equals(totaleEvaso)) {
-			Parametro paramTolleranza = systemDad.getParametro(nomeParametro, ConstantsCPassParametro.RiferimentoEnum.EVASIONE.getCostante(),
-					settoreUtente.get(0).getEnte().getId());
+			final Parametro paramTolleranza = systemDad.getParametro(nomeParametro, ConstantsCPassParametro.RiferimentoEnum.EVASIONE.getCostante(),settoreUtente.get(0).getEnte().getId());
 
-			checkBusinessCondition(paramTolleranza != null, MsgCpassOrd.ORDORDE0093.getError());
-			BigDecimal tolleranzaEvasione = BigDecimal.valueOf(Double.parseDouble(paramTolleranza.getValore()));
-			
-			// Metto i controlli bloccanti prima del controllo del bypass utente. In modo da bloccare l'operazione sempre se queste condizioni si verificano, anche 
-			// se l'utente passa il parametro di bypass 
-			checkBusinessCondition(totaleLiquidabile.subtract(totaleEvaso).compareTo(BigDecimal.ZERO) < 0, MsgCpassOrd.ORDORDE0101.getError());
-			checkBusinessCondition(totaleLiquidabile.subtract(totaleEvaso).compareTo(tolleranzaEvasione) > 0, MsgCpassOrd.ORDORDE0102.getError());
-			
-			// se il parametro di bypassControl è nullo o false procedo col controllo sulla tolleranza, altrimento lo salto
-			if(request.isBypassControl() == null || request.isBypassControl() == false) {
-				
-				// restituisco il warning all'utente che dovrà confermare l'operazione
-				checkBusinessCondition(totaleLiquidabile.subtract(totaleEvaso).compareTo(BigDecimal.ZERO) > 0 &&
-						totaleLiquidabile.subtract(totaleEvaso).compareTo(tolleranzaEvasione) <= 0, MsgCpassOrd.ORDORDA0103.getError());
+			final BigDecimal tolleranzaEvasione = BigDecimal.valueOf(Double.parseDouble(paramTolleranza.getValore()));
+
+			// Metto i controlli bloccanti prima del controllo del bypass utente. In modo da bloccare l'operazione sempre se queste condizioni si verificano, anche
+			// se l'utente passa il parametro di bypass
+
+			final int liquidabileMaggioreEvaso = totaleLiquidabile.subtract(totaleEvaso).compareTo(BigDecimal.ZERO);
+			checkBusinessCondition(liquidabileMaggioreEvaso >= 0, MsgCpassOrd.ORDORDE0101.getError());
+
+			if((request.isBypassControl() == null || !request.isBypassControl()) && liquidabileMaggioreEvaso>0) {
+				// warning: superato il limite di tolleranza , l'utente dovrà confermare l'operazione
+				checkBusinessCondition(totaleLiquidabile.subtract(totaleEvaso).compareTo(tolleranzaEvasione) <= 0, MsgCpassOrd.ORDORDA0142.getError());
+				// warning:NON superato il limite di tolleranza , l'utente dovrà confermare l'operazione
+				checkBusinessCondition(totaleLiquidabile.subtract(totaleEvaso).compareTo(tolleranzaEvasione) > 0, MsgCpassOrd.ORDORDA0103.getError());
 			}
 		}
 
 		// controlli congruenza fornitore
-		TestataEvasione oldTestata = testataEvasioneDad.getTestataEvasioneModel(testataEvasione.getId());
-		Fornitore oldFornitore = oldTestata.getFornitore();
-		
+		final TestataEvasione oldTestata = testataEvasioneDad.getTestataEvasioneModel(testataEvasione.getId());
+		// fornitore evasione
+		final Fornitore soggettoEvasione = oldTestata.getFornitore();
+
+		// fornitore inserito nel form
+		final String soggettoFatturaCod = testataEvasione.getFatturaCodiceFornitore();
+
 		// se i due fornitori hanno codice diverso proseguo col controllo, se lo hanno uguale lo salto
-		if(!testataEvasione.getFatturaCodice().equals(oldFornitore.getCodice())) {
-			
-			String nParamVerifica = ChiaveEnum.VERIFICA_STORICO_FORNITORI.name();
-			Parametro verificaStorico = systemDad.getParametro(nParamVerifica, ConstantsCPassParametro.RiferimentoEnum.DOCUMENTO_SPESA.getCostante(),
-					settoreUtente.get(0).getEnte().getId());
-			
+		if(!soggettoEvasione.getCodice().equals(soggettoFatturaCod)) {
+
+			final String nParamVerifica = ChiaveEnum.VERIFICA_STORICO_FORNITORI.name();
+			final Parametro verificaStorico = systemDad.getParametro(nParamVerifica, ConstantsCPassParametro.RiferimentoEnum.DOCUMENTO_SPESA.getCostante(),settoreUtente.get(0).getEnte().getId());
+
 			// Se l'utente non richiede il salvataggio bypassando il controllo di congruenza sui fornitori, procede coi controlli
-			if (request.isBypassFornitoreControl() == null || request.isBypassFornitoreControl() == false){
-				
-				checkBusinessCondition(verificaStorico == null || verificaStorico.getValore().equals("NO"), MsgCpassOrd.ORDORDA0098.getError());
-				
+			if (request.isBypassFornitoreControl() == null || !request.isBypassFornitoreControl()){
+				checkBusinessCondition(verificaStorico != null && verificaStorico.getValore().equals("SI"), MsgCpassOrd.ORDORDA0098.getError());
 				//controllo sulla congruenza fornitori
-				PagedList<Fornitore> fornitoriSiac = getFornitoriSiac(testataEvasione.getFornitore());
-				
 				boolean foundSoggetto = false;
-				String soggettoFattura = testataEvasione.getFatturaCodice();
-				
+				final PagedList<Fornitore> fornitoriSiac = getFornitoriSiac(soggettoEvasione,enteId);
+
 				if(fornitoriSiac != null && fornitoriSiac.getList() != null && fornitoriSiac.getList().size() > 0) {
-					
-					for(Fornitore siacFornitore : fornitoriSiac.getList()) {
-						
+					for(final Fornitore siacFornitore : fornitoriSiac.getList()) {
 						if(siacFornitore.getCodiciFornitoriCollegatiSuccessivi() != null) {
-							
-							for(String codice : siacFornitore.getCodiciFornitoriCollegatiSuccessivi()) {
-								
-								if(soggettoFattura.equals(codice)) {
-									foundSoggetto = true;
+							for(final String codice : siacFornitore.getCodiciFornitoriCollegatiSuccessivi()) {
+								if(soggettoFatturaCod.equals(codice)) {
+									foundSoggetto = Boolean.TRUE;
 									break;
 								}
-								
 							}
-							
 						}
-						
-						if(foundSoggetto == true) {
+						if(foundSoggetto) {
 							break;
 						}
-						
 					}
-					
 				}
-				
-				checkBusinessCondition(foundSoggetto == true, MsgCpassOrd.ORDORDA0098.getError());
+				checkBusinessCondition(foundSoggetto, MsgCpassOrd.ORDORDA0098.getError());
 			}
 		}
-		
+
 		testataEvasione = testataEvasioneDad.updateTestataEvasione(testataEvasione);
 		response.setTestataEvasione(testataEvasione);
 	}
-	
-	protected PagedList<Fornitore> getFornitoriSiac(Fornitore pFornitore) {
-		
-		FiltroFornitore filtroFornitore = new FiltroFornitore();
+
+	protected PagedList<Fornitore> getFornitoriSiac(Fornitore pFornitore,UUID enteId) {
+
+		final FiltroFornitore filtroFornitore = new FiltroFornitore();
 		filtroFornitore.setStatoFornitore(IntegrationConstants.SOGGETTO_STATO_VALIDO);
-		
+
 		// fix - filtro solo per alcuni campi
-		Fornitore fornitoreFilter = new Fornitore();
+		final Fornitore fornitoreFilter = new Fornitore();
 		fornitoreFilter.setCodice(pFornitore.getCodice());
 		fornitoreFilter.setCodiceFiscale(pFornitore.getCodiceFiscale());
 		fornitoreFilter.setPartitaIva(pFornitore.getPartitaIva());
 		filtroFornitore.setFornitore(fornitoreFilter);
-		
-		ExternalServiceResolveWrapper<FornitoreHelper> handler = externalHelperLookup.lookup(FornitoreHelper.class);
-		List<Fornitore> fornitori = invokeExternalService(handler, () -> handler.getInstance().getFornitori(handler.getParams(), filtroFornitore));
 
+		final ExternalServiceResolveWrapper<FornitoreHelper> handler = externalHelperLookup.lookup(FornitoreHelper.class,enteId);
+		final List<Fornitore> fornitori = invokeExternalService(handler, () -> handler.getInstance().getFornitori(handler.getParams(), filtroFornitore));
+		/*
 		for (Fornitore fornitore : fornitori) {
-			String indirizzoCompleto = "";
+			String indirizzoConSedime = "";
 			if (fornitore.getSedime() != null) {
-				indirizzoCompleto += fornitore.getSedime() + " ";
+				indirizzoConSedime += fornitore.getSedime() + " ";
 			}
 			if (fornitore.getIndirizzo() != null) {
-				indirizzoCompleto += fornitore.getIndirizzo() + " ";
+				indirizzoConSedime += fornitore.getIndirizzo() + " ";
 			}
-			if (fornitore.getNumeroCivico() != null) {
-				indirizzoCompleto += fornitore.getNumeroCivico();
-			}
-			fornitore.setIndirizzo(indirizzoCompleto.trim());
+			fornitore.setIndirizzo(indirizzoConSedime.trim());
 		}
-
+		 */
 		return new PagedListImpl<>(fornitori);
 	}
-	
+
 	@Override
 	protected <H, E> E invokeExternalService(ExternalServiceResolveWrapper<H> handler, Supplier<ExternalServiceResponseWrapper<E>> supplier) {
-		ExternalServiceResponseWrapper<E> externalResponse = supplier.get();
-
-		checkBusinessCondition(externalResponse.isSuccess(),
-				() -> MsgCpassOrd.ORDORDE0002.getError("errori", externalResponse.getErrors().stream().collect(Collectors.joining(", "))));
-
-		List<E> fornitori = (List<E>) externalResponse.getResponse();
+		final ExternalServiceResponseWrapper<E> externalResponse = supplier.get();
+		checkBusinessCondition(externalResponse.isSuccess(),() -> MsgCpassOrd.ORDORDE0002.getError("errori", externalResponse.getErrors().stream().collect(Collectors.joining(", "))));
+		final List<E> fornitori = (List<E>) externalResponse.getResponse();
 		if (fornitori.size() == 0) {
-//			final String errori;
-//			if (externalResponse.getMessages() != null && externalResponse.getMessages().size() > 0) {
-//				errori = externalResponse.getMessages().stream().collect(Collectors.joining(", "));
-//			}
 			checkBusinessCondition(false, () -> MsgCpassOrd.ORDORDE0074.getError());
 		}
-
 		return externalResponse.getResponse();
 	}
-
-
 }

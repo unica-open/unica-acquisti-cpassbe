@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -28,7 +28,7 @@ public class BusinessException extends ServiceException {
 	private static final long serialVersionUID = 4398533896440369883L;
 	// private final ApiError error;
 	private final List<ApiError> listApiError;
-	
+
 	/**
 	 * @see RuntimeException#RuntimeException(String)
 	 */
@@ -44,14 +44,14 @@ public class BusinessException extends ServiceException {
 		super(message, cause);
 		this.listApiError = null;
 	}
-	
+
 	/**
 	 * @param apiError the api error
 	 * @see RuntimeException#RuntimeException(String)
 	 */
 	public BusinessException(ApiError apiError) {
 		super(apiError.getFullErrorMessage());
-		List<ApiError> tmp = new ArrayList<>();
+		final List<ApiError> tmp = new ArrayList<>();
 		tmp.add(apiError);
 		this.listApiError = Collections.unmodifiableList(tmp);
 	}
@@ -63,7 +63,7 @@ public class BusinessException extends ServiceException {
 		super(message);
 		this.listApiError = Collections.unmodifiableList(new ArrayList<>(apiErrors));
 	}
-	
+
 	/**
 	 * @param apiError the api error
 	 * @param cause the cause
@@ -71,11 +71,11 @@ public class BusinessException extends ServiceException {
 	 */
 	public BusinessException(ApiError apiError, Throwable cause) {
 		super(apiError.getFullErrorMessage(), cause);
-		List<ApiError> tmp = new ArrayList<>();
+		final List<ApiError> tmp = new ArrayList<>();
 		tmp.add(apiError);
 		this.listApiError = Collections.unmodifiableList(tmp);
 	}
-	
+
 	/**
 	 * @param message the message
 	 * @param apiError the api error
@@ -83,7 +83,7 @@ public class BusinessException extends ServiceException {
 	 */
 	public BusinessException(String message, ApiError apiError) {
 		super(message);
-		List<ApiError> tmp = new ArrayList<>();
+		final List<ApiError> tmp = new ArrayList<>();
 		tmp.add(apiError);
 		this.listApiError = Collections.unmodifiableList(tmp);
 	}
@@ -96,7 +96,7 @@ public class BusinessException extends ServiceException {
 	 */
 	public BusinessException(String message, ApiError apiError, Throwable cause) {
 		super(message, cause);
-		List<ApiError> tmp = new ArrayList<>();
+		final List<ApiError> tmp = new ArrayList<>();
 		tmp.add(apiError);
 		this.listApiError = Collections.unmodifiableList(tmp);
 	}

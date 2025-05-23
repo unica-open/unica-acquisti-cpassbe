@@ -1,0 +1,14 @@
+ModuloRuoloPermesso:
+  type: object
+  properties:
+    id:
+      type: integer
+    modulo:
+      type: object
+      $ref: '#/definitions/Modulo'
+    ruolo:
+      type: object
+      $ref: '#/definitions/Ruolo'
+    permesso:
+      type: object
+      $ref: '#/definitions/Permesso'

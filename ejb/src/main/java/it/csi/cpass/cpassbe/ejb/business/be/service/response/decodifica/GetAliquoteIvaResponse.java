@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -25,15 +25,13 @@ public class GetAliquoteIvaResponse extends BaseGetResponse<List<AliquoteIva>> {
 	private List<AliquoteIva> aliquoteIva = new ArrayList<>();
 
 	/**
-	 * @return the statoElOrdines
+	 * @return the aliquoteIva
 	 */
 	public List<AliquoteIva> getAliquoteIva() {
 		return aliquoteIva;
 	}
 
-	/**
-	 * @param tipoProceduras the tipoProceduras to set
-	 */
+
 	public void setAliquoteIva(List<AliquoteIva> aliquoteIva) {
 		this.aliquoteIva = aliquoteIva;
 	}
@@ -45,7 +43,7 @@ public class GetAliquoteIvaResponse extends BaseGetResponse<List<AliquoteIva>> {
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		builder.append("GetAliquoteIvaResponse [AliquoteIva=").append(aliquoteIva).append(", apiErrors=").append(getApiErrors()).append("]");
 		return builder.toString();
 	}

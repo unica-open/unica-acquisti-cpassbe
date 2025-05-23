@@ -1,0 +1,16 @@
+PagedResponseUtente:
+  type: object
+  properties:
+    list:
+      type: array
+      items:
+        $ref: '#/definitions/Utente'
+    currentPage:
+      type: integer
+      format: int64
+    totalPages:
+      type: integer
+      format: int64
+    totalElements:
+      type: integer
+      format: int64

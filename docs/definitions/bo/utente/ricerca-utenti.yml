@@ -1,0 +1,16 @@
+RicercaUtenti:
+  type: object
+  properties:
+    utente:
+      type: object
+      $ref: '#/definitions/Utente'
+    ruolo:
+      type: object
+      $ref: '#/definitions/Ruolo'
+    settore:
+      type: object
+      $ref: '#/definitions/Settore'
+    dirigente:
+      type: boolean
+    checkDataValiditaFineRUteSett:
+      type: boolean

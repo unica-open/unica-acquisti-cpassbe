@@ -1,0 +1,11 @@
+RigaMepaWrapper:
+  type: object
+  properties:
+    scaricoMepaRiga:
+      type: object
+      $ref: '#/definitions/ScaricoMepaRiga'
+    ods:
+      type: object
+      $ref: '#/definitions/Ods'
+    showIconaGestisci:
+      type: boolean

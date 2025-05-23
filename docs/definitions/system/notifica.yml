@@ -1,0 +1,23 @@
+Notifica:
+  type: object
+  properties:
+    id:
+      type: integer
+    flgLetto:
+      type: boolean
+    fonte:
+      type: string
+    dataInizio:
+      type: string
+      format: date-time
+    dataFine:
+      type: string
+      format: date-time
+    flgGenerico:
+      type: boolean
+    parametri:
+      type: string
+    testoNotifica:
+      type: object
+      $ref: '#/definitions/TestoNotifica'
+      

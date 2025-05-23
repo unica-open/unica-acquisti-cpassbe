@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - LIB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -11,7 +11,7 @@
 package it.csi.cpass.cpassbe.lib.dto.ord.evasione;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 
 import it.csi.cpass.cpassbe.lib.dto.BaseDto;
 import it.csi.cpass.cpassbe.lib.dto.Ente;
@@ -24,9 +24,9 @@ public class CausaleSospensioneEvasione extends BaseDto<Integer> implements Seri
 	private Integer causaleSospensioneId;
 	private String causaleSospensioneCodice;
 	private String causaleSospensioneDescrizione;
-	private Timestamp dataCancellazione;
-	private Timestamp dataCreazione;
-	private Timestamp dataModifica;
+	private Date dataCancellazione;
+	private Date dataCreazione;
+	private Date dataModifica;
 	private String utenteCancellazione;
 	private String utenteCreazione;
 	private String utenteModifica;
@@ -76,42 +76,42 @@ public class CausaleSospensioneEvasione extends BaseDto<Integer> implements Seri
 	/**
 	 * @return the dataCancellazione
 	 */
-	public Timestamp getDataCancellazione() {
+	public Date getDataCancellazione() {
 		return dataCancellazione;
 	}
 
 	/**
 	 * @param dataCancellazione the dataCancellazione to set
 	 */
-	public void setDataCancellazione(Timestamp dataCancellazione) {
+	public void setDataCancellazione(Date dataCancellazione) {
 		this.dataCancellazione = dataCancellazione;
 	}
 
 	/**
 	 * @return the dataCreazione
 	 */
-	public Timestamp getDataCreazione() {
+	public Date getDataCreazione() {
 		return dataCreazione;
 	}
 
 	/**
 	 * @param dataCreazione the dataCreazione to set
 	 */
-	public void setDataCreazione(Timestamp dataCreazione) {
+	public void setDataCreazione(Date dataCreazione) {
 		this.dataCreazione = dataCreazione;
 	}
 
 	/**
 	 * @return the dataModifica
 	 */
-	public Timestamp getDataModifica() {
+	public Date getDataModifica() {
 		return dataModifica;
 	}
 
 	/**
 	 * @param dataModifica the dataModifica to set
 	 */
-	public void setDataModifica(Timestamp dataModifica) {
+	public void setDataModifica(Date dataModifica) {
 		this.dataModifica = dataModifica;
 	}
 

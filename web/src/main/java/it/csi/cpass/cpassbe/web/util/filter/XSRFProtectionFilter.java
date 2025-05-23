@@ -162,7 +162,6 @@ public class XSRFProtectionFilter implements Filter {
 		String actualRequestHeader = getActualXSRFHeader(httpReq);
 		String actualRequestCookie = getActualXSRFCookie(httpReq);
 		if (actualRequestHeader == null) {
-			// TODO: to check
 			actualRequestHeader = actualRequestCookie;
 		}
 		return actualRequestHeader != null && actualRequestCookie != null;

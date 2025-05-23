@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -12,20 +12,26 @@ package it.csi.cpass.cpassbe.ejb.business.be.dad;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.CpassTFlussoAnomalieDao;
+import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.CpassTFlussoImpegniEsterniDao;
+import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.CpassTFlussoSubImpegniEsterniDao;
 import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.CpassTImpegnoDao;
 import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.CpassTSubimpegnoDao;
 import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.ord.CpassTOrdImpegnoOrdineDao;
 import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.ord.CpassTOrdSubimpegnoOrdineDao;
 import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.ord.CpassVOrdineDao;
-import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.ord.evasione.CpassTOrdImpegnoEvasioneDao;
-import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.ord.evasione.CpassTOrdSubimpegnoEvasioneDao;
 import it.csi.cpass.cpassbe.ejb.entity.CpassTEnte;
+import it.csi.cpass.cpassbe.ejb.entity.CpassTFlussoAnomalie;
+import it.csi.cpass.cpassbe.ejb.entity.CpassTFlussoImpegniEsterni;
+import it.csi.cpass.cpassbe.ejb.entity.CpassTFlussoSubimpegniEsterni;
 import it.csi.cpass.cpassbe.ejb.entity.CpassTImpegno;
 import it.csi.cpass.cpassbe.ejb.entity.CpassTSubimpegno;
 import it.csi.cpass.cpassbe.ejb.entity.ord.CpassTFornitore;
@@ -34,6 +40,10 @@ import it.csi.cpass.cpassbe.ejb.entity.ord.CpassTOrdRigaOrdine;
 import it.csi.cpass.cpassbe.ejb.entity.ord.CpassTOrdSubimpegnoOrdine;
 import it.csi.cpass.cpassbe.ejb.entity.ord.CpassVOrdine;
 import it.csi.cpass.cpassbe.ejb.mapper.CpassMappers;
+import it.csi.cpass.cpassbe.ejb.util.DateUtility;
+import it.csi.cpass.cpassbe.lib.dto.FlussoAnomalie;
+import it.csi.cpass.cpassbe.lib.dto.FlussoImpegniEsterni;
+import it.csi.cpass.cpassbe.lib.dto.FlussoSubimpegniEsterni;
 import it.csi.cpass.cpassbe.lib.dto.Impegno;
 import it.csi.cpass.cpassbe.lib.dto.Subimpegno;
 import it.csi.cpass.cpassbe.lib.dto.ord.ImpegnoOrdine;
@@ -49,69 +59,162 @@ public class ImpegnoDad extends BaseDad {
 	@Inject
 	private CpassTOrdSubimpegnoOrdineDao cpassTOrdSubimpegnoOrdineDao;
 	@Inject
-	private CpassTOrdImpegnoEvasioneDao cpassTOrdImpegnoEvasioneDao;
-	@Inject
-	private CpassTOrdSubimpegnoEvasioneDao cpassTOrdSubimpegnoEvasioneDao;
-	@Inject
 	private CpassTImpegnoDao cpassTImpegnoDao;
 	@Inject
 	private CpassVOrdineDao cpassVOrdineDao;
 	@Inject
 	private CpassTSubimpegnoDao cpassTSubimpegnoDao;
-
+	@Inject
+	private CpassTFlussoImpegniEsterniDao cpassTFlussoImpegniEsterniDao;
+	@Inject
+	private CpassTFlussoSubImpegniEsterniDao cpassTFlussoSubImpegniEsterniDao;
+	@Inject
+	private CpassTFlussoAnomalieDao cpassTFlussoAnomalieDao;
+	/**
+	 *
+	 * @param impegno
+	 * @return
+	 */
 	public Impegno update(Impegno impegno) {
-		CpassTImpegno cpassTImpegno = CpassMappers.IMPEGNO.toEntity(impegno);
-		Impegno result = CpassMappers.IMPEGNO.toModel(cpassTImpegnoDao.update(cpassTImpegno));
+		final CpassTImpegno cpassTImpegno = CpassMappers.IMPEGNO.toEntity(impegno);
+		final Impegno result = CpassMappers.IMPEGNO.toModel(cpassTImpegnoDao.update(cpassTImpegno));
 		return result;
 	}
-
+	/**
+	 *
+	 * @param subimpegno
+	 * @return
+	 */
 	public Subimpegno update(Subimpegno subimpegno) {
-		CpassTSubimpegno cpassTSubimpegno = CpassMappers.SUBIMPEGNO.toEntity(subimpegno);
-		Subimpegno result = CpassMappers.SUBIMPEGNO.toModel(cpassTSubimpegnoDao.update(cpassTSubimpegno));
+		final CpassTSubimpegno cpassTSubimpegno = CpassMappers.SUBIMPEGNO.toEntity(subimpegno);
+		final Subimpegno result = CpassMappers.SUBIMPEGNO.toModel(cpassTSubimpegnoDao.update(cpassTSubimpegno));
 		return result;
 	}
-	
+	/**
+	 *
+	 * @param testataOrdineId
+	 * @return
+	 */
 	public List<CpassTOrdImpegnoOrdine> getImpegniCollegati(UUID testataOrdineId) {
 		return cpassTOrdImpegnoOrdineDao.getImpegniCollegati(testataOrdineId);
 	}
-
-	public BigDecimal calcolaOrdinato(UUID impegnoId, UUID testataOrdineId) {
-		return cpassTOrdImpegnoOrdineDao.calcolaOrdinato(impegnoId, testataOrdineId);
+	/**
+	 *
+	 * @param impegnoId
+	 * @param impegnoAnnoEsercizio
+	 * @return
+	 */
+	public BigDecimal calcolaOrdinato(UUID impegnoId,Integer impegnoAnnoEsercizio) {
+		return calcolaOrdinato( impegnoId,impegnoAnnoEsercizio, null);
 	}
-
-	public BigDecimal calcolaSubimpegnoOrdinato(UUID subimpegnoId) {
-		return cpassTOrdSubimpegnoOrdineDao.calcolaSubimpegnoOrdinato(subimpegnoId);
+	/**
+	 *
+	 * @param impegnoId
+	 * @param impegnoAnnoEsercizio
+	 * @param testataOrdineId
+	 * @return
+	 */
+	public BigDecimal calcolaOrdinato(UUID impegnoId,Integer impegnoAnnoEsercizio, UUID testataOrdineId) {
+		return cpassTOrdImpegnoOrdineDao.calcolaOrdinato(impegnoId, impegnoAnnoEsercizio, testataOrdineId);
 	}
-
-	public Impegno getImpegnoByChiaveLogica(Integer annoEsercizio, Integer anno, Integer numero, UUID enteId) {
-		CpassTImpegno cpassTImpegno = cpassTImpegnoDao.getImpegnoByChiaveLogica(annoEsercizio, anno, numero, enteId);
-		Impegno impegno = CpassMappers.IMPEGNO.toModel(cpassTImpegno);
-		return impegno;
+	/**
+	 *
+	 * @param annoEsercizio
+	 * @param annoImpegno
+	 * @param numeroImpegno
+	 * @param enteId
+	 * @return
+	 */
+	public BigDecimal calcolaOrdinatoImpegno(Integer annoEsercizio,Integer annoImpegno,Integer numeroImpegno, UUID enteId) {
+		return cpassTOrdImpegnoOrdineDao.calcolaOrdinatoImpegno( annoEsercizio, annoImpegno, numeroImpegno,null,  enteId);
 	}
-
+	/**
+	 *
+	 * @param subimpegnoId
+	 * @param annoEsercizio
+	 * @return
+	 */
+	public BigDecimal calcolaSubimpegnoOrdinato(UUID subimpegnoId,Integer annoEsercizio) {
+		return cpassTOrdSubimpegnoOrdineDao.calcolaSubimpegnoOrdinato(subimpegnoId, annoEsercizio);
+	}
+	/**
+	 *
+	 * @param annoEsercizio
+	 * @param anno
+	 * @param numero
+	 * @param enteId
+	 * @return
+	 */
+	public List<Impegno> getImpegnoByChiaveLogica(Integer annoEsercizio, Integer anno, Integer numero, UUID enteId) {
+		final List<CpassTImpegno> cpassTImpegno = cpassTImpegnoDao.getImpegnoByChiaveLogica(annoEsercizio, anno, numero, enteId);
+		final List<Impegno> impegni = CpassMappers.IMPEGNO.toModels(cpassTImpegno);
+		return impegni;
+	}
+	/**
+	 * 
+	 * @param idSubimpegno
+	 * @return
+	 */
 	public Subimpegno getById(UUID idSubimpegno) {
-		CpassTSubimpegno cpassTSubimpegno = cpassTSubimpegnoDao.findOne(idSubimpegno).get();
-		return cpassTSubimpegno != null ? CpassMappers.SUBIMPEGNO.toModel(cpassTSubimpegno) : null;
+		final Optional<CpassTSubimpegno> cpassTSubimpegnoOptional = cpassTSubimpegnoDao.findOne(idSubimpegno);
+		if (cpassTSubimpegnoOptional.isPresent()) {
+			final CpassTSubimpegno cpassTSubimpegno = cpassTSubimpegnoOptional.get();
+			return CpassMappers.SUBIMPEGNO.toModel(cpassTSubimpegno);
+		}
+		return null;
+	}
+	/**
+	 *
+	 * @param annoEsercizio
+	 * @param anno
+	 * @param numero
+	 * @param enteId
+	 * @param subimpegnoAnno
+	 * @param subimpegnoNumero
+	 * @return
+	 */
+
+	public Subimpegno getSubimpegnoByChiaveLogica(Integer annoEsercizio, Integer anno, Integer numero, UUID enteId, Integer subimpegnoAnno,Integer subimpegnoNumero) {
+		final List<Subimpegno> lista = getListSubimpegnoByChiaveLogica( annoEsercizio,  anno,  numero,  enteId,  subimpegnoAnno, subimpegnoNumero);
+		if (lista == null || lista.size() == 0) {
+			return null;
+		}
+		return lista.get(0);
+	}
+	/**
+	 * 
+	 * @param annoEsercizio
+	 * @param anno
+	 * @param numero
+	 * @param enteId
+	 * @param subimpegnoAnno
+	 * @param subimpegnoNumero
+	 * @return
+	 */
+	public List<Subimpegno> getListSubimpegnoByChiaveLogica(Integer annoEsercizio, Integer anno, Integer numero, UUID enteId, Integer subimpegnoAnno,Integer subimpegnoNumero) {
+		final List<CpassTSubimpegno> lista = cpassTSubimpegnoDao.getSubimpegnoByChiaveLogica(annoEsercizio, anno, numero, enteId, subimpegnoAnno, subimpegnoNumero);
+		final List<Subimpegno> subimpegni = CpassMappers.SUBIMPEGNO.toModels(lista);
+		return subimpegni;
 	}
 
-	public Subimpegno getSubimpegnoByChiaveLogica(Integer annoEsercizio, Integer anno, Integer numero, UUID enteId, Integer subimpegnoAnno,
-			Integer subimpegnoNumero) {
-		CpassTSubimpegno cpassTSubimpegno = cpassTSubimpegnoDao.getSubimpegnoByChiaveLogica(annoEsercizio, anno, numero, enteId, subimpegnoAnno, subimpegnoNumero);
-		Subimpegno subimpegno = CpassMappers.SUBIMPEGNO.toModel(cpassTSubimpegno);
-		return subimpegno;
-	}
-
+	/**
+	 *
+	 * @param rigaOrdine
+	 * @param listImpegno
+	 * @param cpassTFornitore
+	 * @param cpassTEnte
+	 */
 	public void insertImpegni(RigaOrdine rigaOrdine, List<Impegno> listImpegno, CpassTFornitore cpassTFornitore, CpassTEnte cpassTEnte) {
-		CpassTOrdRigaOrdine cpassTOrdRigaOrdine = CpassMappers.RIGA_ORDINE.toEntity(rigaOrdine);
+		final CpassTOrdRigaOrdine cpassTOrdRigaOrdine = CpassMappers.RIGA_ORDINE.toEntity(rigaOrdine);
 
 		// cancello le vecchie relazioni
-		List<CpassTOrdImpegnoOrdine> impegnoOrdines = cpassTOrdImpegnoOrdineDao.getImpegni(cpassTOrdRigaOrdine.getRigaOrdineId());
+		final List<CpassTOrdImpegnoOrdine> impegnoOrdines = cpassTOrdImpegnoOrdineDao.getImpegni(cpassTOrdRigaOrdine.getRigaOrdineId());
 		if (impegnoOrdines != null) {
-			for (CpassTOrdImpegnoOrdine cpassTOrdImpegnoOrdine : impegnoOrdines) {
+			for (final CpassTOrdImpegnoOrdine cpassTOrdImpegnoOrdine : impegnoOrdines) {
 
-				List<CpassTOrdSubimpegnoOrdine> subimpegnoOrdines = cpassTOrdSubimpegnoOrdineDao.getSubimpegni(cpassTOrdImpegnoOrdine.getId());
+				final List<CpassTOrdSubimpegnoOrdine> subimpegnoOrdines = cpassTOrdSubimpegnoOrdineDao.getSubimpegni(cpassTOrdImpegnoOrdine.getId());
 				if (subimpegnoOrdines != null) {
-					for (CpassTOrdSubimpegnoOrdine cpassTOrdSubimpegnoOrdine : subimpegnoOrdines) {
+					for (final CpassTOrdSubimpegnoOrdine cpassTOrdSubimpegnoOrdine : subimpegnoOrdines) {
 						cpassTOrdSubimpegnoOrdineDao.delete(cpassTOrdSubimpegnoOrdine.getId());
 					}
 				}
@@ -123,10 +226,10 @@ public class ImpegnoDad extends BaseDad {
 		// inserisco nuove relazioni
 		if (listImpegno != null && listImpegno.size() > 0) {
 			int impegnoProgressivo = 0;
-			for (Impegno impegno : listImpegno) {
+			for (final Impegno impegno : listImpegno) {
 				impegnoProgressivo++;
 
-				CpassTImpegno cpassTImpegno = CpassMappers.IMPEGNO.toEntity(impegno);
+				final CpassTImpegno cpassTImpegno = CpassMappers.IMPEGNO.toEntity(impegno);
 				// controllo lunghezza massima
 				if (cpassTImpegno.getImpegnoDescrizione() != null && cpassTImpegno.getImpegnoDescrizione().length() > 150) {
 					cpassTImpegno.setImpegnoDescrizione(cpassTImpegno.getImpegnoDescrizione().substring(0, 150));
@@ -138,21 +241,21 @@ public class ImpegnoDad extends BaseDad {
 				} else {
 					cpassTImpegno.setCpassTFornitore(null);
 				}
-
-				CpassTImpegno cpassTImpegnoPresente = cpassTImpegnoDao.getImpegnoByChiaveLogica(cpassTImpegno.getImpegnoAnnoEsercizio(),
-						cpassTImpegno.getImpegnoAnno(), cpassTImpegno.getImpegnoNumero(), cpassTImpegno.getCpassTEnte().getId());
-				if (cpassTImpegnoPresente == null) {
-					cpassTImpegnoPresente = cpassTImpegnoDao.insert(cpassTImpegno);
+				//CONTROLLARE LA FONTE
+				final List<CpassTImpegno> cpassTImpegnoPresente = cpassTImpegnoDao.getImpegnoByChiaveLogica(cpassTImpegno.getImpegnoAnnoEsercizio(),cpassTImpegno.getImpegnoAnno(), cpassTImpegno.getImpegnoNumero(), cpassTImpegno.getCpassTEnte().getId());
+				if (cpassTImpegnoPresente.isEmpty()) {
+					final CpassTImpegno impNew = cpassTImpegnoDao.insert(cpassTImpegno);
+					cpassTImpegnoPresente.add(impNew);
 				}
 
 				// associato
-				CpassTOrdImpegnoOrdine cpassTOrdImpegnoOrdine = new CpassTOrdImpegnoOrdine();
-				cpassTOrdImpegnoOrdine.setCpassTImpegno(cpassTImpegnoPresente);
+				final CpassTOrdImpegnoOrdine cpassTOrdImpegnoOrdine = new CpassTOrdImpegnoOrdine();
+				cpassTOrdImpegnoOrdine.setCpassTImpegno(cpassTImpegnoPresente.get(0));
 				cpassTOrdImpegnoOrdine.setCpassTOrdRigaOrdine(cpassTOrdRigaOrdine);
 
-				cpassTOrdImpegnoOrdine.setImpegnoAnno(cpassTImpegnoPresente.getImpegnoAnno());
-				cpassTOrdImpegnoOrdine.setImpegnoAnnoEsercizio(cpassTImpegnoPresente.getImpegnoAnnoEsercizio());
-				cpassTOrdImpegnoOrdine.setImpegnoNumero(cpassTImpegnoPresente.getImpegnoNumero());
+				cpassTOrdImpegnoOrdine.setImpegnoAnno(cpassTImpegnoPresente.get(0).getImpegnoAnno());
+				cpassTOrdImpegnoOrdine.setImpegnoAnnoEsercizio(cpassTImpegnoPresente.get(0).getImpegnoAnnoEsercizio());
+				cpassTOrdImpegnoOrdine.setImpegnoNumero(cpassTImpegnoPresente.get(0).getImpegnoNumero());
 
 				cpassTOrdImpegnoOrdine.setImpegnoProgressivo(impegnoProgressivo);
 				cpassTOrdImpegnoOrdine.setImporto(impegno.getImporto());
@@ -161,42 +264,43 @@ public class ImpegnoDad extends BaseDad {
 
 				// subimpegno
 				if (impegno.getSubimpegni() != null && impegno.getSubimpegni().size() > 0) {
-					for (Subimpegno subimpegno : impegno.getSubimpegni()) {
-						CpassTSubimpegno cpassTSubimpegno = CpassMappers.SUBIMPEGNO.toEntity(subimpegno);
+					for (final Subimpegno subimpegno : impegno.getSubimpegni()) {
+						final CpassTSubimpegno cpassTSubimpegno = CpassMappers.SUBIMPEGNO.toEntity(subimpegno);
 
 						cpassTSubimpegno.setCpassTEnte(cpassTEnte);
 
-						if (impegno.getFornitore() != null && impegno.getFornitore().getCodice() != null) {
+						if (subimpegno.getFornitore() != null && subimpegno.getFornitore().getCodice() != null) {
 							cpassTSubimpegno.setCpassTFornitore(cpassTFornitore);
 						} else {
 							cpassTSubimpegno.setCpassTFornitore(null);
 						}
 
-						cpassTSubimpegno.setCpassTImpegno(cpassTImpegnoPresente);
+						cpassTSubimpegno.setCpassTImpegno(cpassTImpegnoPresente.get(0));
 
 						cpassTSubimpegno.setImpegnoAnno(impegno.getAnno());
 						cpassTSubimpegno.setImpegnoAnnoEsercizio(impegno.getAnnoEsercizio());
 						cpassTSubimpegno.setImpegnoNumero(impegno.getNumero());
 
-						CpassTSubimpegno cpassTSubimpegnoPresente = cpassTSubimpegnoDao.getSubimpegnoByChiaveLogica(cpassTSubimpegno.getImpegnoAnnoEsercizio(),
+						final List<CpassTSubimpegno> cpassTSubimpegnoPresente = cpassTSubimpegnoDao.getSubimpegnoByChiaveLogica(cpassTSubimpegno.getImpegnoAnnoEsercizio(),
 								cpassTSubimpegno.getImpegnoAnno(), cpassTSubimpegno.getImpegnoNumero(), cpassTSubimpegno.getCpassTEnte().getId(),
 								cpassTSubimpegno.getSubimpegnoAnno(), cpassTSubimpegno.getSubimpegnoNumero());
-						if (cpassTSubimpegnoPresente == null) {
-							cpassTSubimpegnoPresente = cpassTSubimpegnoDao.insert(cpassTSubimpegno);
+
+						if (cpassTSubimpegnoPresente.size() == 0) {
+							cpassTSubimpegnoPresente.add (cpassTSubimpegnoDao.insert(cpassTSubimpegno));
 						}
 
 						// associato
-						CpassTOrdSubimpegnoOrdine cpassTOrdSubimpegnoOrdine = new CpassTOrdSubimpegnoOrdine();
+						final CpassTOrdSubimpegnoOrdine cpassTOrdSubimpegnoOrdine = new CpassTOrdSubimpegnoOrdine();
 						cpassTOrdSubimpegnoOrdine.setCpassTOrdImpegnoOrdine(cpassTOrdImpegnoOrdine);
-						cpassTOrdSubimpegnoOrdine.setCpassTSubimpegno(cpassTSubimpegnoPresente);
+						cpassTOrdSubimpegnoOrdine.setCpassTSubimpegno(cpassTSubimpegnoPresente.get(0));
 
-						cpassTOrdSubimpegnoOrdine.setImpegnoAnno(cpassTImpegnoPresente.getImpegnoAnno());
-						cpassTOrdSubimpegnoOrdine.setImpegnoAnnoEsercizio(cpassTImpegnoPresente.getImpegnoAnnoEsercizio());
-						cpassTOrdSubimpegnoOrdine.setImpegnoNumero(cpassTImpegnoPresente.getImpegnoNumero());
+						cpassTOrdSubimpegnoOrdine.setImpegnoAnno(cpassTImpegnoPresente.get(0).getImpegnoAnno());
+						cpassTOrdSubimpegnoOrdine.setImpegnoAnnoEsercizio(cpassTImpegnoPresente.get(0).getImpegnoAnnoEsercizio());
+						cpassTOrdSubimpegnoOrdine.setImpegnoNumero(cpassTImpegnoPresente.get(0).getImpegnoNumero());
 
-						cpassTOrdSubimpegnoOrdine.setSubimpegnoAnno(cpassTSubimpegnoPresente.getSubimpegnoAnno());
-						cpassTOrdSubimpegnoOrdine.setSubimpegnoImporto(cpassTSubimpegnoPresente.getImportoAttuale());
-						cpassTOrdSubimpegnoOrdine.setSubimpegnoNumero(cpassTSubimpegnoPresente.getSubimpegnoNumero());
+						cpassTOrdSubimpegnoOrdine.setSubimpegnoAnno(cpassTSubimpegnoPresente.get(0).getSubimpegnoAnno());
+						cpassTOrdSubimpegnoOrdine.setSubimpegnoImporto(cpassTSubimpegnoPresente.get(0).getImportoAttuale());
+						cpassTOrdSubimpegnoOrdine.setSubimpegnoNumero(cpassTSubimpegnoPresente.get(0).getSubimpegnoNumero());
 
 						cpassTOrdSubimpegnoOrdine.setSubimpegnoImporto(subimpegno.getImporto());
 
@@ -206,117 +310,308 @@ public class ImpegnoDad extends BaseDad {
 			}
 		}
 	}
-
+	/**
+	 *
+	 * @param rigaOrdineId
+	 * @return
+	 */
 	public List<ImpegnoOrdine> getImpegnoOrdineByRiga(UUID rigaOrdineId) {
-		List<CpassTOrdImpegnoOrdine> cpassTOrdImpegnoOrdines = cpassTOrdImpegnoOrdineDao.getImpegni(rigaOrdineId);
-		List<ImpegnoOrdine> impegnoOrdines = CpassMappers.IMPEGNO_ORDINE.toModels(cpassTOrdImpegnoOrdines);
+		final List<CpassTOrdImpegnoOrdine> cpassTOrdImpegnoOrdines = cpassTOrdImpegnoOrdineDao.getImpegni(rigaOrdineId);
+		final List<ImpegnoOrdine> impegnoOrdines = CpassMappers.IMPEGNO_ORDINE.toModels(cpassTOrdImpegnoOrdines);
 		return impegnoOrdines;
 	}
-	
+	/**
+	 *
+	 * @param rigaOrdineId
+	 * @param rigaEvasioneId
+	 * @return
+	 */
 	public List<ImpegnoOrdine> getImpegnoOrdineByRigaNonPresentiEvasione(UUID rigaOrdineId, UUID rigaEvasioneId) {
-		List<CpassTOrdImpegnoOrdine> cpassTOrdImpegnoOrdines = cpassTOrdImpegnoOrdineDao.getImpegniNonPresentiEvasione(rigaOrdineId, rigaEvasioneId);
-		List<ImpegnoOrdine> impegnoOrdines = CpassMappers.IMPEGNO_ORDINE.toModels(cpassTOrdImpegnoOrdines);
+		final List<CpassTOrdImpegnoOrdine> cpassTOrdImpegnoOrdines = cpassTOrdImpegnoOrdineDao.getImpegniNonPresentiEvasione(rigaOrdineId, rigaEvasioneId);
+		final List<ImpegnoOrdine> impegnoOrdines = CpassMappers.IMPEGNO_ORDINE.toModels(cpassTOrdImpegnoOrdines);
 		return impegnoOrdines;
 	}
-
+	/**
+	 *
+	 * @param ImpegnoOrdineId
+	 * @return
+	 */
 	public List<SubimpegnoOrdine> getSubimpegnoOrdineByImpegnoOrdineId(UUID ImpegnoOrdineId) {
-		List<CpassTOrdSubimpegnoOrdine> cpassTOrdSubimpegnoOrdines = cpassTOrdSubimpegnoOrdineDao.getSubimpegni(ImpegnoOrdineId);
-		List<SubimpegnoOrdine> subimpegnoOrdines = CpassMappers.SUBIMPEGNO_ORDINE.toModels(cpassTOrdSubimpegnoOrdines);
+		final List<CpassTOrdSubimpegnoOrdine> cpassTOrdSubimpegnoOrdines = cpassTOrdSubimpegnoOrdineDao.getSubimpegni(ImpegnoOrdineId);
+		final List<SubimpegnoOrdine> subimpegnoOrdines = CpassMappers.SUBIMPEGNO_ORDINE.toModels(cpassTOrdSubimpegnoOrdines);
 		return subimpegnoOrdines;
 	}
-
+	/**
+	 *
+	 * @param idRigaOrdine
+	 * @return
+	 */
 	public List<Impegno> getImpegniByRiga(UUID idRigaOrdine) {
-		List<Impegno> impegnos = new ArrayList<Impegno>();
-
+		final List<Impegno> impegnos = new ArrayList<>();
 		// impegni
-		List<CpassTOrdImpegnoOrdine> impegnoOrdines = cpassTOrdImpegnoOrdineDao.getImpegni(idRigaOrdine);
+		final List<CpassTOrdImpegnoOrdine> impegnoOrdines = cpassTOrdImpegnoOrdineDao.getImpegni(idRigaOrdine);
 		if (impegnoOrdines != null) {
-			for (CpassTOrdImpegnoOrdine cpassTOrdImpegnoOrdine : impegnoOrdines) {
-				Impegno impegno = CpassMappers.IMPEGNO.toModel(cpassTOrdImpegnoOrdine.getCpassTImpegno());
+			for (final CpassTOrdImpegnoOrdine cpassTOrdImpegnoOrdine : impegnoOrdines) {
+				final Impegno impegno = CpassMappers.IMPEGNO.toModel(cpassTOrdImpegnoOrdine.getCpassTImpegno());
 				impegno.setImporto(cpassTOrdImpegnoOrdine.getImporto());
 				impegnos.add(impegno);
 
 				// subimpegni
-				List<CpassTOrdSubimpegnoOrdine> subimpegnoOrdines = cpassTOrdSubimpegnoOrdineDao.getSubimpegni(cpassTOrdImpegnoOrdine.getImpegnoOrdineId());
+				final List<CpassTOrdSubimpegnoOrdine> subimpegnoOrdines = cpassTOrdSubimpegnoOrdineDao.getSubimpegni(cpassTOrdImpegnoOrdine.getImpegnoOrdineId());
 				if (subimpegnoOrdines != null) {
-					for (CpassTOrdSubimpegnoOrdine cpassTOrdSubimpegnoOrdine : subimpegnoOrdines) {
-						Subimpegno subimpegno = CpassMappers.SUBIMPEGNO.toModel(cpassTOrdSubimpegnoOrdine.getCpassTSubimpegno());
+					for (final CpassTOrdSubimpegnoOrdine cpassTOrdSubimpegnoOrdine : subimpegnoOrdines) {
+						final Subimpegno subimpegno = CpassMappers.SUBIMPEGNO.toModel(cpassTOrdSubimpegnoOrdine.getCpassTSubimpegno());
 						subimpegno.setImporto(cpassTOrdSubimpegnoOrdine.getSubimpegnoImporto());
 						impegno.getSubimpegni().add(subimpegno);
 					}
 				}
 			}
 		}
-
 		return impegnos;
 	}
-
+	/**
+	 *
+	 * @param idRiga
+	 */
 	public void annullaImpegniByRiga(UUID idRiga) {
-		List<CpassTOrdImpegnoOrdine> impegniOrdine = cpassTOrdImpegnoOrdineDao.getImpegni(idRiga);
+		final List<CpassTOrdImpegnoOrdine> impegniOrdine = cpassTOrdImpegnoOrdineDao.getImpegni(idRiga);
 		if (impegniOrdine != null) {
-			for (CpassTOrdImpegnoOrdine impegnoOrdine : impegniOrdine) {
+			for (final CpassTOrdImpegnoOrdine impegnoOrdine : impegniOrdine) {
 				impegnoOrdine.setImporto(BigDecimal.ZERO);
 				cpassTOrdImpegnoOrdineDao.update(impegnoOrdine);
 
-				for (CpassTOrdSubimpegnoOrdine subimpegnoOrdine : impegnoOrdine.getCpassTOrdSubimpegnoOrdines()) {
+				for (final CpassTOrdSubimpegnoOrdine subimpegnoOrdine : impegnoOrdine.getCpassTOrdSubimpegnoOrdines()) {
 					subimpegnoOrdine.setSubimpegnoImporto(BigDecimal.ZERO);
 					cpassTOrdSubimpegnoOrdineDao.update(subimpegnoOrdine);
 				}
 			}
 		}
 	}
-
-	public void deleteImpegniByRiga(UUID idRiga) {
-
-		List<CpassTOrdImpegnoOrdine> impegni = cpassTOrdImpegnoOrdineDao.getImpegni(idRiga);
-
+	/**
+	 *
+	 * @param idRiga
+	 */
+	public void deleteImpegniByRiga_old(UUID idRiga) {
+		final List<CpassTOrdImpegnoOrdine> impegni = cpassTOrdImpegnoOrdineDao.getImpegni(idRiga);
 		if (impegni != null) {
-			for (CpassTOrdImpegnoOrdine impegno : impegni) {
+			for (final CpassTOrdImpegnoOrdine impegno : impegni) {
 
 				if (impegno.getCpassTOrdSubimpegnoOrdines() != null) {
-					for (CpassTOrdSubimpegnoOrdine subImpegno : impegno.getCpassTOrdSubimpegnoOrdines()) {
+					for (final CpassTOrdSubimpegnoOrdine subImpegno : impegno.getCpassTOrdSubimpegnoOrdines()) {
 						cpassTOrdSubimpegnoOrdineDao.delete(subImpegno.getSubimpegnoOrdineId());
 					}
+					cpassTOrdSubimpegnoOrdineDao.flushAndClear();
 				}
-
-				cpassTOrdImpegnoOrdineDao.deleteByRiga(idRiga);
+				cpassTOrdImpegnoOrdineDao.delete(impegno.getId());
 			}
 		}
 
 	}
+	/**
+	 * 
+	 * @param idRiga
+	 */
+	public void deleteImpegniByRiga(UUID idRiga) {
+		//List<CpassTOrdImpegnoOrdine> impegni = cpassTOrdImpegnoOrdineDao.getImpegni(idRiga);
+		cpassTOrdSubimpegnoOrdineDao.deleteFromRiga(idRiga);
+		cpassTOrdSubimpegnoOrdineDao.flush();
+		cpassTOrdImpegnoOrdineDao.deleteByRiga(idRiga);
+	}
 
+	/**
+	 *
+	 * @param idImpegnoOrdine
+	 */
 	public void deleteSubimpegniByImpegnoOrdine(UUID idImpegnoOrdine) {
-
-		List<CpassTOrdSubimpegnoOrdine> subimpegni = cpassTOrdSubimpegnoOrdineDao.getSubimpegni(idImpegnoOrdine);
-
-		for (CpassTOrdSubimpegnoOrdine subimpegno : subimpegni) {
+		final List<CpassTOrdSubimpegnoOrdine> subimpegni = cpassTOrdSubimpegnoOrdineDao.getSubimpegni(idImpegnoOrdine);
+		for (final CpassTOrdSubimpegnoOrdine subimpegno : subimpegni) {
 			cpassTOrdSubimpegnoOrdineDao.delete(subimpegno.getSubimpegnoOrdineId());
 		}
 	}
-
-
+	/**
+	 *
+	 * @param idTestataOrdine
+	 * @return
+	 */
 	public List<VOrdine> getListImpegniRiepilogoByOrdineId(UUID idTestataOrdine) {
-		List<CpassVOrdine> lista = cpassVOrdineDao.getListImpegniRiepilogoByOrdineId(idTestataOrdine);
-		List<VOrdine> ris = CpassMappers.VORDINE.toModels(lista);		
+		final List<CpassVOrdine> lista = cpassVOrdineDao.getListImpegniRiepilogoByOrdineId(idTestataOrdine);
+		final List<VOrdine> ris = CpassMappers.VORDINE.toModels(lista);
 		return ris;
 	}
-
-	
-	
+	/**
+	 *
+	 * @param impegno
+	 * @return
+	 */
 	public Impegno saveImpegno(Impegno impegno) {
 		CpassTImpegno cpassTImpegno = CpassMappers.IMPEGNO.toEntity(impegno);
 		// controllo lunghezza massima
 		if (cpassTImpegno.getImpegnoDescrizione() != null && cpassTImpegno.getImpegnoDescrizione().length() > 150) {
 			cpassTImpegno.setImpegnoDescrizione(cpassTImpegno.getImpegnoDescrizione().substring(0, 150));
 		}
-		cpassTImpegno = cpassTImpegnoDao.insert(cpassTImpegno);
+		cpassTImpegno = cpassTImpegnoDao.save(cpassTImpegno);
 		return CpassMappers.IMPEGNO.toModel(cpassTImpegno);
 	}
 
+	public void flush() {
+		cpassTImpegnoDao.flush();
+	}
+
+	/**
+	 *
+	 * @param subimpegno
+	 * @return
+	 */
 	public Subimpegno saveSubimpegno(Subimpegno subimpegno) {
 		CpassTSubimpegno cpassTSubimpegno = CpassMappers.SUBIMPEGNO.toEntity(subimpegno);
-		cpassTSubimpegno = cpassTSubimpegnoDao.insert(cpassTSubimpegno);
+		cpassTSubimpegno = cpassTSubimpegnoDao.save(cpassTSubimpegno);
 		return CpassMappers.SUBIMPEGNO.toModel(cpassTSubimpegno);
+	}
+
+	/**
+	 *
+	 * @param subimpegno
+	 * @return
+	 */
+	public void saveSubimpegno(Integer annoCorrente,
+			Integer annoImpegno,
+			Integer numImpegno,
+			Subimpegno subimpegno,
+			UUID enteId) {
+		CpassTSubimpegno cpassTSubimpegno = CpassMappers.SUBIMPEGNO.toEntity(subimpegno);
+
+		List<Impegno> impegno = new ArrayList<>();
+		if(cpassTSubimpegno.getCpassTImpegno()==null || cpassTSubimpegno.getCpassTImpegno().getId()==null) {
+			impegno  = getImpegnoByChiaveLogica(annoCorrente,
+					subimpegno.getImpegno().getAnno(),
+					subimpegno.getImpegno().getNumero(),
+					enteId);
+			final CpassTImpegno cpassTimpegno = CpassMappers.IMPEGNO.toEntity(impegno.get(0));
+			cpassTSubimpegno.setCpassTImpegno(cpassTimpegno);
+		}
+
+		if((impegno!=null && impegno.size()==1) || (cpassTSubimpegno.getCpassTImpegno()!=null && cpassTSubimpegno.getCpassTImpegno().getId()!=null)) {
+			cpassTSubimpegno = cpassTSubimpegnoDao.save(cpassTSubimpegno);
+		}else {
+			log.error("elaboraSubImpegniCaricati", "impegno inesistente o duplice con chiave logica anno esercizio "+annoCorrente +" anno imp "+ annoImpegno +" num imp "+ numImpegno);
+		}
+	}
+
+	/**
+	 *
+	 * @param enteId
+	 * @param esito
+	 * @param limit
+	 * @param offset
+	 * @param dataOdierna
+	 * @param numelab
+	 * @return
+	 */
+	public List<FlussoImpegniEsterni> getListFlussoImpegniEsterniByEnte(UUID enteId,String esito,Integer limit,Integer offset,Date dataOdierna,Integer numelab) {
+		final List<CpassTFlussoImpegniEsterni> lista = cpassTFlussoImpegniEsterniDao.getFlussoImpegniEsterniByEnte(enteId,esito,limit,offset, dataOdierna, numelab);
+		final List<FlussoImpegniEsterni> ris = CpassMappers.FlussoImpegniEsterni.toModels(lista);
+		return ris;
+	}
+	/**
+	 *
+	 * @param enteId
+	 * @param esito
+	 * @param limit
+	 * @param offset
+	 * @param dataOdierna
+	 * @param numelab
+	 * @return
+	 */
+	public List<FlussoImpegniEsterni> getFlussoImpegniEsterniElaborabili(UUID enteId,String esito,Integer limit,Integer offset,Date dataOdierna,Integer numelab) {
+		final List<CpassTFlussoImpegniEsterni> lista = cpassTFlussoImpegniEsterniDao.getFlussoImpegniEsterniElaborabili(enteId, esito, limit, offset, dataOdierna, numelab);
+		final List<FlussoImpegniEsterni> ris = CpassMappers.FlussoImpegniEsterni.toModels(lista);
+		return ris;
+	}
+	/**
+	 *
+	 * @param enteId
+	 * @param esito
+	 * @param limit
+	 * @param offset
+	 * @param dataOdierna
+	 * @param numelab
+	 * @return
+	 */
+	public List<FlussoSubimpegniEsterni> getListFlussoSubImpegniEsterniByEnte(UUID enteId,String esito,Integer limit, Integer offset,Date dataOdierna,Integer numelab) {
+		final List<CpassTFlussoSubimpegniEsterni> lista = cpassTFlussoSubImpegniEsterniDao.getFlussoSubImpegniEsterniByEnte(enteId,esito, limit,  offset,  dataOdierna, numelab);
+		final List<FlussoSubimpegniEsterni> ris = CpassMappers.FlussoSubImpegniEsterni.toModels(lista);
+		return ris;
+	}
+	/**
+	 *
+	 * @param impegnoEsterni
+	 * @return
+	 */
+	public FlussoImpegniEsterni saveFlussoImpegniEsterni(FlussoImpegniEsterni impegnoEsterni) {
+		CpassTFlussoImpegniEsterni cpassTimpegnoEsterni = CpassMappers.FlussoImpegniEsterni.toEntity(impegnoEsterni);
+		cpassTimpegnoEsterni = cpassTFlussoImpegniEsterniDao.save(cpassTimpegnoEsterni);
+		return CpassMappers.FlussoImpegniEsterni.toModel(cpassTimpegnoEsterni);
+	}
+	/**
+	 *
+	 * @param subimpegno
+	 * @return
+	 */
+	public FlussoSubimpegniEsterni saveFlussoSubImpegniEsterni(FlussoSubimpegniEsterni subimpegno) {
+		CpassTFlussoSubimpegniEsterni cpassTSubimpegno = CpassMappers.FlussoSubImpegniEsterni.toEntity(subimpegno);
+		cpassTSubimpegno = cpassTFlussoSubImpegniEsterniDao.save(cpassTSubimpegno);
+		return CpassMappers.FlussoSubImpegniEsterni.toModel(cpassTSubimpegno);
+	}
+	/**
+	 *
+	 * @param flussoAnomalie
+	 * @return
+	 */
+	public FlussoAnomalie saveFlussoAnomalie(FlussoAnomalie flussoAnomalie) {
+		CpassTFlussoAnomalie cpassTFlussoAnomalie = CpassMappers.FlussoAnomalie.toEntity(flussoAnomalie);
+		cpassTFlussoAnomalie = cpassTFlussoAnomalieDao.save(cpassTFlussoAnomalie);
+		return CpassMappers.FlussoAnomalie.toModel(cpassTFlussoAnomalie);
+	}
+	/**
+	 *
+	 * @param giorniStorico
+	 */
+	public void delFlussoSubImpegniEsterni(int giorniStorico) {
+		cpassTFlussoSubImpegniEsterniDao.deleteAll(DateUtility.addDays(new Date(), -giorniStorico));
+	}
+	/**
+	 *
+	 * @param giorniStorico
+	 */
+	public void delFlussoImpegniEsterni(int giorniStorico) {
+		cpassTFlussoImpegniEsterniDao.deleteAll(DateUtility.addDays(new Date(), -giorniStorico));
+	}
+	/**
+	 *
+	 */
+	public void resetSequenceFlussoImpegniEsterni() {
+		cpassTFlussoImpegniEsterniDao.resetSequence();
+
+	}
+	/**
+	 *
+	 */
+	public void resetSequenceFlussoSubImpegniEsterni() {
+		cpassTFlussoSubImpegniEsterniDao.resetSequence();
+	}
+	/**
+	 * 
+	 * @param testataOrdineId
+	 */
+	public void deleteSubImpFromTestataordine(UUID testataOrdineId) {
+		cpassTOrdSubimpegnoOrdineDao.deleteFromTestataordine(testataOrdineId);
+	}
+	/**
+	 * 
+	 * @param testataOrdineId
+	 */
+	public void deleteImpFromTestataordine(UUID testataOrdineId) {
+		cpassTOrdImpegnoOrdineDao.deleteFromTestataordine(testataOrdineId);
 	}
 
 }

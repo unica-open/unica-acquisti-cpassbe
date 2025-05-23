@@ -1,0 +1,10 @@
+CopiaInterventoWrapper:
+  type: object
+  properties:
+    intervento:
+      type: object
+      $ref: '#/definitions/Intervento'
+    tipoCopiaCodice:
+      type: string
+    tipoCopiaDescrizione:
+      type: string

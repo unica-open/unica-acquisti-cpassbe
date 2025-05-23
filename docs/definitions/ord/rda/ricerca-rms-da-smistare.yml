@@ -1,0 +1,29 @@
+RicercaRmsDaSmistare:
+  type: object
+  properties:
+    annoRmsDa:
+      type: integer
+    numeroRmsDa:
+      type: integer
+    annoRmsA:
+      type: integer
+    numeroRmsA:
+      type: integer
+    statoRigaRms:
+      type: string      
+    dataInserimentoDa:
+      type: string
+      format: date-time
+    dataInserimentoA:
+      type: string
+      format: date-time      
+    testataRms:
+      type: object
+      $ref: '#/definitions/TestataRms'
+    rigaRms:
+      type: object
+      $ref: '#/definitions/RigaRms'
+    sezione:
+      type: object
+      $ref: '#/definitions/Sezione'
+      

@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -13,22 +13,24 @@ package it.csi.cpass.cpassbe.ejb.business.be.dad;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import it.csi.cpass.cpassbe.ejb.business.be.dad.sort.InterventoSort;
-import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.CpassDAliquoteIvaDao;
-import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.CpassDCpvDao;
-import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.CpassDOggettiSpesaDao;
-import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.CpassDStatoDao;
-import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.CpassDUnitaMisuraDao;
-import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.CpassVCpvDao;
-import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.CpassVCpvOdsDao;
+import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.decodifiche.CpassDAliquoteIvaDao;
+import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.decodifiche.CpassDCpvDao;
+import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.decodifiche.CpassDMotiviEsclusioneCigDao;
+import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.decodifiche.CpassDOggettiSpesaDao;
+import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.decodifiche.CpassDPermessoDao;
+import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.decodifiche.CpassDProvvedimentoTipoDao;
+import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.decodifiche.CpassDStatoDao;
+import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.decodifiche.CpassDTipoSettoreDao;
+import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.decodifiche.CpassDUnitaMisuraDao;
 import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.ord.CpassDOrdStatoNsoDao;
 import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.ord.CpassDOrdTipoOrdineDao;
 import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.ord.CpassDOrdTipoProceduraDao;
-import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.ord.CpassDStatoElOrdineDao;
 import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.ord.evasione.CpassDOrdCausaleSospensioneEvasioneDao;
 import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.ord.evasione.CpassDOrdTipoEvasioneDao;
 import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.pba.CpassDPbaAcquistoVariatoDao;
@@ -40,15 +42,21 @@ import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.pba.CpassDPbaRicompresoTip
 import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.pba.CpassDPbaRisorsaDao;
 import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.pba.CpassDPbaSettoreInterventiDao;
 import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.pba.CpassDPbaTipoAcquistoDao;
+import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.pba.CpassDPbaTipoProceduraDao;
+import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.view.CpassVCpvDao;
+import it.csi.cpass.cpassbe.ejb.business.be.dao.cpass.view.CpassVCpvOdsDao;
 import it.csi.cpass.cpassbe.ejb.entity.CpassDAliquoteIva;
 import it.csi.cpass.cpassbe.ejb.entity.CpassDCpv;
+import it.csi.cpass.cpassbe.ejb.entity.CpassDMotiviEsclusioneCig;
+import it.csi.cpass.cpassbe.ejb.entity.CpassDOggettiSpesa;
+import it.csi.cpass.cpassbe.ejb.entity.CpassDPermesso;
+import it.csi.cpass.cpassbe.ejb.entity.CpassDProvvedimentoTipo;
 import it.csi.cpass.cpassbe.ejb.entity.CpassDStato;
+import it.csi.cpass.cpassbe.ejb.entity.CpassDTipoSettore;
 import it.csi.cpass.cpassbe.ejb.entity.CpassDUnitaMisura;
-import it.csi.cpass.cpassbe.ejb.entity.ord.CpassDOggettiSpesa;
 import it.csi.cpass.cpassbe.ejb.entity.ord.CpassDOrdStatoNso;
 import it.csi.cpass.cpassbe.ejb.entity.ord.CpassDOrdTipoOrdine;
 import it.csi.cpass.cpassbe.ejb.entity.ord.CpassDOrdTipoProcedura;
-import it.csi.cpass.cpassbe.ejb.entity.ord.CpassDStatoElOrdine;
 import it.csi.cpass.cpassbe.ejb.entity.ord.evasione.CpassDOrdCausaleSospensioneEvasione;
 import it.csi.cpass.cpassbe.ejb.entity.ord.evasione.CpassDOrdTipoEvasione;
 import it.csi.cpass.cpassbe.ejb.entity.pba.CpassDPbaAcquistoVariato;
@@ -60,19 +68,26 @@ import it.csi.cpass.cpassbe.ejb.entity.pba.CpassDPbaRicompresoTipo;
 import it.csi.cpass.cpassbe.ejb.entity.pba.CpassDPbaRisorsa;
 import it.csi.cpass.cpassbe.ejb.entity.pba.CpassDPbaSettoreInterventi;
 import it.csi.cpass.cpassbe.ejb.entity.pba.CpassDPbaTipoAcquisto;
+import it.csi.cpass.cpassbe.ejb.entity.pba.CpassDPbaTipoProcedura;
 import it.csi.cpass.cpassbe.ejb.entity.view.CpassVCpv;
 import it.csi.cpass.cpassbe.ejb.entity.view.CpassVCpvOds;
+import it.csi.cpass.cpassbe.ejb.exception.NotFoundException;
 import it.csi.cpass.cpassbe.ejb.mapper.CpassMappers;
+import it.csi.cpass.cpassbe.ejb.util.StringUtility;
 import it.csi.cpass.cpassbe.ejb.util.jpa.Page;
 import it.csi.cpass.cpassbe.lib.dto.AliquoteIva;
 import it.csi.cpass.cpassbe.lib.dto.Cpv;
+import it.csi.cpass.cpassbe.lib.dto.Ente;
+import it.csi.cpass.cpassbe.lib.dto.MotiviEsclusioneCig;
+import it.csi.cpass.cpassbe.lib.dto.Ods;
+import it.csi.cpass.cpassbe.lib.dto.Permesso;
+import it.csi.cpass.cpassbe.lib.dto.ProvvedimentoTipo;
 import it.csi.cpass.cpassbe.lib.dto.Stato;
+import it.csi.cpass.cpassbe.lib.dto.TipoSettore;
 import it.csi.cpass.cpassbe.lib.dto.UnitaMisura;
-import it.csi.cpass.cpassbe.lib.dto.ord.OggettiSpesa;
-import it.csi.cpass.cpassbe.lib.dto.ord.StatoElOrdine;
 import it.csi.cpass.cpassbe.lib.dto.ord.StatoNso;
 import it.csi.cpass.cpassbe.lib.dto.ord.TipoOrdine;
-import it.csi.cpass.cpassbe.lib.dto.ord.TipoProcedura;
+import it.csi.cpass.cpassbe.lib.dto.ord.TipoProceduraOrd;
 import it.csi.cpass.cpassbe.lib.dto.ord.evasione.CausaleSospensioneEvasione;
 import it.csi.cpass.cpassbe.lib.dto.ord.evasione.TipoEvasione;
 import it.csi.cpass.cpassbe.lib.dto.pba.AcquistoVariato;
@@ -84,8 +99,10 @@ import it.csi.cpass.cpassbe.lib.dto.pba.RicompresoTipo;
 import it.csi.cpass.cpassbe.lib.dto.pba.Risorsa;
 import it.csi.cpass.cpassbe.lib.dto.pba.SettoreInterventi;
 import it.csi.cpass.cpassbe.lib.dto.pba.TipoAcquisto;
+import it.csi.cpass.cpassbe.lib.dto.pba.TipoProceduraPba;
 import it.csi.cpass.cpassbe.lib.util.pagination.PagedList;
 import it.csi.cpass.cpassbe.lib.util.pagination.Sort;
+import it.csi.cpass.cpassbe.lib.util.threadlocal.CpassThreadLocalContainer;
 
 /**
  * Data Access Delegate for decodificas
@@ -107,7 +124,7 @@ public class DecodificaDad extends BaseDad {
 	@Inject private CpassDStatoDao cpassDStatoDao;
 	@Inject private CpassDOrdTipoOrdineDao cpassDTipoOrdineDao;
 	@Inject private CpassDOrdTipoProceduraDao cpassDOrdTipoProceduraDao;
-	@Inject private CpassDStatoElOrdineDao cpassDStatoElOrdineDao;
+	@Inject private CpassDPbaTipoProceduraDao cpassDPbaTipoProceduraDao;
 	@Inject private CpassDAliquoteIvaDao cpassDAliquoteIvaDao;
 	@Inject private CpassDUnitaMisuraDao cpassDUnitaMisuraDao;
 	@Inject private CpassDOggettiSpesaDao cpassDOggettiSpesaDao;
@@ -115,20 +132,44 @@ public class DecodificaDad extends BaseDad {
 	@Inject private CpassDOrdTipoEvasioneDao cpassDOrdTipoEvasioneDao;
 	@Inject private CpassDOrdCausaleSospensioneEvasioneDao cpassDOrdCausaleSospensioneEvasioneDao;
 	@Inject private CpassDPbaTipoAcquistoDao cpassDPbaTipoAcquistoDao;
-	
-
+	@Inject private CpassDProvvedimentoTipoDao cpassDProvvedimentoTipoDao;
+	@Inject private CpassDMotiviEsclusioneCigDao cpassDMotiviEsclusioneCigDao;
+	@Inject private CpassDTipoSettoreDao cpassDTipoSettoreDao;
+	@Inject private CpassDPermessoDao cpassDPermessoDao;
 
 	/**
 	 * Returns the Cpvs
 	 * @return the cpvs
 	 */
 	public List<Cpv> getCpvs() {
-		List<CpassDCpv> cpassDCpvs = cpassDCpvDao.findAll();
+		final List<CpassDCpv> cpassDCpvs = cpassDCpvDao.findAll();
 		return CpassMappers.CPV.toModels(cpassDCpvs);
 	}
-	
+
+	/**
+	 * Returns the Cpvs
+	 * @return the cpvs
+	 */
+	public List<Ods> getOds() {
+		final List<CpassDOggettiSpesa> lista = cpassDOggettiSpesaDao.findAll();
+		return CpassMappers.OGGETTO_SPESA.toModels(lista);
+	}
+	/**
+	 * 
+	 * @param enteId
+	 * @return
+	 */
+	public List<Ods> getOdsByEnteId(UUID enteId) {
+		final List<CpassDOggettiSpesa> lista = cpassDOggettiSpesaDao.getOdsByEnteId( enteId);
+		return CpassMappers.OGGETTO_SPESA_MINIMAL.toModels(lista);
+	}
+	/**
+	 * 
+	 * @param codice
+	 * @return
+	 */
 	public Cpv getCpvByCodice(String codice) {
-		CpassDCpv cpv = cpassDCpvDao.findByCodice(codice);
+		final CpassDCpv cpv = cpassDCpvDao.findByCodice(codice);
 		return CpassMappers.CPV.toModel(cpv);
 	}
 
@@ -137,23 +178,23 @@ public class DecodificaDad extends BaseDad {
 	 * @return the cpvs
 	 */
 	public List<Cpv> getTreeCpvs() {
-		String methodName = "getTreeCpvs";
-		List<CpassVCpv> cpassVCpvs = cpassVCpvDao.getTreeCpvs();
-		int level = estraiLivelloMaxCpv(cpassVCpvs) ;
-		List<Cpv> ris = associaCpvGerarchico(cpassVCpvs, level, new ArrayList<>());
+		final String methodName = "getTreeCpvs";
+		final List<CpassVCpv> cpassVCpvs = cpassVCpvDao.getTreeCpvs();
+		final int level = estraiLivelloMaxCpv(cpassVCpvs) ;
+		final List<Cpv> ris = associaCpvGerarchico(cpassVCpvs, level, new ArrayList<>());
 		log.trace(methodName, () -> "result size: " + ris.size());
 		return ris;
 	}
-	
+
 	/**
 	 * Returns the CpvOdss
 	 * @return the cpvOdss
 	 */
 	public List<Cpv> getTreeCpvOdss() {
-		String methodName = "getTreeCpvOdss";
-		List<CpassVCpvOds> cpassVCpvOdss = cpassVCpvOdsDao.getTreeCpvs();
-		int level = estraiLivelloMaxCpvOds(cpassVCpvOdss) ;
-		List<Cpv> ris = associaCpvOdsGerarchico(cpassVCpvOdss, level, new ArrayList<>());
+		final String methodName = "getTreeCpvOdss";
+		final List<CpassVCpvOds> cpassVCpvOdss = cpassVCpvOdsDao.getTreeCpvs();
+		final int level = estraiLivelloMaxCpvOds(cpassVCpvOdss) ;
+		final List<Cpv> ris = associaCpvOdsGerarchico(cpassVCpvOdss, level, new ArrayList<>());
 		log.trace(methodName, () -> "result size: " + ris.size());
 		return ris;
 	}
@@ -164,16 +205,21 @@ public class DecodificaDad extends BaseDad {
 	 */
 	private int estraiLivelloMaxCpv(List<CpassVCpv> cpassVCpvs) {
 		int ris = 0;
-		for(CpassVCpv cpassCpv : cpassVCpvs) {
-			int livello = cpassCpv.getLivello().intValue();
+		for(final CpassVCpv cpassCpv : cpassVCpvs) {
+			final int livello = cpassCpv.getLivello().intValue();
 			ris = livello > ris ? livello : ris;
 		}
 		return ris;
 	}
+	/**
+	 * 
+	 * @param cpassVCpvOdss
+	 * @return
+	 */
 	private int estraiLivelloMaxCpvOds(List<CpassVCpvOds> cpassVCpvOdss) {
 		int ris = 0;
-		for(CpassVCpvOds cpassCpv : cpassVCpvOdss) {
-			int livello = cpassCpv.getLivello().intValue();
+		for(final CpassVCpvOds cpassCpv : cpassVCpvOdss) {
+			final int livello = cpassCpv.getLivello().intValue();
 			ris = livello > ris ? livello : ris;
 		}
 		return ris;
@@ -187,16 +233,16 @@ public class DecodificaDad extends BaseDad {
 	 * @return la lista delle CPV
 	 */
 	private List<Cpv> associaCpvGerarchico(List<CpassVCpv> listaCpassVCpvsAll, int level,  List<Cpv> listaCpvLivelloFiglio) {
-		String methodName = "associaCpvGerarchico";
-		List<Cpv> listaCpvLivello = new ArrayList<>();
+		final String methodName = "associaCpvGerarchico";
+		final List<Cpv> listaCpvLivello = new ArrayList<>();
 		int index = 0;
-		for(CpassVCpv cpassCpv: listaCpassVCpvsAll) {
-			int livello = cpassCpv.getLivello().intValue();
+		for(final CpassVCpv cpassCpv: listaCpassVCpvsAll) {
+			final int livello = cpassCpv.getLivello().intValue();
 			if(livello == level) {
-				Cpv cpv = CpassMappers.TREECPV.toModel(cpassCpv);
+				final Cpv cpv = CpassMappers.TREECPV.toModel(cpassCpv);
 				listaCpvLivello.add(cpv);
-				List<Cpv> lista = cpv.getListCpv();
-				for(Cpv figlio : listaCpvLivelloFiglio) {
+				final List<Cpv> lista = cpv.getListCpv();
+				for(final Cpv figlio : listaCpvLivelloFiglio) {
 					if (figlio.getCodicePadre().equals(cpv.getCodice())){
 						lista.add(figlio);
 					}
@@ -219,17 +265,24 @@ public class DecodificaDad extends BaseDad {
 		log.trace(methodName, () -> "listaCpvLivello ultimo " + listaCpvLivello.size());
 		return listaCpvLivello;
 	}
+	/**
+	 * 
+	 * @param listaCpassVCpvsAll
+	 * @param level
+	 * @param listaCpvLivelloFiglio
+	 * @return
+	 */
 	private List<Cpv> associaCpvOdsGerarchico(List<CpassVCpvOds> listaCpassVCpvsAll, int level,  List<Cpv> listaCpvLivelloFiglio) {
-		String methodName = "associaCpvOdsGerarchico";
-		List<Cpv> listaCpvLivello = new ArrayList<>();
+		final String methodName = "associaCpvOdsGerarchico";
+		final List<Cpv> listaCpvLivello = new ArrayList<>();
 		int index = 0;
-		for(CpassVCpvOds cpassCpv: listaCpassVCpvsAll) {
-			int livello = cpassCpv.getLivello().intValue();
+		for(final CpassVCpvOds cpassCpv: listaCpassVCpvsAll) {
+			final int livello = cpassCpv.getLivello().intValue();
 			if(livello == level) {
-				Cpv cpv = CpassMappers.TREECPVODS.toModel(cpassCpv);
+				final Cpv cpv = CpassMappers.TREECPVODS.toModel(cpassCpv);
 				listaCpvLivello.add(cpv);
-				List<Cpv> lista = cpv.getListCpv();
-				for(Cpv figlio : listaCpvLivelloFiglio) {
+				final List<Cpv> lista = cpv.getListCpv();
+				for(final Cpv figlio : listaCpvLivelloFiglio) {
 					if (figlio.getCodicePadre().equals(cpv.getCodice())){
 						lista.add(figlio);
 					}
@@ -267,7 +320,7 @@ public class DecodificaDad extends BaseDad {
 	 * @return the modalitaAffidamentos
 	 */
 	public List<ModalitaAffidamento> getModalitaAffidamentos() {
-		List<CpassDPbaModAffidamento> cpassDPbaModAffidamentos = cpassDPbaModAffidamentoDao.findAll();
+		final List<CpassDPbaModAffidamento> cpassDPbaModAffidamentos = cpassDPbaModAffidamentoDao.findAll();
 		return CpassMappers.MODALITA_AFFIDAMENTO.toModels(cpassDPbaModAffidamentos);
 	}
 
@@ -285,7 +338,7 @@ public class DecodificaDad extends BaseDad {
 	 * @return the nuts
 	 */
 	public List<Nuts> getNuts() {
-		List<CpassDPbaNuts> cpassDPbaNuts = cpassDPbaNutDao.findAll();
+		final List<CpassDPbaNuts> cpassDPbaNuts = cpassDPbaNutDao.findAll();
 		return CpassMappers.NUTS.toModels(cpassDPbaNuts);
 	}
 
@@ -303,7 +356,7 @@ public class DecodificaDad extends BaseDad {
 	 * @return the prioritas
 	 */
 	public List<Priorita> getPrioritas() {
-		List<CpassDPbaPriorita> cpassDPbaPrioritas = cpassDPbaPrioritaDao.findAll();
+		final List<CpassDPbaPriorita> cpassDPbaPrioritas = cpassDPbaPrioritaDao.findAll();
 		return CpassMappers.PRIORITA.toModels(cpassDPbaPrioritas);
 	}
 
@@ -321,7 +374,7 @@ public class DecodificaDad extends BaseDad {
 	 * @return the risorsas
 	 */
 	public List<Risorsa> getRisorsas() {
-		List<CpassDPbaRisorsa> cpassDRisorses = cpassDRisorseDao.getRisorseByTipo(null);
+		final List<CpassDPbaRisorsa> cpassDRisorses = cpassDRisorseDao.getRisorseByTipo(null);
 		return CpassMappers.RISORSA.toModels(cpassDRisorses);
 	}
 
@@ -331,7 +384,7 @@ public class DecodificaDad extends BaseDad {
 	 * @return the risorsas
 	 */
 	public List<Risorsa> getRisorsasByTipo(String tipo) {
-		List<CpassDPbaRisorsa> cpassDRisorses = cpassDRisorseDao.getRisorseByTipo(tipo);
+		final List<CpassDPbaRisorsa> cpassDRisorses = cpassDRisorseDao.getRisorseByTipo(tipo);
 		return CpassMappers.RISORSA.toModels(cpassDRisorses);
 	}
 
@@ -349,7 +402,7 @@ public class DecodificaDad extends BaseDad {
 	 * @return the settoreInterventi
 	 */
 	public List<SettoreInterventi> getSettoreInterventis() {
-		List<CpassDPbaSettoreInterventi> cpassDPbaSettoreInterventis = cpassDPbaSettoreInterventiDao.findAll();
+		final List<CpassDPbaSettoreInterventi> cpassDPbaSettoreInterventis = cpassDPbaSettoreInterventiDao.findAll();
 		return CpassMappers.SETTORE_INTERVENTI.toModels(cpassDPbaSettoreInterventis);
 	}
 
@@ -367,7 +420,7 @@ public class DecodificaDad extends BaseDad {
 	 * @return the STATO
 	 */
 	public List<Stato> getStatos() {
-		List<CpassDStato> cpassDStatos = cpassDStatoDao.findAll();
+		final List<CpassDStato> cpassDStatos = cpassDStatoDao.findAll();
 		return CpassMappers.STATO.toModels(cpassDStatos);
 	}
 
@@ -377,7 +430,7 @@ public class DecodificaDad extends BaseDad {
 	 * @return the STATO
 	 */
 	public List<Stato> getStatosByTipo(String tipo) {
-		List<CpassDStato> cpassDStatos = cpassDStatoDao.getStatosByTipo( tipo);
+		final List<CpassDStato> cpassDStatos = cpassDStatoDao.getStatosByTipo( tipo);
 		return CpassMappers.STATO.toModels(cpassDStatos);
 	}
 	/**
@@ -395,19 +448,19 @@ public class DecodificaDad extends BaseDad {
 	 * @param tipo the tipo
 	 * @return the nuts
 	 */
-	public Optional<Stato> getStato(String codice, String tipo) {
-		return cpassDStatoDao.findByCodiceTipo(codice, tipo).map(CpassMappers.STATO::toModel);
+	public Stato getStato(String codice, String tipo) {
+		final Optional<Stato> optStato = cpassDStatoDao.findByCodiceTipo(codice, tipo).map(CpassMappers.STATO::toModel);
+		return optStato.orElseThrow(() -> new NotFoundException("stato"));
 	}
-	
 	/**
-	 * Returns the statoElOrdine by code and tipo
-	 * @param codice the codice
-	 * @param tipo the tipo
-	 * @return the nuts
+	 * 
+	 * @param codice
+	 * @param tipo
+	 * @return
 	 */
-	public StatoElOrdine getStatoElOrdine(String codice, String tipo) {
-		CpassDStatoElOrdine result = cpassDStatoElOrdineDao.findByCodiceTipo(codice, tipo);
-		return result != null ? CpassMappers.STATO_EL_ORDINE.toModel(result) : null;
+	public Optional<Stato> getStatoOpt(String codice, String tipo) {
+		final Optional<Stato> optStato = cpassDStatoDao.findByCodiceTipo(codice, tipo).map(CpassMappers.STATO::toModel);
+		return optStato;
 	}
 
 	/**
@@ -415,7 +468,7 @@ public class DecodificaDad extends BaseDad {
 	 * @return the Ausas
 	 */
 	public List<Ausa> getAusas() {
-		List<CpassDPbaAusa> cpassDPbaAusas = cpassDPbaAusaDao.findAll();
+		final List<CpassDPbaAusa> cpassDPbaAusas = cpassDPbaAusaDao.findAll();
 		return CpassMappers.AUSA.toModels(cpassDPbaAusas);
 	}
 
@@ -424,7 +477,7 @@ public class DecodificaDad extends BaseDad {
 	 * @return the RicompresoTipo
 	 */
 	public List<RicompresoTipo> getRicompresoTipos() {
-		List<CpassDPbaRicompresoTipo> cpassDPbaRicompresoTipos = cpassDPbaRicompresoTipoDao.findAll();
+		final List<CpassDPbaRicompresoTipo> cpassDPbaRicompresoTipos = cpassDPbaRicompresoTipoDao.findAll();
 		return CpassMappers.RICOMPRESO_TIPO.toModels(cpassDPbaRicompresoTipos);
 	}
 
@@ -433,7 +486,7 @@ public class DecodificaDad extends BaseDad {
 	 * @return the AcquistiVariati
 	 */
 	public List<AcquistoVariato> getAcquistiVariati() {
-		List<CpassDPbaAcquistoVariato> cpassDAcquistiVariati = cpassDPbaAcquistoVariatoDao.findAllOrdinato();
+		final List<CpassDPbaAcquistoVariato> cpassDAcquistiVariati = cpassDPbaAcquistoVariatoDao.findAllOrdinato();
 		return CpassMappers.ACQUISTO_VARIATO.toModels(cpassDAcquistiVariati);
 	}
 
@@ -441,39 +494,39 @@ public class DecodificaDad extends BaseDad {
 	 * Returns the TipoOrdines
 	 * @return the TipoOrdines
 	 */
-	public List<TipoOrdine> getTipoOrdines() {
-		List<CpassDOrdTipoOrdine> cpassDOrdTipoOrdines = cpassDTipoOrdineDao.findValid();
+	public List<TipoOrdine> getTipoOrdines(String noTypeCode) {
+		List<CpassDOrdTipoOrdine> cpassDOrdTipoOrdines = new ArrayList<>();
+		if(org.apache.commons.lang.StringUtils.isEmpty(noTypeCode)) {
+			cpassDOrdTipoOrdines = cpassDTipoOrdineDao.findValid();
+		}else {
+			cpassDOrdTipoOrdines = cpassDTipoOrdineDao.getListaValidTipoOrdineExcludeCode(noTypeCode);
+		}
 		return CpassMappers.TIPO_ORDINE.toModels(cpassDOrdTipoOrdines);
+	}
+
+	/**
+	 * Returns the TipoOrdines
+	 */
+	public List<TipoOrdine> getTipoOrdines() {
+		return getTipoOrdines("");
 	}
 
 	/**
 	 * Returns the TipoProceduras
 	 * @return the TipoProceduras
 	 */
-	public List<TipoProcedura> getTipoProceduras() {
-		List<CpassDOrdTipoProcedura> cpassDOrdTipoProceduras = cpassDOrdTipoProceduraDao.findValid();
-		return CpassMappers.TIPO_PROCEDURA.toModels(cpassDOrdTipoProceduras);
-		
-//		TipoProcedura tipoProcedura = new TipoProcedura();
-//		tipoProcedura.setId(222L);
-//		tipoProcedura.setCodice("COD-TP");
-//		tipoProcedura.setDescrizione("DESC TIPO PROC TEST");
-//		tipoProcedura.setNumero("NUM TEST");
-//
-//		ArrayList<TipoProcedura> tipoProceduras = new ArrayList<TipoProcedura>();
-//		tipoProceduras.add(tipoProcedura);
-//
-//		return tipoProceduras;
+	public List<TipoProceduraOrd> getTipoProceduraOrds(UUID enteId) {
+		final List<CpassDOrdTipoProcedura> cpassDOrdTipoProceduras = cpassDOrdTipoProceduraDao.findValid(enteId);
+		return CpassMappers.TIPO_PROCEDURA_ORD.toModels(cpassDOrdTipoProceduras);
 	}
 
 	/**
-	 *
-	 * @param statoTipo
-	 * @return
+	 * Returns the TipoProceduras
+	 * @return the TipoProceduras
 	 */
-	public List<StatoElOrdine> getStatoElOrdineByTipo(String statoTipo) {
-		List<CpassDStatoElOrdine> cpassDStatoElOrdines = cpassDStatoElOrdineDao.getStatoElOrdineByTipo(statoTipo);
-		return CpassMappers.STATO_EL_ORDINE.toModels(cpassDStatoElOrdines);
+	public List<TipoProceduraPba> getTipoProceduraPbas(UUID enteId) {
+		final List<CpassDPbaTipoProcedura> cpassDPbaTipoProceduras = cpassDPbaTipoProceduraDao.findValid(enteId);
+		return CpassMappers.TIPO_PROCEDURA_PBA.toModels(cpassDPbaTipoProceduras);
 	}
 
 	/**
@@ -481,14 +534,27 @@ public class DecodificaDad extends BaseDad {
 	 * @return  List<AliquoteIva>
 	 */
 	public List<AliquoteIva> getAliquoteIva() {
-		List<CpassDAliquoteIva> cpassDAliquoteIva = cpassDAliquoteIvaDao.findValid();
+		final List<CpassDAliquoteIva> cpassDAliquoteIva = cpassDAliquoteIvaDao.findValid();
 		return CpassMappers.ALIQUOTE_IVA.toModels(cpassDAliquoteIva);
 
 	}
-	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public AliquoteIva getAliquoteIvaById(Integer id) {
-		Optional<CpassDAliquoteIva> cpassDAliquoteIva = cpassDAliquoteIvaDao.findOne(id);
+		final Optional<CpassDAliquoteIva> cpassDAliquoteIva = cpassDAliquoteIvaDao.findOne(id);
 		return cpassDAliquoteIva.isPresent() ? CpassMappers.ALIQUOTE_IVA.toModel(cpassDAliquoteIva.get()) : null;
+	}
+	/**
+	 * 
+	 * @param codice
+	 * @return
+	 */
+	public AliquoteIva getAliquoteIvaByCodice(String codice) {
+		final Optional<CpassDAliquoteIva> cpassDAliquoteIva = cpassDAliquoteIvaDao.findAliquoteIvaByCodice(codice);
+		return cpassDAliquoteIva.isPresent() ? CpassMappers.ALIQUOTE_IVA.toModel(cpassDAliquoteIva.get()): null;
 	}
 
 	/**
@@ -496,147 +562,228 @@ public class DecodificaDad extends BaseDad {
 	 * @return List<UnitaMisura>
 	 */
 	public List<UnitaMisura> getUnitaMisura() {
-		List<CpassDUnitaMisura> cpassDUnitaMisura = cpassDUnitaMisuraDao.findValid();
+		final List<CpassDUnitaMisura> cpassDUnitaMisura = cpassDUnitaMisuraDao.findValid();
 		return CpassMappers.UNITA_MISURA.toModels(cpassDUnitaMisura);
 
 	}
-	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public UnitaMisura getUnitaMisuraById(Integer id) {
-		Optional<CpassDUnitaMisura> cpassDUnitaMisura = cpassDUnitaMisuraDao.findOne(id);
+		final Optional<CpassDUnitaMisura> cpassDUnitaMisura = cpassDUnitaMisuraDao.findOne(id);
 		return cpassDUnitaMisura.isPresent() ? CpassMappers.UNITA_MISURA.toModel(cpassDUnitaMisura.get()) : null;
 	}
-
-	public PagedList<OggettiSpesa> getRicercaOggettiSpesa(int page, int size, Sort sort, OggettiSpesa oggettiSpesa) {
-		String sortField = null;
-		String sortDirection = null;
-		if (sort != null) {
-			sortField = InterventoSort.byModelName(sort.getField()).getQueryName();
-			sortDirection = sort.getOrder().getSortDirection();
-		}
-
-		Page<CpassDOggettiSpesa> cpassDOggettiSpesas = cpassDOggettiSpesaDao.findPaginated(		
-				oggettiSpesa.getInventariabile(),
-				oggettiSpesa.getCodice(),
-				oggettiSpesa.getDescrizione(),
-				//oggettiSpesa.getDataValiditaFine(),
-				//oggettiSpesa.getDataValiditaInizio(),				
-				getId(oggettiSpesa.getAliquoteIva()),
-				getId(oggettiSpesa.getCpv()),
-				oggettiSpesa.getCpv() != null ? oggettiSpesa.getCpv().getCodice() : null,
-				getId(oggettiSpesa.getUnitaMisura()),
-				page,
-				size,
-				sortField,
-				sortDirection);
-		
-		PagedList<OggettiSpesa> pagedList = toPagedList(cpassDOggettiSpesas, page, size, CpassMappers.OGGETTO_SPESA::toModel);
-		
-		return pagedList;
+	/**
+	 * 
+	 * @param codice
+	 * @return
+	 */
+	public UnitaMisura getUnitaMisuraByCodice(String codice) {
+		final Optional<CpassDUnitaMisura> cpassDUnitaMisura = cpassDUnitaMisuraDao.findValidByCodice(codice);
+		return cpassDUnitaMisura.isPresent() ? CpassMappers.UNITA_MISURA.toModel(cpassDUnitaMisura.get()) : null;
 	}
-	
-	public OggettiSpesa getOdsByCodice(String codice) {
-		CpassDOggettiSpesa ods = cpassDOggettiSpesaDao.findByCodice(codice);
+	/**
+	 * 
+	 * @param codice
+	 * @return
+	 */
+	public Ods getOdsByCodice(String codice) {
+		final Ente ente = CpassThreadLocalContainer.SETTORE_UTENTE.get().getEnte();
+		final CpassDOggettiSpesa ods = cpassDOggettiSpesaDao.findByCodice(codice, ente.getId());
 		return ods != null ? CpassMappers.OGGETTO_SPESA.toModel(ods) : null;
 	}
-	
-	public OggettiSpesa getOdsById(Integer id) {
-		Optional<CpassDOggettiSpesa> ods = cpassDOggettiSpesaDao.findOne(id);
-		return ods.isPresent() ? CpassMappers.OGGETTO_SPESA.toModel(ods.get()) : null;
-	}
-	
-	/*
-	 public PagedList<Intervento> getRicercaInterventi(int page, int size, Sort sort, Intervento intervento, UUID settoreId) {
-		UUID enteId = checkUtenteAndGetEnte(settoreId);
-		
-		String sortField = null;
-		String sortDirection = null;
-		if (sort != null) {
-			sortField = InterventoSort.byModelName(sort.getField()).getQueryName();
-			sortDirection = sort.getOrder().getSortDirection();
-		}
-		
-		Page<CpassTPbaIntervento> cpassTPbaInterventos = cpassTPbaInterventoDao.findPaginated(
-				intervento.getCui(),
-				intervento.getAnnoAvvio(),
-				intervento.getCup() != null ? intervento.getCup() : null,
-				intervento.getLottoFunzionale(),
-				intervento.getDurataMesi(),
-				intervento.getNuovoAffidamento(),
-				intervento.getDescrizioneAcquisto()!= null ? intervento.getDescrizioneAcquisto() : null,
-				intervento.getUtenteRup() != null ? intervento.getUtenteRup().getCognome() : null,
-				//intervento.getProgramma() != null ? intervento.getProgramma().getAnno() : null,
-				getId(intervento.getProgramma()),
-				getId(intervento.getAusa()),
-				getId(intervento.getInterventoRicompreso()),
-				getId(intervento.getInterventoCopia()),
-				getId(intervento.getSettoreInterventi()),
-				getId(intervento.getCpv()),
-				getId(intervento.getNuts()),
-				getId(intervento.getPriorita()),
-				getId(intervento.getModalitaAffidamento()),
-				getId(intervento.getStato()),
-				getId(intervento.getAcquistoVariato()),
-				getId(intervento.getRicompresoTipo()),
-				enteId,
-				page,
-				size,
-				sortField,
-				sortDirection);
-				
-		PagedList<Intervento> pagedList = toPagedList(cpassTPbaInterventos, page, size, CpassMappers.INTERVENTO::toModel);
-		for (Intervento interventoItem : pagedList.getList()) {
-			// cerca la risorsa capitale privato valorizzata
-			for (InterventoImporti interventoImporti : interventoItem.getListInterventoImporti()) {
-				if (interventoImporti.getRisorsa().getTipo().equals(ConstantsCPassRisorsa.TipoEnum.CAPITALE_PRIVATO.getTipo())) {
-					boolean importiTuttiAZero = interventoImporti.getImportoAnnoPrimo().signum() == 0 
-							&& interventoImporti.getImportoAnnoSecondo().signum() == 0
-							&& interventoImporti.getImportoAnniSuccessivi().signum() == 0;
-					if (!importiTuttiAZero) {
-						interventoItem.setRisorsaIdCapitalePrivato(interventoImporti.getRisorsa().getId());
-					}
-				}
-			}
-		} 
-		
-		return pagedList;
-	}
+	/**
+	 * 
+	 * @param codice
+	 * @param enteId
+	 * @return
 	 */
+	public Ods findODSByCodice(String codice, UUID enteId) {
+		final CpassDOggettiSpesa entity = cpassDOggettiSpesaDao.findByCodice(codice, enteId);
+		return CpassMappers.OGGETTO_SPESA.toModel(entity);
+	}
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Ods getOdsById(Integer id) {
+		final Optional<CpassDOggettiSpesa> ods = cpassDOggettiSpesaDao.findOne(id);
+		return ods.isPresent() ? CpassMappers.OGGETTO_SPESA.toModel(ods.orElseThrow(() -> new NotFoundException("ods"))) : null;
+	}
+
 	/**
 	 * Returns the statoNso
 	 * @param tipo the tipo
 	 * @return the STATONSO
 	 */
 	public List<StatoNso> getStatoNsosByTipo(String tipo) {
-		List<CpassDOrdStatoNso> cpassDOrdStatoNsos = cpassDOrdStatoNsoDao.getStatoNsosByTipo(tipo);
+		final List<CpassDOrdStatoNso> cpassDOrdStatoNsos = cpassDOrdStatoNsoDao.getStatoNsosByTipo(tipo);
 		return CpassMappers.STATO_NSO.toModels(cpassDOrdStatoNsos);
 	}
-	
-	public Optional<StatoNso> getStatoNso(String codice, String tipo) {
-		return cpassDOrdStatoNsoDao.findByCodiceTipo(codice, tipo).map(CpassMappers.STATO_NSO::toModel);
+	/**
+	 * 
+	 * @param codice
+	 * @param tipo
+	 * @return
+	 */
+	public StatoNso getStatoNso(String codice, String tipo) {
+		final Optional<StatoNso> opTStato = cpassDOrdStatoNsoDao.findByCodiceTipo(codice, tipo).map(CpassMappers.STATO_NSO::toModel);
+		return opTStato.orElseThrow(() -> new NotFoundException("stato"));
 	}
-
+	/**
+	 * 
+	 * @param codice
+	 * @param tipo
+	 * @return
+	 */
+	public Optional<StatoNso> getStatoNsoOpt(String codice, String tipo) {
+		final Optional<StatoNso> opTStato = cpassDOrdStatoNsoDao.findByCodiceTipo(codice, tipo).map(CpassMappers.STATO_NSO::toModel);
+		return opTStato;
+	}
+	/**
+	 * 
+	 * @param codice
+	 * @return
+	 */
 	public TipoEvasione getTipoEvasioneByCodice(String codice) {
-		CpassDOrdTipoEvasione cpassDOrdTipoEvasione = cpassDOrdTipoEvasioneDao.findByCodice(codice);
+		final CpassDOrdTipoEvasione cpassDOrdTipoEvasione = cpassDOrdTipoEvasioneDao.findByCodice(codice);
 		return CpassMappers.TIPO_EVASIONE.toModel(cpassDOrdTipoEvasione);
 	}
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public List<CausaleSospensioneEvasione> getAllCausaleSospensioneAttive() {
-		List<CpassDOrdCausaleSospensioneEvasione> cpassDOrdCausaleSospensioneEvasiones = cpassDOrdCausaleSospensioneEvasioneDao.findAllValide();
+		final List<CpassDOrdCausaleSospensioneEvasione> cpassDOrdCausaleSospensioneEvasiones = cpassDOrdCausaleSospensioneEvasioneDao.findAllValide();
 		return CpassMappers.CAUSALE_SOSPENSIONE_EVASIONE.toModels(cpassDOrdCausaleSospensioneEvasiones);
 	}
-	
+
 	/**
 	 * Returns the TipoOrdines
 	 * @return the TipoOrdines
 	 */
 	public List<TipoEvasione> getTipoEvasiones() {
-		List<CpassDOrdTipoEvasione> cpassDOrdTipoEvasiones = cpassDOrdTipoEvasioneDao.findValid();
+		final List<CpassDOrdTipoEvasione> cpassDOrdTipoEvasiones = cpassDOrdTipoEvasioneDao.findValid();
 		return CpassMappers.TIPO_EVASIONE.toModels(cpassDOrdTipoEvasiones);
 	}
-
+	/**
+	 * 
+	 * @return
+	 */
 	public List<TipoAcquisto> getTipoAcquistos() {
-		List<CpassDPbaTipoAcquisto> cpassDPbaTipoAcquistos = cpassDPbaTipoAcquistoDao.findAll();
+		final List<CpassDPbaTipoAcquisto> cpassDPbaTipoAcquistos = cpassDPbaTipoAcquistoDao.findAll();
 		return CpassMappers.TIPO_ACQUISTO.toModels(cpassDPbaTipoAcquistos);
 	}
-	
+	/**
+	 * 
+	 * @param enteId
+	 * @return
+	 */
+	public List<ProvvedimentoTipo> getProvvedimentoTipo(UUID enteId) {
+		final List<CpassDProvvedimentoTipo> cpassDProvvedimentoTipos = cpassDProvvedimentoTipoDao.findAllByEnte(enteId);
+		return CpassMappers.PROVVEDIMENTO_TIPO.toModels(cpassDProvvedimentoTipos);
+	}
+	/**
+	 * 
+	 * @param page
+	 * @param size
+	 * @param sort
+	 * @param oggettiSpesa
+	 * @return
+	 */
+	public PagedList<Cpv> getRicercaCpvOggettiSpesa(int page, int size, Sort sort, Ods oggettiSpesa) {
+		final Ente ente = CpassThreadLocalContainer.SETTORE_UTENTE.get().getEnte();
+		String sortField = null;
+		String sortDirection = null;
+		if (sort != null) {
+			sortField = InterventoSort.byModelName(sort.getField()).getQueryName();
+			sortDirection = sort.getOrder().getSortDirection();
+		}
+
+		Integer cpvId = null;
+		if(oggettiSpesa.getCpv()!= null && oggettiSpesa.getCpv().getId() != null) {
+			cpvId= oggettiSpesa.getCpv().getId();
+		}
+		final Page<CpassDCpv> listaCpvs = cpassDCpvDao.findCpvOdsPaginated(
+				StringUtility.trim(oggettiSpesa.getCodice()),
+				StringUtility.trim(oggettiSpesa.getDescrizione()),
+				cpvId,
+				oggettiSpesa.getGenericoStr(),
+				ente.getId(),
+				page,
+				size,
+				sortField,
+				sortDirection);
+
+		for (final CpassDCpv cpv : listaCpvs.getContent()) {
+			final List<CpassDOggettiSpesa> listOds = cpassDOggettiSpesaDao.findOdsByCpvId(cpv.getId());
+			cpv.setCpassDOggettiSpesas(listOds);
+		}
+		final PagedList<Cpv> pagedList = toPagedList(listaCpvs, page, size, CpassMappers.CPV_ODS::toModel);
+		return pagedList;
+	}
+	/**
+	 * 
+	 * @return
+	 */
+	public List<MotiviEsclusioneCig> getMotiviEsclusioneCigs() {
+		final List<CpassDMotiviEsclusioneCig> lista = cpassDMotiviEsclusioneCigDao.findAll();
+		return CpassMappers.MOTIVI_ESCLUSIONE_CIG.toModels(lista);
+	}
+	/**
+	 * 
+	 * @param enteId
+	 * @return
+	 */
+	public List<TipoSettore> getTipoSettores(UUID enteId) {
+		final List<CpassDTipoSettore> lista = cpassDTipoSettoreDao.findByEnteId(enteId);
+		return CpassMappers.TIPO_SETTORE.toModels(lista);
+	}
+	/**
+	 * 
+	 * @param codeTipoSettore
+	 * @param enteId
+	 * @return
+	 */
+	public Optional<TipoSettore> getTipoSettoreByCodeAndEnteId(String codeTipoSettore, UUID enteId) {
+		final Optional<TipoSettore> opt = cpassDTipoSettoreDao.getTipoSettoreByCodeAndEnteId( codeTipoSettore,  enteId).map(CpassMappers.TIPO_SETTORE::toModel);
+		return opt;
+	}
+	/**
+	 * 
+	 * @param codeTipoSettore
+	 * @param enteId
+	 * @return
+	 */
+	public Optional<TipoSettore> getTipoSettoreByCodeObbligatorioAndEnteId(String codeTipoSettore, UUID enteId) {
+		// TODO mettere mano a questa pezza
+		if(codeTipoSettore == null || codeTipoSettore.trim().equals("")) {
+			codeTipoSettore = "###AAA###";
+		}
+		final Optional<TipoSettore> opt = cpassDTipoSettoreDao.getTipoSettoreByCodeAndEnteId( codeTipoSettore,  enteId).map(CpassMappers.TIPO_SETTORE::toModel);
+		return opt;
+	}
+	/**
+	 * 
+	 * @param moduli
+	 * @return
+	 */
+	public List<Permesso> getPermessiByModuli(List<String> moduli) {
+		final List<CpassDPermesso> cpassDPermessi = cpassDPermessoDao.getPermessiByModuliAndDisattivabile(moduli.toArray(new String[0]), "SI");
+		final List<Permesso> permessi = CpassMappers.PERMESSO.toModels(cpassDPermessi);
+		return permessi;
+	}
+	/**
+	 * 
+	 * @param permesso
+	 * @param flag
+	 */
+	public void updatePermesso(Permesso permesso, Boolean flag) {
+		final CpassDPermesso entity = CpassMappers.PERMESSO.toEntity(permesso);
+		entity.setAttivo(flag);
+		cpassDPermessoDao.update(entity);
+	}
 }

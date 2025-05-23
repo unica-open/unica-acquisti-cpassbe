@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -93,8 +93,12 @@ public class CpassDCpv implements Serializable, BaseEntity<Integer> {
 	private CpassDPbaSettoreInterventi cpassDPbaSettoreInterventi;
 
 	//bi-directional many-to-one association to CpassRInterventoCpv
-		@OneToMany(mappedBy="cpassDCpv")
-		private List<CpassRInterventoCpv> cpassRInterventoCpvs;
+	@OneToMany(mappedBy="cpassDCpv")
+	private List<CpassRInterventoCpv> cpassRInterventoCpvs;
+
+	//bi-directional many-to-one association to CpassDOggettiSpesa
+	@OneToMany(mappedBy="cpassDCpv")
+	private List<CpassDOggettiSpesa> cpassDOggettiSpesas;
 
 	/**
 	 * Gets the cpv id.
@@ -341,7 +345,29 @@ public class CpassDCpv implements Serializable, BaseEntity<Integer> {
 
 		return cpassRInterventoCpv;
 	}
-	
+
+	public List<CpassDOggettiSpesa> getCpassDOggettiSpesas() {
+		return this.cpassDOggettiSpesas;
+	}
+
+	public void setCpassDOggettiSpesas(List<CpassDOggettiSpesa> cpassDOggettiSpesas) {
+		this.cpassDOggettiSpesas = cpassDOggettiSpesas;
+	}
+
+	public CpassDOggettiSpesa addCpassDOggettiSpesa(CpassDOggettiSpesa cpassDOggettiSpesa) {
+		getCpassDOggettiSpesas().add(cpassDOggettiSpesa);
+		cpassDOggettiSpesa.setCpassDCpv(this);
+
+		return cpassDOggettiSpesa;
+	}
+
+	public CpassDOggettiSpesa removeCpassDOggettiSpesa(CpassDOggettiSpesa cpassDOggettiSpesa) {
+		getCpassDOggettiSpesas().remove(cpassDOggettiSpesa);
+		cpassDOggettiSpesa.setCpassDCpv(null);
+
+		return cpassDOggettiSpesa;
+	}
+
 	@Override
 	public Integer getId() {
 		return cpvId;

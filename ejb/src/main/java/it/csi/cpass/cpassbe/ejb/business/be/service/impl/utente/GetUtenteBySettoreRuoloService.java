@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -40,7 +40,7 @@ public class GetUtenteBySettoreRuoloService extends BaseUtenteService<GetUtenteB
 
 	@Override
 	protected void execute() {
-		List<Utente> utente = utenteDad.getUtenteBySettoreRuolo(request.getSettoreId(), request.getRuoloCodice());
+		final List<Utente> utente = utenteDad.getUtenteBySettoreRuolo(request.getSettoreId(), request.getRuoloCodice());
 		response.setUtente(utente);
 	}
 

@@ -23,7 +23,7 @@ public final class InterceptorUtils {
 	private InterceptorUtils() {
 		// Prevent instantiation
 	}
-	
+
 	/**
 	 * Tries to remove the proxy from a class.
 	 * <p>WELD proxy classes are NON-Proxy classes, with names of the form

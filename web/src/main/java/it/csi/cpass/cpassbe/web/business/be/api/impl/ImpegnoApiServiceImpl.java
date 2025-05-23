@@ -18,6 +18,7 @@ import javax.ws.rs.core.SecurityContext;
 
 import it.csi.cpass.cpassbe.ejb.business.be.facade.ImpegnoFacade;
 import it.csi.cpass.cpassbe.lib.dto.Impegno;
+import it.csi.cpass.cpassbe.lib.dto.Subimpegno;
 import it.csi.cpass.cpassbe.web.business.be.api.ImpegnoApi;
 import it.csi.cpass.cpassbe.web.util.annotation.Logged;
 
@@ -33,4 +34,11 @@ public class ImpegnoApiServiceImpl extends BaseRestServiceImpl implements Impegn
 	public Response postRicercaImpegnoByChiaveLogica(Impegno impegno, SecurityContext securityContext, HttpHeaders httpHeaders, HttpServletRequest httpRequest) {
 		return invoke(() -> impegnoFacade.getImpegnoByChiaveLogica(impegno));
 	}
+
+	@Override
+	public Response postRicercaSubimpegnoByChiaveLogica(Subimpegno subimpegno, SecurityContext securityContext, HttpHeaders httpHeaders, HttpServletRequest httpRequest) {
+		return invoke(() -> impegnoFacade.getSubimpegnoByChiaveLogica(subimpegno));
+	}
+
+
 }

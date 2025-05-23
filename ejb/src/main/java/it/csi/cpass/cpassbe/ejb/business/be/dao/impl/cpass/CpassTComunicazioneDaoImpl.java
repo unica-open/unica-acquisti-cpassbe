@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -31,16 +31,16 @@ public class CpassTComunicazioneDaoImpl extends BaseEntityDaoImpl<Integer, Cpass
 
 	@Override
 	public List<CpassTComunicazione> findActive(Date checkDate) {
-		Map<String, Object> params = new HashMap<>();
-		StringBuilder jpql = new StringBuilder()
-			.append("FROM CpassTComunicazione tc ")
-			.append("WHERE tc.comunicazioneDataInizio <= :comunicazioneDataInizio ")
-			.append("AND (tc.comunicazioneDataFine IS NULL OR tc.comunicazioneDataFine >= :comunicazioneDataFine) ");
+		final Map<String, Object> params = new HashMap<>();
+		final StringBuilder jpql = new StringBuilder()
+				.append("FROM CpassTComunicazione tc ")
+				.append("WHERE tc.comunicazioneDataInizio <= :comunicazioneDataInizio ")
+				.append("AND (tc.comunicazioneDataFine IS NULL OR tc.comunicazioneDataFine >= :comunicazioneDataFine) ");
 		JpaQueryHelper.andFieldNull(jpql, "tc.dataCancellazione");
 		params.put("comunicazioneDataInizio", checkDate);
 		params.put("comunicazioneDataFine", checkDate);
-		
-		TypedQuery<CpassTComunicazione> query = composeTypedQuery(jpql, params);
+
+		final TypedQuery<CpassTComunicazione> query = composeTypedQuery(jpql, params);
 		return query.getResultList();
 	}
 }

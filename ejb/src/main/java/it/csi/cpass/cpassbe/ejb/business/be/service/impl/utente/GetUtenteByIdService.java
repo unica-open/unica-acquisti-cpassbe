@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -13,7 +13,6 @@ package it.csi.cpass.cpassbe.ejb.business.be.service.impl.utente;
 import it.csi.cpass.cpassbe.ejb.business.be.dad.UtenteDad;
 import it.csi.cpass.cpassbe.ejb.business.be.service.request.utente.GetUtenteByIdRequest;
 import it.csi.cpass.cpassbe.ejb.business.be.service.response.utente.GetUtenteByIdResponse;
-import it.csi.cpass.cpassbe.ejb.exception.NotFoundException;
 import it.csi.cpass.cpassbe.ejb.util.conf.ConfigurationHelper;
 import it.csi.cpass.cpassbe.lib.dto.Utente;
 
@@ -38,8 +37,7 @@ public class GetUtenteByIdService extends BaseUtenteService<GetUtenteByIdRequest
 
 	@Override
 	protected void execute() {
-		Utente utente = utenteDad.getUtente(request.getId())
-				.orElseThrow(() -> new NotFoundException("utente"));
+		final Utente utente = utenteDad.getUtenteCompleto(request.getId());
 		response.setUtente(utente);
 	}
 

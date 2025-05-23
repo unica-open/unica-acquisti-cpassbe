@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -18,19 +18,21 @@ import it.csi.cpass.cpassbe.ejb.business.be.service.request.base.BaseRequest;
  * Request for reading the stampa
  */
 public class StampaRequest implements BaseRequest {
-	private String nomeStampa;
-	private String formatFile; 
-	private List<String> listaParametri;
-	
-	
+	private final String nomeStampaLogico;
+	private String fileName;
+	private final String formatFile;
+	private final List<String> listaParametri;
+
+
 	/**
 	 * Constructor
-	 * @param nomeStampa 
+	 * @param nomeStampa
 	 * @param formatFile the format file
-	 * @param listaParametri 
+	 * @param listaParametri
 	 */
-	public StampaRequest(String nomeStampa, String formatFile, List<String> listaParametri) {
-		this.nomeStampa = nomeStampa;
+	public StampaRequest(String nomeStampaLogico,String fileName, String formatFile, List<String> listaParametri) {
+		this.nomeStampaLogico = nomeStampaLogico;
+		this.fileName = fileName;
 		this.formatFile = formatFile;
 		this.listaParametri = listaParametri;
 	}
@@ -39,8 +41,8 @@ public class StampaRequest implements BaseRequest {
 	/**
 	 * @return the nomeStampa
 	 */
-	public String getNomeStampa() {
-		return nomeStampa;
+	public String getNomeStampaLogico() {
+		return nomeStampaLogico;
 	}
 
 	/**
@@ -49,6 +51,23 @@ public class StampaRequest implements BaseRequest {
 	public String getFormatFile() {
 		return formatFile;
 	}
+
+
+	/**
+	 * @return the fileName
+	 */
+	public String getFileName() {
+		return fileName;
+	}
+
+
+	/**
+	 * @param fileName the fileName to set
+	 */
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
 
 	/**
 	 * @return the listaParametri

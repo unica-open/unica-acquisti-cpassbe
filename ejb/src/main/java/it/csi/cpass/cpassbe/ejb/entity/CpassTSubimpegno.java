@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -32,7 +32,7 @@ import it.csi.cpass.cpassbe.lib.util.uuid.UuidUtils;
 
 /**
  * The persistent class for the cpass_t_subimpegno database table.
- * 
+ *
  */
 @Entity
 @Table(name="cpass_t_subimpegno")
@@ -68,7 +68,7 @@ public class CpassTSubimpegno extends BaseAuditedEntity<UUID> implements Seriali
 	private Integer provvedimentoAnno;
 
 	@Column(name="provvedimento_numero")
-	private Integer provvedimentoNumero;
+	private String provvedimentoNumero;
 
 	@Column(name="provvedimento_settore")
 	private String provvedimentoSettore;
@@ -170,11 +170,11 @@ public class CpassTSubimpegno extends BaseAuditedEntity<UUID> implements Seriali
 		this.provvedimentoAnno = provvedimentoAnno;
 	}
 
-	public Integer getProvvedimentoNumero() {
+	public String getProvvedimentoNumero() {
 		return this.provvedimentoNumero;
 	}
 
-	public void setProvvedimentoNumero(Integer provvedimentoNumero) {
+	public void setProvvedimentoNumero(String provvedimentoNumero) {
 		this.provvedimentoNumero = provvedimentoNumero;
 	}
 
@@ -271,7 +271,7 @@ public class CpassTSubimpegno extends BaseAuditedEntity<UUID> implements Seriali
 
 	@Override
 	public void setId(UUID id) {
-		subimpegnoId=id;	
+		subimpegnoId=id;
 	}
 
 	@Override

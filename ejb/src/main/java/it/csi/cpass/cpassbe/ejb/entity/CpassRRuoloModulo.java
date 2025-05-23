@@ -2,7 +2,7 @@
  * ========================LICENSE_START=================================
  * CPASS BackEnd - EJB submodule
  * %%
- * Copyright (C) 2019 - 2020 CSI Piemonte
+ * Copyright (C) 2019 - 2025 CSI Piemonte
  * %%
  * SPDX-FileCopyrightText: Copyright 2019 - 2020 | CSI Piemonte
  * SPDX-License-Identifier: EUPL-1.2
@@ -57,6 +57,11 @@ public class CpassRRuoloModulo implements Serializable, BaseEntity<Integer> {
 	@JoinColumn(name="ruolo_id", nullable=false)
 	private CpassDRuolo cpassDRuolo;
 
+
+	@ManyToOne
+	@JoinColumn(name="ente_id", nullable=false)
+	private CpassTEnte cpassTEnte;
+
 	/**
 	 * Gets the ruolo modulo id.
 	 *
@@ -109,6 +114,20 @@ public class CpassRRuoloModulo implements Serializable, BaseEntity<Integer> {
 	 */
 	public void setCpassDRuolo(CpassDRuolo cpassDRuolo) {
 		this.cpassDRuolo = cpassDRuolo;
+	}
+
+	/**
+	 * @return the cpassTEnte
+	 */
+	public CpassTEnte getCpassTEnte() {
+		return cpassTEnte;
+	}
+
+	/**
+	 * @param cpassTEnte the cpassTEnte to set
+	 */
+	public void setCpassTEnte(CpassTEnte cpassTEnte) {
+		this.cpassTEnte = cpassTEnte;
 	}
 
 	@Override
