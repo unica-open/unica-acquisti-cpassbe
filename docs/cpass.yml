@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   title: Contabilità passiva
-  description: API per il backend della suite di contabilità passiva.
+  description: API per il backend della suite di gestione ciclo passivo dei grandi enti.
   version: 2.1.0
 host: 'localhost:8080'
 schemes:
